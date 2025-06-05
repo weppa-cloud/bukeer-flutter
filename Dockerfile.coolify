@@ -9,14 +9,11 @@ ENV FLUTTER_ROOT=/usr/local/flutter
 # Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de configuración
-COPY pubspec.yaml pubspec.lock ./
+# Copiar todo el código fuente primero
+COPY . .
 
 # Instalar dependencias
 RUN flutter pub get
-
-# Copiar código fuente
-COPY . .
 
 # Build de la aplicación web
 RUN flutter build web --release --dart-define=FLUTTER_WEB_AUTO_DETECT=true
