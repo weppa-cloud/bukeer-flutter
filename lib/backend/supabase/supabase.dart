@@ -1,4 +1,4 @@
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import '../../config/app_config.dart';
 
@@ -17,12 +17,13 @@ class SupaFlow {
   static Future initialize() {
     // Log configuration in debug mode
     AppConfig.logConfig();
-    
+
     // Validate configuration before initializing
     if (!AppConfig.isConfigValid) {
-      throw Exception('Invalid Supabase configuration. Check your environment variables.');
+      throw Exception(
+          'Invalid Supabase configuration. Check your environment variables.');
     }
-    
+
     return Supabase.initialize(
       url: AppConfig.supabaseUrl,
       headers: {

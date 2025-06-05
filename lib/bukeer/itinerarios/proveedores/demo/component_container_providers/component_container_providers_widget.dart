@@ -12,8 +12,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'component_container_providers_model.dart';
 import '../../../../../design_system/index.dart';
-import '../../../../services/ui_state_service.dart';
-import '../../../../services/contact_service.dart';
+import '../../../../../services/ui_state_service.dart';
+import '../../../../../services/contact_service.dart';
 export 'component_container_providers_model.dart';
 
 class ComponentContainerProvidersWidget extends StatefulWidget {
@@ -105,7 +105,8 @@ class _ComponentContainerProvidersWidgetState
                         shrinkWrap: true,
                         reverse: false,
                         scrollDirection: Axis.vertical,
-                        separatorBuilder: (_, __) => SizedBox(height: BukeerSpacing.m),
+                        separatorBuilder: (_, __) =>
+                            SizedBox(height: BukeerSpacing.m),
                         builderDelegate: PagedChildBuilderDelegate<dynamic>(
                           // Customize what your widget looks like when it's loading the first page.
                           firstPageProgressIndicatorBuilder: (_) => Center(
@@ -143,14 +144,16 @@ class _ComponentContainerProvidersWidgetState
                                 color: Colors.transparent,
                                 elevation: 1.0,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.m),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.m),
                                 ),
                                 child: Container(
                                   width: 600.0,
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.m),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.m),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(BukeerSpacing.s),
@@ -763,9 +766,11 @@ class _ComponentContainerProvidersWidgetState
                                                     hoverElevation: 0.0,
                                                   ),
                                                 ),
-                                              ].divide(SizedBox(height: BukeerSpacing.s)),
+                                              ].divide(SizedBox(
+                                                  height: BukeerSpacing.s)),
                                             ),
-                                          ].divide(SizedBox(width: BukeerSpacing.s)),
+                                          ].divide(
+                                              SizedBox(width: BukeerSpacing.s)),
                                         ),
                                       ],
                                     ),

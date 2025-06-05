@@ -29,7 +29,8 @@ class ItineraryServicesSection extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ItineraryServicesSection> createState() => _ItineraryServicesSectionState();
+  State<ItineraryServicesSection> createState() =>
+      _ItineraryServicesSectionState();
 }
 
 class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
@@ -78,17 +79,17 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
                 Text(
                   'Servicios del Itinerario',
                   style: FlutterFlowTheme.of(context).headlineSmall.override(
-                    fontFamily: 'Outfit',
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontFamily: 'Outfit',
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 _buildServicesStats(),
               ],
             ),
           ),
-          
+
           // Tab Bar
           Container(
             decoration: BoxDecoration(
@@ -102,14 +103,15 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
             child: TabBar(
               controller: _tabController,
               labelStyle: FlutterFlowTheme.of(context).titleMedium.override(
-                fontFamily: 'Readex Pro',
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-              unselectedLabelStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                fontFamily: 'Readex Pro',
-                fontSize: 14,
-              ),
+                    fontFamily: 'Readex Pro',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+              unselectedLabelStyle:
+                  FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Readex Pro',
+                        fontSize: 14,
+                      ),
               indicatorColor: FlutterFlowTheme.of(context).primary,
               indicatorWeight: 3,
               labelColor: FlutterFlowTheme.of(context).primary,
@@ -134,7 +136,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
               ],
             ),
           ),
-          
+
           // Tab Content
           Container(
             height: 500, // Fixed height for consistent layout
@@ -145,36 +147,28 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
                 _buildServiceTab(
                   serviceType: 'flight',
                   onAddPressed: widget.onAddFlight,
-                  child: ComponentItineraryPreviewFlightsWidget(
-                    itineraryId: widget.itineraryId,
-                  ),
+                  child: ComponentItineraryPreviewFlightsWidget(),
                 ),
-                
+
                 // Hotels Tab
                 _buildServiceTab(
                   serviceType: 'hotel',
                   onAddPressed: widget.onAddHotel,
-                  child: ComponentItineraryPreviewHotelsWidget(
-                    itineraryId: widget.itineraryId,
-                  ),
+                  child: ComponentItineraryPreviewHotelsWidget(),
                 ),
-                
+
                 // Activities Tab
                 _buildServiceTab(
                   serviceType: 'activity',
                   onAddPressed: widget.onAddActivity,
-                  child: ComponentItineraryPreviewActivitiesWidget(
-                    itineraryId: widget.itineraryId,
-                  ),
+                  child: ComponentItineraryPreviewActivitiesWidget(),
                 ),
-                
+
                 // Transfers Tab
                 _buildServiceTab(
                   serviceType: 'transfer',
                   onAddPressed: widget.onAddTransfer,
-                  child: ComponentItineraryPreviewTransfersWidget(
-                    itineraryId: widget.itineraryId,
-                  ),
+                  child: ComponentItineraryPreviewTransfersWidget(),
                 ),
               ],
             ),
@@ -211,10 +205,10 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                     elevation: 2,
                     borderSide: BorderSide(
                       color: Colors.transparent,
@@ -226,7 +220,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
               ],
             ),
           ),
-        
+
         // Service Content
         Expanded(
           child: Padding(
@@ -239,14 +233,20 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
   }
 
   Widget _buildServicesStats() {
-    final flights = widget.itineraryItems.where((item) =>
-        getJsonField(item, r'$.type')?.toString() == 'flight').length;
-    final hotels = widget.itineraryItems.where((item) =>
-        getJsonField(item, r'$.type')?.toString() == 'hotel').length;
-    final activities = widget.itineraryItems.where((item) =>
-        getJsonField(item, r'$.type')?.toString() == 'activity').length;
-    final transfers = widget.itineraryItems.where((item) =>
-        getJsonField(item, r'$.type')?.toString() == 'transfer').length;
+    final flights = widget.itineraryItems
+        .where((item) => getJsonField(item, r'$.type')?.toString() == 'flight')
+        .length;
+    final hotels = widget.itineraryItems
+        .where((item) => getJsonField(item, r'$.type')?.toString() == 'hotel')
+        .length;
+    final activities = widget.itineraryItems
+        .where(
+            (item) => getJsonField(item, r'$.type')?.toString() == 'activity')
+        .length;
+    final transfers = widget.itineraryItems
+        .where(
+            (item) => getJsonField(item, r'$.type')?.toString() == 'transfer')
+        .length;
 
     return Row(
       children: [
@@ -287,11 +287,11 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
           Text(
             '$count',
             style: FlutterFlowTheme.of(context).bodySmall.override(
-              fontFamily: 'Readex Pro',
-              color: color,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
           ),
         ],
       ),
