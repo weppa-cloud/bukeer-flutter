@@ -1,5 +1,5 @@
-# Dockerfile optimizado para Coolify - Bukeer Flutter Web
-FROM ubuntu:20.04 AS builder
+# Dockerfile simplificado para Coolify - Bukeer Flutter Web
+FROM debian:bullseye-slim AS builder
 
 # Evitar prompts interactivos
 ENV DEBIAN_FRONTEND=noninteractive
@@ -11,32 +11,40 @@ RUN apt-get update && apt-get install -y \
     unzip \
     xz-utils \
     zip \
-    libglu1-mesa \
     wget \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar Flutter
-ENV FLUTTER_VERSION=3.24.0
-ENV FLUTTER_HOME=/flutter
+# Instalar Flutter directamente desde snap
+ENV FLUTTER_HOME=/snap/flutter/current
 ENV PATH="$FLUTTER_HOME/bin:$PATH"
 
-RUN git clone --depth 1 --branch ${FLUTTER_VERSION} https://github.com/flutter/flutter.git $FLUTTER_HOME && \
-    flutter config --no-analytics && \
+# Usar Flutter desde releases oficiales
+RUN wget -O flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.0-stable.tar.xz && \
+    tar xf flutter.tar.xz && \
+    mv flutter /flutter && \
+    rm flutter.tar.xz
+
+ENV PATH="/flutter/bin:$PATH"
+
+# Configurar Flutter
+RUN flutter config --no-analytics && \
+    flutter doctor && \
     flutter precache --web
 
 # Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos del proyecto
-COPY pubspec.yaml pubspec.lock ./
-RUN flutter pub get
-
-# Copiar el resto del código
+# Copiar todo el proyecto
 COPY . .
 
+# Limpiar y obtener dependencias
+RUN flutter clean && \
+    flutter pub get && \
+    flutter pub deps
+
 # Build de la aplicación web
-RUN flutter build web --release --web-renderer html
+RUN flutter build web --release --web-renderer html --verbose
 
 # Etapa de producción con Nginx
 FROM nginx:alpine
