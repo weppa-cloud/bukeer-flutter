@@ -146,10 +146,10 @@ dev_dependencies:
   lints: 4.0.0
   flutter_test:
     sdk: flutter
-  # Testing dependencies
-  mockito: ^5.4.4
-  build_runner: ^2.4.9
-  test: ^1.25.8
+  # Testing dependencies (minimized for production build)
+  # mockito: ^5.4.4
+  # build_runner: ^2.4.9
+  # test: ^1.25.7
   # integration_test:
   #   sdk: flutter  # Comentado para evitar conflicto con collection
 
