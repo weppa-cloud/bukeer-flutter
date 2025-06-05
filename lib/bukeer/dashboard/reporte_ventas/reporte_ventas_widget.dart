@@ -19,7 +19,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'reporte_ventas_model.dart';
-import '../../../services/ui_state_service.dart';
+// import '../../../services/ui_state_service.dart'; // TODO: Create UiStateService
+import '../../../custom_code/widgets/index.dart';
 export 'reporte_ventas_model.dart';
 
 class ReporteVentasWidget extends StatefulWidget {
@@ -221,6 +222,32 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
+                                                    // New DateRangePickerWithPresets
+                                                    Container(
+                                                      width: double.infinity,
+                                                      margin: EdgeInsets.only(
+                                                          bottom:
+                                                              BukeerSpacing.s),
+                                                      child:
+                                                          DateRangePickerWithPresets(
+                                                        width: double.infinity,
+                                                        height: 280,
+                                                        initialStartDate:
+                                                            _model.datePicked1,
+                                                        initialEndDate:
+                                                            _model.datePicked2,
+                                                        onDateRangeChanged:
+                                                            (startDate,
+                                                                endDate) {
+                                                          _model
+                                                              .onDateRangeChanged(
+                                                                  startDate,
+                                                                  endDate);
+                                                          safeSetState(() {});
+                                                        },
+                                                        showPresets: true,
+                                                      ),
+                                                    ),
                                                     Row(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -421,9 +448,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                             milliseconds:
                                                                                 2000),
                                                                         () async {
-                                                                          context.read<UiStateService>().searchQuery = _model
-                                                                              .textController
-                                                                              .text;
+                                                                          // TODO: Update UiStateService when created
+                                                                          // context.read<UiStateService>().searchQuery = _model.textController.text;
                                                                           safeSetState(() =>
                                                                               _model.apiRequestCompleter = null);
                                                                           await _model
@@ -1246,8 +1272,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                       ].divide(SizedBox(
                                                           width: 12.0)),
                                                     ),
-                                                  ].divide(
-                                                      SizedBox(height: BukeerSpacing.s)),
+                                                  ].divide(SizedBox(
+                                                      height: BukeerSpacing.s)),
                                                 ),
                                               ),
                                             ),

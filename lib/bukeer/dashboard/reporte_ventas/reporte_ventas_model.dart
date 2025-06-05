@@ -41,12 +41,26 @@ class ReporteVentasModel extends FlutterFlowModel<ReporteVentasWidget> {
   @override
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
+
+    // Initialize date range to last 30 days by default
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    datePicked2 = today;
+    datePicked1 = today.subtract(Duration(days: 29));
   }
 
   @override
   void dispose() {
     webNavModel.dispose();
     textFieldFocusNode?.dispose();
+  }
+
+  /// Handle date range change from DateRangePickerWithPresets
+  void onDateRangeChanged(DateTime? startDate, DateTime? endDate) {
+    datePicked1 = startDate;
+    datePicked2 = endDate;
+    // Clear the completer to trigger API refresh
+    apiRequestCompleter = null;
   }
 
   /// Additional helper methods.
