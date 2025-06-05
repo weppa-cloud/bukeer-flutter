@@ -1,0 +1,165 @@
+# ===========================================
+# BUKEER PROJECT - .gitignore
+# ===========================================
+
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_*.png
+
+# FlutterFlow específico
+**/.ff_generation_log
+**/.ff_migrations.log
+
+# Compilación
+*.dill
+*.dylib
+*.so
+*.app
+*.ipa
+*.apk
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.metadata
+.classpath
+.settings/
+
+# Variables de entorno y configuración sensible
+.env
+.env.local
+.env.production
+.env.staging
+config/secrets.dart
+lib/config/api_keys.dart
+
+# OS específicos
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs y temporales
+*.log
+logs/
+tmp/
+temp/
+.tmp/
+
+# Documentación autogenerada
+doc/api/
+coverage/
+test/coverage_helper_test.dart
+
+# Dependencias
+node_modules/
+vendor/
+*.lock
+
+# Archivos de backup
+*.backup
+*.bak
+*.swp
+*.tmp
+
+# Testing
+.nyc_output
+coverage.lcov
+*.coverage
+
+# Firebase
+.firebase/
+firebase-debug.log
+.firebaserc
+
+# Supabase
+.supabase/
+
+# Git hooks personalizados (se excluyen para que no se versionen)
+.git/hooks/pre-commit.local
+.git/hooks/post-commit.local
+
+# Archivos de configuración personal
+.env.personal
+config.personal.json
+
+# Archivos grandes o binarios
+*.zip
+*.rar
+*.tar.gz
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+assets/videos/*
+assets/large_files/*
+
+# Excepciones para assets necesarios
+!assets/images/Logo-Bukeer-02.png
+!assets/images/Logo-Bukeer-FullBlanco-03.png
+!assets/fonts/
+!assets/images/favicon.png
+!web/favicon.png
+!web/icons/
+
+# Cache de análisis
+.dart_code_metrics/
+
+# Archivos autogenerados por herramientas
+*.g.dart
+*.freezed.dart
+*.gr.dart
+*.config.dart
+
+# Excepciones para archivos importantes autogenerados
+!lib/backend/schema/structs/*.dart
+!lib/flutter_flow/*.dart
+
+# Directorios de build específicos por plataforma
+android/app/debug
+android/app/profile
+android/app/release
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+macos/Flutter/GeneratedPluginRegistrant.swift
+
+# Web específico
+web/flutter.js
+web/flutter_service_worker.js
+web/version.json
+web/assets/AssetManifest.json
+web/assets/FontManifest.json
+web/assets/NOTICES
+web/canvaskit/
+
+# Windows específico
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugin_registrant.h
+
+# Linux específico
+linux/flutter/generated_plugin_registrant.cc
+linux/flutter/generated_plugin_registrant.h

@@ -1,0 +1,112 @@
+import '../../../auth/supabase_auth/auth_util.dart';
+import '../../../backend/api_requests/api_calls.dart';
+import '../../component_container_activities/component_container_activities_widget.dart';
+import '../../componentes/boton_menu_mobile/boton_menu_mobile_widget.dart';
+import '../../componentes/web_nav/web_nav_widget.dart';
+import '../modal_details_product/modal_details_product_widget.dart';
+import '../../../flutter_flow/flutter_flow_drop_down.dart';
+import '../../../flutter_flow/flutter_flow_theme.dart';
+import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../flutter_flow/flutter_flow_widgets.dart';
+import '../../../flutter_flow/form_field_controller.dart';
+import 'dart:ui';
+import 'dart:async';
+import 'main_products_widget.dart' show MainProductsWidget;
+import 'package:easy_debounce/easy_debounce.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
+
+class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
+  ///  State fields for stateful widgets in this page.
+
+  // Model for webNav component.
+  late WebNavModel webNavModel;
+  // Model for BotonMenuMobile component.
+  late BotonMenuMobileModel botonMenuMobileModel;
+  // State field(s) for TextFieldBuscar widget.
+  FocusNode? textFieldBuscarFocusNode;
+  TextEditingController? textFieldBuscarTextController;
+  String? Function(BuildContext, String?)?
+      textFieldBuscarTextControllerValidator;
+  // State field(s) for DropDownLocation widget.
+  String? dropDownLocationValue;
+  FormFieldController<String>? dropDownLocationValueController;
+  // State field(s) for ListView widget.
+
+  PagingController<ApiPagingParams, dynamic>? listViewPagingController;
+  Function(ApiPagingParams nextPageMarker)? listViewApiCall;
+
+  @override
+  void initState(BuildContext context) {
+    webNavModel = createModel(context, () => WebNavModel());
+    botonMenuMobileModel = createModel(context, () => BotonMenuMobileModel());
+  }
+
+  @override
+  void dispose() {
+    webNavModel.dispose();
+    botonMenuMobileModel.dispose();
+    textFieldBuscarFocusNode?.dispose();
+    textFieldBuscarTextController?.dispose();
+
+    listViewPagingController?.dispose();
+  }
+
+  /// Additional helper methods.
+  Future waitForOnePageForListView({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete =
+          (listViewPagingController?.nextPageKey?.nextPageNumber ?? 0) > 0;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  PagingController<ApiPagingParams, dynamic> setListViewController(
+    Function(ApiPagingParams) apiCall,
+  ) {
+    listViewApiCall = apiCall;
+    return listViewPagingController ??= _createListViewController(apiCall);
+  }
+
+  PagingController<ApiPagingParams, dynamic> _createListViewController(
+    Function(ApiPagingParams) query,
+  ) {
+    final controller = PagingController<ApiPagingParams, dynamic>(
+      firstPageKey: ApiPagingParams(
+        nextPageNumber: 0,
+        numItems: 0,
+        lastResponse: null,
+      ),
+    );
+    return controller..addPageRequestListener(listViewGetProductsFromViewsPage);
+  }
+
+  void listViewGetProductsFromViewsPage(ApiPagingParams nextPageMarker) =>
+      listViewApiCall!(nextPageMarker)
+          .then((listViewGetProductsFromViewsResponse) {
+        final pageItems = (listViewGetProductsFromViewsResponse.jsonBody ?? [])
+            .toList() as List;
+        final newNumItems = nextPageMarker.numItems + pageItems.length;
+        listViewPagingController?.appendPage(
+          pageItems,
+          (pageItems.length > 0)
+              ? ApiPagingParams(
+                  nextPageNumber: nextPageMarker.nextPageNumber + 1,
+                  numItems: newNumItems,
+                  lastResponse: listViewGetProductsFromViewsResponse,
+                )
+              : null,
+        );
+      });
+}
