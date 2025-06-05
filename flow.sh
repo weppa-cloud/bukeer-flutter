@@ -347,6 +347,97 @@ cmd_clean() {
     fi
 }
 
+# Comando: run - Ejecutar aplicación con configuración correcta
+cmd_run() {
+    local device="$1"
+    
+    log "🚀 Iniciando aplicación en modo desarrollo..."
+    
+    # Verificar que existe config.js
+    if [[ ! -f "web/config.js" ]]; then
+        warning "⚠️  web/config.js no encontrado. Creando configuración de desarrollo..."
+        
+        # Crear config.js para desarrollo
+        cat > web/config.js << 'EOF'
+// Runtime configuration for Bukeer application - DEVELOPMENT
+window.BukeerConfig = {
+  // Supabase Configuration
+  supabaseUrl: 'https://wzlxbpicdcdvxvdcvgas.supabase.co',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug',
+  
+  // API Configuration
+  apiBaseUrl: 'https://bukeer.bukeerpro.com/api',
+  
+  // Google Maps Configuration
+  googleMapsApiKey: 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
+  
+  // Environment
+  environment: 'development',
+  
+  // Feature Flags (development)
+  features: {
+    enableAnalytics: false,
+    enableDebugLogs: true,
+    enableOfflineMode: false
+  },
+  
+  // Settings
+  settings: {
+    sessionTimeout: 3600000,
+    maxRetries: 3,
+    requestTimeout: 30000
+  }
+};
+
+// Freeze configuration
+Object.freeze(window.BukeerConfig);
+Object.freeze(window.BukeerConfig.features);
+Object.freeze(window.BukeerConfig.settings);
+EOF
+        info "✅ Configuración de desarrollo creada"
+    fi
+    
+    # Determinar dispositivo
+    case "$device" in
+        "")
+            device="chrome"
+            ;;
+        "web"|"chrome")
+            device="chrome"
+            ;;
+        "ios"|"iphone")
+            device="ios"
+            ;;
+        "android")
+            device="android"
+            ;;
+        *)
+            device="chrome"
+            info "Dispositivo no reconocido, usando Chrome"
+            ;;
+    esac
+    
+    info "📱 Ejecutando en: $device"
+    info "🔧 Usando configuración de desarrollo (web/config.js)"
+    
+    # Ejecutar con configuración de desarrollo
+    if [[ "$device" == "chrome" ]]; then
+        flutter run -d chrome \
+            --dart-define=supabaseUrl=https://wzlxbpicdcdvxvdcvgas.supabase.co \
+            --dart-define=supabaseAnonKey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug \
+            --dart-define=apiBaseUrl=https://bukeer.bukeerpro.com/api \
+            --dart-define=googleMapsApiKey=AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc \
+            --dart-define=environment=development
+    else
+        flutter run -d "$device" \
+            --dart-define=supabaseUrl=https://wzlxbpicdcdvxvdcvgas.supabase.co \
+            --dart-define=supabaseAnonKey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug \
+            --dart-define=apiBaseUrl=https://bukeer.bukeerpro.com/api \
+            --dart-define=googleMapsApiKey=AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc \
+            --dart-define=environment=development
+    fi
+}
+
 # Ayuda
 show_help() {
     show_banner
@@ -354,6 +445,7 @@ show_help() {
     echo ""
     echo "📋 Comandos disponibles:"
     echo ""
+    echo -e "  ${GREEN}run [device]${NC}     Ejecutar app con configuración de desarrollo"
     echo -e "  ${GREEN}dev [nombre]${NC}     Crear nueva rama de desarrollo"
     echo -e "  ${GREEN}save [mensaje]${NC}   Guardar cambios (auto-commit si no hay mensaje)"
     echo -e "  ${GREEN}test${NC}             Ejecutar pruebas (analyze + test + build)"
@@ -364,6 +456,10 @@ show_help() {
     echo -e "  ${GREEN}clean${NC}            Limpiar ramas viejas"
     echo ""
     echo "📖 Ejemplos:"
+    echo "  ./flow.sh run                    # Ejecutar en Chrome"
+    echo "  ./flow.sh run chrome             # Ejecutar en Chrome"
+    echo "  ./flow.sh run ios                # Ejecutar en iOS"
+    echo "  ./flow.sh run android            # Ejecutar en Android"
     echo "  ./flow.sh dev nueva-funcionalidad"
     echo "  ./flow.sh save"
     echo "  ./flow.sh save \"fix: corregir bug en login\""
@@ -385,6 +481,9 @@ check_git_repo
 
 # Procesar comandos
 case "${1:-help}" in
+    run)
+        cmd_run "$2"
+        ;;
     dev)
         cmd_dev "$2"
         ;;

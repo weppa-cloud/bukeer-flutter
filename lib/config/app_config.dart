@@ -104,8 +104,11 @@ class AppConfig {
 
       // 2. Try environment variables (for CapRover)
       final envValue = _getEnvValue(key);
-      if (envValue != null && envValue is T) {
-        return envValue;
+      if (envValue != null) {
+        // Convert string to required type T
+        if (T == String) {
+          return envValue as T;
+        }
       }
     } catch (e) {
       debugPrint('Error getting config value for $key: $e');

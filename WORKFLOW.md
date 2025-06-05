@@ -9,6 +9,11 @@ Sistema automatizado y seguro para desarrollo en equipo con **deploy automático
 ### **Script Principal: `./flow.sh`**
 
 ```bash
+# 🚀 EJECUCIÓN
+./flow.sh run                     # Ejecutar app (Chrome con config correcta)
+./flow.sh run ios                 # Ejecutar en iOS
+./flow.sh run android             # Ejecutar en Android
+
 # 🛠️  DESARROLLO
 ./flow.sh dev mi-funcionalidad    # Crear nueva rama
 ./flow.sh save                    # Guardar cambios (auto-commit)
@@ -36,20 +41,24 @@ Sistema automatizado y seguro para desarrollo en equipo con **deploy automático
 ./flow.sh dev nueva-funcionalidad
 # ↳ Crea rama feature/nueva-funcionalidad
 
-# 2. Desarrollar y guardar frecuentemente
+# 2. Ejecutar app con configuración correcta
+./flow.sh run
+# ↳ Ejecuta con variables de entorno y config.js
+
+# 3. Desarrollar y guardar frecuentemente
 [... hacer cambios ...]
 ./flow.sh save
 # ↳ Auto-commit inteligente + push
 
-# 3. Probar antes de subir
+# 4. Probar antes de subir
 ./flow.sh test
 # ↳ flutter analyze + flutter test + flutter build
 
-# 4. Crear Pull Request
+# 5. Crear Pull Request
 ./flow.sh pr
 # ↳ Crea PR en GitHub automáticamente
 
-# 5. Deploy después de revisión
+# 6. Deploy después de revisión
 ./flow.sh deploy
 # ↳ Merge a main → CapRover auto-deploy 🚀
 ```
