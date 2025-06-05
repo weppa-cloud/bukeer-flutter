@@ -53,8 +53,38 @@
   
 </head>
 <body>
+  <!-- Runtime Configuration -->
+  <script src="config.js"></script>
   
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTifXS7nsManySBuJw_egOvQd8BhuUmcg"></script>
+  <!-- Google Maps API - Will be loaded dynamically from config -->
+  <script id="google-maps-script"></script>
+  
+  <script>
+    // Simple configuration setup
+    console.log('🔧 Setting up Bukeer configuration...');
+    
+    // Check if config.js loaded successfully
+    if (window.BukeerConfig) {
+      console.log('✅ BukeerConfig loaded successfully');
+      console.log('📍 Environment:', window.BukeerConfig.environment || 'not specified');
+      
+      // Load Google Maps API with key from config
+      if (window.BukeerConfig.googleMapsApiKey) {
+        const script = document.getElementById('google-maps-script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${window.BukeerConfig.googleMapsApiKey}`;
+        console.log('🗺️ Google Maps API loaded with config key');
+      } else {
+        console.warn('⚠️ Google Maps API key not found in configuration');
+      }
+      
+      // Store config for debugging
+      window._bukeerConfigLoaded = true;
+      
+    } else {
+      console.warn('⚠️ BukeerConfig not found. Check if config.js exists and is valid.');
+      console.log('📝 Expected config.js to define window.BukeerConfig');
+    }
+  </script>
   
   
   

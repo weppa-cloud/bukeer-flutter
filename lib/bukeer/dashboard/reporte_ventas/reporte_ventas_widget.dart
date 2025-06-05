@@ -532,7 +532,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                             ? InkWell(
                                                                                 onTap: () async {
                                                                                   _model.textController?.clear();
-                                                                                  context.read<UiStateService>().searchQuery = _model.textController.text;
+                                                                                  // TODO: Update UiStateService when created
+                                                                                  // context.read<UiStateService>().searchQuery = _model.textController.text;
                                                                                   safeSetState(() => _model.apiRequestCompleter = null);
                                                                                   await _model.waitForApiRequestCompleted();
                                                                                   safeSetState(() {});

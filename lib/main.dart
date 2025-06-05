@@ -14,12 +14,21 @@ import 'flutter_flow/internationalization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'services/app_services.dart';
 import 'providers/app_providers.dart';
+import 'config/app_config.dart';
 import 'index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
+
+  // Initialize runtime configuration first
+  try {
+    AppConfig.initialize();
+  } catch (e) {
+    debugPrint('Configuration initialization failed: $e');
+    // Let the app continue with fallback configuration
+  }
 
   await SupaFlow.initialize();
 

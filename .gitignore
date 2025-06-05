@@ -43,6 +43,10 @@ flutter_*.png
 config/secrets.dart
 lib/config/api_keys.dart
 
+# Runtime configuration (contains API keys and sensitive data)
+web/config.js
+config.js
+
 # OS específicos
 .DS_Store
 .DS_Store?
