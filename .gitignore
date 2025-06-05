@@ -67,7 +67,7 @@ test/coverage_helper_test.dart
 # Dependencias
 node_modules/
 vendor/
-*.lock
+# *.lock  # Comentado para permitir pubspec.lock
 
 # Archivos de backup
 *.backup
