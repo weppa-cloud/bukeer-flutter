@@ -1,10 +1,9 @@
 # Dockerfile optimizado para Coolify - Bukeer Flutter Web
 
-FROM cirrusci/flutter:stable AS builder
+FROM ghcr.io/cirruslabs/flutter:latest AS builder
 
 # Configurar variables de entorno
 ENV FLUTTER_WEB=true
-ENV FLUTTER_ROOT=/usr/local/flutter
 
 # Crear directorio de trabajo
 WORKDIR /app
@@ -12,8 +11,8 @@ WORKDIR /app
 # Copiar todo el código fuente primero
 COPY . .
 
-# Instalar dependencias
-RUN flutter pub get
+# Limpiar y actualizar Flutter
+RUN flutter clean && flutter doctor && flutter pub get
 
 # Build de la aplicación web
 RUN flutter build web --release --dart-define=FLUTTER_WEB_AUTO_DETECT=true
