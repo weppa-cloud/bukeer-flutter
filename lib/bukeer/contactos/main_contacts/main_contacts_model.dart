@@ -1,6 +1,7 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../componentes/boton_crear/boton_crear_widget.dart';
+import '../../componentes/search_box/search_box_widget.dart';
 import '../../componentes/web_nav/web_nav_widget.dart';
 import '../modal_add_edit_contact/modal_add_edit_contact_widget.dart';
 import '../modal_details_contact/modal_details_contact_widget.dart';
@@ -27,10 +28,8 @@ class MainContactsModel extends FlutterFlowModel<MainContactsWidget> {
   late WebNavModel webNavModel;
   // Model for BotonCrear component.
   late BotonCrearModel botonCrearModel;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode;
-  TextEditingController? textController;
-  String? Function(BuildContext, String?)? textControllerValidator;
+  // Model for SearchBox component.
+  late SearchBoxModel searchBoxModel;
   // State field(s) for ListViewSearch widget.
 
   PagingController<ApiPagingParams, dynamic>? listViewSearchPagingController;
@@ -40,14 +39,14 @@ class MainContactsModel extends FlutterFlowModel<MainContactsWidget> {
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
     botonCrearModel = createModel(context, () => BotonCrearModel());
+    searchBoxModel = createModel(context, () => SearchBoxModel());
   }
 
   @override
   void dispose() {
     webNavModel.dispose();
     botonCrearModel.dispose();
-    textFieldFocusNode?.dispose();
-    textController?.dispose();
+    searchBoxModel.dispose();
 
     listViewSearchPagingController?.dispose();
   }

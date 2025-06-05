@@ -4,6 +4,7 @@ import '../../componentes/boton_crear/boton_crear_widget.dart';
 import '../../componentes/web_nav/web_nav_widget.dart';
 import '../modal_add_edit_contact/modal_add_edit_contact_widget.dart';
 import '../modal_details_contact/modal_details_contact_widget.dart';
+import '../../componentes/search_box/search_box_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -36,9 +37,6 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MainContactsModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -173,7 +171,10 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                       highlightColor:
                                                           Colors.transparent,
                                                       onTap: () async {
-                                                        context.read<ContactService>().allDataContact = null;
+                                                        context
+                                                            .read<
+                                                                ContactService>()
+                                                            .allDataContact = null;
                                                         safeSetState(() {});
                                                         await showModalBottomSheet(
                                                           isScrollControlled:
@@ -400,139 +401,41 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          12.0,
-                                                                          12.0,
-                                                                          12.0),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .search,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryText,
-                                                                    size: 30.0,
-                                                                  ),
-                                                                ),
-                                                                Flexible(
-                                                                  child:
-                                                                      TextFormField(
-                                                                    controller:
-                                                                        _model
-                                                                            .textController,
-                                                                    focusNode:
-                                                                        _model
-                                                                            .textFieldFocusNode,
-                                                                    onChanged: (_) =>
-                                                                        EasyDebounce
-                                                                            .debounce(
-                                                                      '_model.textController',
-                                                                      Duration(
-                                                                          milliseconds:
-                                                                              2000),
-                                                                      () async {},
-                                                                    ),
-                                                                    onFieldSubmitted:
-                                                                        (_) async {
-                                                                      context.read<UiStateService>().searchQuery =
-                                                                          _model
-                                                                              .textController
-                                                                              .text;
-                                                                      safeSetState(() => _model
+                                                            wrapWithModel(
+                                                              model: _model
+                                                                  .searchBoxModel,
+                                                              updateCallback: () =>
+                                                                  safeSetState(
+                                                                      () {}),
+                                                              child:
+                                                                  SearchBoxWidget(
+                                                                hintText:
+                                                                    'Buscar contactos',
+                                                                onSearchChanged:
+                                                                    (searchText) async {
+                                                                  context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .searchQuery =
+                                                                      searchText;
+                                                                  safeSetState(
+                                                                      () => _model
                                                                           .listViewSearchPagingController
                                                                           ?.refresh());
-                                                                      await _model
-                                                                          .waitForOnePageForListViewSearch();
-                                                                    },
-                                                                    autofocus:
-                                                                        false,
-                                                                    obscureText:
-                                                                        false,
-                                                                    decoration:
-                                                                        InputDecoration(
-                                                                      labelStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                          ),
-                                                                      hintText:
-                                                                          'Buscar',
-                                                                      hintStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                          ),
-                                                                      enabledBorder:
-                                                                          InputBorder
-                                                                              .none,
-                                                                      focusedBorder:
-                                                                          InputBorder
-                                                                              .none,
-                                                                      errorBorder:
-                                                                          InputBorder
-                                                                              .none,
-                                                                      focusedErrorBorder:
-                                                                          InputBorder
-                                                                              .none,
-                                                                      filled:
-                                                                          true,
-                                                                      fillColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryBackground,
-                                                                      contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          10.0,
-                                                                          0.0),
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          useGoogleFonts:
-                                                                              !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                        ),
-                                                                    minLines: 1,
-                                                                    validator: _model
-                                                                        .textControllerValidator
-                                                                        .asValidator(
-                                                                            context),
-                                                                  ),
-                                                                ),
-                                                              ].divide(SizedBox(
-                                                                  width: 8.0)),
+                                                                  await _model
+                                                                      .waitForOnePageForListViewSearch();
+                                                                },
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
                                                     ),
-                                                  ].divide(
-                                                      SizedBox(width: BukeerSpacing.m)),
+                                                  ].divide(SizedBox(
+                                                      width: BukeerSpacing.m)),
                                                 ),
-                                              ].divide(SizedBox(height: BukeerSpacing.s)),
+                                              ].divide(SizedBox(
+                                                  height: BukeerSpacing.s)),
                                             ),
                                           ),
                                         ),
@@ -563,8 +466,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                           _model.setListViewSearchController(
                                         (nextPageMarker) =>
                                             GetContactSearchCall.call(
-                                          search:
-                                              context.read<UiStateService>().searchQuery,
+                                          search: context
+                                              .read<UiStateService>()
+                                              .searchQuery,
                                           authToken: currentJwtToken,
                                           pageNumber:
                                               nextPageMarker.nextPageNumber,
@@ -648,7 +552,8 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                   )
                                                 ],
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 border: Border.all(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -663,7 +568,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  context.read<ContactService>().allDataContact =
+                                                  context
+                                                          .read<ContactService>()
+                                                          .allDataContact =
                                                       contactItemItem;
                                                   safeSetState(() {});
                                                   await showModalBottomSheet(
@@ -939,8 +846,8 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                             width: 16.0)),
                                                       ),
                                                     ),
-                                                  ].addToStart(
-                                                      SizedBox(height: BukeerSpacing.s)),
+                                                  ].addToStart(SizedBox(
+                                                      height: BukeerSpacing.s)),
                                                 ),
                                               ),
                                             ),

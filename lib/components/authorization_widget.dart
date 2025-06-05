@@ -33,11 +33,11 @@ class AuthorizedWidget extends StatelessWidget {
       future: _checkAuthorization(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return _buildLoading();
+          return _buildLoading(context);
         }
 
         final isAuthorized = snapshot.data ?? false;
-        
+
         if (isAuthorized) {
           return child;
         } else {
@@ -63,7 +63,7 @@ class AuthorizedWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildLoading() {
+  Widget _buildLoading(BuildContext context) {
     return SizedBox(
       height: 20,
       width: 20,
@@ -183,7 +183,8 @@ class AuthorizedButton extends StatelessWidget {
 
         if (tooltip != null) {
           button = Tooltip(
-            message: isAuthorized ? tooltip! : 'No tienes permisos para esta acción',
+            message:
+                isAuthorized ? tooltip! : 'No tienes permisos para esta acción',
             child: button,
           );
         }
@@ -211,7 +212,7 @@ class AuthorizedButton extends StatelessWidget {
 
   ButtonStyle _getDefaultStyle(BuildContext context, bool isAuthorized) {
     return ElevatedButton.styleFrom(
-      backgroundColor: isAuthorized 
+      backgroundColor: isAuthorized
           ? FlutterFlowTheme.of(context).primary
           : FlutterFlowTheme.of(context).secondaryText,
       foregroundColor: Colors.white,
@@ -312,9 +313,9 @@ class ResourceAccessWidget extends StatelessWidget {
           Text(
             'Sin acceso',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-              fontFamily: 'Readex Pro',
-              color: FlutterFlowTheme.of(context).secondaryText,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                ),
           ),
         ],
       ),
@@ -344,7 +345,7 @@ class UserRoleBadge extends StatelessWidget {
         if (roles.isEmpty) return SizedBox.shrink();
 
         final highestRole = _getHighestRole(roles);
-        
+
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
@@ -358,11 +359,11 @@ class UserRoleBadge extends StatelessWidget {
           child: Text(
             _getRoleDisplayName(highestRole.type),
             style: FlutterFlowTheme.of(context).bodySmall.override(
-              fontFamily: 'Readex Pro',
-              color: _getRoleColor(highestRole.type),
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: _getRoleColor(highestRole.type),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                ),
           ),
         );
       },
@@ -377,7 +378,11 @@ class UserRoleBadge extends StatelessWidget {
 
   UserRole _getHighestRole(List<UserRole> roles) {
     // Return highest priority role
-    for (final roleType in [RoleType.superAdmin, RoleType.admin, RoleType.agent]) {
+    for (final roleType in [
+      RoleType.superAdmin,
+      RoleType.admin,
+      RoleType.agent
+    ]) {
       final role = roles.firstWhere(
         (r) => r.type == roleType,
         orElse: () => roles.first,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../../../auth/supabase_auth/auth_util.dart';
-import '../../../backend/api_requests/api_calls.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../componentes/web_nav/web_nav_widget.dart';
 import '../../../services/app_services.dart';
@@ -13,6 +11,14 @@ import 'sections/itinerary_header_section.dart';
 import 'sections/itinerary_services_section.dart';
 import 'sections/itinerary_passengers_section.dart';
 import 'sections/itinerary_payments_section.dart';
+import '../../modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
+import '../servicios/add_hotel/add_hotel_widget.dart';
+import '../servicios/add_flights/add_flights_widget.dart';
+import '../servicios/add_activities/add_activities_widget.dart';
+import '../servicios/add_transfer/add_transfer_widget.dart';
+import '../pasajeros/modal_add_passenger/modal_add_passenger_widget.dart';
+import '../pagos/component_add_paid/component_add_paid_widget.dart';
+import '../../../custom_code/actions/index.dart' as actions;
 import 'itinerary_details_model.dart';
 
 export 'itinerary_details_model.dart';
@@ -107,7 +113,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
         appServices.itinerary.getItineraryItems(int.parse(widget.id!));
     final passengers =
         appServices.itinerary.getItineraryPassengers(int.parse(widget.id!));
-    final transactions = <dynamic>[]; // TODO: Load from transactions service
+    // TODO: Load transactions from transactions service when implemented
+    final transactions = <dynamic>[];
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(24),
@@ -271,67 +278,275 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
 
   // Action Handlers
   void _handleEditItinerary() {
-    // TODO: Open edit modal
-    debugPrint('Edit itinerary: ${widget.id}');
+    final itineraryData =
+        appServices.itinerary.getItinerary(int.parse(widget.id!));
+    if (itineraryData == null) return;
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: ModalAddEditItineraryWidget(
+            isEdit: true,
+            allDataItinerary: itineraryData,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleDeleteItinerary() {
-    // TODO: Show confirmation dialog and delete
-    debugPrint('Delete itinerary: ${widget.id}');
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmar eliminación'),
+        content: Text('¿Está seguro de que desea eliminar este itinerario?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              // TODO: Add delete functionality to itinerary service
+              debugPrint('Delete itinerary: ${widget.id}');
+              // context.goNamed('main_itineraries');
+            },
+            child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _handlePreviewItinerary() {
-    // TODO: Open preview
-    debugPrint('Preview itinerary: ${widget.id}');
+    context.pushNamed(
+      'preview_itinerary_URL',
+      pathParameters: {'id': widget.id!},
+    );
   }
 
-  void _handleGeneratePdf() {
-    // TODO: Generate PDF
-    debugPrint('Generate PDF for itinerary: ${widget.id}');
+  void _handleGeneratePdf() async {
+    try {
+      final itineraryData =
+          appServices.itinerary.getItinerary(int.parse(widget.id!));
+      final itineraryItems =
+          appServices.itinerary.getItineraryItems(int.parse(widget.id!));
+
+      if (itineraryData == null) return;
+
+      // TODO: Get contact and agent data from services
+      final contact = {}; // Get from contact service
+      final agent = {}; // Get from user service
+      final account = {}; // Get from account service
+
+      await actions.createPDF(
+        contact,
+        agent,
+        itineraryData,
+        itineraryItems,
+        FFAppState().accountId,
+        account,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('PDF generado exitosamente')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al generar PDF: $e')),
+      );
+    }
   }
 
   void _handleAddFlight() {
-    // TODO: Open add flight modal
-    debugPrint('Add flight to itinerary: ${widget.id}');
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: AddFlightsWidget(
+            isEdit: false,
+            itineraryId: widget.id,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleAddHotel() {
-    // TODO: Open add hotel modal
-    debugPrint('Add hotel to itinerary: ${widget.id}');
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: AddHotelWidget(
+            isEdit: false,
+            itineraryId: widget.id,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleAddActivity() {
-    // TODO: Open add activity modal
-    debugPrint('Add activity to itinerary: ${widget.id}');
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: AddActivitiesWidget(
+            isEdit: false,
+            itineraryId: widget.id,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleAddTransfer() {
-    // TODO: Open add transfer modal
-    debugPrint('Add transfer to itinerary: ${widget.id}');
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: AddTransferWidget(
+            isEdit: false,
+            itineraryId: widget.id,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleAddPassenger() {
-    // TODO: Open add passenger modal
-    debugPrint('Add passenger to itinerary: ${widget.id}');
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: ModalAddPassengerWidget(
+            itineraryId: widget.id!,
+            accountId: FFAppState().accountId,
+            isEdit: false,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleEditPassenger(dynamic passenger) {
-    // TODO: Open edit passenger modal
-    debugPrint('Edit passenger: ${getJsonField(passenger, r'$.id')}');
+    final passengerId = getJsonField(passenger, r'$.id')?.toString();
+    if (passengerId == null) return;
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: ModalAddPassengerWidget(
+            itineraryId: widget.id!,
+            accountId: FFAppState().accountId,
+            isEdit: true,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleDeletePassenger(dynamic passenger) {
-    // TODO: Show confirmation and delete passenger
-    debugPrint('Delete passenger: ${getJsonField(passenger, r'$.id')}');
+    final passengerName =
+        getJsonField(passenger, r'$.name')?.toString() ?? 'este pasajero';
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirmar eliminación'),
+        content: Text('¿Está seguro de que desea eliminar a $passengerName?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              // TODO: Add delete passenger functionality to service
+              debugPrint(
+                  'Delete passenger: ${getJsonField(passenger, r'$.id')}');
+              safeSetState(() {});
+            },
+            child: Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _handleAddPayment() {
-    // TODO: Open add payment modal
-    debugPrint('Add payment to itinerary: ${widget.id}');
+    final passengers =
+        appServices.itinerary.getItineraryPassengers(int.parse(widget.id!));
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: ComponentAddPaidWidget(
+            idItinerary: widget.id,
+            agentName: currentUserEmail,
+            agentEmail: currentUserEmail,
+            emailProvider: '',
+            nameProvider: '',
+            fechaReserva: getCurrentTimestamp.toString(),
+            producto: '',
+            tarifa: '',
+            cantidad: passengers.length,
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
   }
 
   void _handleEditTransaction(dynamic transaction) {
-    // TODO: Open edit transaction modal
+    // TODO: Implement edit transaction properly with correct data
     debugPrint('Edit transaction: ${getJsonField(transaction, r'$.id')}');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Editar transacción - Funcionalidad pendiente')),
+    );
   }
 }

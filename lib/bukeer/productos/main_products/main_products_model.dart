@@ -3,6 +3,7 @@ import '../../../backend/api_requests/api_calls.dart';
 import '../../component_container_activities/component_container_activities_widget.dart';
 import '../../componentes/boton_menu_mobile/boton_menu_mobile_widget.dart';
 import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../componentes/search_box/search_box_widget.dart';
 import '../modal_details_product/modal_details_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_drop_down.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
@@ -26,11 +27,8 @@ class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
   late WebNavModel webNavModel;
   // Model for BotonMenuMobile component.
   late BotonMenuMobileModel botonMenuMobileModel;
-  // State field(s) for TextFieldBuscar widget.
-  FocusNode? textFieldBuscarFocusNode;
-  TextEditingController? textFieldBuscarTextController;
-  String? Function(BuildContext, String?)?
-      textFieldBuscarTextControllerValidator;
+  // Model for SearchBox component.
+  late SearchBoxModel searchBoxModel;
   // State field(s) for DropDownLocation widget.
   String? dropDownLocationValue;
   FormFieldController<String>? dropDownLocationValueController;
@@ -43,14 +41,14 @@ class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
     botonMenuMobileModel = createModel(context, () => BotonMenuMobileModel());
+    searchBoxModel = createModel(context, () => SearchBoxModel());
   }
 
   @override
   void dispose() {
     webNavModel.dispose();
     botonMenuMobileModel.dispose();
-    textFieldBuscarFocusNode?.dispose();
-    textFieldBuscarTextController?.dispose();
+    searchBoxModel.dispose();
 
     listViewPagingController?.dispose();
   }

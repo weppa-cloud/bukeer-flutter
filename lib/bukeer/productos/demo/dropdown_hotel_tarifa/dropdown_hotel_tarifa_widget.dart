@@ -13,7 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_hotel_tarifa_model.dart';
 import '../../../../design_system/index.dart';
-import '../../../services/ui_state_service.dart';
+// import '../../../services/ui_state_service.dart'; // TODO: Create UiStateService
 export 'dropdown_hotel_tarifa_model.dart';
 
 class DropdownHotelTarifaWidget extends StatefulWidget {
@@ -216,21 +216,20 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                                   color: Colors.transparent,
                                   elevation: 2.0,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                   ),
                                   child: Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     child: FutureBuilder<ApiCallResponse>(
                                       future: GetHotelRatesCall.call(
-                                        hotelId: getJsonField(
-                                          context.read<UiStateService>().itemsProducts,
-                                          r'''$.id''',
-                                        ).toString(),
+                                        hotelId: widget.idHotel ?? '0',
                                         authToken: currentJwtToken,
                                       ),
                                       builder: (context, snapshot) {
@@ -285,27 +284,13 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                                                     highlightColor:
                                                         Colors.transparent,
                                                     onTap: () async {
-                                                      FFAppState()
-                                                              .itemsHotelRates =
-                                                          hotelRatesItemItem;
-                                                      FFAppState()
-                                                              .profitHotelRates =
-                                                          getJsonField(
-                                                        hotelRatesItemItem,
-                                                        r'''$.profit''',
-                                                      );
-                                                      FFAppState()
-                                                              .unitCostHotelRates =
-                                                          getJsonField(
-                                                        hotelRatesItemItem,
-                                                        r'''$.unit_cost''',
-                                                      );
-                                                      FFAppState()
-                                                              .rateUnitCostHotelRates =
-                                                          getJsonField(
-                                                        hotelRatesItemItem,
-                                                        r'''$.price''',
-                                                      );
+                                                      // TODO: Move to UiStateService when created
+                                                      // FFAppState().itemsHotelRates = hotelRatesItemItem;
+                                                      // FFAppState().profitHotelRates = getJsonField(hotelRatesItemItem, r'''$.profit''');
+                                                      // FFAppState().unitCostHotelRates = getJsonField(hotelRatesItemItem, r'''$.unit_cost''');
+                                                      // FFAppState().rateUnitCostHotelRates = getJsonField(hotelRatesItemItem, r'''$.price''');
+                                                      debugPrint(
+                                                          'Hotel rate selected: ${getJsonField(hotelRatesItemItem, r'''$.id''')}');
                                                       FFAppState()
                                                           .update(() {});
                                                       context.safePop();

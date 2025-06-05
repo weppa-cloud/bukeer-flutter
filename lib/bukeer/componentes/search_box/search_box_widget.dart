@@ -11,7 +11,22 @@ import 'search_box_model.dart';
 export 'search_box_model.dart';
 
 class SearchBoxWidget extends StatefulWidget {
-  const SearchBoxWidget({super.key});
+  const SearchBoxWidget({
+    super.key,
+    this.hintText = 'Buscar',
+    this.onSearchChanged,
+    this.initialValue,
+    this.debounceTime = 2000,
+    this.width,
+    this.height = 50.0,
+  });
+
+  final String hintText;
+  final Function(String)? onSearchChanged;
+  final String? initialValue;
+  final int debounceTime;
+  final double? width;
+  final double height;
 
   @override
   State<SearchBoxWidget> createState() => _SearchBoxWidgetState();
@@ -31,9 +46,10 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
     super.initState();
     _model = createModel(context, () => SearchBoxModel());
 
-    // Initialize with current search value from UiStateService
+    // Initialize with provided initial value or current search value from UiStateService
     final uiState = context.read<UiStateService>();
-    _model.textController ??= TextEditingController(text: uiState.searchQuery);
+    final initialText = widget.initialValue ?? uiState.searchQuery;
+    _model.textController ??= TextEditingController(text: initialText);
     _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -42,72 +58,107 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
   @override
   void dispose() {
     _model.maybeDispose();
-
     super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final searchText = _model.textController.text;
+
+    // Update UiStateService
+    final uiState = context.read<UiStateService>();
+    uiState.searchQuery = searchText;
+
+    // Call external callback if provided
+    if (widget.onSearchChanged != null) {
+      widget.onSearchChanged!(searchText);
+    }
+
+    safeSetState(() {});
+  }
+
+  void _clearSearch() {
+    _model.textController?.clear();
+    _onSearchChanged();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Padding(
-          padding: EdgeInsets.all(BukeerSpacing.s),
-          child: Icon(
-            Icons.search,
-            color: FlutterFlowTheme.of(context).secondaryText,
-            size: 30.0,
-          ),
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        borderRadius: BorderRadius.circular(BukeerSpacing.s),
+        border: Border.all(
+          color: FlutterFlowTheme.of(context).alternate,
+          width: 1.0,
         ),
-        Flexible(
-          child: TextFormField(
-            controller: _model.textController,
-            focusNode: _model.textFieldFocusNode,
-            onChanged: (_) => EasyDebounce.debounce(
-              '_model.textController',
-              Duration(milliseconds: 2000),
-              () async {
-                final uiState = context.read<UiStateService>();
-                uiState.searchQuery = _model.textController.text;
-                uiState.currentPage = 0;
-                safeSetState(() {});
-              },
-            ),
-            autofocus: false,
-            obscureText: false,
-            decoration: InputDecoration(
-              labelStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                    letterSpacing: 0.0,
-                    useGoogleFonts:
-                        !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                  ),
-              hintText: 'Buscar',
-              hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                    letterSpacing: 0.0,
-                    useGoogleFonts:
-                        !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                  ),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              focusedErrorBorder: InputBorder.none,
-              filled: true,
-              fillColor: FlutterFlowTheme.of(context).primaryBackground,
-              contentPadding: EdgeInsets.only(right: BukeerSpacing.s),
-            ),
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                  letterSpacing: 0.0,
-                  useGoogleFonts:
-                      !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+      ),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(
+          BukeerSpacing.s,
+          0.0,
+          BukeerSpacing.xs,
+          0.0,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: _model.textController,
+                focusNode: _model.textFieldFocusNode,
+                onChanged: (_) => EasyDebounce.debounce(
+                  '_model.textController',
+                  Duration(milliseconds: widget.debounceTime),
+                  _onSearchChanged,
                 ),
-            minLines: 1,
-            validator: _model.textControllerValidator.asValidator(context),
-          ),
+                autofocus: false,
+                obscureText: false,
+                decoration: InputDecoration(
+                  isDense: false,
+                  labelText: widget.hintText,
+                  alignLabelWithHint: false,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
+                  contentPadding: EdgeInsetsDirectional.fromSTEB(
+                    0.0,
+                    0.0,
+                    0.0,
+                    8.0,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_sharp,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 20.0,
+                  ),
+                  suffixIcon: _model.textController.text.isNotEmpty
+                      ? InkWell(
+                          onTap: _clearSearch,
+                          child: Icon(
+                            Icons.clear,
+                            color: BukeerColors.textSecondary,
+                            size: 20.0,
+                          ),
+                        )
+                      : null,
+                ),
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                      fontSize: 14.0,
+                      letterSpacing: 0.0,
+                      useGoogleFonts:
+                          !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                    ),
+                cursorColor: FlutterFlowTheme.of(context).primary,
+                validator: _model.textControllerValidator.asValidator(context),
+              ),
+            ),
+          ],
         ),
-      ].divide(SizedBox(width: BukeerSpacing.s)),
+      ),
     );
   }
 }
