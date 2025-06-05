@@ -20,6 +20,7 @@ Sistema automatizado y seguro para desarrollo en equipo con **deploy automático
 # 📋 COLABORACIÓN
 ./flow.sh pr                      # Crear Pull Request
 ./flow.sh status                  # Ver estado del proyecto
+./flow.sh sync                    # Sincronizar con main (última versión)
 ./flow.sh clean                   # Limpiar ramas viejas
 
 # 🚀 PRODUCCIÓN
@@ -68,6 +69,69 @@ Desarrollador A          │  Desarrollador B          │  Lead/Admin
                          │                           │      ↓
                          │                           │ 🌐 CapRover Deploy
 ```
+
+## 🔄 Garantizar Última Versión del Código
+
+### **📌 Buenas Prácticas Diarias:**
+
+#### **🌅 Al Empezar el Día:**
+```bash
+# SIEMPRE empezar actualizando
+git checkout main
+git pull
+./flow.sh dev tarea-del-dia
+```
+
+#### **🔄 Durante el Desarrollo:**
+```bash
+# Sincronizar frecuentemente (cada 2-3 horas)
+./flow.sh sync              # Trae cambios de main a tu rama
+./flow.sh save             # Guarda tu progreso
+```
+
+#### **📤 Antes de Pull Request:**
+```bash
+# OBLIGATORIO: Sincronizar antes de PR
+./flow.sh sync              # Obtener últimos cambios
+./flow.sh test             # Verificar que todo funciona
+./flow.sh pr               # Crear PR
+```
+
+#### **🚨 Si hay Conflictos:**
+```bash
+./flow.sh sync
+# Si aparecen conflictos:
+# 1. Resolver en VS Code
+# 2. git add .
+# 3. git commit -m "merge: resolve conflicts with main"
+# 4. ./flow.sh test
+```
+
+### **🛠️ Comandos de Verificación:**
+
+```bash
+# Ver si estás actualizado
+./flow.sh status
+
+# Ver cambios remotos sin descargar
+git fetch
+git log HEAD..origin/main --oneline
+
+# Ver tus cambios vs main
+git log origin/main..HEAD --oneline
+
+# Comparar archivos
+git diff origin/main --name-only
+```
+
+### **⚡ Flujo Automatizado:**
+
+1. **`./flow.sh dev`** → Ya descarga lo último automáticamente
+2. **`./flow.sh sync`** → Sincroniza en cualquier momento
+3. **`./flow.sh deploy`** → Verifica actualización antes de deploy
+
+### **🎯 Regla de Oro:**
+> **"Sincroniza al empezar, sincroniza antes de PR, sincroniza si dudas"**
 
 ## 🔒 Protecciones Automáticas
 
@@ -181,6 +245,9 @@ gh auth login
 # Guardar final
 ./flow.sh save "feat(products): implement filter functionality"
 
+# Sincronizar antes de PR
+./flow.sh sync
+
 # Probar
 ./flow.sh test
 
@@ -218,12 +285,32 @@ gh auth login
 ./flow.sh dev optimizar-imagenes  
 ./flow.sh save "perf(images): lazy loading implementation"
 
-# Ambos crean PRs
-./flow.sh pr  # (cada uno)
+# Ambos sincronizan antes de PR
+./flow.sh sync  # (cada uno)
+./flow.sh pr    # (cada uno)
 
 # Admin revisa y hace deploy por separado
 ./flow.sh deploy  # PR de A
 ./flow.sh deploy  # PR de B
+```
+
+### **Ejemplo 4: Mantenerse Actualizado**
+```bash
+# Trabajando en feature larga (varios días)
+./flow.sh dev feature-compleja
+
+# Día 1
+./flow.sh save "wip: initial structure"
+
+# Día 2 - Empezar sincronizando
+./flow.sh sync  # Traer cambios del día anterior
+./flow.sh save "feat: add business logic"
+
+# Día 3 - Antes de finalizar
+./flow.sh sync  # Asegurar última versión
+./flow.sh test
+./flow.sh save "feat: complete feature with tests"
+./flow.sh pr
 ```
 
 ## 🚨 Solución de Problemas

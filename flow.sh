@@ -268,6 +268,55 @@ cmd_status() {
     git log --oneline -3
 }
 
+# Comando: sync - Sincronizar con main
+cmd_sync() {
+    log "🔄 Sincronizando con la última versión de main..."
+    
+    local current_branch=$(git branch --show-current)
+    
+    if [ "$current_branch" = "$MAIN_BRANCH" ]; then
+        # Si estamos en main, solo pull
+        log "📥 Actualizando main..."
+        git pull $REMOTE $MAIN_BRANCH
+        log "✅ Main actualizado"
+    else
+        # Si estamos en otra rama, actualizar y merge
+        check_clean_working_tree
+        
+        # Guardar rama actual
+        info "🌿 Rama actual: $current_branch"
+        
+        # Actualizar main
+        log "📥 Obteniendo últimos cambios de main..."
+        git fetch $REMOTE $MAIN_BRANCH
+        
+        # Hacer merge de main a la rama actual
+        log "🔀 Integrando cambios de main..."
+        if git merge $REMOTE/$MAIN_BRANCH --no-edit; then
+            log "✅ Sincronización completada"
+            
+            # Mostrar resumen
+            local behind=$(git rev-list --count HEAD..$REMOTE/$MAIN_BRANCH 2>/dev/null || echo "0")
+            local ahead=$(git rev-list --count $REMOTE/$MAIN_BRANCH..HEAD 2>/dev/null || echo "0")
+            
+            info "📊 Estado de sincronización:"
+            info "  ⬆️  Tu rama está $ahead commits adelante de main"
+            info "  ⬇️  Tu rama está $behind commits detrás de main"
+            
+            if [ "$behind" -eq 0 ]; then
+                info "✅ Estás completamente sincronizado con main"
+            fi
+        else
+            error "❌ Conflictos detectados durante la sincronización"
+            warning "📝 Resuelve los conflictos manualmente:"
+            warning "  1. Edita los archivos con conflictos"
+            warning "  2. git add ."
+            warning "  3. git commit"
+            exit 1
+        fi
+    fi
+}
+
 # Comando: clean - Limpiar ramas viejas
 cmd_clean() {
     log "🧹 Limpiando ramas viejas..."
@@ -311,6 +360,7 @@ show_help() {
     echo -e "  ${GREEN}pr${NC}               Crear Pull Request"
     echo -e "  ${GREEN}deploy${NC}           Deploy a producción (merge a main)"
     echo -e "  ${GREEN}status${NC}           Ver estado del proyecto"
+    echo -e "  ${GREEN}sync${NC}             Sincronizar con main (obtener última versión)"
     echo -e "  ${GREEN}clean${NC}            Limpiar ramas viejas"
     echo ""
     echo "📖 Ejemplos:"
@@ -352,6 +402,9 @@ case "${1:-help}" in
         ;;
     status)
         cmd_status
+        ;;
+    sync)
+        cmd_sync
         ;;
     clean)
         cmd_clean
