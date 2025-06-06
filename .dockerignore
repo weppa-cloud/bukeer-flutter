@@ -1,0 +1,51 @@
+# Build artifacts (keep build/web for fast Docker builds)
+.dart_tool/
+# Only ignore specific build folders, not build/web
+build/ios/
+build/android/
+build/macos/
+build/windows/
+build/linux/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+CHANGELOG*
+
+# Test files
+test/
+coverage/
+
+# Temporary files
+.tmp/
+tmp/
+
+# Node modules (if any)
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.example
+
+# iOS/Android specific
+ios/
+android/
+macos/
+
+# Large directories not needed for web build
+assets/videos/
+assets/audios/

@@ -1,5 +1,5 @@
 # Dockerfile optimizado para CapRover - Bukeer Flutter Web
-FROM instrumentisto/flutter:3.24 AS builder
+FROM instrumentisto/flutter:3.32 AS builder
 
 # Crear directorio de trabajo
 WORKDIR /app
