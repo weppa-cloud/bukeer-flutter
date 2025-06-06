@@ -376,8 +376,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .alternate,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -385,8 +385,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .primary,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -394,8 +394,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -403,8 +403,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       filled: true,
                                       fillColor:
@@ -478,8 +478,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .alternate,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -487,8 +487,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .primary,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -496,8 +496,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -505,8 +505,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       filled: true,
                                       fillColor:
@@ -581,8 +581,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .alternate,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -590,8 +590,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .primary,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -599,8 +599,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -608,8 +608,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       filled: true,
                                       fillColor:
@@ -684,8 +684,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .alternate,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -693,8 +693,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .primary,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -702,8 +702,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -711,8 +711,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               .error,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                       ),
                                       filled: true,
                                       fillColor:
@@ -799,7 +799,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                           .alternate,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -807,21 +808,24 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                           FlutterFlowTheme.of(context).primary,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context).error,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context).error,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                   ),
                                   filled: true,
                                   fillColor:
@@ -992,9 +996,11 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                                 .responseAccount!
                                                 .firstOrNull!
                                                 .roleId!;
-                                            FFAppState().accountIdFm = _model
+                                            // Establecer accountIdFm en UserService
+                                            final accountIdFm = _model
                                                 .responseIdfm!.firstOrNull!.idFm
                                                 .toString();
+                                            // Nota: accountIdFm se actualizará cuando UserService cargue los datos
                                             safeSetState(() {});
                                           } else {
                                             await showDialog(
@@ -1107,7 +1113,8 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     hoverColor:
                                         FlutterFlowTheme.of(context).accent1,
                                     hoverBorderSide: BorderSide(

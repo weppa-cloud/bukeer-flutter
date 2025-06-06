@@ -308,7 +308,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                         model: _model.webNavModel,
                         updateCallback: () => safeSetState(() {}),
                         child: WebNavWidget(
-                          selectedNav: 7,
+                          selectedNav: 6,
                         ),
                       ),
                     Expanded(
@@ -3654,7 +3654,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                   authToken:
                                                                       currentJwtToken,
                                                                   id: getJsonField(
-                                                                    FFAppState()
+                                                                    context
+                                                                        .read<
+                                                                            UiStateService>()
                                                                         .allDataAccount,
                                                                     r'''$[:].location''',
                                                                   ).toString(),
@@ -3676,23 +3678,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             .call(
                                                                       authToken:
                                                                           currentJwtToken,
-                                                                      latlng: FFAppState()
-                                                                          .latlngLocation,
-                                                                      name: FFAppState()
-                                                                          .nameLocation,
-                                                                      address:
-                                                                          FFAppState()
-                                                                              .addressLocation,
-                                                                      city: FFAppState()
-                                                                          .cityLocation,
-                                                                      state: FFAppState()
-                                                                          .stateLocation,
-                                                                      country:
-                                                                          FFAppState()
-                                                                              .countryLocation,
-                                                                      zipCode:
-                                                                          FFAppState()
-                                                                              .zipCodeLocation,
+                                                                      latlng: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationLatLng,
+                                                                      name: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationName,
+                                                                      address: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationAddress,
+                                                                      city: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationCity,
+                                                                      state: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationState,
+                                                                      country: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationCountry,
+                                                                      zipCode: context
+                                                                          .read<
+                                                                              UiStateService>()
+                                                                          .selectedLocationZipCode,
                                                                       accountId:
                                                                           FFAppState()
                                                                               .accountId,
@@ -3715,7 +3728,8 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             (_model.responseInsertLocation3?.jsonBody ?? '').toString(),
                                                                         searchId:
                                                                             getJsonField(
-                                                                          FFAppState()
+                                                                          context
+                                                                              .read<UiStateService>()
                                                                               .allDataAccount,
                                                                           r'''$[:].id''',
                                                                         ).toString(),
@@ -3804,7 +3818,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                 }
                                                               } else {
                                                                 if (!(getJsonField(
-                                                                      FFAppState()
+                                                                      context
+                                                                          .read<
+                                                                              UiStateService>()
                                                                           .allDataAccount,
                                                                       r'''$[:].address''',
                                                                     ) !=
@@ -3843,7 +3859,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                 authToken:
                                                                     currentJwtToken,
                                                                 id: getJsonField(
-                                                                  FFAppState()
+                                                                  context
+                                                                      .read<
+                                                                          UiStateService>()
                                                                       .allDataAccount,
                                                                   r'''$[:].id''',
                                                                 ).toString(),
@@ -3890,15 +3908,18 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                     _model
                                                                         .termsConditionsContactTextController
                                                                         .text,
-                                                                currencyJson:
-                                                                    FFAppState()
-                                                                        .accountCurrency,
-                                                                typesIncreaseJson:
-                                                                    FFAppState()
-                                                                        .accountTypesIncrease,
-                                                                paymentMethodsJson:
-                                                                    FFAppState()
-                                                                        .accountPaymentMethods,
+                                                                currencyJson: context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .accountCurrency,
+                                                                typesIncreaseJson: context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .accountTypesIncrease,
+                                                                paymentMethodsJson: context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .accountPaymentMethods,
                                                               );
 
                                                               _shouldSetState =
@@ -3907,20 +3928,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                       .apiResulty9y
                                                                       ?.succeeded ??
                                                                   true)) {
-                                                                FFAppState()
-                                                                    .latlngLocation = '';
-                                                                FFAppState()
-                                                                    .nameLocation = '';
-                                                                FFAppState()
-                                                                    .addressLocation = '';
-                                                                FFAppState()
-                                                                    .cityLocation = '';
-                                                                FFAppState()
-                                                                    .stateLocation = '';
-                                                                FFAppState()
-                                                                    .countryLocation = '';
-                                                                FFAppState()
-                                                                    .zipCodeLocation = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationLatLng = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationName = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationAddress = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationCity = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationState = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationCountry = '';
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedLocationZipCode = '';
                                                                 safeSetState(
                                                                     () {});
                                                                 await showDialog(

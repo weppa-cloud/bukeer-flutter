@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../design_system/index.dart';
 
 class WidgetPreview extends StatelessWidget {
   final Widget widget;
@@ -20,7 +21,7 @@ class WidgetPreview extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(BukeerSpacing.m),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

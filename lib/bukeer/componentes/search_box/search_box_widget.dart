@@ -147,7 +147,7 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                      fontSize: 14.0,
+                      fontSize: BukeerTypography.bodySmallSize,
                       letterSpacing: 0.0,
                       useGoogleFonts:
                           !FlutterFlowTheme.of(context).bodyMediumIsCustom,

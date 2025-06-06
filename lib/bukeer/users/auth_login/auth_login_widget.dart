@@ -353,8 +353,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .alternate,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -362,8 +362,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .primary,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -371,8 +371,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -380,8 +380,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         filled: true,
                                         fillColor: FlutterFlowTheme.of(context)
@@ -456,8 +456,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .alternate,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -465,8 +465,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .primary,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -474,8 +474,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -483,8 +483,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         filled: true,
                                         fillColor: FlutterFlowTheme.of(context)
@@ -614,9 +614,11 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                           .responseAccount!
                                           .firstOrNull!
                                           .roleId!;
-                                      FFAppState().accountIdFm = _model
+                                      // Establecer accountIdFm en UserService
+                                      final accountIdFm = _model
                                           .responseIdfm!.firstOrNull!.idFm
                                           .toString();
+                                      // Nota: accountIdFm se actualizará cuando UserService cargue los datos
                                       safeSetState(() {});
 
                                       context.goNamedAuth(
@@ -651,7 +653,8 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       hoverColor:
                                           FlutterFlowTheme.of(context).accent1,
                                       hoverBorderSide: BorderSide(

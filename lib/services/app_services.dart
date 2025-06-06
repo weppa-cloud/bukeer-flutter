@@ -5,6 +5,7 @@ import 'product_service.dart';
 import 'contact_service.dart';
 import 'authorization_service.dart';
 import 'error_service.dart';
+import 'ui_state_service.dart';
 
 /// Central service manager for the app
 /// Provides singleton access to all services and coordinates initialization
@@ -15,6 +16,7 @@ class AppServices {
 
   // Service instances
   final UserService user = UserService();
+  final UiStateService ui = UiStateService();
   final ItineraryService itinerary = ItineraryService();
   final ProductService product = ProductService();
   final ContactService contact = ContactService();
@@ -91,6 +93,7 @@ class AppServices {
   /// Clear all cached data
   void clearAllCaches() {
     product.clearCache();
+    ui.clearAll();
     // Add clear methods for other services as needed
     _isInitialized = false;
   }
@@ -100,6 +103,7 @@ class AppServices {
     clearAllCaches();
     authorization.clearRoles();
     error.clearAllErrors();
+    user.clearUserData();
     _isInitialized = false;
     _isInitializing = false;
   }

@@ -50,11 +50,13 @@ class _DropdownTravelPlannerWidgetState
       // Crear llamada personalizada a contacts para obtener usuarios con imágenes
       _model.apiResponseUsers = await ApiManager.instance.makeApiCall(
         callName: 'getUsersWithImages',
-        apiUrl: 'https://wzlxbpicdcdvxvdcvgas.supabase.co/rest/v1/contacts?select=*&user_rol=not.is.null',
+        apiUrl:
+            'https://wzlxbpicdcdvxvdcvgas.supabase.co/rest/v1/contacts?select=*&user_rol=not.is.null',
         callType: ApiCallType.GET,
         headers: {
           'Authorization': 'Bearer $currentJwtToken',
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU0NjQyODAsImV4cCI6MjA0MTA0MDI4MH0.dSh-yGzemDC7DL_rf7fwgWlMoEKv1SlBCxd8ElFs_d8',
+          'apikey':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU0NjQyODAsImV4cCI6MjA0MTA0MDI4MH0.dSh-yGzemDC7DL_rf7fwgWlMoEKv1SlBCxd8ElFs_d8',
         },
         params: {},
         returnBody: true,
@@ -67,30 +69,42 @@ class _DropdownTravelPlannerWidgetState
 
       if ((_model.apiResponseUsers?.succeeded ?? true)) {
         // Obtener todos los usuarios del sistema
-        _model.users = getJsonField(
-          (_model.apiResponseUsers?.jsonBody ?? ''),
-          r'''$[:]''',
-          true,
-        )?.toList().cast<dynamic>() ?? [];
-        
-        // Debug: verificar si ahora sí llegan las imágenes
-        if (_model.users.isNotEmpty) {
-          print('=== NUEVO API DEBUG ===');
-          print('Usuarios cargados: ${_model.users.length}');
-          for (int i = 0; i < _model.users.length && i < 3; i++) {
-            final user = _model.users[i];
-            final name = getJsonField(user, r'''$.name''')?.toString() ?? 'Sin nombre';
-            final userImage = getJsonField(user, r'''$.user_image''')?.toString();
-            print('[$i] $name - Imagen: ${userImage ?? "NULL"}');
+        final allUsers = getJsonField(
+              (_model.apiResponseUsers?.jsonBody ?? ''),
+              r'''$[:]''',
+              true,
+            )?.toList().cast<dynamic>() ??
+            [];
+
+        // Eliminar duplicados basados en el ID
+        final userIds = <String>{};
+        _model.users = [];
+        for (final user in allUsers) {
+          final userId = getJsonField(user, r'''$.id''')?.toString() ?? '';
+          if (userId.isNotEmpty && !userIds.contains(userId)) {
+            userIds.add(userId);
+            _model.users.add(user);
           }
-          print('=== FIN DEBUG ===');
         }
-        
-        // Establecer el valor inicial si existe
-        if (widget.currentAgentId != null && widget.currentAgentId!.isNotEmpty) {
-          _model.dropDownValue = widget.currentAgentId;
+
+        // Establecer el valor inicial si existe y está en la lista
+        if (widget.currentAgentId != null &&
+            widget.currentAgentId!.isNotEmpty) {
+          // Verificar que el ID existe en la lista de usuarios
+          final agentExists = _model.users.any((user) =>
+              getJsonField(user, r'''$.id''')?.toString() ==
+              widget.currentAgentId);
+
+          if (agentExists) {
+            _model.dropDownValue = widget.currentAgentId;
+          } else {
+            // Si el agente no existe, usar el primer usuario de la lista o null
+            _model.dropDownValue = _model.users.isNotEmpty
+                ? getJsonField(_model.users.first, r'''$.id''')?.toString()
+                : null;
+          }
         }
-        
+
         safeSetState(() {});
       }
     });
@@ -135,7 +149,8 @@ class _DropdownTravelPlannerWidgetState
                   value: _model.dropDownValue,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    contentPadding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                    contentPadding:
+                        EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                   ),
                   hint: Row(
                     children: [
@@ -161,11 +176,16 @@ class _DropdownTravelPlannerWidgetState
                       Expanded(
                         child: Text(
                           'Selecciona un Travel Planner',
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                useGoogleFonts: !FlutterFlowTheme.of(context)
+                                    .bodyMediumIsCustom,
+                              ),
                         ),
                       ),
                     ],
@@ -174,13 +194,14 @@ class _DropdownTravelPlannerWidgetState
                     return _model.users.map<Widget>((user) {
                       final userId = getJsonField(user, r'''$.id''').toString();
                       final name = getJsonField(user, r'''$.name''').toString();
-                      final lastName = getJsonField(user, r'''$.last_name''').toString();
+                      final lastName =
+                          getJsonField(user, r'''$.last_name''').toString();
                       // Usar exactamente el mismo método que main_users.dart - líneas 656-660
                       final userImage = valueOrDefault<String>(
                         getJsonField(user, r'''$.user_image''')?.toString(),
                         'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/profile_default.png',
                       );
-                      
+
                       return Row(
                         children: [
                           // Foto del usuario seleccionado
@@ -189,14 +210,16 @@ class _DropdownTravelPlannerWidgetState
                             height: 32.0,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).accent1,
-                              borderRadius: BorderRadius.circular(BukeerSpacing.m),
+                              borderRadius:
+                                  BorderRadius.circular(BukeerSpacing.m),
                               border: Border.all(
                                 color: FlutterFlowTheme.of(context).primary,
                                 width: 1.0,
                               ),
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(BukeerSpacing.m),
+                              borderRadius:
+                                  BorderRadius.circular(BukeerSpacing.m),
                               child: Image.network(
                                 userImage,
                                 width: 32.0,
@@ -224,17 +247,19 @@ class _DropdownTravelPlannerWidgetState
                     color: FlutterFlowTheme.of(context).secondaryText,
                     size: 24.0,
                   ),
-                  isExpanded: true, // Permite que el dropdown use todo el ancho disponible
+                  isExpanded:
+                      true, // Permite que el dropdown use todo el ancho disponible
                   items: _model.users.map<DropdownMenuItem<String>>((user) {
                     final userId = getJsonField(user, r'''$.id''').toString();
                     final name = getJsonField(user, r'''$.name''').toString();
-                    final lastName = getJsonField(user, r'''$.last_name''').toString();
+                    final lastName =
+                        getJsonField(user, r'''$.last_name''').toString();
                     // Usar exactamente el mismo método que main_users.dart - líneas 656-660
                     final userImage = valueOrDefault<String>(
                       getJsonField(user, r'''$.user_image''')?.toString(),
                       'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/profile_default.png',
                     );
-                    
+
                     return DropdownMenuItem<String>(
                       value: userId,
                       child: Container(
@@ -248,14 +273,16 @@ class _DropdownTravelPlannerWidgetState
                               height: 32.0,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).accent1,
-                                borderRadius: BorderRadius.circular(BukeerSpacing.m),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.m),
                                 border: Border.all(
                                   color: FlutterFlowTheme.of(context).primary,
                                   width: 1.0,
                                 ),
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(BukeerSpacing.m),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.m),
                                 child: Image.network(
                                   userImage,
                                   width: 32.0,
@@ -281,9 +308,10 @@ class _DropdownTravelPlannerWidgetState
                   }).toList(),
                   onChanged: (val) async {
                     safeSetState(() => _model.dropDownValue = val);
-                    
+
                     // Solo actualizar si cambió el valor
-                    if (val != widget.currentAgentId && widget.onAgentChanged != null) {
+                    if (val != widget.currentAgentId &&
+                        widget.onAgentChanged != null) {
                       // Mostrar indicador de carga
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -291,7 +319,7 @@ class _DropdownTravelPlannerWidgetState
                           duration: Duration(seconds: 1),
                         ),
                       );
-                      
+
                       // Ejecutar callback
                       await widget.onAgentChanged!(val);
                     }

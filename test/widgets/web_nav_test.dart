@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../lib/bukeer/componentes/web_nav/web_nav_widget.dart';
-import '../../lib/bukeer/componentes/web_nav/web_nav_model.dart';
+import 'package:bukeer/bukeer/componentes/web_nav/web_nav_widget.dart';
+import 'package:bukeer/bukeer/componentes/web_nav/web_nav_model.dart';
+import 'package:bukeer/services/authorization_service.dart';
 import '../test_utils/test_helpers.dart';
 
 void main() {
@@ -23,7 +25,7 @@ void main() {
           name: 'John',
           email: 'john@example.com',
         );
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -45,7 +47,7 @@ void main() {
           name: 'John',
           email: 'john@example.com',
         );
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -59,9 +61,10 @@ void main() {
         expect(find.text('john@example.com'), findsOneWidget);
       });
 
-      testWidgets('should show loading when user data is not available', (tester) async {
+      testWidgets('should show loading when user data is not available',
+          (tester) async {
         // Arrange - Don't mock user data to simulate loading
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -76,11 +79,12 @@ void main() {
     });
 
     group('Role-Based Navigation', () {
-      testWidgets('should show admin menu items for admin users', (tester) async {
+      testWidgets('should show admin menu items for admin users',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.admin);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -94,11 +98,12 @@ void main() {
         expect(find.text('Reportes'), findsOneWidget);
       });
 
-      testWidgets('should hide admin menu items for agent users', (tester) async {
+      testWidgets('should hide admin menu items for agent users',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.agent);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -116,7 +121,7 @@ void main() {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.superAdmin);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -145,7 +150,7 @@ void main() {
             'email': 'jane@example.com',
           },
         );
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -160,10 +165,11 @@ void main() {
         expect(find.byType(CircleAvatar), findsOneWidget);
       });
 
-      testWidgets('should show profile dropdown on user section tap', (tester) async {
+      testWidgets('should show profile dropdown on user section tap',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -185,10 +191,11 @@ void main() {
     });
 
     group('Navigation Actions', () {
-      testWidgets('should navigate to dashboard on dashboard tap', (tester) async {
+      testWidgets('should navigate to dashboard on dashboard tap',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -206,10 +213,11 @@ void main() {
         // This would need proper navigation testing/mocking
       });
 
-      testWidgets('should navigate to itineraries on itineraries tap', (tester) async {
+      testWidgets('should navigate to itineraries on itineraries tap',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -230,7 +238,7 @@ void main() {
       testWidgets('should logout on logout tap', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -258,10 +266,10 @@ void main() {
       testWidgets('should highlight active route', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(
-            currentRoute: '/mainHome',
+            selectedNav: 1,
           ),
         );
 
@@ -282,10 +290,10 @@ void main() {
       testWidgets('should not highlight inactive routes', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(
-            currentRoute: '/main_itineraries',
+            selectedNav: 2,
           ),
         );
 
@@ -304,7 +312,7 @@ void main() {
       testWidgets('should handle user data loading errors', (tester) async {
         // Arrange
         TestHelpers.mockErrorState(message: 'Failed to load user data');
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -318,7 +326,8 @@ void main() {
         expect(find.byType(CircularProgressIndicator), findsNothing);
       });
 
-      testWidgets('should show default avatar when photo fails to load', (tester) async {
+      testWidgets('should show default avatar when photo fails to load',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData(
           userData: {
@@ -327,7 +336,7 @@ void main() {
             'last_name': 'Doe',
           },
         );
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -346,10 +355,10 @@ void main() {
       testWidgets('should adapt to different screen sizes', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         // Set small screen size
         await tester.binding.setSurfaceSize(Size(600, 800));
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -360,18 +369,19 @@ void main() {
 
         // Assert responsive behavior
         // This would need proper responsive design testing
-        
+
         // Reset screen size
         await tester.binding.setSurfaceSize(null);
       });
 
-      testWidgets('should show mobile navigation on small screens', (tester) async {
+      testWidgets('should show mobile navigation on small screens',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         // Set mobile screen size
         await tester.binding.setSurfaceSize(Size(400, 800));
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -382,7 +392,7 @@ void main() {
 
         // Assert mobile navigation elements
         // This would need proper mobile nav testing
-        
+
         // Reset screen size
         await tester.binding.setSurfaceSize(null);
       });
@@ -392,7 +402,7 @@ void main() {
       testWidgets('should have proper accessibility labels', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -410,7 +420,7 @@ void main() {
       testWidgets('should support keyboard navigation', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: WebNavWidget(),
         );
@@ -422,7 +432,7 @@ void main() {
         // Test keyboard navigation
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
         await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-        
+
         // Assert keyboard navigation works
         // This would need proper focus testing
       });
@@ -432,7 +442,7 @@ void main() {
       testWidgets('should not rebuild unnecessarily', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         var buildCount = 0;
         final widget = TestHelpers.createTestWidget(
           child: Builder(

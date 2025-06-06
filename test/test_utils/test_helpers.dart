@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
-import '../../lib/services/authorization_service.dart';
-import '../../lib/services/error_service.dart';
-import '../../lib/services/user_service.dart';
-import '../../lib/services/itinerary_service.dart';
-import '../../lib/app_state_clean.dart';
+import 'package:bukeer/services/authorization_service.dart';
+import 'package:bukeer/services/error_service.dart';
+import 'package:bukeer/services/user_service.dart';
+import 'package:bukeer/services/itinerary_service.dart';
+import 'package:bukeer/app_state_clean.dart';
 import '../mocks/supabase_mocks.dart';
 
 // Generate mocks with build_runner
@@ -36,7 +36,7 @@ class TestHelpers {
     mockUserService = MockUserService();
     mockItineraryService = MockItineraryService();
     mockAppState = FFAppState();
-    
+
     // Initialize Supabase mocks
     SupabaseMocks.setUp();
   }
@@ -45,7 +45,7 @@ class TestHelpers {
   static void tearDown() {
     // Reset any global state if needed
     mockAppState.clearState();
-    
+
     // Clean up Supabase mocks
     SupabaseMocks.tearDown();
   }
@@ -70,7 +70,7 @@ class TestHelpers {
         ChangeNotifierProvider<ErrorService>.value(
           value: errorService ?? mockErrorService,
         ),
-        ChangeNotifierProvider<UserService>.value(
+        Provider<UserService>.value(
           value: userService ?? mockUserService,
         ),
         ChangeNotifierProvider<ItineraryService>.value(
@@ -123,7 +123,8 @@ class TestHelpers {
     when(mockAuthService.authorize(
       userId: userId ?? anyNamed('userId'),
       requiredRoles: requiredRoles ?? anyNamed('requiredRoles'),
-      requiredPermissions: requiredPermissions ?? anyNamed('requiredPermissions'),
+      requiredPermissions:
+          requiredPermissions ?? anyNamed('requiredPermissions'),
       resourceType: resourceType ?? anyNamed('resourceType'),
       action: action ?? anyNamed('action'),
       ownerId: ownerId ?? anyNamed('ownerId'),
@@ -189,8 +190,9 @@ class TestHelpers {
       }
     ];
 
-    when(mockItineraryService.itineraries).thenReturn(itineraries ?? defaultItineraries);
-    
+    when(mockItineraryService.itineraries)
+        .thenReturn(itineraries ?? defaultItineraries);
+
     if (itineraryDetails != null && itineraryId != null) {
       when(mockItineraryService.getItinerary(int.parse(itineraryId)))
           .thenReturn(itineraryDetails);
@@ -212,7 +214,7 @@ class TestHelpers {
     Duration timeout = const Duration(seconds: 5),
   }) async {
     final endTime = DateTime.now().add(timeout);
-    
+
     while (DateTime.now().isBefore(endTime)) {
       await tester.pump(Duration(milliseconds: 100));
       final finder = find.text(text);
@@ -220,7 +222,7 @@ class TestHelpers {
         return finder;
       }
     }
-    
+
     throw Exception('Widget with text "$text" not found within timeout');
   }
 
@@ -300,23 +302,47 @@ class TestHelpers {
     switch (role) {
       case RoleType.superAdmin:
         return [
-          'itinerary:*', 'contact:*', 'product:*', 
-          'user:*', 'payment:*', 'report:*'
+          'itinerary:*',
+          'contact:*',
+          'product:*',
+          'user:*',
+          'payment:*',
+          'report:*'
         ];
       case RoleType.admin:
         return [
-          'itinerary:create', 'itinerary:read', 'itinerary:update', 'itinerary:delete',
-          'contact:create', 'contact:read', 'contact:update', 'contact:delete',
-          'product:create', 'product:read', 'product:update', 'product:delete',
-          'user:read', 'user:update',
-          'payment:create', 'payment:read', 'payment:update',
-          'report:read', 'report:export'
+          'itinerary:create',
+          'itinerary:read',
+          'itinerary:update',
+          'itinerary:delete',
+          'contact:create',
+          'contact:read',
+          'contact:update',
+          'contact:delete',
+          'product:create',
+          'product:read',
+          'product:update',
+          'product:delete',
+          'user:read',
+          'user:update',
+          'payment:create',
+          'payment:read',
+          'payment:update',
+          'report:read',
+          'report:export'
         ];
       case RoleType.agent:
         return [
-          'itinerary:create', 'itinerary:read', 'itinerary:update',
-          'contact:create', 'contact:read', 'contact:update',
-          'product:read', 'user:read', 'payment:read', 'report:read'
+          'itinerary:create',
+          'itinerary:read',
+          'itinerary:update',
+          'contact:create',
+          'contact:read',
+          'contact:update',
+          'product:read',
+          'user:read',
+          'payment:read',
+          'report:read'
         ];
       default:
         return [];
@@ -328,7 +354,7 @@ class TestHelpers {
 class CustomMatchers {
   /// Matcher for checking if a widget is enabled
   static Matcher isEnabled() => _IsEnabledMatcher();
-  
+
   /// Matcher for checking if a widget is disabled
   static Matcher isDisabled() => _IsDisabledMatcher();
 }

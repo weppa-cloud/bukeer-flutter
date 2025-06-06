@@ -27,6 +27,7 @@ import '../../services/ui_state_service.dart';
 import '../../services/product_service.dart';
 import '../../services/contact_service.dart';
 import '../../services/itinerary_service.dart';
+import '../../services/user_service.dart';
 export 'modal_add_edit_itinerary_model.dart';
 
 class ModalAddEditItineraryWidget extends StatefulWidget {
@@ -1428,14 +1429,16 @@ class _ModalAddEditItineraryWidgetState
                                                   .selectedContact,
                                               r'''$.id''',
                                             ).toString(),
-                                      idFm: '${FFAppState().accountIdFm}-',
+                                      idFm: '${UserService().accountIdFm}-',
                                       accountId: FFAppState().accountId,
                                       authToken: currentJwtToken,
-                                      currencyJson:
-                                          FFAppState().accountCurrency,
+                                      currencyJson: context
+                                          .read<UiStateService>()
+                                          .accountCurrency,
                                       status: 'Presupuesto',
-                                      typesIncreaseJson:
-                                          FFAppState().accountTypesIncrease,
+                                      typesIncreaseJson: context
+                                          .read<UiStateService>()
+                                          .accountTypesIncrease,
                                       personalizedMessage:
                                           (String personalizedMessage) {
                                         return personalizedMessage.replaceAll(

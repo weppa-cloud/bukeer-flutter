@@ -4,6 +4,7 @@ import '../../componentes/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
+import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
@@ -461,7 +462,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                             child:
                                                                                 Icon(
                                                                               Icons.clear,
-                                                                              color: Color(0xFF757575),
+                                                                              color: BukeerColors.textSecondary,
                                                                               size: 20.0,
                                                                             ),
                                                                           )
@@ -668,7 +669,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                               style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
                                                                                     color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                    fontSize: 14.0,
+                                                                                    fontSize: BukeerTypography.bodySmallSize,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.normal,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
@@ -696,7 +697,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                 style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
                                                                                       color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                      fontSize: 14.0,
+                                                                                      fontSize: BukeerTypography.bodySmallSize,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
@@ -920,7 +921,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                               style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
                                                                                     color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                    fontSize: 14.0,
+                                                                                    fontSize: BukeerTypography.bodySmallSize,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.normal,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
@@ -948,7 +949,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                 style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
                                                                                       color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                      fontSize: 14.0,
+                                                                                      fontSize: BukeerTypography.bodySmallSize,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
@@ -1002,7 +1003,8 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                     ),
                                                   ),
                                                 ),
-                                              ].divide(SizedBox(height: 12.0)),
+                                              ].divide(SizedBox(
+                                                  height: BukeerSpacing.s)),
                                             ),
                                           ),
                                         ),
@@ -1079,7 +1081,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                 reverse: false,
                                                 scrollDirection: Axis.vertical,
                                                 separatorBuilder: (_, __) =>
-                                                    SizedBox(height: 8.0),
+                                                    SizedBox(
+                                                        height:
+                                                            BukeerSpacing.s),
                                                 builderDelegate:
                                                     PagedChildBuilderDelegate<
                                                         dynamic>(
@@ -1273,12 +1277,12 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .secondaryBackground,
                                                                         borderRadius:
-                                                                            BorderRadius.circular(8.0),
+                                                                            BorderRadius.circular(BukeerSpacing.s),
                                                                       ),
                                                                       child:
                                                                           Padding(
                                                                         padding:
-                                                                            EdgeInsets.all(12.0),
+                                                                            EdgeInsets.all(BukeerSpacing.s),
                                                                         child:
                                                                             Row(
                                                                           mainAxisSize:
@@ -1361,7 +1365,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                           ],
                                                                                         ),
                                                                                       ),
-                                                                                    ].divide(SizedBox(width: 4.0)),
+                                                                                    ].divide(SizedBox(width: BukeerSpacing.xs)),
                                                                                   ),
                                                                                   Text(
                                                                                     getJsonField(
@@ -1423,7 +1427,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                                   useGoogleFonts: !FlutterFlowTheme.of(context).labelMediumIsCustom,
                                                                                                 ),
                                                                                           ),
-                                                                                        ].divide(SizedBox(width: 4.0)),
+                                                                                        ].divide(SizedBox(width: BukeerSpacing.xs)),
                                                                                       ),
                                                                                       Row(
                                                                                         mainAxisSize: MainAxisSize.min,
@@ -1462,7 +1466,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                                   ),
                                                                                             ),
                                                                                           ),
-                                                                                        ].divide(SizedBox(width: 4.0)),
+                                                                                        ].divide(SizedBox(width: BukeerSpacing.xs)),
                                                                                       ),
                                                                                       Row(
                                                                                         mainAxisSize: MainAxisSize.min,
@@ -1489,7 +1493,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                                   ),
                                                                                             ),
                                                                                           ),
-                                                                                        ].divide(SizedBox(width: 4.0)),
+                                                                                        ].divide(SizedBox(width: BukeerSpacing.xs)),
                                                                                       ),
                                                                                     ],
                                                                                   ),
@@ -1501,7 +1505,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                               crossAxisAlignment: CrossAxisAlignment.end,
                                                                               children: [
                                                                                 Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
+                                                                                  padding: EdgeInsets.only(bottom: BukeerSpacing.xs),
                                                                                   child: Row(
                                                                                     mainAxisSize: MainAxisSize.max,
                                                                                     children: [
@@ -1580,19 +1584,19 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                             textAlign: TextAlign.center,
                                                                                             style: FlutterFlowTheme.of(context).labelLarge.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).labelLargeFamily,
-                                                                                                  fontSize: 12.0,
+                                                                                                  fontSize: BukeerTypography.captionSize,
                                                                                                   letterSpacing: 0.0,
                                                                                                   useGoogleFonts: !FlutterFlowTheme.of(context).labelLargeIsCustom,
                                                                                                 ),
                                                                                           ),
                                                                                         ),
                                                                                       ),
-                                                                                    ].divide(SizedBox(width: 4.0)),
+                                                                                    ].divide(SizedBox(width: BukeerSpacing.xs)),
                                                                                   ),
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                          ].divide(SizedBox(width: 12.0)),
+                                                                          ].divide(SizedBox(width: BukeerSpacing.s)),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -1608,7 +1612,8 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                 ),
                                               ),
                                             ),
-                                          ].divide(SizedBox(height: 8.0)),
+                                          ].divide(SizedBox(
+                                              height: BukeerSpacing.s)),
                                         ),
                                       ),
                                     ),

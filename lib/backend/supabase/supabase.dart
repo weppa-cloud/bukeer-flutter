@@ -30,7 +30,7 @@ class SupaFlow {
         'X-Client-Info': 'flutterflow',
       },
       anonKey: AppConfig.supabaseAnonKey,
-      debug: AppConfig.debugMode,
+      debug: false, // Deshabilitado para evitar exponer tokens en consola
       authOptions:
           FlutterAuthClientOptions(authFlowType: AuthFlowType.implicit),
     );

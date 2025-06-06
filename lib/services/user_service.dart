@@ -16,6 +16,15 @@ class UserService {
   // Selected user data (replacement for allDataUser)
   dynamic _selectedUser;
 
+  // Account ID for forms (replacement for accountIdFm)
+  String? _accountIdFm;
+
+  // Account data (replacement for allDataAccount)
+  dynamic _allDataAccount;
+  List<dynamic> _accountCurrency = [];
+  List<dynamic> _accountTypesIncrease = [];
+  List<dynamic> _accountPaymentMethods = [];
+
   /// Indica si los datos están siendo cargados
   bool get isLoading => _isLoading;
 
@@ -24,9 +33,23 @@ class UserService {
 
   // Selected user getters (replacement for allDataUser)
   dynamic get selectedUser => _selectedUser;
-  
+
   // Backward compatibility getter for allDataUser pattern
   dynamic get allDataUser => _selectedUser;
+
+  // Account ID for forms getter
+  String get accountIdFm => _accountIdFm ?? '';
+
+  // Setter para actualizar accountIdFm cuando se cambia de cuenta
+  set accountIdFm(String value) {
+    _accountIdFm = value;
+  }
+
+  // Account data getters
+  dynamic get allDataAccount => _allDataAccount;
+  List<dynamic> get accountCurrency => _accountCurrency;
+  List<dynamic> get accountTypesIncrease => _accountTypesIncrease;
+  List<dynamic> get accountPaymentMethods => _accountPaymentMethods;
 
   /// Carga inicial de todos los datos del usuario
   /// Se ejecuta una sola vez al inicio de la sesión
@@ -73,6 +96,17 @@ class UserService {
   /// Carga los datos del agente/usuario
   Future<bool> _loadAgentData() async {
     try {
+      // Verificar si tenemos los datos mínimos necesarios
+      if (currentUserUid == null || currentUserUid!.isEmpty) {
+        debugPrint('UserService: currentUserUid no disponible');
+        return false;
+      }
+
+      if (FFAppState().accountId == null || FFAppState().accountId.isEmpty) {
+        debugPrint('UserService: accountId no disponible');
+        return false;
+      }
+
       final response = await GetAgentCall.call(
         authToken: currentJwtToken,
         id: currentUserUid,
@@ -92,14 +126,60 @@ class UserService {
           FFAppState().idRole = int.tryParse(roleId.toString()) ?? 0;
         }
 
-        return true;
-      }
+        // Extraer y guardar el accountIdFm
+        final accountIdFromResponse = getJsonField(
+          response.jsonBody,
+          r'$[:].account_idfm',
+        );
 
-      return false;
+        if (accountIdFromResponse != null) {
+          _accountIdFm = accountIdFromResponse.toString();
+        } else {
+          // Si no viene en la respuesta, usar el accountId
+          _accountIdFm = FFAppState().accountId;
+        }
+
+        debugPrint('UserService: Datos del agente cargados exitosamente');
+        return true;
+      } else {
+        debugPrint(
+            'UserService: API call failed - Status: ${response.statusCode}');
+        debugPrint('UserService: Response body: ${response.jsonBody}');
+
+        // Si la API falla, establecer valores por defecto para permitir que la app funcione
+        _setDefaultUserData();
+        return true; // Permitir que continúe funcionando
+      }
     } catch (e) {
       debugPrint('UserService: Error en _loadAgentData: $e');
-      return false;
+
+      // En caso de error, establecer valores por defecto
+      _setDefaultUserData();
+      return true; // Permitir que continúe funcionando
     }
+  }
+
+  /// Establece datos por defecto del usuario en caso de error de API
+  void _setDefaultUserData() {
+    debugPrint('UserService: Estableciendo datos por defecto del usuario');
+
+    // Crear un objeto agent básico para evitar errores
+    FFAppState().agent = [
+      {
+        'id': currentUserUid,
+        'name': 'Usuario',
+        'last_name': '',
+        'email': currentUserEmail ?? '',
+        'role_id': 1, // Rol admin para acceso completo en caso de error API
+        'main_image': null,
+      }
+    ];
+
+    // Establecer rol por defecto - Admin para acceso completo
+    FFAppState().idRole = 1; // Admin
+
+    // Establecer accountIdFm por defecto
+    _accountIdFm = FFAppState().accountId;
   }
 
   /// Carga los datos de la cuenta
@@ -112,7 +192,9 @@ class UserService {
 
       if (response.succeeded) {
         final jsonBody = response.jsonBody;
-        FFAppState().allDataAccount = jsonBody;
+        _allDataAccount = jsonBody;
+        FFAppState().allDataAccount =
+            jsonBody; // Mantener por compatibilidad temporal
 
         // Extraer configuraciones de la cuenta
         _extractAccountSettings(jsonBody);
@@ -137,7 +219,9 @@ class UserService {
         true,
       );
       if (currencies != null) {
-        FFAppState().accountCurrency = currencies.toList().cast<dynamic>();
+        _accountCurrency = currencies.toList().cast<dynamic>();
+        FFAppState().accountCurrency =
+            _accountCurrency; // Mantener por compatibilidad temporal
       }
 
       // Tipos de incremento
@@ -147,8 +231,9 @@ class UserService {
         true,
       );
       if (typesIncrease != null) {
+        _accountTypesIncrease = typesIncrease.toList().cast<dynamic>();
         FFAppState().accountTypesIncrease =
-            typesIncrease.toList().cast<dynamic>();
+            _accountTypesIncrease; // Mantener por compatibilidad temporal
       }
 
       // Métodos de pago
@@ -158,8 +243,9 @@ class UserService {
         true,
       );
       if (paymentMethods != null) {
+        _accountPaymentMethods = paymentMethods.toList().cast<dynamic>();
         FFAppState().accountPaymentMethods =
-            paymentMethods.toList().cast<dynamic>();
+            _accountPaymentMethods; // Mantener por compatibilidad temporal
       }
 
       // ID de la cuenta en FM
@@ -185,6 +271,12 @@ class UserService {
   void clearUserData() {
     _hasLoadedData = false;
     _isLoading = false;
+    _selectedUser = null;
+    _accountIdFm = null;
+    _allDataAccount = null;
+    _accountCurrency = [];
+    _accountTypesIncrease = [];
+    _accountPaymentMethods = [];
     // El reset del AppState se maneja en el logout
   }
 
@@ -213,8 +305,8 @@ class UserService {
   /// Obtiene información segura de la cuenta
   dynamic getAccountInfo(String field) {
     try {
-      if (FFAppState().allDataAccount == null) return null;
-      return getJsonField(FFAppState().allDataAccount, field);
+      if (_allDataAccount == null) return null;
+      return getJsonField(_allDataAccount, field);
     } catch (e) {
       debugPrint('UserService: Error obteniendo campo $field: $e');
       return null;

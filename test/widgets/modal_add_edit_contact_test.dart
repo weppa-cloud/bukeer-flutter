@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../lib/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_widget.dart';
-import '../../lib/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_model.dart';
+import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_widget.dart';
+import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_model.dart';
+import 'package:bukeer/services/authorization_service.dart';
 import '../test_utils/test_helpers.dart';
 
 void main() {
@@ -20,7 +22,7 @@ void main() {
       testWidgets('should render add mode correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -41,7 +43,7 @@ void main() {
       testWidgets('should render edit mode correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final existingContact = {
           'id': 1,
           'name': 'John',
@@ -53,7 +55,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(
-            contactToEdit: existingContact,
+            isEdit: true,
           ),
         );
 
@@ -73,7 +75,7 @@ void main() {
       testWidgets('should validate required fields', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -94,7 +96,7 @@ void main() {
       testWidgets('should validate email format', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -106,7 +108,7 @@ void main() {
         // Enter invalid email
         final emailField = find.byKey(Key('email_field'));
         await tester.enterText(emailField, 'invalid-email');
-        
+
         // Submit to trigger validation
         final submitButton = find.text('Guardar');
         await tester.tap(submitButton);
@@ -119,7 +121,7 @@ void main() {
       testWidgets('should validate phone format', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -131,7 +133,7 @@ void main() {
         // Enter invalid phone
         final phoneField = find.byKey(Key('phone_field'));
         await tester.enterText(phoneField, '123');
-        
+
         // Submit to trigger validation
         final submitButton = find.text('Guardar');
         await tester.tap(submitButton);
@@ -144,7 +146,7 @@ void main() {
       testWidgets('should accept valid form data', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -155,18 +157,20 @@ void main() {
 
         // Fill valid form data
         await tester.enterText(find.byKey(Key('name_field')), 'Valid Name');
-        await tester.enterText(find.byKey(Key('last_name_field')), 'Valid Last Name');
-        await tester.enterText(find.byKey(Key('email_field')), 'valid@example.com');
+        await tester.enterText(
+            find.byKey(Key('last_name_field')), 'Valid Last Name');
+        await tester.enterText(
+            find.byKey(Key('email_field')), 'valid@example.com');
         await tester.enterText(find.byKey(Key('phone_field')), '+1234567890');
-        
+
         // Select contact type
         final typeDropdown = find.byKey(Key('type_dropdown'));
         await tester.tap(typeDropdown);
         await TestHelpers.pumpAndSettle(tester);
-        
+
         await tester.tap(find.text('Cliente').last);
         await TestHelpers.pumpAndSettle(tester);
-        
+
         // Submit form
         final submitButton = find.text('Guardar');
         await tester.tap(submitButton);
@@ -183,7 +187,7 @@ void main() {
       testWidgets('should show contact type dropdown', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -200,7 +204,7 @@ void main() {
       testWidgets('should show all contact type options', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -223,7 +227,7 @@ void main() {
       testWidgets('should select contact type correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -247,10 +251,11 @@ void main() {
     });
 
     group('Additional Fields Based on Type', () {
-      testWidgets('should show client-specific fields for client type', (tester) async {
+      testWidgets('should show client-specific fields for client type',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -272,10 +277,11 @@ void main() {
         expect(find.text('Documento'), findsOneWidget);
       });
 
-      testWidgets('should show provider-specific fields for provider type', (tester) async {
+      testWidgets('should show provider-specific fields for provider type',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -297,11 +303,13 @@ void main() {
         expect(find.text('Servicios'), findsOneWidget);
       });
 
-      testWidgets('should show user-specific fields for user type', (tester) async {
+      testWidgets('should show user-specific fields for user type',
+          (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin); // Only admins can create users
+        TestHelpers.mockUserWithRole(
+            RoleType.admin); // Only admins can create users
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -325,10 +333,11 @@ void main() {
     });
 
     group('Form Submission', () {
-      testWidgets('should call create API when creating new contact', (tester) async {
+      testWidgets('should call create API when creating new contact',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -340,7 +349,8 @@ void main() {
         // Fill form
         await tester.enterText(find.byKey(Key('name_field')), 'New Contact');
         await tester.enterText(find.byKey(Key('last_name_field')), 'Last Name');
-        await tester.enterText(find.byKey(Key('email_field')), 'new@example.com');
+        await tester.enterText(
+            find.byKey(Key('email_field')), 'new@example.com');
 
         // Submit
         final submitButton = find.text('Guardar');
@@ -351,10 +361,11 @@ void main() {
         // This would need mocking of the actual API call
       });
 
-      testWidgets('should call update API when editing existing contact', (tester) async {
+      testWidgets('should call update API when editing existing contact',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final existingContact = {
           'id': 1,
           'name': 'Existing',
@@ -364,7 +375,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(
-            contactToEdit: existingContact,
+            isEdit: true,
           ),
         );
 
@@ -387,11 +398,12 @@ void main() {
     });
 
     group('Authorization', () {
-      testWidgets('should hide user type option for non-admin users', (tester) async {
+      testWidgets('should hide user type option for non-admin users',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.agent);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -415,7 +427,7 @@ void main() {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.admin);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -441,7 +453,7 @@ void main() {
         // Arrange
         TestHelpers.mockUserData();
         TestHelpers.mockErrorState(message: 'Network error');
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -452,7 +464,8 @@ void main() {
 
         // Submit form to trigger error
         await tester.enterText(find.byKey(Key('name_field')), 'Test');
-        await tester.enterText(find.byKey(Key('email_field')), 'test@example.com');
+        await tester.enterText(
+            find.byKey(Key('email_field')), 'test@example.com');
 
         final submitButton = find.text('Guardar');
         await tester.tap(submitButton);
@@ -465,7 +478,7 @@ void main() {
       testWidgets('should handle loading state correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -483,7 +496,7 @@ void main() {
       testWidgets('should close modal on cancel', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -501,10 +514,11 @@ void main() {
         // This would need proper navigation/modal testing
       });
 
-      testWidgets('should close modal on successful submission', (tester) async {
+      testWidgets('should close modal on successful submission',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -515,7 +529,8 @@ void main() {
 
         // Fill and submit form successfully
         await tester.enterText(find.byKey(Key('name_field')), 'Success');
-        await tester.enterText(find.byKey(Key('email_field')), 'success@example.com');
+        await tester.enterText(
+            find.byKey(Key('email_field')), 'success@example.com');
 
         final submitButton = find.text('Guardar');
         await tester.tap(submitButton);
@@ -530,7 +545,7 @@ void main() {
       testWidgets('should have proper accessibility labels', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -548,7 +563,7 @@ void main() {
       testWidgets('should support keyboard navigation', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditContactWidget(),
         );
@@ -561,7 +576,7 @@ void main() {
         final firstField = find.byType(TextFormField).first;
         await tester.tap(firstField);
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
-        
+
         // Assert focus moves to next field
         // This would need proper focus testing
       });

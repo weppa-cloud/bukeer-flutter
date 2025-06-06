@@ -3,10 +3,10 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i2;
 import 'dart:ui' as _i4;
 
-import 'package:bukeer/services/authorization_service.dart' as _i2;
+import 'package:bukeer/services/authorization_service.dart' as _i3;
 import 'package:bukeer/services/error_service.dart' as _i5;
 import 'package:bukeer/services/itinerary_service.dart' as _i8;
 import 'package:bukeer/services/user_service.dart' as _i7;
@@ -37,20 +37,30 @@ class _FakeDuration_0 extends _i1.SmartFake implements Duration {
         );
 }
 
+class _FakeTimer_1 extends _i1.SmartFake implements _i2.Timer {
+  _FakeTimer_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AuthorizationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthorizationService extends _i1.Mock
-    implements _i2.AuthorizationService {
+    implements _i3.AuthorizationService {
   MockAuthorizationService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  List<_i2.UserRole> get userRoles => (super.noSuchMethod(
+  List<_i3.UserRole> get userRoles => (super.noSuchMethod(
         Invocation.getter(#userRoles),
-        returnValue: <_i2.UserRole>[],
-      ) as List<_i2.UserRole>);
+        returnValue: <_i3.UserRole>[],
+      ) as List<_i3.UserRole>);
 
   @override
   Set<String> get userPermissions => (super.noSuchMethod(
@@ -95,17 +105,17 @@ class MockAuthorizationService extends _i1.Mock
       ) as bool);
 
   @override
-  _i3.Future<void> loadUserRoles(String? userId) => (super.noSuchMethod(
+  _i2.Future<void> loadUserRoles(String? userId) => (super.noSuchMethod(
         Invocation.method(
           #loadUserRoles,
           [userId],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 
   @override
-  bool hasRole(_i2.RoleType? roleType) => (super.noSuchMethod(
+  bool hasRole(_i3.RoleType? roleType) => (super.noSuchMethod(
         Invocation.method(
           #hasRole,
           [roleType],
@@ -114,7 +124,7 @@ class MockAuthorizationService extends _i1.Mock
       ) as bool);
 
   @override
-  bool hasAnyRole(List<_i2.RoleType>? roleTypes) => (super.noSuchMethod(
+  bool hasAnyRole(List<_i3.RoleType>? roleTypes) => (super.noSuchMethod(
         Invocation.method(
           #hasAnyRole,
           [roleTypes],
@@ -123,7 +133,7 @@ class MockAuthorizationService extends _i1.Mock
       ) as bool);
 
   @override
-  bool hasAllRoles(List<_i2.RoleType>? roleTypes) => (super.noSuchMethod(
+  bool hasAllRoles(List<_i3.RoleType>? roleTypes) => (super.noSuchMethod(
         Invocation.method(
           #hasAllRoles,
           [roleTypes],
@@ -181,11 +191,11 @@ class MockAuthorizationService extends _i1.Mock
       ) as bool);
 
   @override
-  _i3.Future<bool> authorize({
+  _i2.Future<bool> authorize({
     required String? userId,
     String? resourceId,
     String? ownerId,
-    List<_i2.RoleType>? requiredRoles,
+    List<_i3.RoleType>? requiredRoles,
     List<String>? requiredPermissions,
     String? resourceType,
     String? action,
@@ -204,8 +214,8 @@ class MockAuthorizationService extends _i1.Mock
             #action: action,
           },
         ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
 
   @override
   void clearRoles() => super.noSuchMethod(
@@ -502,22 +512,31 @@ class MockUserService extends _i1.Mock implements _i7.UserService {
       ) as bool);
 
   @override
-  _i3.Future<bool> initializeUserData() => (super.noSuchMethod(
+  set allDataUser(dynamic value) => super.noSuchMethod(
+        Invocation.setter(
+          #allDataUser,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i2.Future<bool> initializeUserData() => (super.noSuchMethod(
         Invocation.method(
           #initializeUserData,
           [],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
 
   @override
-  _i3.Future<bool> refreshUserData() => (super.noSuchMethod(
+  _i2.Future<bool> refreshUserData() => (super.noSuchMethod(
         Invocation.method(
           #refreshUserData,
           [],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
 
   @override
   void clearUserData() => super.noSuchMethod(
@@ -548,6 +567,24 @@ class MockUserService extends _i1.Mock implements _i7.UserService {
         #getAccountInfo,
         [field],
       ));
+
+  @override
+  void setSelectedUser(dynamic user) => super.noSuchMethod(
+        Invocation.method(
+          #setSelectedUser,
+          [user],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void clearSelectedUser() => super.noSuchMethod(
+        Invocation.method(
+          #clearSelectedUser,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [ItineraryService].
@@ -563,6 +600,24 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
         Invocation.getter(#itineraries),
         returnValue: <dynamic>[],
       ) as List<dynamic>);
+
+  @override
+  set allDataItinerary(dynamic value) => super.noSuchMethod(
+        Invocation.setter(
+          #allDataItinerary,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set allDataPassenger(dynamic value) => super.noSuchMethod(
+        Invocation.setter(
+          #allDataPassenger,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   bool get isLoading => (super.noSuchMethod(
@@ -590,6 +645,15 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
         Invocation.getter(#isCacheValid),
         returnValue: false,
       ) as bool);
+
+  @override
+  String get memoryKey => (super.noSuchMethod(
+        Invocation.getter(#memoryKey),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#memoryKey),
+        ),
+      ) as String);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -622,45 +686,46 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as List<dynamic>);
 
   @override
-  _i3.Future<void> initialize() => (super.noSuchMethod(
+  _i2.Future<void> initialize() => (super.noSuchMethod(
         Invocation.method(
           #initialize,
           [],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 
   @override
-  _i3.Future<void> loadItineraries() => (super.noSuchMethod(
+  _i2.Future<void> loadItineraries() => (super.noSuchMethod(
         Invocation.method(
           #loadItineraries,
           [],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 
   @override
-  _i3.Future<void> loadItineraryDetails(int? itineraryId) =>
+  _i2.Future<void> loadItineraryDetails(int? itineraryId) =>
       (super.noSuchMethod(
         Invocation.method(
           #loadItineraryDetails,
           [itineraryId],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 
   @override
-  _i3.Future<int?> createItinerary({
+  _i2.Future<int?> createItinerary({
     required String? name,
     required String? startDate,
     required String? endDate,
     String? agent,
-    String? account,
-    int? contact,
-    String? currency,
+    String? accountId,
+    String? idContact,
+    String? currencyType,
+    int? passengerCount,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -671,16 +736,17 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
             #startDate: startDate,
             #endDate: endDate,
             #agent: agent,
-            #account: account,
-            #contact: contact,
-            #currency: currency,
+            #accountId: accountId,
+            #idContact: idContact,
+            #currencyType: currencyType,
+            #passengerCount: passengerCount,
           },
         ),
-        returnValue: _i3.Future<int?>.value(),
-      ) as _i3.Future<int?>);
+        returnValue: _i2.Future<int?>.value(),
+      ) as _i2.Future<int?>);
 
   @override
-  _i3.Future<bool> updateItinerary({
+  _i2.Future<bool> updateItinerary({
     required int? itineraryId,
     String? name,
     String? startDate,
@@ -703,11 +769,11 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
             #currency: currency,
           },
         ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
 
   @override
-  _i3.Future<bool> addItineraryItem({
+  _i2.Future<bool> addItineraryItem({
     required int? itineraryId,
     required String? type,
     required Map<String, dynamic>? itemData,
@@ -722,17 +788,17 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
             #itemData: itemData,
           },
         ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
 
   @override
-  _i3.Future<bool> deleteItinerary(int? itineraryId) => (super.noSuchMethod(
+  _i2.Future<bool> deleteItinerary(int? itineraryId) => (super.noSuchMethod(
         Invocation.method(
           #deleteItinerary,
           [itineraryId],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
 
   @override
   List<dynamic> searchItineraries(String? query) => (super.noSuchMethod(
@@ -763,8 +829,44 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as Map<String, double>);
 
   @override
-  _i3.Future<T?> loadData<T>(
-    _i3.Future<T> Function()? loader, {
+  void setSelectedItinerary(dynamic itinerary) => super.noSuchMethod(
+        Invocation.method(
+          #setSelectedItinerary,
+          [itinerary],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void clearSelectedItinerary() => super.noSuchMethod(
+        Invocation.method(
+          #clearSelectedItinerary,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setSelectedPassenger(dynamic passenger) => super.noSuchMethod(
+        Invocation.method(
+          #setSelectedPassenger,
+          [passenger],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void clearSelectedPassenger() => super.noSuchMethod(
+        Invocation.method(
+          #clearSelectedPassenger,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i2.Future<T?> loadData<T>(
+    _i2.Future<T> Function()? loader, {
     String? context,
   }) =>
       (super.noSuchMethod(
@@ -773,18 +875,18 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
           [loader],
           {#context: context},
         ),
-        returnValue: _i3.Future<T?>.value(),
-      ) as _i3.Future<T?>);
+        returnValue: _i2.Future<T?>.value(),
+      ) as _i2.Future<T?>);
 
   @override
-  _i3.Future<void> refresh() => (super.noSuchMethod(
+  _i2.Future<void> refresh() => (super.noSuchMethod(
         Invocation.method(
           #refresh,
           [],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 
   @override
   T? safeGet<T>(
@@ -802,14 +904,23 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       )) as T?);
 
   @override
-  _i3.Future<List<T>> batchLoad<T>(List<_i3.Future<T>>? operations) =>
+  _i2.Future<List<T>> batchLoad<T>(List<_i2.Future<T>>? operations) =>
       (super.noSuchMethod(
         Invocation.method(
           #batchLoad,
           [operations],
         ),
-        returnValue: _i3.Future<List<T>>.value(<T>[]),
-      ) as _i3.Future<List<T>>);
+        returnValue: _i2.Future<List<T>>.value(<T>[]),
+      ) as _i2.Future<List<T>>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addListener(_i4.VoidCallback? listener) => super.noSuchMethod(
@@ -830,18 +941,78 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       );
 
   @override
-  void dispose() => super.noSuchMethod(
+  void notifyListeners() => super.noSuchMethod(
         Invocation.method(
-          #dispose,
+          #notifyListeners,
           [],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void notifyListeners() => super.noSuchMethod(
+  _i2.Timer createManagedTimer(
+    Duration? duration,
+    _i4.VoidCallback? callback,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #notifyListeners,
+          #createManagedTimer,
+          [
+            duration,
+            callback,
+          ],
+        ),
+        returnValue: _FakeTimer_1(
+          this,
+          Invocation.method(
+            #createManagedTimer,
+            [
+              duration,
+              callback,
+            ],
+          ),
+        ),
+      ) as _i2.Timer);
+
+  @override
+  _i2.Timer createManagedPeriodicTimer(
+    Duration? duration,
+    void Function(_i2.Timer)? callback,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createManagedPeriodicTimer,
+          [
+            duration,
+            callback,
+          ],
+        ),
+        returnValue: _FakeTimer_1(
+          this,
+          Invocation.method(
+            #createManagedPeriodicTimer,
+            [
+              duration,
+              callback,
+            ],
+          ),
+        ),
+      ) as _i2.Timer);
+
+  @override
+  void addManagedSubscription(_i2.StreamSubscription<dynamic>? subscription) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addManagedSubscription,
+          [subscription],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void disposeManagedResources() => super.noSuchMethod(
+        Invocation.method(
+          #disposeManagedResources,
           [],
         ),
         returnValueForMissingStub: null,

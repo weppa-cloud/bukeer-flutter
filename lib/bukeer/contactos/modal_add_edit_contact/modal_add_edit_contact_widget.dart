@@ -204,7 +204,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                             fontFamily:
                                                 FlutterFlowTheme.of(context)
                                                     .headlineMediumFamily,
-                                            fontSize: BukeerTypography.bodyLargeSize,
+                                            fontSize:
+                                                BukeerTypography.bodyLargeSize,
                                             letterSpacing: 0.0,
                                             useGoogleFonts:
                                                 !FlutterFlowTheme.of(context)
@@ -601,7 +602,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -611,7 +613,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -621,7 +624,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -632,7 +636,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -724,7 +729,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -734,7 +740,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -744,7 +751,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               focusedErrorBorder:
                                                   OutlineInputBorder(
@@ -755,7 +763,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               filled: true,
                                               fillColor:
@@ -927,7 +936,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -937,7 +947,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -947,7 +958,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -958,7 +970,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -1142,7 +1155,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                             fontFamily:
                                                 FlutterFlowTheme.of(context)
                                                     .headlineMediumFamily,
-                                            fontSize: BukeerTypography.bodyLargeSize,
+                                            fontSize:
+                                                BukeerTypography.bodyLargeSize,
                                             letterSpacing: 0.0,
                                             useGoogleFonts:
                                                 !FlutterFlowTheme.of(context)
@@ -1277,7 +1291,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1287,7 +1302,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1297,7 +1313,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -1308,7 +1325,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -1453,7 +1471,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                           .alternate,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     hoverColor:
                                         FlutterFlowTheme.of(context).alternate,
                                     hoverBorderSide: BorderSide(
@@ -1494,52 +1513,72 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                         _model.responseFormAddContact = false;
                                       }
                                       _shouldSetState = true;
-                                      context.read<UiStateService>().selectedLocationLatLng = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .latLng
-                                          .toString();
-                                      context.read<UiStateService>().selectedLocationName = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .name;
-                                      context.read<UiStateService>().selectedLocationAddress = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .address;
-                                      context.read<UiStateService>().selectedLocationCity = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .city;
-                                      context.read<UiStateService>().selectedLocationState = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .state;
-                                      context.read<UiStateService>().selectedLocationCountry = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .country;
-                                      context.read<UiStateService>().selectedLocationZipCode = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .zipCode;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationLatLng =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.latLng
+                                              .toString();
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationName =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.name;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationAddress =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.address;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationCity =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.city;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationState =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.state;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationCountry =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.country;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationZipCode =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.zipCode;
                                       safeSetState(() {});
                                       if (_model.responseFormAddContact!) {
-                                        if (context.read<UiStateService>().selectedLocationLatLng !=
+                                        if (context
+                                                .read<UiStateService>()
+                                                .selectedLocationLatLng !=
                                             'LatLng(lat: 0, lng: 0)') {
                                           _model.responseInsertLocation =
                                               await InsertLocationsCall.call(
                                             authToken: currentJwtToken,
-                                            latlng: context.read<UiStateService>().selectedLocationLatLng,
-                                            name: context.read<UiStateService>().selectedLocationName,
-                                            address:
-                                                context.read<UiStateService>().selectedLocationAddress,
-                                            city: context.read<UiStateService>().selectedLocationCity,
-                                            state: context.read<UiStateService>().selectedLocationState,
-                                            country:
-                                                context.read<UiStateService>().selectedLocationCountry,
-                                            zipCode:
-                                                context.read<UiStateService>().selectedLocationZipCode,
+                                            latlng: context
+                                                .read<UiStateService>()
+                                                .selectedLocationLatLng,
+                                            name: context
+                                                .read<UiStateService>()
+                                                .selectedLocationName,
+                                            address: context
+                                                .read<UiStateService>()
+                                                .selectedLocationAddress,
+                                            city: context
+                                                .read<UiStateService>()
+                                                .selectedLocationCity,
+                                            state: context
+                                                .read<UiStateService>()
+                                                .selectedLocationState,
+                                            country: context
+                                                .read<UiStateService>()
+                                                .selectedLocationCountry,
+                                            zipCode: context
+                                                .read<UiStateService>()
+                                                .selectedLocationZipCode,
                                             accountId: FFAppState().accountId,
                                             typeEntity: 'contacts',
                                           );
@@ -1603,14 +1642,30 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                             if ((_model.apiResponseInsertContact
                                                     ?.succeeded ??
                                                 true)) {
-                                              context.read<UiStateService>().selectedLocationLatLng = '';
-                                              context.read<UiStateService>().selectedLocationName = '';
-                                              context.read<UiStateService>().selectedLocationAddress = '';
-                                              context.read<UiStateService>().selectedLocationCity = '';
-                                              context.read<UiStateService>().selectedLocationState = '';
-                                              context.read<UiStateService>().selectedLocationCountry = '';
-                                              context.read<UiStateService>().selectedLocationZipCode = '';
-                                              context.read<ContactService>().allDataContact =
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationLatLng = '';
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationName = '';
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationAddress = '';
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationCity = '';
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationState = '';
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationCountry = '';
+                                              context
+                                                  .read<UiStateService>()
+                                                  .selectedLocationZipCode = '';
+                                              context
+                                                      .read<ContactService>()
+                                                      .allDataContact =
                                                   InsertContactCall.all(
                                                 (_model.apiResponseInsertContact
                                                         ?.jsonBody ??
@@ -1759,7 +1814,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       hoverColor:
                                           FlutterFlowTheme.of(context).accent1,
                                       hoverBorderSide: BorderSide(
@@ -1804,51 +1860,71 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                             false;
                                       }
                                       _shouldSetState = true;
-                                      context.read<UiStateService>().selectedLocationLatLng = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .latLng
-                                          .toString();
-                                      context.read<UiStateService>().selectedLocationName = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .name;
-                                      context.read<UiStateService>().selectedLocationAddress = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .address;
-                                      context.read<UiStateService>().selectedLocationCity = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .city;
-                                      context.read<UiStateService>().selectedLocationState = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .state;
-                                      context.read<UiStateService>().selectedLocationCountry = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .country;
-                                      context.read<UiStateService>().selectedLocationZipCode = _model
-                                          .componentPlaceModel
-                                          .placePickerValue
-                                          .zipCode;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationLatLng =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.latLng
+                                              .toString();
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationName =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.name;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationAddress =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.address;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationCity =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.city;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationState =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.state;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationCountry =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.country;
+                                      context
+                                              .read<UiStateService>()
+                                              .selectedLocationZipCode =
+                                          _model.componentPlaceModel
+                                              .placePickerValue.zipCode;
                                       safeSetState(() {});
                                       if (_model.responseFormUpdateContact!) {
-                                        if (context.read<UiStateService>().selectedLocationLatLng !=
+                                        if (context
+                                                .read<UiStateService>()
+                                                .selectedLocationLatLng !=
                                             'LatLng(lat: 0, lng: 0)') {
                                           _model.responseInsertLocation2 =
                                               await UpdateLocationsCall.call(
-                                            latlng: context.read<UiStateService>().selectedLocationLatLng,
-                                            name: context.read<UiStateService>().selectedLocationName,
-                                            address:
-                                                context.read<UiStateService>().selectedLocationAddress,
-                                            city: context.read<UiStateService>().selectedLocationCity,
-                                            state: context.read<UiStateService>().selectedLocationState,
-                                            country:
-                                                context.read<UiStateService>().selectedLocationCountry,
-                                            zipCode:
-                                                context.read<UiStateService>().selectedLocationZipCode,
+                                            latlng: context
+                                                .read<UiStateService>()
+                                                .selectedLocationLatLng,
+                                            name: context
+                                                .read<UiStateService>()
+                                                .selectedLocationName,
+                                            address: context
+                                                .read<UiStateService>()
+                                                .selectedLocationAddress,
+                                            city: context
+                                                .read<UiStateService>()
+                                                .selectedLocationCity,
+                                            state: context
+                                                .read<UiStateService>()
+                                                .selectedLocationState,
+                                            country: context
+                                                .read<UiStateService>()
+                                                .selectedLocationCountry,
+                                            zipCode: context
+                                                .read<UiStateService>()
+                                                .selectedLocationZipCode,
                                             authToken: currentJwtToken,
                                             id: getJsonField(
                                               overlayGetContactWithLocationResponse
@@ -1876,18 +1952,27 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                   await InsertLocationsCall
                                                       .call(
                                                 authToken: currentJwtToken,
-                                                latlng:
-                                                    context.read<UiStateService>().selectedLocationLatLng,
-                                                name: context.read<UiStateService>().selectedLocationName,
-                                                address: FFAppState()
-                                                    .addressLocation,
-                                                city: context.read<UiStateService>().selectedLocationCity,
-                                                state:
-                                                    context.read<UiStateService>().selectedLocationState,
-                                                country: FFAppState()
-                                                    .countryLocation,
-                                                zipCode: FFAppState()
-                                                    .zipCodeLocation,
+                                                latlng: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationLatLng,
+                                                name: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationName,
+                                                address: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationAddress,
+                                                city: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationCity,
+                                                state: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationState,
+                                                country: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationCountry,
+                                                zipCode: context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationZipCode,
                                                 accountId:
                                                     FFAppState().accountId,
                                                 typeEntity: 'contacts',
@@ -2048,7 +2133,9 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                   _model.phoneNumberE164 != ''
                                               ? _model.phoneNumberE164
                                               : getJsonField(
-                                                  context.read<ContactService>().allDataContact,
+                                                  context
+                                                      .read<ContactService>()
+                                                      .allDataContact,
                                                   r'''$.phone''',
                                                 ).toString(),
                                           phone2: _model.phoneNumber2E164 !=
@@ -2106,13 +2193,27 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                         _shouldSetState = true;
                                         if ((_model.apiResult4b0?.succeeded ??
                                             true)) {
-                                          context.read<UiStateService>().selectedLocationLatLng = '';
-                                          context.read<UiStateService>().selectedLocationName = '';
-                                          context.read<UiStateService>().selectedLocationAddress = '';
-                                          context.read<UiStateService>().selectedLocationCity = '';
-                                          context.read<UiStateService>().selectedLocationState = '';
-                                          context.read<UiStateService>().selectedLocationCountry = '';
-                                          context.read<UiStateService>().selectedLocationZipCode = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationLatLng = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationName = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationAddress = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationCity = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationState = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationCountry = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationZipCode = '';
                                           safeSetState(() {});
                                           _model.responseInsertLocationState =
                                               null;
@@ -2193,7 +2294,8 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       hoverColor:
                                           FlutterFlowTheme.of(context).accent1,
                                       hoverBorderSide: BorderSide(

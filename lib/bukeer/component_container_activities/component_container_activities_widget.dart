@@ -1,4 +1,5 @@
 import '../../flutter_flow/flutter_flow_theme.dart';
+import '../../design_system/index.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -64,18 +65,18 @@ class _ComponentContainerActivitiesWidgetState
         color: Colors.transparent,
         elevation: 2.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.circular(BukeerSpacing.m),
         ),
         child: Container(
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(16.0),
+            borderRadius: BorderRadius.circular(BukeerSpacing.m),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(BukeerSpacing.s),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -83,10 +84,10 @@ class _ComponentContainerActivitiesWidgetState
                       width: 100.0,
                       height: 100.0,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(BukeerSpacing.s),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(BukeerSpacing.s),
                         child: Image.network(
                           valueOrDefault<String>(
                             widget!.image,
@@ -117,7 +118,7 @@ class _ComponentContainerActivitiesWidgetState
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .titleLargeFamily,
-                                    fontSize: 16.0,
+                                    fontSize: BukeerTypography.bodyMediumSize,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                     lineHeight: 1.5,
@@ -202,7 +203,7 @@ class _ComponentContainerActivitiesWidgetState
                                   glowColor:
                                       FlutterFlowTheme.of(context).primary,
                                 ),
-                              ].divide(SizedBox(width: 4.0)),
+                              ].divide(SizedBox(width: BukeerSpacing.xs)),
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.max,
@@ -233,7 +234,7 @@ class _ComponentContainerActivitiesWidgetState
                                         ),
                                   ),
                                 ),
-                              ].divide(SizedBox(width: 4.0)),
+                              ].divide(SizedBox(width: BukeerSpacing.xs)),
                             ),
                           ],
                         ),
@@ -244,7 +245,7 @@ class _ComponentContainerActivitiesWidgetState
                       color: FlutterFlowTheme.of(context).primary,
                       size: 16.0,
                     ),
-                  ].divide(SizedBox(width: 12.0)),
+                  ].divide(SizedBox(width: BukeerSpacing.s)),
                 ),
               ),
             ],

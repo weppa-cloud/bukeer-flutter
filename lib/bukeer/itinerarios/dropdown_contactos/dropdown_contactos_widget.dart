@@ -22,7 +22,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_contactos_model.dart';
-import '../../../../services/ui_state_service.dart';
+import '../../../services/ui_state_service.dart';
 export 'dropdown_contactos_model.dart';
 
 class DropdownContactosWidget extends StatefulWidget {

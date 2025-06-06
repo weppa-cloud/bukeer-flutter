@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../lib/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
-import '../../lib/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_model.dart';
+import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
+import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_model.dart';
 import '../test_utils/test_helpers.dart';
 
 void main() {
@@ -20,7 +21,7 @@ void main() {
       testWidgets('should render add mode correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -40,7 +41,7 @@ void main() {
       testWidgets('should render edit mode correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final existingItinerary = {
           'id': 1,
           'name': 'Test Itinerary',
@@ -67,10 +68,11 @@ void main() {
     });
 
     group('Form Validation', () {
-      testWidgets('should show validation errors for empty fields', (tester) async {
+      testWidgets('should show validation errors for empty fields',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -91,7 +93,7 @@ void main() {
       testWidgets('should validate date range correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -114,7 +116,7 @@ void main() {
       testWidgets('should accept valid form data', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -125,10 +127,10 @@ void main() {
 
         // Fill valid form data
         final textFields = find.byType(TextFormField);
-        
+
         await tester.enterText(textFields.at(0), 'Valid Itinerary Name');
         await tester.enterText(textFields.at(1), 'Valid Client Name');
-        
+
         // Submit form
         final submitButton = find.text('Crear');
         await tester.tap(submitButton);
@@ -140,11 +142,12 @@ void main() {
     });
 
     group('Travel Planner Dropdown', () {
-      testWidgets('should show travel planner dropdown for admins', (tester) async {
+      testWidgets('should show travel planner dropdown for admins',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.admin);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -158,11 +161,12 @@ void main() {
         expect(find.byType(DropdownButton), findsOneWidget);
       });
 
-      testWidgets('should hide travel planner dropdown for agents', (tester) async {
+      testWidgets('should hide travel planner dropdown for agents',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.agent);
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -179,13 +183,18 @@ void main() {
         // Arrange
         TestHelpers.mockUserWithRole(RoleType.admin);
         TestHelpers.mockUserData();
-        
+
         // Mock users data for dropdown
         final mockUsers = [
           {'id': '1', 'name': 'John', 'last_name': 'Doe', 'photo_url': null},
-          {'id': '2', 'name': 'Jane', 'last_name': 'Smith', 'photo_url': 'http://example.com/photo.jpg'},
+          {
+            'id': '2',
+            'name': 'Jane',
+            'last_name': 'Smith',
+            'photo_url': 'http://example.com/photo.jpg'
+          },
         ];
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -205,10 +214,11 @@ void main() {
     });
 
     group('Form Submission', () {
-      testWidgets('should call create API when creating new itinerary', (tester) async {
+      testWidgets('should call create API when creating new itinerary',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -231,10 +241,11 @@ void main() {
         // This would need mocking of the actual API call
       });
 
-      testWidgets('should call update API when editing existing itinerary', (tester) async {
+      testWidgets('should call update API when editing existing itinerary',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final existingItinerary = {
           'id': 1,
           'name': 'Existing Itinerary',
@@ -270,7 +281,7 @@ void main() {
         // Arrange
         TestHelpers.mockUserData();
         TestHelpers.mockErrorState(message: 'Network error');
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -295,7 +306,7 @@ void main() {
       testWidgets('should handle loading state correctly', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -313,7 +324,7 @@ void main() {
       testWidgets('should close modal on cancel', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -331,10 +342,11 @@ void main() {
         // This would need proper navigation/modal testing
       });
 
-      testWidgets('should close modal on successful submission', (tester) async {
+      testWidgets('should close modal on successful submission',
+          (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -361,7 +373,7 @@ void main() {
       testWidgets('should have proper accessibility labels', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -378,7 +390,7 @@ void main() {
       testWidgets('should support keyboard navigation', (tester) async {
         // Arrange
         TestHelpers.mockUserData();
-        
+
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(),
         );
@@ -391,7 +403,7 @@ void main() {
         final firstField = find.byType(TextFormField).first;
         await tester.tap(firstField);
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
-        
+
         // Assert focus moves to next field
         // This would need proper focus testing
       });

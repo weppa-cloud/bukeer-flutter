@@ -17,10 +17,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+import '../../../services/contact_service.dart';
+import '../../../services/itinerary_service.dart';
 import 'main_itineraries_model.dart';
-import '../../../../services/ui_state_service.dart';
-import '../../../../services/contact_service.dart';
-import '../../../../services/itinerary_service.dart';
 export 'main_itineraries_model.dart';
 
 class MainItinerariesWidget extends StatefulWidget {

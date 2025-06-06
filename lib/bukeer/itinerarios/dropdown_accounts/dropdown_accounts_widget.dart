@@ -8,6 +8,7 @@ import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/user_service.dart';
 import 'dart:math';
 import 'dart:ui';
 import '../../../index.dart';
@@ -244,8 +245,8 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                 .alternate,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -253,8 +254,8 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                 .primary,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -262,8 +263,8 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                 .error,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -271,8 +272,8 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                 .error,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         contentPadding:
                                             EdgeInsetsDirectional.fromSTEB(
@@ -294,7 +295,8 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                 },
                                                 child: Icon(
                                                   Icons.clear,
-                                                  color: BukeerColors.textSecondary,
+                                                  color: BukeerColors
+                                                      .textSecondary,
                                                   size: 20.0,
                                                 ),
                                               )
@@ -306,7 +308,8 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                             fontFamily:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMediumFamily,
-                                            fontSize: BukeerTypography.bodySmallSize,
+                                            fontSize:
+                                                BukeerTypography.bodySmallSize,
                                             letterSpacing: 0.0,
                                             useGoogleFonts:
                                                 !FlutterFlowTheme.of(context)
@@ -436,7 +439,7 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                     ).toString(),
                                                   ),
                                                 );
-                                                FFAppState().accountIdFm =
+                                                UserService().accountIdFm =
                                                     _model.responseIdFm!
                                                         .firstOrNull!.idFm
                                                         .toString();

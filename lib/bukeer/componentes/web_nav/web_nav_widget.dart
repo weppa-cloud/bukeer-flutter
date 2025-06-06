@@ -72,41 +72,45 @@ class _WebNavWidgetState extends State<WebNavWidget> {
       final success = await _userService.initializeUserData();
 
       if (!success && mounted) {
-        // Mostrar error solo si falló la carga
-        await showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (alertDialogContext) {
-            return AlertDialog(
-              title: Text('Error de conexión'),
-              content: Text(
-                'No se pudo cargar la información de tu cuenta. '
-                'Por favor verifica tu conexión a internet y recarga la página.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(alertDialogContext);
-                    // Intentar recargar
-                    _loadUserDataIfNeeded();
-                  },
-                  child: Text('Reintentar'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(alertDialogContext);
-                    // Cerrar sesión si el usuario lo prefiere
-                    GoRouter.of(context).prepareAuthEvent();
-                    authManager.signOut();
-                    GoRouter.of(context).clearRedirectLocation();
-                    context.goNamedAuth('authLogin', context.mounted);
-                  },
-                  child: Text('Cerrar sesión'),
-                ),
-              ],
+        // Solo mostrar error si es la primera vez y no es un refresh
+        if (!_userService.hasLoadedData) {
+          // Reintentar una vez más antes de mostrar error
+          await Future.delayed(Duration(seconds: 2));
+          final retrySuccess = await _userService.initializeUserData();
+
+          if (!retrySuccess && mounted) {
+            // Mostrar error solo si el segundo intento también falla
+            await showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (alertDialogContext) {
+                return AlertDialog(
+                  title: Text('Error de conexión'),
+                  content: Text(
+                    'No se pudo cargar la información de tu cuenta. '
+                    'Por favor verifica tu conexión a internet.',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(alertDialogContext);
+                        // Intentar recargar
+                        _loadUserDataIfNeeded();
+                      },
+                      child: Text('Reintentar'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(alertDialogContext);
+                      },
+                      child: Text('Continuar sin datos'),
+                    ),
+                  ],
+                );
+              },
             );
-          },
-        );
+          }
+        }
       }
     } finally {
       if (mounted) {
@@ -252,7 +256,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                         icon: Icons.dashboard_rounded,
                         label: 'Dashboard',
                         isSelected: widget.selectedNav == 1,
-                        onTap: () => context.pushNamed('mainHome'),
+                        onTap: () => context.pushNamed('Main_Home'),
                       ),
                       _buildNavItem(
                         context,
@@ -266,7 +270,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                         icon: Icons.inventory_2_rounded,
                         label: 'Productos',
                         isSelected: widget.selectedNav == 3,
-                        onTap: () => context.pushNamed('mainProducts'),
+                        onTap: () => context.pushNamed('main_products'),
                       ),
                       _buildNavItem(
                         context,
@@ -283,8 +287,17 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                           icon: Icons.supervised_user_circle_rounded,
                           label: 'Usuarios',
                           isSelected: widget.selectedNav == 5,
-                          onTap: () => context.pushNamed('mainUsers'),
+                          onTap: () => context.pushNamed('main_users'),
                         ),
+
+                      // Configuración de la cuenta
+                      _buildNavItem(
+                        context,
+                        icon: Icons.settings_rounded,
+                        label: 'Configuración',
+                        isSelected: widget.selectedNav == 6,
+                        onTap: () => context.pushNamed('Main_profileAccount'),
+                      ),
                     ],
                   ),
                 ),
@@ -294,10 +307,18 @@ class _WebNavWidgetState extends State<WebNavWidget> {
               Padding(
                 padding: EdgeInsets.only(top: BukeerSpacing.m),
                 child: InkWell(
-                  splashColor: Colors.transparent,
-                  focusColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
+                  splashColor: FlutterFlowTheme.of(context)
+                      .primaryColor
+                      .withOpacity(0.08),
+                  focusColor: FlutterFlowTheme.of(context)
+                      .primaryColor
+                      .withOpacity(0.04),
+                  hoverColor: FlutterFlowTheme.of(context)
+                      .primaryColor
+                      .withOpacity(0.04),
+                  highlightColor: FlutterFlowTheme.of(context)
+                      .primaryColor
+                      .withOpacity(0.12),
                   onTap: () async {
                     GoRouter.of(context).prepareAuthEvent();
                     await authManager.signOut();
@@ -306,7 +327,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                     // Limpiar datos del usuario
                     _userService.clearUserData();
 
-                    context.goNamedAuth('authLogin', context.mounted);
+                    context.goNamedAuth('auth_Login', context.mounted);
                   },
                   child: Container(
                     width: double.infinity,
@@ -349,63 +370,71 @@ class _WebNavWidgetState extends State<WebNavWidget> {
   Widget _buildUserInfo() {
     final userImage = _getUserImage();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.circular(BukeerSpacing.s),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(BukeerSpacing.s),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              width: 44.0,
-              height: 44.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).accent1,
-                borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                border: Border.all(
-                  color: FlutterFlowTheme.of(context).primary,
-                  width: 2.0,
+    return InkWell(
+      splashColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.08),
+      focusColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
+      hoverColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
+      highlightColor:
+          FlutterFlowTheme.of(context).primaryColor.withOpacity(0.12),
+      onTap: () => context.pushNamed('Main_profilePage'),
+      child: Container(
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).primaryBackground,
+          borderRadius: BorderRadius.circular(BukeerSpacing.s),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(BukeerSpacing.s),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: 44.0,
+                height: 44.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).accent1,
+                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                  border: Border.all(
+                    color: FlutterFlowTheme.of(context).primary,
+                    width: 2.0,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: userImage != null && userImage.isNotEmpty
+                      ? CachedNetworkImage(
+                          fadeInDuration: Duration(milliseconds: 500),
+                          fadeOutDuration: Duration(milliseconds: 500),
+                          imageUrl: userImage,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, error, stackTrace) =>
+                              _buildUserInitials(),
+                        )
+                      : _buildUserInitials(),
                 ),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: userImage != null && userImage.isNotEmpty
-                    ? CachedNetworkImage(
-                        fadeInDuration: Duration(milliseconds: 500),
-                        fadeOutDuration: Duration(milliseconds: 500),
-                        imageUrl: userImage,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, error, stackTrace) =>
-                            _buildUserInitials(),
-                      )
-                    : _buildUserInitials(),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: BukeerSpacing.s),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _getUserName(),
-                      style: FlutterFlowTheme.of(context).bodyLarge,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      _getUserRole(),
-                      style: FlutterFlowTheme.of(context).labelSmall,
-                    ),
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: BukeerSpacing.s),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _getUserName(),
+                        style: FlutterFlowTheme.of(context).bodyLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        _getUserRole(),
+                        style: FlutterFlowTheme.of(context).labelSmall,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -442,10 +471,12 @@ class _WebNavWidgetState extends State<WebNavWidget> {
     return Padding(
       padding: EdgeInsets.only(bottom: BukeerSpacing.xs),
       child: InkWell(
-        splashColor: Colors.transparent,
-        focusColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-        highlightColor: Colors.transparent,
+        splashColor:
+            FlutterFlowTheme.of(context).primaryColor.withOpacity(0.08),
+        focusColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
+        hoverColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
+        highlightColor:
+            FlutterFlowTheme.of(context).primaryColor.withOpacity(0.12),
         onTap: onTap,
         child: Container(
           width: double.infinity,

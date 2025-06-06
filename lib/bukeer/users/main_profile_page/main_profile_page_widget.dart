@@ -137,7 +137,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                     model: _model.webNavModel,
                     updateCallback: () => safeSetState(() {}),
                     child: WebNavWidget(
-                      selectedNav: 6,
+                      selectedNav: 7,
                     ),
                   ),
                 Expanded(
@@ -231,7 +231,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                     FlutterFlowTheme.of(context)
                                                         .accent1,
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 border: Border.all(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -239,7 +240,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                 ),
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.all(BukeerSpacing.xs),
+                                                padding: EdgeInsets.all(
+                                                    BukeerSpacing.xs),
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -342,7 +344,9 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primary,
-                                                                fontSize: BukeerTypography.bodySmallSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .bodySmallSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight:
@@ -423,8 +427,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                               ),
                                             )
                                           ],
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                           border: Border.all(
                                             color: FlutterFlowTheme.of(context)
                                                 .alternate,
@@ -514,8 +518,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                               ),
                                             )
                                           ],
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                           border: Border.all(
                                             color: FlutterFlowTheme.of(context)
                                                 .alternate,
@@ -596,8 +600,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                               ),
                                             )
                                           ],
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                           border: Border.all(
                                             color: FlutterFlowTheme.of(context)
                                                 .alternate,
@@ -605,7 +609,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(BukeerSpacing.m),
+                                          padding:
+                                              EdgeInsets.all(BukeerSpacing.m),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
@@ -1178,8 +1183,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                             hoverColor:
                                                 FlutterFlowTheme.of(context)
                                                     .alternate,

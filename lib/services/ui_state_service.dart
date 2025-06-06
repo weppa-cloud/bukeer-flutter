@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'performance_optimized_service.dart';
 
 /// Service for managing temporary UI state that was previously in FFAppState
 /// This includes search queries, form data, temporary selections, etc.
-class UiStateService extends ChangeNotifier {
+class UiStateService extends ChangeNotifier with PerformanceOptimizedService {
   Timer? _searchDebounceTimer;
   // ===========================================================================
   // SEARCH AND FILTER STATE
@@ -21,9 +23,10 @@ class UiStateService extends ChangeNotifier {
   // Debounced notification for search
   void _debouncedNotify() {
     _searchDebounceTimer?.cancel();
-    _searchDebounceTimer = Timer(const Duration(milliseconds: 300), () {
-      notifyListeners();
-    });
+    _searchDebounceTimer =
+        addManagedTimer(Timer(const Duration(milliseconds: 300), () {
+      notifyListenersBatched();
+    }));
   }
 
   int _currentPage = 1;
@@ -31,7 +34,7 @@ class UiStateService extends ChangeNotifier {
   set currentPage(int value) {
     if (_currentPage != value) {
       _currentPage = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -44,7 +47,7 @@ class UiStateService extends ChangeNotifier {
   set selectedProductId(String value) {
     if (_selectedProductId != value) {
       _selectedProductId = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -53,7 +56,7 @@ class UiStateService extends ChangeNotifier {
   set selectedProductType(String value) {
     if (_selectedProductType != value) {
       _selectedProductType = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -62,7 +65,7 @@ class UiStateService extends ChangeNotifier {
   set locationState(String value) {
     if (_locationState != value) {
       _locationState = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -71,7 +74,7 @@ class UiStateService extends ChangeNotifier {
   set isSelectingRates(bool value) {
     if (_isSelectingRates != value) {
       _isSelectingRates = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -81,7 +84,7 @@ class UiStateService extends ChangeNotifier {
   set itemsProducts(dynamic value) {
     if (_itemsProducts != value) {
       _itemsProducts = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -91,7 +94,7 @@ class UiStateService extends ChangeNotifier {
   set selectRates(bool value) {
     if (_selectRates != value) {
       _selectRates = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -101,7 +104,7 @@ class UiStateService extends ChangeNotifier {
   set selectedContact(dynamic value) {
     if (_selectedContact != value) {
       _selectedContact = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -122,7 +125,7 @@ class UiStateService extends ChangeNotifier {
   set selectedImageUrl(String value) {
     if (_selectedImageUrl != value) {
       _selectedImageUrl = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -131,7 +134,7 @@ class UiStateService extends ChangeNotifier {
   set isCreatingItinerary(bool value) {
     if (_isCreatingItinerary != value) {
       _isCreatingItinerary = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -141,7 +144,7 @@ class UiStateService extends ChangeNotifier {
   set isCreatedInItinerary(bool value) {
     if (_isCreatedInItinerary != value) {
       _isCreatedInItinerary = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -168,49 +171,49 @@ class UiStateService extends ChangeNotifier {
   set selectedLocationLatLng(String value) {
     if (_selectedLocationLatLng != value) {
       _selectedLocationLatLng = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
   set selectedLocationName(String value) {
     if (_selectedLocationName != value) {
       _selectedLocationName = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
   set selectedLocationAddress(String value) {
     if (_selectedLocationAddress != value) {
       _selectedLocationAddress = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
   set selectedLocationCity(String value) {
     if (_selectedLocationCity != value) {
       _selectedLocationCity = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
   set selectedLocationState(String value) {
     if (_selectedLocationState != value) {
       _selectedLocationState = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
   set selectedLocationCountry(String value) {
     if (_selectedLocationCountry != value) {
       _selectedLocationCountry = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
   set selectedLocationZipCode(String value) {
     if (_selectedLocationZipCode != value) {
       _selectedLocationZipCode = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -255,7 +258,7 @@ class UiStateService extends ChangeNotifier {
     }
 
     if (hasChanged) {
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -267,7 +270,7 @@ class UiStateService extends ChangeNotifier {
     _selectedLocationState = '';
     _selectedLocationCountry = '';
     _selectedLocationZipCode = '';
-    notifyListeners();
+    notifyListenersBatched();
   }
 
   // ===========================================================================
@@ -303,7 +306,7 @@ class UiStateService extends ChangeNotifier {
     }
 
     if (hasChanged) {
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -311,7 +314,7 @@ class UiStateService extends ChangeNotifier {
     _profitHotelRates = 0.0;
     _rateUnitCostHotelRates = 0.0;
     _unitCostHotelRates = 0.0;
-    notifyListeners();
+    notifyListenersBatched();
   }
 
   // ===========================================================================
@@ -340,10 +343,19 @@ class UiStateService extends ChangeNotifier {
     _accountCurrency = [];
     _accountTypesIncrease = [];
     _allDataAccount = null;
-    notifyListeners();
+    notifyListenersBatched();
   }
 
   @override
+  void disposeServiceResources() {
+    _searchDebounceTimer?.cancel();
+
+    if (kDebugMode) {
+      debugPrint(
+          '🎯 UiStateService Performance Stats: ${getPerformanceStats()}');
+    }
+  }
+
   // ===========================================================================
   // FLIGHT STATE
   // ===========================================================================
@@ -353,7 +365,7 @@ class UiStateService extends ChangeNotifier {
   set departureState(String value) {
     if (_departureState != value) {
       _departureState = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -362,7 +374,7 @@ class UiStateService extends ChangeNotifier {
   set arrivalState(String value) {
     if (_arrivalState != value) {
       _arrivalState = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -375,7 +387,7 @@ class UiStateService extends ChangeNotifier {
   set namePaymentMethods(dynamic value) {
     if (_namePaymentMethods != value) {
       _namePaymentMethods = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -384,7 +396,7 @@ class UiStateService extends ChangeNotifier {
   set accountPaymentMethods(List<dynamic> value) {
     if (_accountPaymentMethods != value) {
       _accountPaymentMethods = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -397,7 +409,7 @@ class UiStateService extends ChangeNotifier {
   set accountCurrency(List<dynamic> value) {
     if (_accountCurrency != value) {
       _accountCurrency = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -406,7 +418,7 @@ class UiStateService extends ChangeNotifier {
   set accountTypesIncrease(List<dynamic> value) {
     if (_accountTypesIncrease != value) {
       _accountTypesIncrease = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
@@ -415,12 +427,13 @@ class UiStateService extends ChangeNotifier {
   set allDataAccount(dynamic value) {
     if (_allDataAccount != value) {
       _allDataAccount = value;
-      notifyListeners();
+      notifyListenersBatched();
     }
   }
 
+  @override
   void dispose() {
-    _searchDebounceTimer?.cancel();
+    // This is now handled by PerformanceOptimizedService
     super.dispose();
   }
 
@@ -428,7 +441,7 @@ class UiStateService extends ChangeNotifier {
   void clearSearchState() {
     _searchQuery = '';
     _currentPage = 1;
-    notifyListeners();
+    notifyListenersBatched();
   }
 
   /// Clear only form-related state
@@ -436,6 +449,6 @@ class UiStateService extends ChangeNotifier {
     _selectedImageUrl = '';
     _isCreatingItinerary = false;
     clearSelectedLocation();
-    notifyListeners();
+    notifyListenersBatched();
   }
 }
