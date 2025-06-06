@@ -56,11 +56,14 @@ class ReporteVentasModel extends FlutterFlowModel<ReporteVentasWidget> {
   }
 
   /// Handle date range change from DateRangePickerWithPresets
-  void onDateRangeChanged(DateTime? startDate, DateTime? endDate) {
+  Future<void> onDateRangeChanged(
+      DateTime? startDate, DateTime? endDate) async {
     datePicked1 = startDate;
     datePicked2 = endDate;
     // Clear the completer to trigger API refresh
     apiRequestCompleter = null;
+    // Wait for API request to complete to prevent navigation issues
+    await waitForApiRequestCompleted();
   }
 
   /// Additional helper methods.

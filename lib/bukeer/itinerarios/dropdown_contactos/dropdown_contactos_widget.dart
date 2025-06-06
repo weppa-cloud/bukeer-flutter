@@ -101,7 +101,7 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
@@ -247,7 +247,9 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                         '_model.searchFieldTextController',
                                         Duration(milliseconds: 2000),
                                         () async {
-                                          context.read<UiStateService>().searchQuery =
+                                          context
+                                                  .read<UiStateService>()
+                                                  .searchQuery =
                                               _model.searchFieldTextController
                                                   .text;
                                           safeSetState(() {});
@@ -270,8 +272,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                 .alternate,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -279,8 +281,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                 .primary,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -288,8 +290,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                 .error,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -297,8 +299,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                 .error,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         contentPadding:
                                             EdgeInsetsDirectional.fromSTEB(
@@ -316,8 +318,9 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                   _model
                                                       .searchFieldTextController
                                                       ?.clear();
-                                                  FFAppState()
-                                                          .searchStringState =
+                                                  context
+                                                          .read<UiStateService>()
+                                                          .searchQuery =
                                                       _model
                                                           .searchFieldTextController
                                                           .text;
@@ -331,7 +334,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                 },
                                                 child: Icon(
                                                   Icons.clear,
-                                                  color: BukeerColors.textSecondary,
+                                                  color: BukeerColors
+                                                      .textSecondary,
                                                   size: 20.0,
                                                 ),
                                               )
@@ -343,7 +347,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                             fontFamily:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMediumFamily,
-                                            fontSize: BukeerTypography.bodySmallSize,
+                                            fontSize:
+                                                BukeerTypography.bodySmallSize,
                                             letterSpacing: 0.0,
                                             useGoogleFonts:
                                                 !FlutterFlowTheme.of(context)
@@ -425,7 +430,9 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .headlineMediumFamily,
-                                                          fontSize: BukeerTypography.bodyLargeSize,
+                                                          fontSize:
+                                                              BukeerTypography
+                                                                  .bodyLargeSize,
                                                           letterSpacing: 0.0,
                                                           useGoogleFonts:
                                                               !FlutterFlowTheme
@@ -444,7 +451,8 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                             alignment:
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.m),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.m),
                                               child: Wrap(
                                                 spacing: 8.0,
                                                 runSpacing: 8.0,
@@ -1005,20 +1013,10 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                       _model.createContact =
                                                           false;
                                                       safeSetState(() {});
-                                                      FFAppState()
-                                                          .latlngLocation = '';
-                                                      FFAppState()
-                                                          .nameLocation = '';
-                                                      FFAppState()
-                                                          .addressLocation = '';
-                                                      FFAppState()
-                                                          .cityLocation = '';
-                                                      FFAppState()
-                                                          .stateLocation = '';
-                                                      FFAppState()
-                                                          .countryLocation = '';
-                                                      FFAppState()
-                                                          .zipCodeLocation = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .clearSelectedLocation();
                                                       safeSetState(() {});
                                                     },
                                                     text: 'Cancel',
@@ -1107,74 +1105,81 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                             false;
                                                       }
                                                       _shouldSetState = true;
-                                                      FFAppState()
-                                                              .latlngLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .latLng
-                                                              .toString();
-                                                      FFAppState()
-                                                              .nameLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .name;
-                                                      FFAppState()
-                                                              .addressLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .address;
-                                                      FFAppState()
-                                                              .cityLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .city;
-                                                      FFAppState()
-                                                              .stateLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .state;
-                                                      FFAppState()
-                                                              .countryLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .country;
-                                                      FFAppState()
-                                                              .zipCodeLocation =
-                                                          _model
-                                                              .componentPlaceModel
-                                                              .placePickerValue
-                                                              .zipCode;
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .setSelectedLocation(
+                                                            latLng: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .latLng
+                                                                .toString(),
+                                                            name: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .name,
+                                                            address: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .address,
+                                                            city: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .city,
+                                                            state: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .state,
+                                                            country: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .country,
+                                                            zipCode: _model
+                                                                .componentPlaceModel
+                                                                .placePickerValue
+                                                                .zipCode,
+                                                          );
                                                       safeSetState(() {});
                                                       if (_model
                                                           .responseFormAddContact!) {
-                                                        if (FFAppState()
-                                                                .latlngLocation !=
+                                                        if (context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationLatLng !=
                                                             'LatLng(lat: 0, lng: 0)') {
                                                           _model.responseInsertLocation =
                                                               await InsertLocationsCall
                                                                   .call(
                                                             authToken:
                                                                 currentJwtToken,
-                                                            latlng: FFAppState()
-                                                                .latlngLocation,
-                                                            name: FFAppState()
-                                                                .nameLocation,
-                                                            address: FFAppState()
-                                                                .addressLocation,
-                                                            city: FFAppState()
-                                                                .cityLocation,
-                                                            state: FFAppState()
-                                                                .stateLocation,
-                                                            country: FFAppState()
-                                                                .countryLocation,
-                                                            zipCode: FFAppState()
-                                                                .zipCodeLocation,
+                                                            latlng: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationLatLng,
+                                                            name: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationName,
+                                                            address: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationAddress,
+                                                            city: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationCity,
+                                                            state: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationState,
+                                                            country: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationCountry,
+                                                            zipCode: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationZipCode,
                                                             accountId:
                                                                 FFAppState()
                                                                     .accountId,
@@ -1228,27 +1233,20 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                                     .insertContactApiResponse
                                                                     ?.succeeded ??
                                                                 true)) {
-                                                              FFAppState()
-                                                                      .isCreatedinItinerary =
-                                                                  true;
-                                                              FFAppState()
-                                                                  .latlngLocation = '';
-                                                              FFAppState()
-                                                                  .nameLocation = '';
-                                                              FFAppState()
-                                                                  .addressLocation = '';
-                                                              FFAppState()
-                                                                  .cityLocation = '';
-                                                              FFAppState()
-                                                                  .stateLocation = '';
-                                                              FFAppState()
-                                                                  .countryLocation = '';
-                                                              FFAppState()
-                                                                  .zipCodeLocation = '';
+                                                              context
+                                                                  .read<
+                                                                      UiStateService>()
+                                                                  .isCreatedInItinerary = true;
+                                                              context
+                                                                  .read<
+                                                                      UiStateService>()
+                                                                  .clearSelectedLocation();
                                                               safeSetState(
                                                                   () {});
-                                                              FFAppState()
-                                                                  .itemsContact = (_model
+                                                              context
+                                                                  .read<
+                                                                      UiStateService>()
+                                                                  .selectedContact = (_model
                                                                       .insertContactApiResponse
                                                                       ?.jsonBody ??
                                                                   '');
@@ -1451,8 +1449,9 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                         (nextPageMarker) =>
                                             GetContactSearchCall.call(
                                           authToken: currentJwtToken,
-                                          search:
-                                              context.read<UiStateService>().searchQuery,
+                                          search: context
+                                              .read<UiStateService>()
+                                              .searchQuery,
                                           pageNumber:
                                               nextPageMarker.nextPageNumber,
                                           pageSize: 10,
@@ -1507,7 +1506,9 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
-                                              FFAppState().itemsContact =
+                                              context
+                                                      .read<UiStateService>()
+                                                      .selectedContact =
                                                   contactItemItem;
                                               safeSetState(() {});
                                               context.safePop();

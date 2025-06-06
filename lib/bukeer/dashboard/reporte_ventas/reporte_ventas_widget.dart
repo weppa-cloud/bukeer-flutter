@@ -238,8 +238,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                             _model.datePicked2,
                                                         onDateRangeChanged:
                                                             (startDate,
-                                                                endDate) {
-                                                          _model
+                                                                endDate) async {
+                                                          await _model
                                                               .onDateRangeChanged(
                                                                   startDate,
                                                                   endDate);
@@ -380,8 +380,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           _model
                                                                               .textController!,
                                                                       options:
-                                                                          options
-                                                                              .toList(),
+                                                                          options?.toList() ??
+                                                                              [],
                                                                       onSelected:
                                                                           onSelected,
                                                                       textStyle: FlutterFlowTheme.of(
@@ -1292,11 +1292,13 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                       decoration: BoxDecoration(),
                                       child: Builder(
                                         builder: (context) {
-                                          final agenteItem = getJsonField(
-                                            columnGetReporteVentasResponse
-                                                .jsonBody,
-                                            r'''$.agents''',
-                                          ).toList();
+                                          final agenteItem = (getJsonField(
+                                                columnGetReporteVentasResponse
+                                                    .jsonBody,
+                                                r'''$.agents''',
+                                              ) as List?)
+                                                  ?.cast<dynamic>() ??
+                                              [];
 
                                           return ListView.separated(
                                             padding: EdgeInsets.fromLTRB(
@@ -1540,10 +1542,13 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                         Builder(
                                                           builder: (context) {
                                                             final ventaItem =
-                                                                getJsonField(
-                                                              agenteItemItem,
-                                                              r'''$.items''',
-                                                            ).toList();
+                                                                (getJsonField(
+                                                                      agenteItemItem,
+                                                                      r'''$.items''',
+                                                                    ) as List?)
+                                                                        ?.cast<
+                                                                            dynamic>() ??
+                                                                    [];
 
                                                             return ListView
                                                                 .separated(

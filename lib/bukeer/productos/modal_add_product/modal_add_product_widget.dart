@@ -57,7 +57,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().imageMain = getJsonField(
+      context.read<UiStateService>().selectedImageUrl = getJsonField(
         widget!.dataActivity,
         r'''$[:].main_image''',
       ).toString().toString();
@@ -329,8 +329,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                         color: FlutterFlowTheme.of(context).alternate,
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(bottom: BukeerSpacing.s),
+                        padding: EdgeInsets.only(bottom: BukeerSpacing.s),
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -398,7 +397,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -408,7 +408,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -418,7 +419,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -429,7 +431,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -574,7 +577,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                           fontFamily:
                                               FlutterFlowTheme.of(context)
                                                   .headlineMediumFamily,
-                                          fontSize: BukeerTypography.bodyLargeSize,
+                                          fontSize:
+                                              BukeerTypography.bodyLargeSize,
                                           letterSpacing: 0.0,
                                           useGoogleFonts:
                                               !FlutterFlowTheme.of(context)
@@ -650,7 +654,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -660,7 +665,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -670,7 +676,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -681,7 +688,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -764,7 +772,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -774,7 +783,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -784,7 +794,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -795,7 +806,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -879,7 +891,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -889,7 +902,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -899,7 +913,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -910,7 +925,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -993,7 +1009,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1003,7 +1020,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1013,7 +1031,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -1024,7 +1043,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -1108,7 +1128,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1118,7 +1139,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1128,7 +1150,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -1139,7 +1162,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -1223,7 +1247,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1233,7 +1258,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -1243,7 +1269,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -1254,7 +1281,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -1338,8 +1366,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                 .alternate,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                           hoverColor:
                                               FlutterFlowTheme.of(context)
                                                   .alternate,
@@ -1377,57 +1405,77 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                   false;
                                             }
                                             _shouldSetState = true;
-                                            context.read<UiStateService>().selectedLocationLatLng = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .latLng
-                                                .toString();
-                                            context.read<UiStateService>().selectedLocationName = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .name;
-                                            context.read<UiStateService>().selectedLocationAddress =
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationLatLng =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.latLng
+                                                    .toString();
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationName =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.name;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationAddress =
                                                 _model.componentPlaceModel
                                                     .placePickerValue.address;
-                                            context.read<UiStateService>().selectedLocationCity = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .city;
-                                            context.read<UiStateService>().selectedLocationState = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .state;
-                                            context.read<UiStateService>().selectedLocationCountry =
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationCity =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.city;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationState =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.state;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationCountry =
                                                 _model.componentPlaceModel
                                                     .placePickerValue.country;
-                                            context.read<UiStateService>().selectedLocationZipCode =
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationZipCode =
                                                 _model.componentPlaceModel
                                                     .placePickerValue.zipCode;
                                             safeSetState(() {});
                                             if (_model
                                                 .responseFormEditProduct!) {
-                                              if (context.read<UiStateService>().selectedProductType ==
+                                              if (context
+                                                      .read<UiStateService>()
+                                                      .selectedProductType ==
                                                   'activities') {
-                                                if (FFAppState()
-                                                        .latlngLocation !=
+                                                if (context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationLatLng !=
                                                     'LatLng(lat: 0, lng: 0)') {
                                                   _model.apiResponseUpdateLocationActivities =
                                                       await UpdateLocationsCall
                                                           .call(
-                                                    latlng: FFAppState()
-                                                        .latlngLocation,
-                                                    name: FFAppState()
-                                                        .nameLocation,
-                                                    address: FFAppState()
-                                                        .addressLocation,
-                                                    city: FFAppState()
-                                                        .cityLocation,
-                                                    state: FFAppState()
-                                                        .stateLocation,
-                                                    country: FFAppState()
-                                                        .countryLocation,
-                                                    zipCode: FFAppState()
-                                                        .zipCodeLocation,
+                                                    latlng: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationLatLng,
+                                                    name: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationName,
+                                                    address: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationAddress,
+                                                    city: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCity,
+                                                    state: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationState,
+                                                    country: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCountry,
+                                                    zipCode: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationZipCode,
                                                     id: getJsonField(
                                                       widget!.dataActivity,
                                                       r'''$[:].location''',
@@ -1456,20 +1504,34 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                               .call(
                                                         authToken:
                                                             currentJwtToken,
-                                                        latlng: FFAppState()
-                                                            .latlngLocation,
-                                                        name: FFAppState()
-                                                            .nameLocation,
-                                                        address: FFAppState()
-                                                            .addressLocation,
-                                                        city: FFAppState()
-                                                            .cityLocation,
-                                                        state: FFAppState()
-                                                            .stateLocation,
-                                                        country: FFAppState()
-                                                            .countryLocation,
-                                                        zipCode: FFAppState()
-                                                            .zipCodeLocation,
+                                                        latlng: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationLatLng,
+                                                        name: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationName,
+                                                        address: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationAddress,
+                                                        city: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationCity,
+                                                        state: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationState,
+                                                        country: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationCountry,
+                                                        zipCode: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationZipCode,
                                                         accountId: FFAppState()
                                                             .accountId,
                                                         typeEntity:
@@ -1686,20 +1748,27 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                         .responseUpdateActivity
                                                         ?.succeeded ??
                                                     true)) {
-                                                  context.read<UiStateService>().selectedLocationLatLng =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationName =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationAddress =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationCity =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationState =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationCountry =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationZipCode =
-                                                      '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationLatLng = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationName = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationAddress = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationCity = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationState = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationCountry = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationZipCode = '';
                                                   safeSetState(() {});
                                                   _model.responseInsertLocationState =
                                                       null;
@@ -1732,28 +1801,46 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                   return;
                                                 }
                                               } else {
-                                                if (context.read<UiStateService>().selectedProductType ==
+                                                if (context
+                                                        .read<UiStateService>()
+                                                        .selectedProductType ==
                                                     'hotels') {
-                                                  if (FFAppState()
-                                                          .latlngLocation !=
+                                                  if (context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationLatLng !=
                                                       'LatLng(lat: 0, lng: 0)') {
                                                     _model.apiResponseUpdateLocationHotels =
                                                         await UpdateLocationsCall
                                                             .call(
-                                                      latlng: FFAppState()
-                                                          .latlngLocation,
-                                                      name: FFAppState()
-                                                          .nameLocation,
-                                                      address: FFAppState()
-                                                          .addressLocation,
-                                                      city: FFAppState()
-                                                          .cityLocation,
-                                                      state: FFAppState()
-                                                          .stateLocation,
-                                                      country: FFAppState()
-                                                          .countryLocation,
-                                                      zipCode: FFAppState()
-                                                          .zipCodeLocation,
+                                                      latlng: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationLatLng,
+                                                      name: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationName,
+                                                      address: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationAddress,
+                                                      city: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCity,
+                                                      state: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationState,
+                                                      country: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCountry,
+                                                      zipCode: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationZipCode,
                                                       id: getJsonField(
                                                         widget!.dataActivity,
                                                         r'''$[:].location''',
@@ -1783,20 +1870,34 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                 .call(
                                                           authToken:
                                                               currentJwtToken,
-                                                          latlng: FFAppState()
-                                                              .latlngLocation,
-                                                          name: FFAppState()
-                                                              .nameLocation,
-                                                          address: FFAppState()
-                                                              .addressLocation,
-                                                          city: FFAppState()
-                                                              .cityLocation,
-                                                          state: FFAppState()
-                                                              .stateLocation,
-                                                          country: FFAppState()
-                                                              .countryLocation,
-                                                          zipCode: FFAppState()
-                                                              .zipCodeLocation,
+                                                          latlng: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationLatLng,
+                                                          name: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationName,
+                                                          address: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationAddress,
+                                                          city: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationCity,
+                                                          state: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationState,
+                                                          country: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationCountry,
+                                                          zipCode: context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedLocationZipCode,
                                                           accountId:
                                                               FFAppState()
                                                                   .accountId,
@@ -2014,20 +2115,27 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                           .responseUpdateHotel
                                                           ?.succeeded ??
                                                       true)) {
-                                                    FFAppState()
-                                                        .latlngLocation = '';
-                                                    context.read<UiStateService>().selectedLocationName =
-                                                        '';
-                                                    FFAppState()
-                                                        .addressLocation = '';
-                                                    context.read<UiStateService>().selectedLocationCity =
-                                                        '';
-                                                    context.read<UiStateService>().selectedLocationState =
-                                                        '';
-                                                    FFAppState()
-                                                        .countryLocation = '';
-                                                    FFAppState()
-                                                        .zipCodeLocation = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationLatLng = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationName = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationAddress = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCity = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationState = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCountry = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationZipCode = '';
                                                     safeSetState(() {});
                                                     _model.responseInsertLocationState =
                                                         null;
@@ -2059,29 +2167,47 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                     return;
                                                   }
                                                 } else {
-                                                  if (FFAppState()
-                                                          .typeProduct ==
+                                                  if (context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedProductType ==
                                                       'transfers') {
-                                                    if (FFAppState()
-                                                            .latlngLocation !=
+                                                    if (context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationLatLng !=
                                                         'LatLng(lat: 0, lng: 0)') {
                                                       _model.apiResponseUpdateLocationTransfers =
                                                           await UpdateLocationsCall
                                                               .call(
-                                                        latlng: FFAppState()
-                                                            .latlngLocation,
-                                                        name: FFAppState()
-                                                            .nameLocation,
-                                                        address: FFAppState()
-                                                            .addressLocation,
-                                                        city: FFAppState()
-                                                            .cityLocation,
-                                                        state: FFAppState()
-                                                            .stateLocation,
-                                                        country: FFAppState()
-                                                            .countryLocation,
-                                                        zipCode: FFAppState()
-                                                            .zipCodeLocation,
+                                                        latlng: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationLatLng,
+                                                        name: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationName,
+                                                        address: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationAddress,
+                                                        city: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationCity,
+                                                        state: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationState,
+                                                        country: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationCountry,
+                                                        zipCode: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationZipCode,
                                                         id: getJsonField(
                                                           widget!.dataActivity,
                                                           r'''$[:].location''',
@@ -2111,20 +2237,34 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                   .call(
                                                             authToken:
                                                                 currentJwtToken,
-                                                            latlng: FFAppState()
-                                                                .latlngLocation,
-                                                            name: FFAppState()
-                                                                .nameLocation,
-                                                            address: FFAppState()
-                                                                .addressLocation,
-                                                            city: FFAppState()
-                                                                .cityLocation,
-                                                            state: FFAppState()
-                                                                .stateLocation,
-                                                            country: FFAppState()
-                                                                .countryLocation,
-                                                            zipCode: FFAppState()
-                                                                .zipCodeLocation,
+                                                            latlng: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationLatLng,
+                                                            name: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationName,
+                                                            address: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationAddress,
+                                                            city: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationCity,
+                                                            state: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationState,
+                                                            country: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationCountry,
+                                                            zipCode: context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedLocationZipCode,
                                                             accountId:
                                                                 FFAppState()
                                                                     .accountId,
@@ -2348,20 +2488,34 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                             .resultUpdateTransfers
                                                             ?.succeeded ??
                                                         true)) {
-                                                      FFAppState()
-                                                          .latlngLocation = '';
-                                                      FFAppState()
-                                                          .nameLocation = '';
-                                                      FFAppState()
-                                                          .addressLocation = '';
-                                                      FFAppState()
-                                                          .cityLocation = '';
-                                                      FFAppState()
-                                                          .stateLocation = '';
-                                                      FFAppState()
-                                                          .countryLocation = '';
-                                                      FFAppState()
-                                                          .zipCodeLocation = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationLatLng = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationName = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationAddress = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCity = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationState = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCountry = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationZipCode = '';
                                                       safeSetState(() {});
                                                       _model.responseInsertLocationState =
                                                           null;
@@ -2477,8 +2631,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                               color: Colors.transparent,
                                               width: 1.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                             hoverColor:
                                                 FlutterFlowTheme.of(context)
                                                     .accent1,
@@ -2517,36 +2671,48 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                   false;
                                             }
                                             _shouldSetState = true;
-                                            context.read<UiStateService>().selectedLocationLatLng = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .latLng
-                                                .toString();
-                                            context.read<UiStateService>().selectedLocationName = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .name;
-                                            context.read<UiStateService>().selectedLocationAddress =
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationLatLng =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.latLng
+                                                    .toString();
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationName =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.name;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationAddress =
                                                 _model.componentPlaceModel
                                                     .placePickerValue.address;
-                                            context.read<UiStateService>().selectedLocationCity = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .city;
-                                            context.read<UiStateService>().selectedLocationState = _model
-                                                .componentPlaceModel
-                                                .placePickerValue
-                                                .state;
-                                            context.read<UiStateService>().selectedLocationCountry =
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationCity =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.city;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationState =
+                                                _model.componentPlaceModel
+                                                    .placePickerValue.state;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationCountry =
                                                 _model.componentPlaceModel
                                                     .placePickerValue.country;
-                                            context.read<UiStateService>().selectedLocationZipCode =
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationZipCode =
                                                 _model.componentPlaceModel
                                                     .placePickerValue.zipCode;
                                             safeSetState(() {});
                                             if (_model
                                                 .responseFormAddProduct!) {
-                                              if (context.read<UiStateService>().selectedProductType ==
+                                              if (context
+                                                      .read<UiStateService>()
+                                                      .selectedProductType ==
                                                   'activities') {
                                                 if (FFAppState()
                                                         .latlngLocation !=
@@ -2711,20 +2877,27 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                     return;
                                                   }
 
-                                                  context.read<UiStateService>().selectedLocationLatLng =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationName =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationAddress =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationCity =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationState =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationCountry =
-                                                      '';
-                                                  context.read<UiStateService>().selectedLocationZipCode =
-                                                      '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationLatLng = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationName = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationAddress = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationCity = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationState = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationCountry = '';
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .selectedLocationZipCode = '';
                                                   safeSetState(() {});
                                                   context.safePop();
                                                   await showModalBottomSheet(
@@ -2745,12 +2918,20 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                   ?.jsonBody ??
                                                               ''),
                                                           type: () {
-                                                            switch (FFAppState().typeProduct) {
-                                                              case 1: return 'flights';
-                                                              case 2: return 'hotels';
-                                                              case 3: return 'activities';
-                                                              case 4: return 'transfers';
-                                                              default: return 'activities';
+                                                            switch (context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .selectedProductType) {
+                                                              case 1:
+                                                                return 'flights';
+                                                              case 2:
+                                                                return 'hotels';
+                                                              case 3:
+                                                                return 'activities';
+                                                              case 4:
+                                                                return 'transfers';
+                                                              default:
+                                                                return 'activities';
                                                             }
                                                           }(),
                                                         ),
@@ -2787,30 +2968,48 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                   return;
                                                 }
                                               } else {
-                                                if (context.read<UiStateService>().selectedProductType ==
+                                                if (context
+                                                        .read<UiStateService>()
+                                                        .selectedProductType ==
                                                     'hotels') {
-                                                  if (FFAppState()
-                                                          .latlngLocation !=
+                                                  if (context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationLatLng !=
                                                       'LatLng(lat: 0, lng: 0)') {
                                                     _model.apiResultAddLocationHotels =
                                                         await InsertLocationsCall
                                                             .call(
                                                       authToken:
                                                           currentJwtToken,
-                                                      latlng: FFAppState()
-                                                          .latlngLocation,
-                                                      name: FFAppState()
-                                                          .nameLocation,
-                                                      address: FFAppState()
-                                                          .addressLocation,
-                                                      city: FFAppState()
-                                                          .cityLocation,
-                                                      state: FFAppState()
-                                                          .stateLocation,
-                                                      country: FFAppState()
-                                                          .countryLocation,
-                                                      zipCode: FFAppState()
-                                                          .zipCodeLocation,
+                                                      latlng: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationLatLng,
+                                                      name: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationName,
+                                                      address: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationAddress,
+                                                      city: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCity,
+                                                      state: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationState,
+                                                      country: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCountry,
+                                                      zipCode: context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationZipCode,
                                                       accountId: FFAppState()
                                                           .accountId,
                                                       typeEntity: 'hotels',
@@ -2919,20 +3118,27 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                           .text),
                                                     });
                                                     _shouldSetState = true;
-                                                    FFAppState()
-                                                        .latlngLocation = '';
-                                                    context.read<UiStateService>().selectedLocationName =
-                                                        '';
-                                                    FFAppState()
-                                                        .addressLocation = '';
-                                                    context.read<UiStateService>().selectedLocationCity =
-                                                        '';
-                                                    context.read<UiStateService>().selectedLocationState =
-                                                        '';
-                                                    FFAppState()
-                                                        .countryLocation = '';
-                                                    FFAppState()
-                                                        .zipCodeLocation = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationLatLng = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationName = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationAddress = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCity = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationState = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCountry = '';
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationZipCode = '';
                                                     safeSetState(() {});
                                                     context.safePop();
                                                     await showModalBottomSheet(
@@ -2955,12 +3161,20 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                   ?.id,
                                                             },
                                                             type: () {
-                                                              switch (FFAppState().typeProduct) {
-                                                                case 1: return 'flights';
-                                                                case 2: return 'hotels';
-                                                                case 3: return 'activities';
-                                                                case 4: return 'transfers';
-                                                                default: return 'activities';
+                                                              switch (context
+                                                                  .read<
+                                                                      UiStateService>()
+                                                                  .selectedProductType) {
+                                                                case 1:
+                                                                  return 'flights';
+                                                                case 2:
+                                                                  return 'hotels';
+                                                                case 3:
+                                                                  return 'activities';
+                                                                case 4:
+                                                                  return 'transfers';
+                                                                default:
+                                                                  return 'activities';
                                                               }
                                                             }(),
                                                           ),
@@ -2994,31 +3208,49 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                     return;
                                                   }
                                                 } else {
-                                                  if (FFAppState()
-                                                          .typeProduct ==
+                                                  if (context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedProductType ==
                                                       'transfers') {
-                                                    if (FFAppState()
-                                                            .latlngLocation !=
+                                                    if (context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationLatLng !=
                                                         'LatLng(lat: 0, lng: 0)') {
                                                       _model.apiResultAddLocationTransfers =
                                                           await InsertLocationsCall
                                                               .call(
                                                         authToken:
                                                             currentJwtToken,
-                                                        latlng: FFAppState()
-                                                            .latlngLocation,
-                                                        name: FFAppState()
-                                                            .nameLocation,
-                                                        address: FFAppState()
-                                                            .addressLocation,
-                                                        city: FFAppState()
-                                                            .cityLocation,
-                                                        state: FFAppState()
-                                                            .stateLocation,
-                                                        country: FFAppState()
-                                                            .countryLocation,
-                                                        zipCode: FFAppState()
-                                                            .zipCodeLocation,
+                                                        latlng: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationLatLng,
+                                                        name: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationName,
+                                                        address: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationAddress,
+                                                        city: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationCity,
+                                                        state: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationState,
+                                                        country: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationCountry,
+                                                        zipCode: context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedLocationZipCode,
                                                         accountId: FFAppState()
                                                             .accountId,
                                                         typeEntity: 'transfers',
@@ -3129,20 +3361,34 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                             .text),
                                                       });
                                                       _shouldSetState = true;
-                                                      FFAppState()
-                                                          .latlngLocation = '';
-                                                      FFAppState()
-                                                          .nameLocation = '';
-                                                      FFAppState()
-                                                          .addressLocation = '';
-                                                      FFAppState()
-                                                          .cityLocation = '';
-                                                      FFAppState()
-                                                          .stateLocation = '';
-                                                      FFAppState()
-                                                          .countryLocation = '';
-                                                      FFAppState()
-                                                          .zipCodeLocation = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationLatLng = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationName = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationAddress = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCity = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationState = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationCountry = '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .selectedLocationZipCode = '';
                                                       safeSetState(() {});
                                                       context.safePop();
                                                       await showModalBottomSheet(
@@ -3166,12 +3412,20 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                     ?.id,
                                                               },
                                                               type: () {
-                                                                switch (FFAppState().typeProduct) {
-                                                                  case 1: return 'flights';
-                                                                  case 2: return 'hotels';
-                                                                  case 3: return 'activities';
-                                                                  case 4: return 'transfers';
-                                                                  default: return 'activities';
+                                                                switch (context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedProductType) {
+                                                                  case 1:
+                                                                    return 'flights';
+                                                                  case 2:
+                                                                    return 'hotels';
+                                                                  case 3:
+                                                                    return 'activities';
+                                                                  case 4:
+                                                                    return 'transfers';
+                                                                  default:
+                                                                    return 'activities';
                                                                 }
                                                               }(),
                                                             ),
@@ -3277,8 +3531,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                               color: Colors.transparent,
                                               width: 1.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                             hoverColor:
                                                 FlutterFlowTheme.of(context)
                                                     .accent1,

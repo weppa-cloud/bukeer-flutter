@@ -5,6 +5,7 @@ import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
@@ -106,7 +107,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return GestureDetector(
       onTap: () {
@@ -357,10 +358,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                         milliseconds:
                                                                             2000),
                                                                     () async {
-                                                                      context.read<UiStateService>().searchQuery =
-                                                                          _model
-                                                                              .textController
-                                                                              .text;
+                                                                      context.read<UiStateService>().searchQuery = _model
+                                                                          .textController
+                                                                          .text;
                                                                       safeSetState(() => _model
                                                                           .listViewAgendaPagingController
                                                                           ?.refresh());
@@ -1061,7 +1061,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                   context)
                                                               .languageCode,
                                                     ),
-                                                    search: context.read<UiStateService>().searchQuery,
+                                                    search: context
+                                                        .read<UiStateService>()
+                                                        .searchQuery,
                                                     pageNumber: nextPageMarker
                                                         .nextPageNumber,
                                                     pageSize: 5,

@@ -95,10 +95,20 @@ class UiStateService extends ChangeNotifier {
     }
   }
 
+  // Contact selection state (replaces FFAppState.itemsContact)
+  dynamic _selectedContact;
+  dynamic get selectedContact => _selectedContact;
+  set selectedContact(dynamic value) {
+    if (_selectedContact != value) {
+      _selectedContact = value;
+      notifyListeners();
+    }
+  }
+
   // ===========================================================================
   // NOTE: allData* properties removed - now handled by specialized services:
   // - allDataItinerary → ItineraryService
-  // - allDataContact → ContactService  
+  // - allDataContact → ContactService
   // - allDataHotel/Activity/Transfer/Flight → ProductService
   // - allDataUser → UserService
   // ===========================================================================
@@ -121,6 +131,16 @@ class UiStateService extends ChangeNotifier {
   set isCreatingItinerary(bool value) {
     if (_isCreatingItinerary != value) {
       _isCreatingItinerary = value;
+      notifyListeners();
+    }
+  }
+
+  // Form creation state (replaces FFAppState.isCreatedinItinerary)
+  bool _isCreatedInItinerary = false;
+  bool get isCreatedInItinerary => _isCreatedInItinerary;
+  set isCreatedInItinerary(bool value) {
+    if (_isCreatedInItinerary != value) {
+      _isCreatedInItinerary = value;
       notifyListeners();
     }
   }
@@ -309,12 +329,96 @@ class UiStateService extends ChangeNotifier {
     _isSelectingRates = false;
     _selectedImageUrl = '';
     _isCreatingItinerary = false;
+    _isCreatedInItinerary = false;
+    _selectedContact = null;
     clearSelectedLocation();
     clearHotelRatesCalculation();
+    _departureState = '';
+    _arrivalState = '';
+    _namePaymentMethods = null;
+    _accountPaymentMethods = [];
+    _accountCurrency = [];
+    _accountTypesIncrease = [];
+    _allDataAccount = null;
     notifyListeners();
   }
 
   @override
+  // ===========================================================================
+  // FLIGHT STATE
+  // ===========================================================================
+
+  String _departureState = '';
+  String get departureState => _departureState;
+  set departureState(String value) {
+    if (_departureState != value) {
+      _departureState = value;
+      notifyListeners();
+    }
+  }
+
+  String _arrivalState = '';
+  String get arrivalState => _arrivalState;
+  set arrivalState(String value) {
+    if (_arrivalState != value) {
+      _arrivalState = value;
+      notifyListeners();
+    }
+  }
+
+  // ===========================================================================
+  // PAYMENT METHODS STATE
+  // ===========================================================================
+
+  dynamic _namePaymentMethods;
+  dynamic get namePaymentMethods => _namePaymentMethods;
+  set namePaymentMethods(dynamic value) {
+    if (_namePaymentMethods != value) {
+      _namePaymentMethods = value;
+      notifyListeners();
+    }
+  }
+
+  List<dynamic> _accountPaymentMethods = [];
+  List<dynamic> get accountPaymentMethods => _accountPaymentMethods;
+  set accountPaymentMethods(List<dynamic> value) {
+    if (_accountPaymentMethods != value) {
+      _accountPaymentMethods = value;
+      notifyListeners();
+    }
+  }
+
+  // ===========================================================================
+  // ACCOUNT CONFIGURATION STATE (for editing before saving)
+  // ===========================================================================
+
+  List<dynamic> _accountCurrency = [];
+  List<dynamic> get accountCurrency => _accountCurrency;
+  set accountCurrency(List<dynamic> value) {
+    if (_accountCurrency != value) {
+      _accountCurrency = value;
+      notifyListeners();
+    }
+  }
+
+  List<dynamic> _accountTypesIncrease = [];
+  List<dynamic> get accountTypesIncrease => _accountTypesIncrease;
+  set accountTypesIncrease(List<dynamic> value) {
+    if (_accountTypesIncrease != value) {
+      _accountTypesIncrease = value;
+      notifyListeners();
+    }
+  }
+
+  dynamic _allDataAccount;
+  dynamic get allDataAccount => _allDataAccount;
+  set allDataAccount(dynamic value) {
+    if (_allDataAccount != value) {
+      _allDataAccount = value;
+      notifyListeners();
+    }
+  }
+
   void dispose() {
     _searchDebounceTimer?.cancel();
     super.dispose();

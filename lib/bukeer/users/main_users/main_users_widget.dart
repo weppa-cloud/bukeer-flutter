@@ -7,6 +7,7 @@ import '../modal_add_user/modal_add_user_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +48,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return GestureDetector(
       onTap: () {
@@ -158,8 +159,9 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                     highlightColor:
                                                         Colors.transparent,
                                                     onTap: () async {
-                                                      context.read<UserService>().allDataUser =
-                                                          null;
+                                                      context
+                                                          .read<UserService>()
+                                                          .allDataUser = null;
                                                       safeSetState(() {});
                                                       await showModalBottomSheet(
                                                         isScrollControlled:
@@ -225,7 +227,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                       ),
                                                     ),
                                                   ),
-                                                ].divide(SizedBox(width: BukeerSpacing.m)),
+                                                ].divide(SizedBox(
+                                                    width: BukeerSpacing.m)),
                                               ),
                                               Container(
                                                 width:
@@ -318,12 +321,14 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                         ].divide(SizedBox(
                                                             width: 8.0)),
                                                       ),
-                                                    ].divide(
-                                                        SizedBox(width: BukeerSpacing.l)),
+                                                    ].divide(SizedBox(
+                                                        width:
+                                                            BukeerSpacing.l)),
                                                   ),
                                                 ),
                                               ),
-                                            ].divide(SizedBox(height: BukeerSpacing.s)),
+                                            ].divide(SizedBox(
+                                                height: BukeerSpacing.s)),
                                           ),
                                         ),
                                       ),
@@ -346,7 +351,9 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                 ),
                                 child: FutureBuilder<ApiCallResponse>(
                                   future: GetUsersCall.call(
-                                    searchTerm: context.read<UiStateService>().searchQuery,
+                                    searchTerm: context
+                                        .read<UiStateService>()
+                                        .searchQuery,
                                     authToken: currentJwtToken,
                                   ),
                                   builder: (context, snapshot) {
@@ -404,7 +411,9 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  context.read<UserService>().allDataUser =
+                                                  context
+                                                          .read<UserService>()
+                                                          .allDataUser =
                                                       userItemItem;
                                                   safeSetState(() {});
                                                   await showModalBottomSheet(
@@ -451,8 +460,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                     boxShadow: [
                                                       BoxShadow(
                                                         blurRadius: 3.0,
-                                                        color:
-                                                            BukeerColors.overlay,
+                                                        color: BukeerColors
+                                                            .overlay,
                                                         offset: Offset(
                                                           0.0,
                                                           1.0,

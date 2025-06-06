@@ -2,6 +2,7 @@ import '../../../backend/supabase/supabase.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../flutter_flow/upload_data.dart';
 import 'dart:ui';
@@ -71,7 +72,7 @@ class _ComponentAddScheduleActivityWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
@@ -259,28 +260,32 @@ class _ComponentAddScheduleActivityWidgetState
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0x00000000),
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: FlutterFlowTheme.of(context).error,
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: FlutterFlowTheme.of(context).error,
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                               ),
                               filled: true,
                               fillColor: FlutterFlowTheme.of(context)
@@ -396,7 +401,8 @@ class _ComponentAddScheduleActivityWidgetState
                                             .titleSmallIsCustom,
                                   ),
                               elevation: 3.0,
-                              borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                              borderRadius:
+                                  BorderRadius.circular(BukeerSpacing.s),
                             ),
                           ),
                         ),

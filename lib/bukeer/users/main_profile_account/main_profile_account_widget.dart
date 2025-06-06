@@ -15,6 +15,7 @@ import 'dart:math';
 import 'dart:ui';
 import '../../../flutter_flow/custom_functions.dart' as functions;
 import '../../../index.dart';
+import '../../../services/ui_state_service.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -59,24 +60,24 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
       );
 
       if ((_model.apiResponseDataAccount?.succeeded ?? true)) {
-        FFAppState().allDataAccount =
+        context.read<UiStateService>().allDataAccount =
             (_model.apiResponseDataAccount?.jsonBody ?? '');
         safeSetState(() {});
-        FFAppState().accountCurrency = getJsonField(
+        context.read<UiStateService>().accountCurrency = getJsonField(
           (_model.apiResponseDataAccount?.jsonBody ?? ''),
           r'''$[:].currency''',
           true,
         )!
             .toList()
             .cast<dynamic>();
-        FFAppState().accountTypesIncrease = getJsonField(
+        context.read<UiStateService>().accountTypesIncrease = getJsonField(
           (_model.apiResponseDataAccount?.jsonBody ?? ''),
           r'''$[:].types_increase''',
           true,
         )!
             .toList()
             .cast<dynamic>();
-        FFAppState().accountPaymentMethods = getJsonField(
+        context.read<UiStateService>().accountPaymentMethods = getJsonField(
           (_model.apiResponseDataAccount?.jsonBody ?? ''),
           r'''$[:].payment_methods''',
           true,
@@ -257,7 +258,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return FutureBuilder<ApiCallResponse>(
       future: (_model.apiRequestCompleter ??= Completer<ApiCallResponse>()
@@ -398,7 +399,8 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                       maxWidth: 852.0,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     child: Form(
                                       key: _model.formKey,
@@ -1774,7 +1776,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               controller: _model.dropDownBaseCurrencyValueController ??= FormFieldController<String>(
                                                                                 _model.dropDownBaseCurrencyValue ??= valueOrDefault<String>(
                                                                                   getJsonField(
-                                                                                    FFAppState().accountCurrency.firstOrNull,
+                                                                                    context.read<UiStateService>().accountCurrency.firstOrNull,
                                                                                     r'''$.name''',
                                                                                   )?.toString(),
                                                                                   'Moneda base',
@@ -1837,7 +1839,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                     ) ??
                                                                                     false;
                                                                                 if (confirmDialogResponse) {
-                                                                                  FFAppState().accountCurrency = functions.accountCurrencyJsonCopy(_model.dropDownBaseCurrencyValue, FFAppState().accountCurrency.toList())!.toList().cast<dynamic>();
+                                                                                  context.read<UiStateService>().accountCurrency = functions.accountCurrencyJsonCopy(_model.dropDownBaseCurrencyValue, context.read<UiStateService>().accountCurrency.toList())!.toList().cast<dynamic>();
                                                                                   safeSetState(() {});
                                                                                 }
                                                                               },
@@ -2056,7 +2058,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           onPressed: () async {
                                                                                             if ((_model.dropDownOtherCurrencyValue != null && _model.dropDownOtherCurrencyValue != '') && (_model.textFieldRateTextController.text != null && _model.textFieldRateTextController.text != '')) {
                                                                                               if (_model.dropDownBaseCurrencyValue != _model.dropDownOtherCurrencyValue) {
-                                                                                                FFAppState().accountCurrency = functions.accountCurrencyJson(_model.dropDownBaseCurrencyValue, _model.dropDownOtherCurrencyValue, double.tryParse(_model.textFieldRateTextController.text), FFAppState().accountCurrency.toList())!.toList().cast<dynamic>();
+                                                                                                context.read<UiStateService>().accountCurrency = functions.accountCurrencyJson(_model.dropDownBaseCurrencyValue, _model.dropDownOtherCurrencyValue, double.tryParse(_model.textFieldRateTextController.text), context.read<UiStateService>().accountCurrency.toList())!.toList().cast<dynamic>();
                                                                                                 safeSetState(() {});
                                                                                                 safeSetState(() {
                                                                                                   _model.dropDownOtherCurrencyValueController?.reset();
@@ -2307,7 +2309,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                   ),
                                                                                   Builder(
                                                                                     builder: (context) {
-                                                                                      final currencyItem = FFAppState().accountCurrency.toList();
+                                                                                      final currencyItem = context.read<UiStateService>().accountCurrency.toList();
 
                                                                                       return ListView.separated(
                                                                                         padding: EdgeInsets.fromLTRB(
@@ -2695,7 +2697,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           onPressed: () async {
                                                                                             if ((_model.dropDownPercentagesValue != null && _model.dropDownPercentagesValue != '') && (_model.textFieldPercentagesTextController.text != null && _model.textFieldPercentagesTextController.text != '')) {
                                                                                               if ((_model.textFieldPercentagesTextController.text != null && _model.textFieldPercentagesTextController.text != '') && (_model.dropDownPercentagesValue != null && _model.dropDownPercentagesValue != '')) {
-                                                                                                FFAppState().accountTypesIncrease = functions.accountTypesIncreaseJson(FFAppState().accountTypesIncrease.toList(), _model.dropDownPercentagesValue, double.tryParse(_model.textFieldPercentagesTextController.text))!.toList().cast<dynamic>();
+                                                                                                context.read<UiStateService>().accountTypesIncrease = functions.accountTypesIncreaseJson(context.read<UiStateService>().accountTypesIncrease.toList(), _model.dropDownPercentagesValue, double.tryParse(_model.textFieldPercentagesTextController.text))!.toList().cast<dynamic>();
                                                                                                 safeSetState(() {});
                                                                                                 safeSetState(() {
                                                                                                   _model.dropDownPercentagesValueController?.reset();
@@ -2921,7 +2923,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                     ),
                                                                                     Builder(
                                                                                       builder: (context) {
-                                                                                        final currencyItem = FFAppState().accountTypesIncrease.toList();
+                                                                                        final currencyItem = context.read<UiStateService>().accountTypesIncrease.toList();
 
                                                                                         return ListView.separated(
                                                                                           padding: EdgeInsets.fromLTRB(
@@ -3248,7 +3250,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                         FFButtonWidget(
                                                                                           onPressed: () async {
                                                                                             if (_model.textFieldNamesTextController.text != null && _model.textFieldNamesTextController.text != '') {
-                                                                                              FFAppState().accountPaymentMethods = functions.addPaymentMethod(FFAppState().accountPaymentMethods.toList(), _model.textFieldNamesTextController.text)!.toList().cast<dynamic>();
+                                                                                              context.read<UiStateService>().accountPaymentMethods = functions.addPaymentMethod(context.read<UiStateService>().accountPaymentMethods.toList(), _model.textFieldNamesTextController.text)!.toList().cast<dynamic>();
                                                                                               safeSetState(() {});
                                                                                               safeSetState(() {
                                                                                                 _model.textFieldNamesTextController?.clear();
@@ -3442,7 +3444,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                     ),
                                                                                     Builder(
                                                                                       builder: (context) {
-                                                                                        final paymentMethodsItem = FFAppState().accountPaymentMethods.toList();
+                                                                                        final paymentMethodsItem = context.read<UiStateService>().accountPaymentMethods.toList();
 
                                                                                         return ListView.separated(
                                                                                           padding: EdgeInsets.fromLTRB(
@@ -3465,7 +3467,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                 hoverColor: Colors.transparent,
                                                                                                 highlightColor: Colors.transparent,
                                                                                                 onTap: () async {
-                                                                                                  FFAppState().namePaymentMethods = paymentMethodsItemItem;
+                                                                                                  context.read<UiStateService>().namePaymentMethods = paymentMethodsItemItem;
                                                                                                   safeSetState(() {});
 
                                                                                                   context.pushNamed(EditPaymentMethodsWidget.routeName);
@@ -3576,75 +3578,79 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                             }
                                                             _shouldSetState =
                                                                 true;
-                                                            FFAppState()
-                                                                    .latlngLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .latLng
-                                                                    .toString();
-                                                            FFAppState()
-                                                                    .nameLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .name;
-                                                            FFAppState()
-                                                                    .addressLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .address;
-                                                            FFAppState()
-                                                                    .cityLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .city;
-                                                            FFAppState()
-                                                                    .stateLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .state;
-                                                            FFAppState()
-                                                                    .countryLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .country;
-                                                            FFAppState()
-                                                                    .zipCodeLocation =
-                                                                _model
-                                                                    .componentPlaceModel
-                                                                    .placePickerValue
-                                                                    .zipCode;
+                                                            context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .setSelectedLocation(
+                                                                  latLng: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .latLng
+                                                                      .toString(),
+                                                                  name: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .name,
+                                                                  address: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .address,
+                                                                  city: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .city,
+                                                                  state: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .state,
+                                                                  country: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .country,
+                                                                  zipCode: _model
+                                                                      .componentPlaceModel
+                                                                      .placePickerValue
+                                                                      .zipCode,
+                                                                );
                                                             safeSetState(() {});
                                                             if (_model
                                                                 .responseValidateForm!) {
-                                                              if (FFAppState()
-                                                                      .latlngLocation !=
+                                                              if (context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationLatLng !=
                                                                   'LatLng(lat: 0, lng: 0)') {
                                                                 _model.responseInsertLocation2 =
                                                                     await UpdateLocationsCall
                                                                         .call(
-                                                                  latlng: FFAppState()
-                                                                      .latlngLocation,
-                                                                  name: FFAppState()
-                                                                      .nameLocation,
-                                                                  address:
-                                                                      FFAppState()
-                                                                          .addressLocation,
-                                                                  city: FFAppState()
-                                                                      .cityLocation,
-                                                                  state: FFAppState()
-                                                                      .stateLocation,
-                                                                  country:
-                                                                      FFAppState()
-                                                                          .countryLocation,
-                                                                  zipCode:
-                                                                      FFAppState()
-                                                                          .zipCodeLocation,
+                                                                  latlng: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationLatLng,
+                                                                  name: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationName,
+                                                                  address: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationAddress,
+                                                                  city: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationCity,
+                                                                  state: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationState,
+                                                                  country: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationCountry,
+                                                                  zipCode: context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedLocationZipCode,
                                                                   authToken:
                                                                       currentJwtToken,
                                                                   id: getJsonField(

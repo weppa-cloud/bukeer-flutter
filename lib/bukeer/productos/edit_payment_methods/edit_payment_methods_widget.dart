@@ -2,6 +2,7 @@ import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../../../flutter_flow/custom_functions.dart' as functions;
@@ -40,7 +41,7 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
 
     _model.nameInputTextController ??= TextEditingController(
         text: getJsonField(
-      FFAppState().namePaymentMethods,
+      context.read<UiStateService>().namePaymentMethods,
       r'''$.name''',
     ).toString().toString());
     _model.nameInputFocusNode ??= FocusNode();
@@ -57,7 +58,7 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return GestureDetector(
       onTap: () {
@@ -101,7 +102,8 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     border: Border.all(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -216,26 +218,32 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
                                                                 ) ??
                                                                 false;
                                                         if (confirmDialogResponse) {
-                                                          FFAppState()
+                                                          context
+                                                                  .read<
+                                                                      UiStateService>()
                                                                   .accountPaymentMethods =
                                                               functions
                                                                   .editOrRemovePaymentMethod(
                                                                       false,
                                                                       getJsonField(
-                                                                        FFAppState()
+                                                                        context
+                                                                            .read<UiStateService>()
                                                                             .namePaymentMethods,
                                                                         r'''$.id''',
                                                                       ),
-                                                                      FFAppState()
+                                                                      context
+                                                                          .read<
+                                                                              UiStateService>()
                                                                           .accountPaymentMethods
                                                                           .toList(),
                                                                       '')!
                                                                   .toList()
                                                                   .cast<
                                                                       dynamic>();
-                                                          FFAppState()
-                                                                  .namePaymentMethods =
-                                                              '';
+                                                          context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .namePaymentMethods = '';
                                                           safeSetState(() {});
                                                           context.safePop();
                                                         }
@@ -428,9 +436,10 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
                                                           10.0, 0.0, 10.0, 0.0),
                                                   child: FFButtonWidget(
                                                     onPressed: () async {
-                                                      FFAppState()
-                                                              .namePaymentMethods =
-                                                          '';
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .namePaymentMethods = '';
                                                       safeSetState(() {});
                                                       context.safePop();
                                                     },
@@ -501,17 +510,23 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
                                                       _shouldSetState = true;
                                                       if (_model
                                                           .responseForm!) {
-                                                        FFAppState()
+                                                        context
+                                                                .read<
+                                                                    UiStateService>()
                                                                 .accountPaymentMethods =
                                                             functions
                                                                 .editOrRemovePaymentMethod(
                                                                     true,
                                                                     getJsonField(
-                                                                      FFAppState()
+                                                                      context
+                                                                          .read<
+                                                                              UiStateService>()
                                                                           .namePaymentMethods,
                                                                       r'''$.id''',
                                                                     ),
-                                                                    FFAppState()
+                                                                    context
+                                                                        .read<
+                                                                            UiStateService>()
                                                                         .accountPaymentMethods
                                                                         .toList(),
                                                                     _model
@@ -520,9 +535,10 @@ class _EditPaymentMethodsWidgetState extends State<EditPaymentMethodsWidget> {
                                                                 .toList()
                                                                 .cast<
                                                                     dynamic>();
-                                                        FFAppState()
-                                                                .namePaymentMethods =
-                                                            '';
+                                                        context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .namePaymentMethods = '';
                                                         safeSetState(() {});
                                                         context.safePop();
                                                       } else {

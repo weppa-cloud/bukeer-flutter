@@ -309,28 +309,32 @@ class _ModalAddEditItineraryWidgetState
                                         FlutterFlowTheme.of(context).alternate,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context).primary,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context).error,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context).error,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
@@ -409,7 +413,8 @@ class _ModalAddEditItineraryWidgetState
                                         ),
                                       )
                                     ],
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     border: Border.all(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -429,8 +434,8 @@ class _ModalAddEditItineraryWidgetState
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .accent1,
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                             shape: BoxShape.rectangle,
                                             border: Border.all(
                                               color:
@@ -440,10 +445,12 @@ class _ModalAddEditItineraryWidgetState
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.xs),
+                                            padding: EdgeInsets.all(
+                                                BukeerSpacing.xs),
                                             child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                               child: Image.network(
                                                 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxN3x8dXNlciUyMHByb2ZpbGV8ZW58MHx8fHwxNzMwNDE3MDE3fDA&ixlib=rb-4.0.3&q=80&w=1080',
                                                 width: 60.0,
@@ -466,24 +473,32 @@ class _ModalAddEditItineraryWidgetState
                                                 child: Text(
                                                   valueOrDefault<String>(
                                                     () {
-                                                      if (FFAppState()
-                                                              .isCreatedinItinerary ==
+                                                      if (context
+                                                              .watch<
+                                                                  UiStateService>()
+                                                              .isCreatedInItinerary ==
                                                           true) {
                                                         return valueOrDefault<
                                                             String>(
                                                           getJsonField(
-                                                            FFAppState()
-                                                                .itemsContact,
+                                                            context
+                                                                .watch<
+                                                                    UiStateService>()
+                                                                .selectedContact,
                                                             r'''$[:].name''',
                                                           )?.toString(),
                                                           'Seleccionar',
                                                         );
-                                                      } else if (FFAppState()
-                                                              .itemsContact !=
+                                                      } else if (context
+                                                              .watch<
+                                                                  UiStateService>()
+                                                              .selectedContact !=
                                                           null) {
                                                         return getJsonField(
-                                                          FFAppState()
-                                                              .itemsContact,
+                                                          context
+                                                              .watch<
+                                                                  UiStateService>()
+                                                              .selectedContact,
                                                           r'''$.name''',
                                                         ).toString();
                                                       } else if (widget!
@@ -498,8 +513,10 @@ class _ModalAddEditItineraryWidgetState
                                                         return valueOrDefault<
                                                             String>(
                                                           getJsonField(
-                                                            FFAppState()
-                                                                .itemsContact,
+                                                            context
+                                                                .watch<
+                                                                    UiStateService>()
+                                                                .selectedContact,
                                                             r'''$.name''',
                                                           )?.toString(),
                                                           'Seleccionar',
@@ -562,7 +579,8 @@ class _ModalAddEditItineraryWidgetState
                                                 BorderRadius.circular(40.0),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.xs),
+                                            padding: EdgeInsets.all(
+                                                BukeerSpacing.xs),
                                             child: Icon(
                                               Icons.chevron_right_rounded,
                                               color:
@@ -590,12 +608,15 @@ class _ModalAddEditItineraryWidgetState
                                   child: DropdownTravelPlannerWidget(
                                     currentAgentId: widget!.isEdit == true
                                         ? getJsonField(
-                                            context.read<ItineraryService>().allDataItinerary,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataItinerary,
                                             r'''$[:].agent''',
                                           )?.toString()
                                         : currentUserUid,
                                     onAgentChanged: (newAgentId) async {
-                                      _model.selectedTravelPlannerId = newAgentId;
+                                      _model.selectedTravelPlannerId =
+                                          newAgentId;
                                       safeSetState(() {});
                                     },
                                   ),
@@ -610,14 +631,18 @@ class _ModalAddEditItineraryWidgetState
                                   height: 70.0,
                                   initialStartDate: valueOrDefault<String>(
                                     getJsonField(
-                                      context.read<ItineraryService>().allDataItinerary,
+                                      context
+                                          .read<ItineraryService>()
+                                          .allDataItinerary,
                                       r'''$[:].start_date''',
                                     )?.toString(),
                                     'd/m/y',
                                   ),
                                   initialEndDate: valueOrDefault<String>(
                                     getJsonField(
-                                      context.read<ItineraryService>().allDataItinerary,
+                                      context
+                                          .read<ItineraryService>()
+                                          .allDataItinerary,
                                       r'''$[:].end_date''',
                                     )?.toString(),
                                     'd/m/y',
@@ -641,7 +666,9 @@ class _ModalAddEditItineraryWidgetState
                                   width: 297.0,
                                   height: 70.0,
                                   initialStartDate: getJsonField(
-                                    context.read<ItineraryService>().allDataItinerary,
+                                    context
+                                        .read<ItineraryService>()
+                                        .allDataItinerary,
                                     r'''$[:].valid_until''',
                                   ).toString(),
                                   labelText: 'Valido hasta',
@@ -661,7 +688,9 @@ class _ModalAddEditItineraryWidgetState
                                       valueOrDefault<String>(
                                     widget!.isEdit == true
                                         ? getJsonField(
-                                            context.read<ItineraryService>().allDataItinerary,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataItinerary,
                                             r'''$[:].language''',
                                           ).toString()
                                         : 'Español',
@@ -754,8 +783,8 @@ class _ModalAddEditItineraryWidgetState
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         shape: BoxShape.rectangle,
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
@@ -803,7 +832,9 @@ class _ModalAddEditItineraryWidgetState
                                             valueOrDefault<int>(
                                           widget!.isEdit == true
                                               ? getJsonField(
-                                                  context.read<ItineraryService>().allDataItinerary,
+                                                  context
+                                                      .read<ItineraryService>()
+                                                      .allDataItinerary,
                                                   r'''$[:].passenger_count''',
                                                 )
                                               : 1,
@@ -847,7 +878,9 @@ class _ModalAddEditItineraryWidgetState
                                       valueOrDefault<String>(
                                     widget!.isEdit == true
                                         ? getJsonField(
-                                            context.read<ItineraryService>().allDataItinerary,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataItinerary,
                                             r'''$[:].currency_type''',
                                           ).toString()
                                         : getJsonField(
@@ -924,7 +957,9 @@ class _ModalAddEditItineraryWidgetState
                                       valueOrDefault<String>(
                                     widget!.isEdit == true
                                         ? getJsonField(
-                                            context.read<ItineraryService>().allDataItinerary,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataItinerary,
                                             r'''$[:].request_type''',
                                           ).toString()
                                         : 'Econo',
@@ -1026,28 +1061,32 @@ class _ModalAddEditItineraryWidgetState
                                         FlutterFlowTheme.of(context).alternate,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context).primary,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context).error,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context).error,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 filled: true,
                                 fillColor: FlutterFlowTheme.of(context)
@@ -1155,7 +1194,10 @@ class _ModalAddEditItineraryWidgetState
                                                         imagesItemItem,
                                                         r'''$.url''',
                                                       ).toString()}' !=
-                                                      FFAppState().imageMain)
+                                                      context
+                                                          .watch<
+                                                              UiStateService>()
+                                                          .selectedImageUrl)
                                                     Align(
                                                       alignment:
                                                           AlignmentDirectional(
@@ -1178,8 +1220,10 @@ class _ModalAddEditItineraryWidgetState
                                                           highlightColor: Colors
                                                               .transparent,
                                                           onTap: () async {
-                                                            FFAppState()
-                                                                    .imageMain =
+                                                            context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedImageUrl =
                                                                 getJsonField(
                                                               imagesItemItem,
                                                               r'''$.url''',
@@ -1200,7 +1244,10 @@ class _ModalAddEditItineraryWidgetState
                                                         imagesItemItem,
                                                         r'''$.url''',
                                                       ).toString()}' ==
-                                                      FFAppState().imageMain)
+                                                      context
+                                                          .watch<
+                                                              UiStateService>()
+                                                          .selectedImageUrl)
                                                     Align(
                                                       alignment:
                                                           AlignmentDirectional(
@@ -1259,7 +1306,8 @@ class _ModalAddEditItineraryWidgetState
                           alignment: AlignmentDirectional(0.0, 0.05),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              FFAppState().itemsContact = null;
+                              context.read<UiStateService>().selectedContact =
+                                  null;
                               safeSetState(() {});
                               context.safePop();
                             },
@@ -1287,7 +1335,8 @@ class _ModalAddEditItineraryWidgetState
                                 color: FlutterFlowTheme.of(context).alternate,
                                 width: 2.0,
                               ),
-                              borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                              borderRadius:
+                                  BorderRadius.circular(BukeerSpacing.s),
                               hoverColor:
                                   FlutterFlowTheme.of(context).alternate,
                               hoverBorderSide: BorderSide(
@@ -1361,18 +1410,24 @@ class _ModalAddEditItineraryWidgetState
                                       language: _model.languageValue,
                                       requestType: _model.requestTypeValue,
                                       idCreatedBy: currentUserUid,
-                                      agent: _model.selectedTravelPlannerId ?? currentUserUid,
-                                      idContact:
-                                          FFAppState().isCreatedinItinerary ==
-                                                  true
-                                              ? getJsonField(
-                                                  FFAppState().itemsContact,
-                                                  r'''$[:].id''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  FFAppState().itemsContact,
-                                                  r'''$.id''',
-                                                ).toString(),
+                                      agent: _model.selectedTravelPlannerId ??
+                                          currentUserUid,
+                                      idContact: context
+                                                  .watch<UiStateService>()
+                                                  .isCreatedInItinerary ==
+                                              true
+                                          ? getJsonField(
+                                              context
+                                                  .watch<UiStateService>()
+                                                  .selectedContact,
+                                              r'''$[:].id''',
+                                            ).toString()
+                                          : getJsonField(
+                                              context
+                                                  .watch<UiStateService>()
+                                                  .selectedContact,
+                                              r'''$.id''',
+                                            ).toString(),
                                       idFm: '${FFAppState().accountIdFm}-',
                                       accountId: FFAppState().accountId,
                                       authToken: currentJwtToken,
@@ -1387,10 +1442,17 @@ class _ModalAddEditItineraryWidgetState
                                             '\n', '\\n');
                                       }(_model.messageActivityTextController
                                               .text),
-                                      mainImage: FFAppState().imageMain !=
+                                      mainImage: context
+                                                      .watch<UiStateService>()
+                                                      .selectedImageUrl !=
                                                   null &&
-                                              FFAppState().imageMain != ''
-                                          ? FFAppState().imageMain
+                                              context
+                                                      .watch<UiStateService>()
+                                                      .selectedImageUrl !=
+                                                  ''
+                                          ? context
+                                              .watch<UiStateService>()
+                                              .selectedImageUrl
                                           : 'https://images.unsplash.com/photo-1533699224246-6dc3b3ed3304?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwyfHxjb2xvbWJpYXxlbnwwfHx8fDE3Mzc0MjQxNzF8MA&ixlib=rb-4.0.3&q=80&w=1080',
                                     );
 
@@ -1399,9 +1461,15 @@ class _ModalAddEditItineraryWidgetState
                                             .apiResponseCreateItineraryContact
                                             ?.succeeded ??
                                         true)) {
-                                      FFAppState().itemsContact = null;
-                                      FFAppState().isCreatedinItinerary = false;
-                                      context.read<ContactService>().allDataContact =
+                                      context
+                                          .read<UiStateService>()
+                                          .selectedContact = null;
+                                      context
+                                          .read<UiStateService>()
+                                          .isCreatedInItinerary = false;
+                                      context
+                                              .read<ContactService>()
+                                              .allDataContact =
                                           CreateItineraryForContactCall.all(
                                         (_model.apiResponseCreateItineraryContact
                                                 ?.jsonBody ??
@@ -1492,7 +1560,8 @@ class _ModalAddEditItineraryWidgetState
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                                 hoverColor:
                                     FlutterFlowTheme.of(context).accent1,
                                 hoverBorderSide: BorderSide(
@@ -1537,7 +1606,9 @@ class _ModalAddEditItineraryWidgetState
                                                 _model.initialStartDate != ''
                                             ? _model.initialStartDate
                                             : getJsonField(
-                                                context.read<ItineraryService>().allDataItinerary,
+                                                context
+                                                    .read<ItineraryService>()
+                                                    .allDataItinerary,
                                                 r'''$[:].start_date''',
                                               ).toString(),
                                     passengerCount: _model.countControllerValue,
@@ -1545,48 +1616,69 @@ class _ModalAddEditItineraryWidgetState
                                             _model.initialEndDate != ''
                                         ? _model.initialEndDate
                                         : getJsonField(
-                                            context.read<ItineraryService>().allDataItinerary,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataItinerary,
                                             r'''$[:].end_date''',
                                           ).toString(),
                                     validUntil: _model.initialDate != null &&
                                             _model.initialDate != ''
                                         ? _model.initialDate
                                         : getJsonField(
-                                            context.read<ItineraryService>().allDataItinerary,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataItinerary,
                                             r'''$[:].valid_until''',
                                           ).toString(),
                                     language: _model.languageValue,
                                     requestType: _model.requestTypeValue,
-                                    agent: _model.selectedTravelPlannerId ?? getJsonField(
-                                      context.read<ItineraryService>().allDataItinerary,
-                                      r'''$[:].agent''',
-                                    ).toString(),
+                                    agent: _model.selectedTravelPlannerId ??
+                                        getJsonField(
+                                          context
+                                              .read<ItineraryService>()
+                                              .allDataItinerary,
+                                          r'''$[:].agent''',
+                                        ).toString(),
                                     idCreatedBy: getJsonField(
-                                      context.read<ItineraryService>().allDataItinerary,
+                                      context
+                                          .read<ItineraryService>()
+                                          .allDataItinerary,
                                       r'''$[:].id_created_by''',
                                     ).toString(),
                                     idContact: () {
-                                      if (FFAppState().isCreatedinItinerary ==
+                                      if (context
+                                              .read<UiStateService>()
+                                              .isCreatedInItinerary ==
                                           true) {
                                         return getJsonField(
-                                          FFAppState().itemsContact,
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedContact,
                                           r'''$[:].id''',
                                         ).toString();
-                                      } else if (FFAppState().itemsContact !=
+                                      } else if (context
+                                              .read<UiStateService>()
+                                              .selectedContact !=
                                           null) {
                                         return getJsonField(
-                                          FFAppState().itemsContact,
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedContact,
                                           r'''$.id''',
                                         ).toString();
                                       } else {
                                         return getJsonField(
-                                          context.read<ItineraryService>().allDataItinerary,
+                                          context
+                                              .read<ItineraryService>()
+                                              .allDataItinerary,
                                           r'''$[:].id_contact''',
                                         ).toString();
                                       }
                                     }(),
                                     id: getJsonField(
-                                      context.read<ItineraryService>().allDataItinerary,
+                                      context
+                                          .read<ItineraryService>()
+                                          .allDataItinerary,
                                       r'''$[:].id''',
                                     ).toString(),
                                     currencyType: _model.currencyTypeValue,
@@ -1596,15 +1688,21 @@ class _ModalAddEditItineraryWidgetState
                                           '\n', '\\n');
                                     }(_model.messageActivityTextController
                                             .text),
-                                    mainImage: FFAppState().imageMain,
+                                    mainImage: context
+                                        .watch<UiStateService>()
+                                        .selectedImageUrl,
                                   );
 
                                   _shouldSetState = true;
                                   if ((_model
                                           .responseUpdateItinerary?.succeeded ??
                                       true)) {
-                                    FFAppState().itemsContact = null;
-                                    FFAppState().isCreatedinItinerary = false;
+                                    context
+                                        .read<UiStateService>()
+                                        .selectedContact = null;
+                                    context
+                                        .read<UiStateService>()
+                                        .isCreatedInItinerary = false;
                                     safeSetState(() {});
                                     context.safePop();
                                   } else {
@@ -1678,7 +1776,8 @@ class _ModalAddEditItineraryWidgetState
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                                 hoverColor:
                                     FlutterFlowTheme.of(context).accent1,
                                 hoverBorderSide: BorderSide(

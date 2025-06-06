@@ -88,6 +88,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       errorBuilder: (context, state) =>
           appStateNotifier.loggedIn ? NavBarPage() : AuthLoginWidget(),
       routes: [
+        // componentDateRangeRoute, // TODO: Implement component route
         FFRoute(
           name: '_initialize',
           path: '/',

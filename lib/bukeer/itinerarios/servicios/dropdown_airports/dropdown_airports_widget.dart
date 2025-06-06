@@ -5,6 +5,7 @@ import '../../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
+import '../../../../services/ui_state_service.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'dart:async';
@@ -86,7 +87,7 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
@@ -245,7 +246,9 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                             '_model.searchFieldTextController',
                                             Duration(milliseconds: 2000),
                                             () async {
-                                              context.read<UiStateService>().searchQuery =
+                                              context
+                                                      .read<UiStateService>()
+                                                      .searchQuery =
                                                   _model
                                                       .searchFieldTextController
                                                       .text;
@@ -271,7 +274,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -281,7 +285,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -291,7 +296,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -302,7 +308,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             contentPadding:
                                                 EdgeInsetsDirectional.fromSTEB(
@@ -320,8 +327,10 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                       _model
                                                           .searchFieldTextController
                                                           ?.clear();
-                                                      FFAppState()
-                                                              .searchStringState =
+                                                      context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .searchQuery =
                                                           _model
                                                               .searchFieldTextController
                                                               .text;
@@ -335,7 +344,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                     },
                                                     child: Icon(
                                                       Icons.clear,
-                                                      color: BukeerColors.textSecondary,
+                                                      color: BukeerColors
+                                                          .textSecondary,
                                                       size: 20.0,
                                                     ),
                                                   )
@@ -347,7 +357,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMediumFamily,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 useGoogleFonts:
                                                     !FlutterFlowTheme.of(
@@ -382,7 +393,9 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                         _model.setListViewAirportsController(
                                       (nextPageMarker) => GetAirportsCall.call(
                                         authToken: currentJwtToken,
-                                        search: context.read<UiStateService>().searchQuery,
+                                        search: context
+                                            .read<UiStateService>()
+                                            .searchQuery,
                                         pageNumber:
                                             nextPageMarker.nextPageNumber,
                                         pageSize: 5,
@@ -441,22 +454,28 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
                                               if (widget!.type == 'departure') {
-                                                FFAppState().departureState =
+                                                context
+                                                        .read<UiStateService>()
+                                                        .departureState =
                                                     getJsonField(
                                                   airportsItemItem,
                                                   r'''$.name''',
                                                 ).toString();
-                                                context.read<UiStateService>().searchQuery =
-                                                    '';
+                                                context
+                                                    .read<UiStateService>()
+                                                    .searchQuery = '';
                                                 safeSetState(() {});
                                               } else {
-                                                FFAppState().arrivalState =
+                                                context
+                                                        .read<UiStateService>()
+                                                        .arrivalState =
                                                     getJsonField(
                                                   airportsItemItem,
                                                   r'''$.name''',
                                                 ).toString();
-                                                context.read<UiStateService>().searchQuery =
-                                                    '';
+                                                context
+                                                    .read<UiStateService>()
+                                                    .searchQuery = '';
                                                 safeSetState(() {});
                                               }
 
@@ -467,7 +486,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                               elevation: 1.0,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.m),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.m),
                                               ),
                                               child: Container(
                                                 width:
@@ -484,7 +504,8 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                           20.0),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(BukeerSpacing.s),
+                                                  padding: EdgeInsets.all(
+                                                      BukeerSpacing.s),
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -499,25 +520,27 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                                         ).toString(),
                                                         textAlign:
                                                             TextAlign.start,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .headlineSmall
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineSmall
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
                                                                           context)
                                                                       .headlineSmallFamily,
-                                                              fontSize: BukeerTypography.bodyMediumSize,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .headlineSmallIsCustom,
-                                                            ),
+                                                                  fontSize:
+                                                                      BukeerTypography
+                                                                          .bodyMediumSize,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  useGoogleFonts:
+                                                                      !FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .headlineSmallIsCustom,
+                                                                ),
                                                       ),
                                                       Icon(
                                                         Icons.arrow_forward_ios,

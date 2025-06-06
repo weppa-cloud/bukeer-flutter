@@ -692,7 +692,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                     .read<
                                                                         UiStateService>()
                                                                     .searchQuery = '';
-                                                                FFAppState()
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
                                                                     .locationState = '';
                                                                 safeSetState(
                                                                     () {});

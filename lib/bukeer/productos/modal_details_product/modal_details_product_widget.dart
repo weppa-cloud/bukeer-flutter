@@ -67,7 +67,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().imageMain = getJsonField(
+      context.read<UiStateService>().selectedImageUrl = getJsonField(
         widget!.dataActivity,
         r'''$.main_image''',
       ).toString().toString();
@@ -394,7 +394,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return FutureBuilder<ApiCallResponse>(
       future: GetDataByIdProductsCall.call(
@@ -485,8 +485,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                                 onPressed: () async {
-                                  context.read<UiStateService>().searchQuery = '';
-                                  FFAppState().locationState = '';
+                                  context.read<UiStateService>().searchQuery =
+                                      '';
+                                  context.read<UiStateService>().locationState =
+                                      '';
                                   safeSetState(() {});
                                   await Future.delayed(
                                       const Duration(milliseconds: 1000));
@@ -571,8 +573,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .accent1,
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                             border: Border.all(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -581,7 +583,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.xs),
+                                            padding: EdgeInsets.all(
+                                                BukeerSpacing.xs),
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
@@ -1085,12 +1088,20 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                           r'''$[:].id''',
                                                         ).toString(),
                                                         recordType: () {
-                                                          switch (FFAppState().typeProduct) {
-                                                            case 1: return 'flights';
-                                                            case 2: return 'hotels';
-                                                            case 3: return 'activities';
-                                                            case 4: return 'transfers';
-                                                            default: return 'activities';
+                                                          switch (context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedProductType) {
+                                                            case 1:
+                                                              return 'flights';
+                                                            case 2:
+                                                              return 'hotels';
+                                                            case 3:
+                                                              return 'activities';
+                                                            case 4:
+                                                              return 'transfers';
+                                                            default:
+                                                              return 'activities';
                                                           }
                                                         }(),
                                                       );
@@ -1231,7 +1242,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                           decoration: BoxDecoration(
                             color:
                                 FlutterFlowTheme.of(context).primaryBackground,
-                            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                            borderRadius:
+                                BorderRadius.circular(BukeerSpacing.s),
                           ),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -1285,7 +1297,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                         .bodyMediumIsCustom,
                                               ),
                                         ),
-                                      ].divide(SizedBox(width: BukeerSpacing.s)),
+                                      ].divide(
+                                          SizedBox(width: BukeerSpacing.s)),
                                     ),
                                   ),
                                 ),
@@ -1375,7 +1388,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                     ].divide(SizedBox(width: BukeerSpacing.s)),
                                   ),
                                 ),
-                                if (context.read<UiStateService>().selectedProductType == 'activities')
+                                if (context
+                                        .read<UiStateService>()
+                                        .selectedProductType ==
+                                    'activities')
                                   InkWell(
                                     splashColor: Colors.transparent,
                                     focusColor: Colors.transparent,
@@ -1419,7 +1435,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                         .bodyMediumIsCustom,
                                               ),
                                         ),
-                                      ].divide(SizedBox(width: BukeerSpacing.s)),
+                                      ].divide(
+                                          SizedBox(width: BukeerSpacing.s)),
                                     ),
                                   ),
                               ].divide(SizedBox(width: BukeerSpacing.l)),
@@ -1450,7 +1467,9 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                             AddEditTarifaWidget.routeName,
                                             queryParameters: {
                                               'typeProduct': serializeParam(
-                                                context.read<UiStateService>().selectedProductType,
+                                                context
+                                                    .read<UiStateService>()
+                                                    .selectedProductType,
                                                 ParamType.String,
                                               ),
                                               'typeAction': serializeParam(
@@ -1486,7 +1505,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                     FlutterFlowTheme.of(context)
                                                         .titleSmallFamily,
                                                 color: Colors.white,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 useGoogleFonts:
                                                     !FlutterFlowTheme.of(
@@ -1494,8 +1514,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                         .titleSmallIsCustom,
                                               ),
                                           elevation: 0.0,
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                       ),
                                     ),
@@ -1508,7 +1528,9 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                         r'''$[:].id''',
                                       ).toString(),
                                       authToken: currentJwtToken,
-                                      typeproduct: context.read<UiStateService>().selectedProductType,
+                                      typeproduct: context
+                                          .read<UiStateService>()
+                                          .selectedProductType,
                                     ),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
@@ -1592,8 +1614,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                         ),
                                                         'typeProduct':
                                                             serializeParam(
-                                                          FFAppState()
-                                                              .typeProduct,
+                                                          context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .selectedProductType,
                                                           ParamType.String,
                                                         ),
                                                         'typeAction':
@@ -2225,7 +2249,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                         alignment:
                                             AlignmentDirectional(1.0, 0.0),
                                         child: Padding(
-                                          padding: EdgeInsets.all(BukeerSpacing.s),
+                                          padding:
+                                              EdgeInsets.all(BukeerSpacing.s),
                                           child: FFButtonWidget(
                                             onPressed: () async {
                                               final selectedFiles =
@@ -2308,7 +2333,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                               size: 15.0,
                                             ),
                                             options: FFButtonOptions(
-                                              padding: EdgeInsets.all(BukeerSpacing.s),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.s),
                                               iconAlignment: IconAlignment.end,
                                               iconPadding: EdgeInsets.all(0.0),
                                               color:
@@ -2337,7 +2363,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                 width: 1.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                               hoverColor:
                                                   FlutterFlowTheme.of(context)
                                                       .accent1,
@@ -2502,7 +2529,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                     ),
                                                     if (staggeredViewImagesRow
                                                             .url !=
-                                                        FFAppState().imageMain)
+                                                        context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedImageUrl)
                                                       Align(
                                                         alignment:
                                                             AlignmentDirectional(
@@ -2529,12 +2559,20 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                               await actions
                                                                   .updateMainImage(
                                                                 () {
-                                                                  switch (FFAppState().typeProduct) {
-                                                                    case 1: return 'flights';
-                                                                    case 2: return 'hotels';
-                                                                    case 3: return 'activities';
-                                                                    case 4: return 'transfers';
-                                                                    default: return 'activities';
+                                                                  switch (context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedProductType) {
+                                                                    case 1:
+                                                                      return 'flights';
+                                                                    case 2:
+                                                                      return 'hotels';
+                                                                    case 3:
+                                                                      return 'activities';
+                                                                    case 4:
+                                                                      return 'transfers';
+                                                                    default:
+                                                                      return 'activities';
                                                                   }
                                                                 }(),
                                                                 getJsonField(
@@ -2545,8 +2583,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                                 staggeredViewImagesRow
                                                                     .url!,
                                                               );
-                                                              FFAppState()
-                                                                      .imageMain =
+                                                              context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedImageUrl =
                                                                   staggeredViewImagesRow
                                                                       .url!;
                                                               safeSetState(
@@ -2564,7 +2604,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                       ),
                                                     if (staggeredViewImagesRow
                                                             .url ==
-                                                        FFAppState().imageMain)
+                                                        context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedImageUrl)
                                                       Align(
                                                         alignment:
                                                             AlignmentDirectional(
@@ -2704,7 +2747,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                             alignment:
                                                 AlignmentDirectional(1.0, 0.0),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.s),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.s),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
                                                   await showModalBottomSheet(
@@ -2739,7 +2783,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                   size: 15.0,
                                                 ),
                                                 options: FFButtonOptions(
-                                                  padding: EdgeInsets.all(BukeerSpacing.s),
+                                                  padding: EdgeInsets.all(
+                                                      BukeerSpacing.s),
                                                   iconAlignment:
                                                       IconAlignment.end,
                                                   iconPadding:

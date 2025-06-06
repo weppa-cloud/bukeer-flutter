@@ -10,8 +10,8 @@ class AppConfig {
   static const Map<String, dynamic> _fallbackConfig = {
     'supabaseUrl': 'https://wzlxbpicdcdvxvdcvgas.supabase.co',
     'supabaseAnonKey':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug',
-    'apiBaseUrl': 'https://bukeer.bukeerpro.com/api',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU0NjQyODAsImV4cCI6MjA0MTA0MDI4MH0.dSh-yGzemDC7DL_rf7fwgWlMoEKv1SlBCxd8ElFs_d8',
+    'apiBaseUrl': 'https://wzlxbpicdcdvxvdcvgas.supabase.co/rest/v1',
     'googleMapsApiKey': 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
     'environment': 'development',
     'features': {

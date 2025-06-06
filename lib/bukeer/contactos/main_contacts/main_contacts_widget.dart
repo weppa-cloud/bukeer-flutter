@@ -8,6 +8,7 @@ import '../../componentes/search_box/search_box_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return GestureDetector(
       onTap: () {

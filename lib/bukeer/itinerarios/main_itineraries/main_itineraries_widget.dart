@@ -6,6 +6,7 @@ import '../../modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../../../index.dart';
@@ -57,7 +58,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return GestureDetector(
       onTap: () {
@@ -129,7 +130,8 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                 .secondaryBackground,
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.m),
+                                            padding:
+                                                EdgeInsets.all(BukeerSpacing.m),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
@@ -177,9 +179,18 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                           Colors.transparent,
                                                       onTap: () async {
                                                         // Clear services data before creating new itinerary
-                                                        context.read<ContactService>().allDataContact = null;
-                                                        context.read<ItineraryService>().allDataItinerary = null;
-                                                        context.read<UiStateService>().selectedImageUrl = '';
+                                                        context
+                                                            .read<
+                                                                ContactService>()
+                                                            .allDataContact = null;
+                                                        context
+                                                            .read<
+                                                                ItineraryService>()
+                                                            .allDataItinerary = null;
+                                                        context
+                                                            .read<
+                                                                UiStateService>()
+                                                            .selectedImageUrl = '';
                                                         safeSetState(() {});
                                                         await showModalBottomSheet(
                                                           isScrollControlled:
@@ -509,11 +520,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                     ),
                                                                     onFieldSubmitted:
                                                                         (_) async {
-                                                                      context.read<UiStateService>()
-                                                                              .searchQuery =
-                                                                          _model
-                                                                              .textController
-                                                                              .text;
+                                                                      context.read<UiStateService>().searchQuery = _model
+                                                                          .textController
+                                                                          .text;
                                                                       safeSetState(() => _model
                                                                           .listViewItinerariesPagingController
                                                                           ?.refresh());
@@ -598,10 +607,11 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                         ),
                                                       ),
                                                     ),
-                                                  ].divide(
-                                                      SizedBox(width: BukeerSpacing.m)),
+                                                  ].divide(SizedBox(
+                                                      width: BukeerSpacing.m)),
                                                 ),
-                                              ].divide(SizedBox(height: BukeerSpacing.s)),
+                                              ].divide(SizedBox(
+                                                  height: BukeerSpacing.s)),
                                             ),
                                           ),
                                         ),
@@ -639,8 +649,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                               GetItinerariesWithDataContactSearchCall
                                                   .call(
                                             authToken: currentJwtToken,
-                                            search:
-                                                context.read<UiStateService>().searchQuery,
+                                            search: context
+                                                .read<UiStateService>()
+                                                .searchQuery,
                                             pageNumber:
                                                 nextPageMarker.nextPageNumber,
                                             pageSize: 10,
@@ -702,9 +713,12 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  context.read<ItineraryService>().allDataItinerary =
+                                                  context
+                                                          .read<ItineraryService>()
+                                                          .allDataItinerary =
                                                       itineriesItemItem;
-                                                  context.read<UiStateService>()
+                                                  context
+                                                      .read<UiStateService>()
                                                       .searchQuery = '';
                                                   safeSetState(() {});
 
@@ -744,8 +758,8 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                               12.0),
                                                     ),
                                                     child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(BukeerSpacing.s),
+                                                      padding: EdgeInsets.all(
+                                                          BukeerSpacing.s),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,

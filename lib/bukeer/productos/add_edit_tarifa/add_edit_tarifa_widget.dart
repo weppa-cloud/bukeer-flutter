@@ -5,6 +5,7 @@ import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../services/ui_state_service.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '../../../custom_code/actions/index.dart' as actions;
@@ -85,7 +86,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return GestureDetector(
       onTap: () {
@@ -129,7 +130,8 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     border: Border.all(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -244,7 +246,10 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                 ) ??
                                                                 false;
                                                         if (confirmDialogResponse) {
-                                                          if (context.read<UiStateService>().selectedProductType ==
+                                                          if (context
+                                                                  .read<
+                                                                      UiStateService>()
+                                                                  .selectedProductType ==
                                                               'activities') {
                                                             _model.responseActivitiesDeleted =
                                                                 await ActivitiesRatesTable()
@@ -260,7 +265,10 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                             Navigator.pop(
                                                                 context);
                                                           } else {
-                                                            if (context.read<UiStateService>().selectedProductType ==
+                                                            if (context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .selectedProductType ==
                                                                 'hotels') {
                                                               _model.responseHotelsDeleted =
                                                                   await HotelRatesTable()
@@ -277,7 +285,10 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                               Navigator.pop(
                                                                   context);
                                                             } else {
-                                                              if (context.read<UiStateService>().selectedProductType ==
+                                                              if (context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectedProductType ==
                                                                   'transfers') {
                                                                 _model.responseTrnsfersDeleted =
                                                                     await TransferRatesTable()

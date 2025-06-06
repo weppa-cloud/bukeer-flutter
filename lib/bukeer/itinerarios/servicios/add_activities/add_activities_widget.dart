@@ -389,7 +389,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 rows.eqOrNull(
                                               'id',
                                               getJsonField(
-                                                context.read<ProductService>().allDataActivity,
+                                                context
+                                                    .read<ProductService>()
+                                                    .allDataActivity,
                                                 r'''$.id''',
                                               ).toString(),
                                             ),
@@ -456,7 +458,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                               await DuplicateItineraryItemCall
                                                   .call(
                                             originalId: getJsonField(
-                                              context.read<ProductService>().allDataActivity,
+                                              context
+                                                  .read<ProductService>()
+                                                  .allDataActivity,
                                               r'''$.id''',
                                             ).toString(),
                                             authToken: currentJwtToken,
@@ -544,11 +548,15 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                             height: 70.0,
                                             initialStartDate: widget!.isEdit
                                                 ? getJsonField(
-                                                    context.read<ProductService>().allDataActivity,
+                                                    context
+                                                        .read<ProductService>()
+                                                        .allDataActivity,
                                                     r'''$.date''',
                                                   ).toString()
                                                 : getJsonField(
-                                                    context.read<ContactService>().allDataContact,
+                                                    context
+                                                        .read<ContactService>()
+                                                        .allDataContact,
                                                     r'''$[:].start_date''',
                                                   ).toString(),
                                             labelText: 'Fecha',
@@ -626,7 +634,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -636,7 +645,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -646,7 +656,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -657,7 +668,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -673,7 +685,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMediumFamily,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 useGoogleFonts:
                                                     !FlutterFlowTheme.of(
@@ -742,8 +755,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                             ),
                                           )
                                         ],
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -751,7 +764,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(BukeerSpacing.s),
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.s),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
@@ -763,7 +777,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     FlutterFlowTheme.of(context)
                                                         .accent1,
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 shape: BoxShape.rectangle,
                                                 border: Border.all(
                                                   color: FlutterFlowTheme.of(
@@ -773,7 +788,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 ),
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.all(BukeerSpacing.xs),
+                                                padding: EdgeInsets.all(
+                                                    BukeerSpacing.xs),
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -801,20 +817,32 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     child: Text(
                                                       valueOrDefault<String>(
                                                         widget!.isEdit == true
-                                                            ? (context.read<UiStateService>().itemsProducts !=
+                                                            ? (context
+                                                                        .read<
+                                                                            UiStateService>()
+                                                                        .itemsProducts !=
                                                                     null
                                                                 ? getJsonField(
-                                                                    context.read<UiStateService>().itemsProducts,
+                                                                    context
+                                                                        .read<
+                                                                            UiStateService>()
+                                                                        .itemsProducts,
                                                                     r'''$.name''',
                                                                   ).toString()
                                                                 : getJsonField(
-                                                                    context.read<ProductService>().allDataActivity,
+                                                                    context
+                                                                        .read<
+                                                                            ProductService>()
+                                                                        .allDataActivity,
                                                                     r'''$.product_name''',
                                                                   ).toString())
                                                             : valueOrDefault<
                                                                 String>(
                                                                 getJsonField(
-                                                                  context.read<UiStateService>().itemsProducts,
+                                                                  context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .itemsProducts,
                                                                   r'''$.name''',
                                                                 )?.toString(),
                                                                 'Seleccionar',
@@ -875,7 +903,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     BorderRadius.circular(40.0),
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.all(BukeerSpacing.xs),
+                                                padding: EdgeInsets.all(
+                                                    BukeerSpacing.xs),
                                                 child: Icon(
                                                   Icons.chevron_right_rounded,
                                                   color: FlutterFlowTheme.of(
@@ -894,7 +923,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                   Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      if ((context.read<UiStateService>().itemsProducts !=
+                                      if ((context
+                                                  .read<UiStateService>()
+                                                  .itemsProducts !=
                                               null) ||
                                           (widget!.isEdit == true))
                                         InkWell(
@@ -903,7 +934,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                           hoverColor: Colors.transparent,
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
-                                            context.read<UiStateService>().selectRates = true;
+                                            context
+                                                .read<UiStateService>()
+                                                .selectRates = true;
                                             safeSetState(() {});
                                           },
                                           child: AnimatedContainer(
@@ -943,7 +976,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.s),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.s),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
@@ -977,7 +1011,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                                         )
                                                                           .toString()
                                                                       : getJsonField(
-                                                                          context.read<ProductService>().allDataActivity,
+                                                                          context
+                                                                              .read<ProductService>()
+                                                                              .allDataActivity,
                                                                           r'''$.rate_name''',
                                                                         )
                                                                           .toString())
@@ -1058,7 +1094,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            if (_model.selectRates == false)
+                                                            if (_model
+                                                                    .selectRates ==
+                                                                false)
                                                               Padding(
                                                                 padding:
                                                                     EdgeInsets
@@ -1073,7 +1111,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                                   size: 24.0,
                                                                 ),
                                                               ),
-                                                            if (_model.selectRates == true)
+                                                            if (_model
+                                                                    .selectRates ==
+                                                                true)
                                                               Padding(
                                                                 padding:
                                                                     EdgeInsetsDirectional
@@ -1102,7 +1142,10 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                           ),
                                         ).animateOnPageLoad(animationsMap[
                                             'containerOnPageLoadAnimation3']!),
-                                      if (context.read<UiStateService>().selectRates == true)
+                                      if (context
+                                              .read<UiStateService>()
+                                              .selectRates ==
+                                          true)
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
@@ -1183,7 +1226,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                           highlightColor: Colors
                                                               .transparent,
                                                           onTap: () async {
-                                                            _model.selectRates = false;
+                                                            _model.selectRates =
+                                                                false;
                                                             safeSetState(() {});
                                                           },
                                                           child: Card(
@@ -1215,8 +1259,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                             ),
                                                           ),
                                                         ),
-                                                      ].divide(
-                                                          SizedBox(width: BukeerSpacing.s)),
+                                                      ].divide(SizedBox(
+                                                          width:
+                                                              BukeerSpacing.s)),
                                                     ),
                                                   ),
                                                   Divider(
@@ -1236,21 +1281,29 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       idProduct: widget!
                                                                   .isEdit ==
                                                               true
-                                                          ? (FFAppState()
+                                                          ? (context
+                                                                      .read<
+                                                                          UiStateService>()
                                                                       .itemsProducts !=
                                                                   null
                                                               ? getJsonField(
-                                                                  FFAppState()
+                                                                  context
+                                                                      .read<
+                                                                          UiStateService>()
                                                                       .itemsProducts,
                                                                   r'''$.id''',
                                                                 ).toString()
                                                               : getJsonField(
-                                                                  FFAppState()
+                                                                  context
+                                                                      .read<
+                                                                          ProductService>()
                                                                       .allDataActivity,
                                                                   r'''$.id_product''',
                                                                 ).toString())
                                                           : getJsonField(
-                                                              FFAppState()
+                                                              context
+                                                                  .read<
+                                                                      UiStateService>()
                                                                   .itemsProducts,
                                                               r'''$.id''',
                                                             ).toString(),
@@ -1368,9 +1421,10 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                                       });
                                                                     }),
                                                                   ]);
-                                                                  FFAppState()
-                                                                          .selectRates =
-                                                                      false;
+                                                                  context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .selectRates = false;
                                                                   safeSetState(
                                                                       () {});
                                                                 },
@@ -1585,8 +1639,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                             ),
                                           )
                                         ],
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -2152,7 +2206,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .headlineSmallFamily,
-                                                          fontSize: BukeerTypography.bodyMediumSize,
+                                                          fontSize:
+                                                              BukeerTypography
+                                                                  .bodyMediumSize,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w600,
@@ -2168,22 +2224,24 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     children: [
                                                       Text(
                                                         '\$',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyLarge
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyLargeFamily,
-                                                              fontSize: BukeerTypography.headlineSmallSize,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLargeIsCustom,
-                                                            ),
+                                                                  fontSize:
+                                                                      BukeerTypography
+                                                                          .headlineSmallSize,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  useGoogleFonts:
+                                                                      !FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyLargeIsCustom,
+                                                                ),
                                                       ),
                                                       Padding(
                                                         padding:
@@ -2227,7 +2285,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                                 fontFamily: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyLargeFamily,
-                                                                fontSize: BukeerTypography.headlineSmallSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .headlineSmallSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 useGoogleFonts:
@@ -2239,7 +2299,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       ),
                                                     ],
                                                   ),
-                                                ].divide(SizedBox(width: BukeerSpacing.s)),
+                                                ].divide(SizedBox(
+                                                    width: BukeerSpacing.s)),
                                               ),
                                             ],
                                           ),
@@ -2294,8 +2355,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -2304,8 +2365,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       .primary,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           errorBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -2314,8 +2375,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
@@ -2325,8 +2386,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           filled: true,
                                           fillColor:
@@ -2360,7 +2421,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                   ),
                                 ]
                                     .divide(SizedBox(height: BukeerSpacing.s))
-                                    .addToStart(SizedBox(height: BukeerSpacing.s)),
+                                    .addToStart(
+                                        SizedBox(height: BukeerSpacing.s)),
                               ),
                             ),
                           ),
@@ -2375,8 +2437,12 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                   alignment: AlignmentDirectional(0.0, 0.05),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      context.read<UiStateService>().itemsProducts = null;
-                                      context.read<ProductService>().allDataActivity = null;
+                                      context
+                                          .read<UiStateService>()
+                                          .itemsProducts = null;
+                                      context
+                                          .read<ProductService>()
+                                          .allDataActivity = null;
                                       safeSetState(() {});
                                       Navigator.pop(context);
                                     },
@@ -2407,7 +2473,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                             .alternate,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       hoverColor: FlutterFlowTheme.of(context)
                                           .alternate,
                                       hoverBorderSide: BorderSide(
@@ -2456,16 +2523,22 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                 .quantityTextController.text),
                                             authToken: currentJwtToken,
                                             idProduct: getJsonField(
-                                              context.read<UiStateService>().itemsProducts,
+                                              context
+                                                  .read<UiStateService>()
+                                                  .itemsProducts,
                                               r'''$.id''',
                                             ).toString(),
                                             productType: 'Servicios',
                                             destination: getJsonField(
-                                              context.read<UiStateService>().itemsProducts,
+                                              context
+                                                  .read<UiStateService>()
+                                                  .itemsProducts,
                                               r'''$.city''',
                                             ).toString(),
                                             productName: getJsonField(
-                                              context.read<UiStateService>().itemsProducts,
+                                              context
+                                                  .read<UiStateService>()
+                                                  .itemsProducts,
                                               r'''$.name''',
                                             ).toString(),
                                             rateName: getJsonField(
@@ -2481,7 +2554,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     _model.initialDate != ''
                                                 ? _model.initialDate
                                                 : getJsonField(
-                                                    context.read<ContactService>().allDataContact,
+                                                    context
+                                                        .read<ContactService>()
+                                                        .allDataContact,
                                                     r'''$[:].start_date''',
                                                   ).toString(),
                                             idItinerary: widget!.itineraryId,
@@ -2513,8 +2588,12 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                   .apiResponseAddItineraryItem
                                                   ?.succeeded ??
                                               true)) {
-                                            context.read<UiStateService>().itemsProducts = null;
-                                            context.read<ProductService>().allDataActivity = null;
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts = null;
+                                            context
+                                                .read<ProductService>()
+                                                .allDataActivity = null;
                                             safeSetState(() {});
                                             _model.totalCost = 0.0;
                                             _model.unitCost = 0.0;
@@ -2591,8 +2670,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                           color: Colors.transparent,
                                           width: 1.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         hoverColor: FlutterFlowTheme.of(context)
                                             .accent1,
                                         hoverBorderSide: BorderSide(
@@ -2640,7 +2719,9 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                   .call(
                                             authToken: currentJwtToken,
                                             id: getJsonField(
-                                              context.read<ProductService>().allDataActivity,
+                                              context
+                                                  .read<ProductService>()
+                                                  .allDataActivity,
                                               r'''$.id''',
                                             ).toString(),
                                             unitCost: double.tryParse(_model
@@ -2651,21 +2732,28 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     _model.initialDate != ''
                                                 ? _model.initialDate
                                                 : getJsonField(
-                                                    FFAppState()
+                                                    context
+                                                        .read<ProductService>()
                                                         .allDataActivity,
                                                     r'''$.date''',
                                                   ).toString(),
                                             profitPercentage: double.tryParse(
                                                 _model
                                                     .markupTextController.text),
-                                            idProduct: context.read<UiStateService>().itemsProducts !=
+                                            idProduct: context
+                                                        .read<UiStateService>()
+                                                        .itemsProducts !=
                                                     null
                                                 ? getJsonField(
-                                                    context.read<UiStateService>().itemsProducts,
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .itemsProducts,
                                                     r'''$.id''',
                                                   ).toString()
                                                 : getJsonField(
-                                                    context.read<ProductService>().allDataActivity,
+                                                    context
+                                                        .read<ProductService>()
+                                                        .allDataActivity,
                                                     r'''$.id_product''',
                                                   ).toString(),
                                             totalPrice: valueOrDefault<double>(
@@ -2683,15 +2771,19 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                               0.0,
                                             ),
                                             productType: 'Servicios',
-                                            destination: FFAppState()
+                                            destination: context
+                                                        .read<UiStateService>()
                                                         .itemsProducts !=
                                                     null
                                                 ? getJsonField(
-                                                    context.read<UiStateService>().itemsProducts,
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .itemsProducts,
                                                     r'''$.city''',
                                                   ).toString()
                                                 : getJsonField(
-                                                    FFAppState()
+                                                    context
+                                                        .read<ProductService>()
                                                         .allDataActivity,
                                                     r'''$.destination''',
                                                   ).toString(),
@@ -2703,19 +2795,24 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                     r'''$.name''',
                                                   ).toString()
                                                 : getJsonField(
-                                                    FFAppState()
+                                                    context
+                                                        .read<ProductService>()
                                                         .allDataActivity,
                                                     r'''$.rate_name''',
                                                   ).toString(),
-                                            productName: FFAppState()
+                                            productName: context
+                                                        .read<UiStateService>()
                                                         .itemsProducts !=
                                                     null
                                                 ? getJsonField(
-                                                    context.read<UiStateService>().itemsProducts,
+                                                    context
+                                                        .read<UiStateService>()
+                                                        .itemsProducts,
                                                     r'''$.name''',
                                                   ).toString()
                                                 : getJsonField(
-                                                    FFAppState()
+                                                    context
+                                                        .read<ProductService>()
                                                         .allDataActivity,
                                                     r'''$.product_name''',
                                                   ).toString(),
@@ -2732,8 +2829,12 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                   .apiResponseUpdateItineraryItem
                                                   ?.succeeded ??
                                               true)) {
-                                            context.read<UiStateService>().itemsProducts = null;
-                                            context.read<ProductService>().allDataActivity = null;
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts = null;
+                                            context
+                                                .read<ProductService>()
+                                                .allDataActivity = null;
                                             safeSetState(() {});
                                             _model.itemsActivitiesRates = null;
                                             _model.unitCost = 0.0;
@@ -2809,8 +2910,8 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                           color: Colors.transparent,
                                           width: 1.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         hoverColor: FlutterFlowTheme.of(context)
                                             .accent1,
                                         hoverBorderSide: BorderSide(

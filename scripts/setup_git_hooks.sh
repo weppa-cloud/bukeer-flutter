@@ -308,6 +308,7 @@ EOF
 chmod +x "$PROJECT_ROOT/bukeer-save"
 
 info "✅ Comando global 'bukeer-save' creado"
+info "ℹ️  Nota: bukeer-save legacy también disponible en tools/scripts/"
 
 # ===========================================
 # MENSAJE FINAL

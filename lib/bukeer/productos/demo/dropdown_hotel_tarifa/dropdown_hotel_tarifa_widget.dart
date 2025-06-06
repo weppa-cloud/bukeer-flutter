@@ -13,7 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_hotel_tarifa_model.dart';
 import '../../../../design_system/index.dart';
-// import '../../../services/ui_state_service.dart'; // TODO: Create UiStateService
+import '../../../../services/ui_state_service.dart';
 export 'dropdown_hotel_tarifa_model.dart';
 
 class DropdownHotelTarifaWidget extends StatefulWidget {
@@ -80,7 +80,7 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<UiStateService>();
 
     return ClipRRect(
       child: BackdropFilter(
@@ -284,15 +284,26 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                                                     highlightColor:
                                                         Colors.transparent,
                                                     onTap: () async {
-                                                      // TODO: Move to UiStateService when created
-                                                      // FFAppState().itemsHotelRates = hotelRatesItemItem;
-                                                      // FFAppState().profitHotelRates = getJsonField(hotelRatesItemItem, r'''$.profit''');
-                                                      // FFAppState().unitCostHotelRates = getJsonField(hotelRatesItemItem, r'''$.unit_cost''');
-                                                      // FFAppState().rateUnitCostHotelRates = getJsonField(hotelRatesItemItem, r'''$.price''');
+                                                      // Set hotel rates calculation data in UiStateService
+                                                      context
+                                                          .read<
+                                                              UiStateService>()
+                                                          .setHotelRatesCalculation(
+                                                            profit: getJsonField(
+                                                                    hotelRatesItemItem,
+                                                                    r'''$.profit''')
+                                                                .toDouble(),
+                                                            unitCost: getJsonField(
+                                                                    hotelRatesItemItem,
+                                                                    r'''$.unit_cost''')
+                                                                .toDouble(),
+                                                            rateUnitCost: getJsonField(
+                                                                    hotelRatesItemItem,
+                                                                    r'''$.price''')
+                                                                .toDouble(),
+                                                          );
                                                       debugPrint(
                                                           'Hotel rate selected: ${getJsonField(hotelRatesItemItem, r'''$.id''')}');
-                                                      FFAppState()
-                                                          .update(() {});
                                                       context.safePop();
                                                     },
                                                     child: Row(
