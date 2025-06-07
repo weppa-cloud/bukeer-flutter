@@ -12,7 +12,6 @@ import '../../productos/modal_add_product/modal_add_product_widget.dart';
 import '../../productos/modal_details_product/modal_details_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_button_tabbar.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';

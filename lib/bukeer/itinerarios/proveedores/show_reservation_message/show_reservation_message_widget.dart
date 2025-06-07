@@ -60,7 +60,7 @@ class _ShowReservationMessageWidgetState
             maxHeight: MediaQuery.sizeOf(context).height * 0.7,
           ),
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             boxShadow: [
               BoxShadow(
                 blurRadius: 3.0,
@@ -74,7 +74,7 @@ class _ShowReservationMessageWidgetState
             borderRadius: BorderRadius.circular(BukeerSpacing.s),
           ),
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.s),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class _ShowReservationMessageWidgetState
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 20.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2.0,
@@ -111,7 +111,8 @@ class _ShowReservationMessageWidgetState
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .headlineMediumFamily,
-                                    fontSize: 22.0,
+                                    fontSize:
+                                        BukeerTypography.headlineSmallSize,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                     useGoogleFonts:
@@ -128,7 +129,7 @@ class _ShowReservationMessageWidgetState
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.4,
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                   ),
                   child: Builder(
                     builder: (context) {
@@ -173,7 +174,8 @@ class _ShowReservationMessageWidgetState
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMediumFamily,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -210,7 +212,8 @@ class _ShowReservationMessageWidgetState
                                                         FlutterFlowTheme.of(
                                                                 context)
                                                             .bodyMediumFamily,
-                                                    fontSize: BukeerTypography.bodySmallSize,
+                                                    fontSize: BukeerTypography
+                                                        .bodySmallSize,
                                                     letterSpacing: 0.0,
                                                     fontWeight: FontWeight.w500,
                                                     useGoogleFonts:
@@ -237,7 +240,7 @@ class _ShowReservationMessageWidgetState
                   padding: EdgeInsets.only(bottom: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 1.0,
@@ -283,18 +286,17 @@ class _ShowReservationMessageWidgetState
                                     ),
                                 elevation: 0.0,
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
+                                hoverColor: BukeerColors.borderPrimary,
                                 hoverBorderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                hoverTextColor:
-                                    FlutterFlowTheme.of(context).primaryText,
+                                hoverTextColor: BukeerColors.primaryText,
                                 hoverElevation: 3.0,
                               ),
                             ),

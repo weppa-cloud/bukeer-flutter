@@ -4,7 +4,6 @@ import '../../../../backend/supabase/supabase.dart';
 import '../../../../design_system/index.dart';
 import '../dropdown_products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -25,6 +24,7 @@ import 'add_activities_model.dart';
 import '../../../../services/ui_state_service.dart';
 import '../../../../services/product_service.dart';
 import '../../../../services/contact_service.dart';
+import '../../../../services/app_services.dart';
 export 'add_activities_model.dart';
 
 class AddActivitiesWidget extends StatefulWidget {
@@ -219,7 +219,7 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
         onWillPop: () async => false,
         child: Scaffold(
           key: scaffoldKey,
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          backgroundColor: BukeerColors.primaryBackground,
           body: SafeArea(
             top: true,
             child: Align(
@@ -243,7 +243,7 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                       maxHeight: 700.0,
                     ),
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 12.0,
@@ -335,20 +335,15 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 5.0, 5.0, 0.0),
-                                    child: FlutterFlowIconButton(
-                                      borderColor: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      borderRadius: 12.0,
-                                      borderWidth: 2.0,
-                                      buttonSize: 40.0,
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).accent4,
+                                    child: BukeerIconButton(
                                       icon: FaIcon(
                                         FontAwesomeIcons.trashAlt,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         size: 24.0,
                                       ),
+                                      size: BukeerIconButtonSize.medium,
+                                      variant: BukeerIconButtonVariant.danger,
                                       onPressed: () async {
                                         var confirmDialogResponse =
                                             await showDialog<bool>(
@@ -408,20 +403,15 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         5.0, 5.0, 0.0, 0.0),
-                                    child: FlutterFlowIconButton(
-                                      borderColor: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      borderRadius: 12.0,
-                                      borderWidth: 2.0,
-                                      buttonSize: 40.0,
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).accent4,
+                                    child: BukeerIconButton(
                                       icon: Icon(
                                         Icons.content_copy,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         size: 24.0,
                                       ),
+                                      size: BukeerIconButtonSize.medium,
+                                      variant: BukeerIconButtonVariant.outlined,
                                       onPressed: () async {
                                         var confirmDialogResponse =
                                             await showDialog<bool>(
@@ -1484,7 +1474,7 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                                                       textAlign: TextAlign.end,
                                                                                       style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                             fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             letterSpacing: 0.0,
                                                                                             fontWeight: FontWeight.bold,
                                                                                             useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1532,7 +1522,7 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                                                             ).toString()}%',
                                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                  color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                  color: BukeerColors.primaryText,
                                                                                                   fontSize: BukeerTypography.captionSize,
                                                                                                   letterSpacing: 0.0,
                                                                                                   fontWeight: FontWeight.bold,
@@ -2574,7 +2564,7 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
                                                       .text),
                                               0.0,
                                             ),
-                                            accountId: FFAppState().accountId,
+                                            accountId: currentUserUid,
                                             personalizedMessage: (String
                                                 personalizedMessage) {
                                               return personalizedMessage

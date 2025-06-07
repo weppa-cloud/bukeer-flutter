@@ -135,15 +135,15 @@ class _DropdownTravelPlannerWidgetState
               width: double.infinity,
               height: 56.0, // Altura fija para evitar problemas de tamaño
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                 border: Border.all(
-                  color: FlutterFlowTheme.of(context).alternate,
+                  color: BukeerColors.borderPrimary,
                 ),
               ),
               child: Theme(
                 data: Theme.of(context).copyWith(
-                  canvasColor: FlutterFlowTheme.of(context).secondaryBackground,
+                  canvasColor: BukeerColors.secondaryBackground,
                 ),
                 child: DropdownButtonFormField<String>(
                   value: _model.dropDownValue,
@@ -159,16 +159,16 @@ class _DropdownTravelPlannerWidgetState
                         width: 32.0,
                         height: 32.0,
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).accent1,
+                          color: BukeerColors.primaryAccent,
                           borderRadius: BorderRadius.circular(BukeerSpacing.m),
                           border: Border.all(
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             width: 1.0,
                           ),
                         ),
                         child: Icon(
                           Icons.person,
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           size: 20.0,
                         ),
                       ),
@@ -181,8 +181,7 @@ class _DropdownTravelPlannerWidgetState
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyMediumFamily,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
+                                color: BukeerColors.secondaryText,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
                                     .bodyMediumIsCustom,
                               ),
@@ -209,11 +208,11 @@ class _DropdownTravelPlannerWidgetState
                             width: 32.0,
                             height: 32.0,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).accent1,
+                              color: BukeerColors.primaryAccent,
                               borderRadius:
                                   BorderRadius.circular(BukeerSpacing.m),
                               border: Border.all(
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: BukeerColors.primary,
                                 width: 1.0,
                               ),
                             ),
@@ -244,7 +243,7 @@ class _DropdownTravelPlannerWidgetState
                   },
                   icon: Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: BukeerColors.secondaryText,
                     size: 24.0,
                   ),
                   isExpanded:
@@ -272,11 +271,11 @@ class _DropdownTravelPlannerWidgetState
                               width: 32.0,
                               height: 32.0,
                               decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).accent1,
+                                color: BukeerColors.primaryAccent,
                                 borderRadius:
                                     BorderRadius.circular(BukeerSpacing.m),
                                 border: Border.all(
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   width: 1.0,
                                 ),
                               ),
@@ -332,10 +331,10 @@ class _DropdownTravelPlannerWidgetState
               width: double.infinity,
               height: 50.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                 border: Border.all(
-                  color: FlutterFlowTheme.of(context).alternate,
+                  color: BukeerColors.borderPrimary,
                 ),
               ),
               child: Padding(
@@ -345,7 +344,7 @@ class _DropdownTravelPlannerWidgetState
                   children: [
                     Icon(
                       Icons.info_outline,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: BukeerColors.secondaryText,
                       size: 20.0,
                     ),
                     Padding(
@@ -364,10 +363,10 @@ class _DropdownTravelPlannerWidgetState
               width: double.infinity,
               height: 50.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                 border: Border.all(
-                  color: FlutterFlowTheme.of(context).alternate,
+                  color: BukeerColors.borderPrimary,
                 ),
               ),
               child: Center(
@@ -376,7 +375,7 @@ class _DropdownTravelPlannerWidgetState
                   height: 20.0,
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      FlutterFlowTheme.of(context).primary,
+                      BukeerColors.primary,
                     ),
                     strokeWidth: 2.0,
                   ),

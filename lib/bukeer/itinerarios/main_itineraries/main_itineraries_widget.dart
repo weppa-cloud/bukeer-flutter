@@ -19,6 +19,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import '../../../services/contact_service.dart';
 import '../../../services/itinerary_service.dart';
+import '../itinerary_details/itinerary_details_widget.dart';
 import 'main_itineraries_model.dart';
 export 'main_itineraries_model.dart';
 
@@ -66,7 +67,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: SafeArea(
           top: true,
           child: Column(
@@ -100,8 +101,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                             maxHeight: 2000.0,
                           ),
                           decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
+                            color: BukeerColors.primaryBackground,
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -712,28 +712,30 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
+                                                  // Store selected itinerary in service
                                                   context
-                                                          .read<ItineraryService>()
-                                                          .allDataItinerary =
-                                                      itineriesItemItem;
+                                                      .read<ItineraryService>()
+                                                      .setSelectedItinerary(itineriesItemItem);
+                                                  
+                                                  // Clear search query
                                                   context
                                                       .read<UiStateService>()
                                                       .searchQuery = '';
-                                                  safeSetState(() {});
-
-                                                  context.pushNamed(
-                                                    ItineraryDetailsWidget
-                                                        .routeName,
-                                                    pathParameters: {
-                                                      'id': serializeParam(
-                                                        getJsonField(
-                                                          itineriesItemItem,
-                                                          r'''$.itinerary_id''',
-                                                        ).toString(),
-                                                        ParamType.String,
-                                                      ),
-                                                    }.withoutNulls,
-                                                  );
+                                                  
+                                                  // Navigate to details
+                                                  final itineraryId = getJsonField(
+                                                    itineriesItemItem,
+                                                    r'''$.itinerary_id''',
+                                                  )?.toString();
+                                                  
+                                                  if (itineraryId != null && itineraryId.isNotEmpty) {
+                                                    context.pushNamed(
+                                                      'itineraryDetails',
+                                                      pathParameters: {
+                                                        'id': itineraryId,
+                                                      }.withoutNulls,
+                                                    );
+                                                  }
                                                 },
                                                 child: Material(
                                                   color: Colors.transparent,
@@ -799,7 +801,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                             .headlineSmall
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              color: BukeerColors.primaryText,
                                                                               fontSize: BukeerTypography.bodyMediumSize,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.bold,
@@ -839,7 +841,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                 'ID',
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -855,7 +857,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -872,7 +874,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.person,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -885,7 +887,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -902,7 +904,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.date_range,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -949,7 +951,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                   ).toString())}',
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         letterSpacing: 0.0,
                                                                                         useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                       ),
@@ -966,7 +968,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.language_sharp,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -979,7 +981,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -996,7 +998,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.auto_graph,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -1009,7 +1011,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -1026,7 +1028,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.hourglass_top,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -1054,7 +1056,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                                 ).toString()),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -1071,7 +1073,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.people,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -1082,7 +1084,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               ).toString(),
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                   ),
@@ -1134,7 +1136,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).bodySmallFamily,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                              BukeerColors.primaryText,
                                                                           fontSize:
                                                                               14.0,
                                                                           letterSpacing:
@@ -1228,7 +1230,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                               'Travel Planner',
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                   ),
@@ -1273,7 +1275,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                           fontFamily:
                                                                               'outfitSemiBold',
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           fontSize:
                                                                               18.0,
                                                                           letterSpacing:

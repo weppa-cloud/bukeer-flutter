@@ -87,10 +87,10 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).primaryBackground,
+        color: BukeerColors.primaryBackground,
         borderRadius: BorderRadius.circular(BukeerSpacing.s),
         border: Border.all(
-          color: FlutterFlowTheme.of(context).alternate,
+          color: BukeerColors.borderPrimary,
           width: 1.0,
         ),
       ),
@@ -131,7 +131,7 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
                   ),
                   prefixIcon: Icon(
                     Icons.search_sharp,
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: BukeerColors.secondaryText,
                     size: 20.0,
                   ),
                   suffixIcon: _model.textController.text.isNotEmpty
@@ -152,7 +152,7 @@ class _SearchBoxWidgetState extends State<SearchBoxWidget> {
                       useGoogleFonts:
                           !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                     ),
-                cursorColor: FlutterFlowTheme.of(context).primary,
+                cursorColor: BukeerColors.primary,
                 validator: _model.textControllerValidator.asValidator(context),
               ),
             ),

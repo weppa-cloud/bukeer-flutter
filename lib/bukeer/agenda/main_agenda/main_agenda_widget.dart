@@ -117,7 +117,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: SafeArea(
           top: true,
           child: Column(
@@ -151,8 +151,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                             maxHeight: 2000.0,
                           ),
                           decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
+                            color: BukeerColors.primaryBackground,
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -668,7 +667,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                               'Desde:  ',
                                                                               style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     fontSize: BukeerTypography.bodySmallSize,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.normal,
@@ -696,7 +695,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       fontSize: BukeerTypography.bodySmallSize,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
@@ -920,7 +919,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                               'Hasta:  ',
                                                                               style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     fontSize: BukeerTypography.bodySmallSize,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.normal,
@@ -948,7 +947,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       fontSize: BukeerTypography.bodySmallSize,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
@@ -1306,7 +1305,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                           'Transporte')
                                                                                         Icon(
                                                                                           Icons.directions_car,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           size: 20.0,
                                                                                         ),
                                                                                       if ('${getJsonField(
@@ -1316,7 +1315,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                           'Servicios')
                                                                                         Icon(
                                                                                           Icons.volunteer_activism_sharp,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           size: 20.0,
                                                                                         ),
                                                                                       if ('${getJsonField(
@@ -1326,7 +1325,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                           'Vuelos')
                                                                                         Icon(
                                                                                           Icons.flight,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           size: 20.0,
                                                                                         ),
                                                                                       if ('${getJsonField(
@@ -1336,7 +1335,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                           'Hoteles')
                                                                                         Icon(
                                                                                           Icons.home_work_sharp,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           size: 20.0,
                                                                                         ),
                                                                                       Flexible(
@@ -1377,7 +1376,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         ),
                                                                                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                          color: FlutterFlowTheme.of(context).primary,
+                                                                                          color: BukeerColors.primary,
                                                                                           letterSpacing: 0.0,
                                                                                           fontWeight: FontWeight.w500,
                                                                                           useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -1434,7 +1433,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         children: [
                                                                                           Icon(
                                                                                             Icons.calendar_today,
-                                                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                            color: BukeerColors.secondaryText,
                                                                                             size: 16.0,
                                                                                           ),
                                                                                           Flexible(
@@ -1473,7 +1472,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         children: [
                                                                                           Icon(
                                                                                             Icons.person,
-                                                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                            color: BukeerColors.secondaryText,
                                                                                             size: 16.0,
                                                                                           ),
                                                                                           Flexible(
@@ -1515,10 +1514,10 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         width: 30.0,
                                                                                         height: 30.0,
                                                                                         decoration: BoxDecoration(
-                                                                                          color: FlutterFlowTheme.of(context).accent1,
+                                                                                          color: BukeerColors.primaryAccent,
                                                                                           shape: BoxShape.circle,
                                                                                           border: Border.all(
-                                                                                            color: FlutterFlowTheme.of(context).error,
+                                                                                            color: BukeerColors.error,
                                                                                             width: 2.0,
                                                                                           ),
                                                                                         ),
@@ -1542,10 +1541,10 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         width: 30.0,
                                                                                         height: 30.0,
                                                                                         decoration: BoxDecoration(
-                                                                                          color: FlutterFlowTheme.of(context).accent1,
+                                                                                          color: BukeerColors.primaryAccent,
                                                                                           shape: BoxShape.circle,
                                                                                           border: Border.all(
-                                                                                            color: FlutterFlowTheme.of(context).success,
+                                                                                            color: BukeerColors.success,
                                                                                             width: 2.0,
                                                                                           ),
                                                                                         ),
@@ -1569,10 +1568,10 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         width: 30.0,
                                                                                         height: 30.0,
                                                                                         decoration: BoxDecoration(
-                                                                                          color: FlutterFlowTheme.of(context).accent1,
+                                                                                          color: BukeerColors.primaryAccent,
                                                                                           shape: BoxShape.circle,
                                                                                           border: Border.all(
-                                                                                            color: FlutterFlowTheme.of(context).warning,
+                                                                                            color: BukeerColors.warning,
                                                                                             width: 2.0,
                                                                                           ),
                                                                                         ),

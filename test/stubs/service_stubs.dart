@@ -101,12 +101,12 @@ abstract class ContactService extends ChangeNotifier {
 }
 
 // Stub for AuthorizationService
-enum RoleType { guest, agent, admin, superAdmin }
+enum String { guest, agent, admin, superAdmin }
 
 class UserRole {
   final int id;
   final String name;
-  final RoleType type;
+  final String type;
   final List<String> permissions;
   final bool isActive;
 
@@ -122,23 +122,23 @@ class UserRole {
     return UserRole(
       id: json['role_id'] ?? json['id'] ?? 0,
       name: json['role_name'] ?? json['name'] ?? '',
-      type: _parseRoleType(json['role_name'] ?? json['name'] ?? ''),
+      type: _parseString(json['role_name'] ?? json['name'] ?? ''),
       permissions: _parsePermissions(json['role_names'] ?? ''),
       isActive: json['is_active'] ?? true,
     );
   }
 
-  static RoleType _parseRoleType(String roleName) {
+  static String _parseString(String roleName) {
     switch (roleName.toLowerCase()) {
       case 'super_admin':
       case 'superadmin':
-        return RoleType.superAdmin;
+        return 'super_admin';
       case 'admin':
-        return RoleType.admin;
+        return 'admin';
       case 'agent':
-        return RoleType.agent;
+        return 'agent';
       default:
-        return RoleType.guest;
+        return String.guest;
     }
   }
 
@@ -190,15 +190,15 @@ abstract class AuthorizationService extends ChangeNotifier {
   Future<bool> loadUserRoles(String userId);
   Future<bool> authorize({
     required String userId,
-    List<RoleType>? requiredRoles,
+    List<String>? requiredRoles,
     List<String>? requiredPermissions,
     String? resourceType,
     String? action,
     String? ownerId,
   });
-  bool hasRole(RoleType role);
-  bool hasAnyRole(List<RoleType> roles);
-  bool hasAllRoles(List<RoleType> roles);
+  bool hasRole(String role);
+  bool hasAnyRole(List<String> roles);
+  bool hasAllRoles(List<String> roles);
   bool hasPermission(String permission);
   bool hasAnyPermission(List<String> permissions);
   bool hasAllPermissions(List<String> permissions);
@@ -239,7 +239,7 @@ class AppError {
 class ErrorAction {
   final String label;
   final VoidCallback onPressed;
-  final IconData? icon;
+  final String? icon;
 
   ErrorAction({
     required this.label,

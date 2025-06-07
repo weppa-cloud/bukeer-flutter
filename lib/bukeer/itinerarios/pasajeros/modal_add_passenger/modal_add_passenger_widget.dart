@@ -5,7 +5,6 @@ import '../../../../design_system/index.dart';
 import '../../../componentes/component_birth_date/component_birth_date_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -133,7 +132,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
         child: Container(
           width: 690.0,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             boxShadow: [
               BoxShadow(
                 blurRadius: 12.0,
@@ -156,7 +155,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                   padding: EdgeInsets.only(top: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2.0,
@@ -195,17 +194,12 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 5.0, 0.0, 0.0),
-                              child: FlutterFlowIconButton(
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderRadius: 12.0,
-                                borderWidth: 2.0,
-                                buttonSize: 40.0,
-                                fillColor: FlutterFlowTheme.of(context).accent4,
+                              child: BukeerIconButton(
+                                size: BukeerIconButtonSize.small,
+                                variant: BukeerIconButtonVariant.outlined,
                                 icon: FaIcon(
                                   FontAwesomeIcons.trashAlt,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: BukeerColors.primaryText,
                                   size: 24.0,
                                 ),
                                 onPressed: () async {
@@ -243,7 +237,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                       matchingRows: (rows) => rows.eqOrNull(
                                         'id',
                                         getJsonField(
-                                          context.read<ItineraryService>().allDataPassenger,
+                                          context
+                                              .read<ItineraryService>()
+                                              .allDataPassenger,
                                           r'''$.id''',
                                         ),
                                       ),
@@ -317,7 +313,8 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .alternate,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -325,23 +322,24 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .primary,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
@@ -360,8 +358,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             !FlutterFlowTheme.of(context)
                                                 .bodyMediumIsCustom,
                                       ),
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  cursorColor: BukeerColors.primary,
                                   validator: _model
                                       .namePassengerTextControllerValidator
                                       .asValidator(context),
@@ -405,7 +402,8 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .alternate,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -413,23 +411,24 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .primary,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
@@ -448,8 +447,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             !FlutterFlowTheme.of(context)
                                                 .bodyMediumIsCustom,
                                       ),
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  cursorColor: BukeerColors.primary,
                                   validator: _model
                                       .lastNamePassengerTextControllerValidator
                                       .asValidator(context),
@@ -465,7 +463,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                     _model.typeDocumentPassengerValue ??=
                                         widget!.isEdit == true
                                             ? getJsonField(
-                                                context.read<ItineraryService>().allDataPassenger,
+                                                context
+                                                    .read<ItineraryService>()
+                                                    .allDataPassenger,
                                                 r'''$.type_id''',
                                               ).toString()
                                             : 'Cédula de ciudadanía',
@@ -517,8 +517,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                   fillColor: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
                                   elevation: 2.0,
-                                  borderColor:
-                                      FlutterFlowTheme.of(context).alternate,
+                                  borderColor: BukeerColors.borderPrimary,
                                   borderWidth: 0.0,
                                   borderRadius: 8.0,
                                   margin: EdgeInsetsDirectional.fromSTEB(
@@ -566,7 +565,8 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .alternate,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -574,23 +574,24 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .primary,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     filled: true,
                                     fillColor: FlutterFlowTheme.of(context)
@@ -610,8 +611,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                                 .bodyMediumIsCustom,
                                       ),
                                   keyboardType: TextInputType.datetime,
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  cursorColor: BukeerColors.primary,
                                   validator: _model
                                       .numberIdPassengerTextControllerValidator
                                       .asValidator(context),
@@ -635,11 +635,11 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                       ),
                                     )
                                   ],
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                   shape: BoxShape.rectangle,
                                   border: Border.all(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: BukeerColors.borderPrimary,
                                     width: 1.0,
                                   ),
                                 ),
@@ -677,7 +677,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                           _model.nationalityPassengerValue ??=
                                               widget!.isEdit == true
                                                   ? getJsonField(
-                                                      context.read<ItineraryService>()
+                                                      context
+                                                          .read<
+                                                              ItineraryService>()
                                                           .allDataPassenger,
                                                       r'''$.nationality''',
                                                     ).toString()
@@ -765,7 +767,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                   child: ComponentBirthDateWidget(
                                     date: widget!.isEdit == true
                                         ? getJsonField(
-                                            context.read<ItineraryService>().allDataPassenger,
+                                            context
+                                                .read<ItineraryService>()
+                                                .allDataPassenger,
                                             r'''$.birth_date''',
                                           ).toString()
                                         : '',
@@ -784,7 +788,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                   padding: EdgeInsets.only(bottom: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 1.0,
@@ -830,18 +834,17 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                     ),
                                 elevation: 0.0,
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
+                                hoverColor: BukeerColors.borderPrimary,
                                 hoverBorderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                hoverTextColor:
-                                    FlutterFlowTheme.of(context).primaryText,
+                                hoverTextColor: BukeerColors.primaryText,
                                 hoverElevation: 3.0,
                               ),
                             ),
@@ -1031,7 +1034,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                       24.0, 0.0, 24.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -1047,15 +1050,14 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                  hoverColor:
-                                      FlutterFlowTheme.of(context).accent1,
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
+                                  hoverColor: BukeerColors.primaryAccent,
                                   hoverBorderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     width: 1.0,
                                   ),
-                                  hoverTextColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  hoverTextColor: BukeerColors.primaryText,
                                   hoverElevation: 0.0,
                                 ),
                               ),
@@ -1093,7 +1095,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                       nationality:
                                           _model.nationalityPassengerValue,
                                       id: getJsonField(
-                                        context.read<ItineraryService>().allDataPassenger,
+                                        context
+                                            .read<ItineraryService>()
+                                            .allDataPassenger,
                                         r'''$.id''',
                                       ).toString(),
                                       birthDate: _model.componentBirthDateModel
@@ -1103,7 +1107,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                               .datePicked
                                               ?.toString()
                                           : getJsonField(
-                                              context.read<ItineraryService>().allDataPassenger,
+                                              context
+                                                  .read<ItineraryService>()
+                                                  .allDataPassenger,
                                               r'''$.birth_date''',
                                             ).toString(),
                                     );
@@ -1127,7 +1133,9 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                             .nationalityPassengerValueController
                                             ?.reset();
                                       });
-                                      context.read<ItineraryService>().allDataPassenger = null;
+                                      context
+                                          .read<ItineraryService>()
+                                          .allDataPassenger = null;
                                       safeSetState(() {});
                                       await showDialog(
                                         context: context,
@@ -1195,7 +1203,7 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                       24.0, 0.0, 24.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -1211,15 +1219,14 @@ class _ModalAddPassengerWidgetState extends State<ModalAddPassengerWidget>
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                  hoverColor:
-                                      FlutterFlowTheme.of(context).accent1,
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
+                                  hoverColor: BukeerColors.primaryAccent,
                                   hoverBorderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     width: 1.0,
                                   ),
-                                  hoverTextColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  hoverTextColor: BukeerColors.primaryText,
                                   hoverElevation: 0.0,
                                 ),
                               ),

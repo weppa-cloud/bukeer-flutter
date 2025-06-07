@@ -93,6 +93,12 @@ class MockAuthorizationService extends _i1.Mock
       ) as bool);
 
   @override
+  _i3.RoleType get currentUserRole => (super.noSuchMethod(
+        Invocation.getter(#currentUserRole),
+        returnValue: _i3.RoleType.superAdmin,
+      ) as _i3.RoleType);
+
+  @override
   int get roleLevel => (super.noSuchMethod(
         Invocation.getter(#roleLevel),
         returnValue: 0,
@@ -221,6 +227,15 @@ class MockAuthorizationService extends _i1.Mock
   void clearRoles() => super.noSuchMethod(
         Invocation.method(
           #clearRoles,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void invalidateCache() => super.noSuchMethod(
+        Invocation.method(
+          #invalidateCache,
           [],
         ),
         returnValueForMissingStub: null,
@@ -443,6 +458,49 @@ class MockErrorService extends _i1.Mock implements _i5.ErrorService {
       ) as List<_i5.ErrorAction>);
 
   @override
+  void setLastAction(
+    _i4.VoidCallback? action, {
+    Map<String, dynamic>? context,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setLastAction,
+          [action],
+          {#context: context},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setLoginCallback(_i4.VoidCallback? callback) => super.noSuchMethod(
+        Invocation.method(
+          #setLoginCallback,
+          [callback],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setAdminContactCallback(_i4.VoidCallback? callback) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setAdminContactCallback,
+          [callback],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setErrorReportCallback(void Function(Map<String, dynamic>)? callback) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setErrorReportCallback,
+          [callback],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void addListener(_i4.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
@@ -500,6 +558,15 @@ class MockUserService extends _i1.Mock implements _i7.UserService {
       ) as bool);
 
   @override
+  String get accountIdFm => (super.noSuchMethod(
+        Invocation.getter(#accountIdFm),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#accountIdFm),
+        ),
+      ) as String);
+
+  @override
   bool get isAdmin => (super.noSuchMethod(
         Invocation.getter(#isAdmin),
         returnValue: false,
@@ -510,6 +577,15 @@ class MockUserService extends _i1.Mock implements _i7.UserService {
         Invocation.getter(#isSuperAdmin),
         returnValue: false,
       ) as bool);
+
+  @override
+  set accountIdFm(String? value) => super.noSuchMethod(
+        Invocation.setter(
+          #accountIdFm,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   set allDataUser(dynamic value) => super.noSuchMethod(

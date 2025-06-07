@@ -82,11 +82,11 @@ class _ComponentAddScheduleActivityWidgetState
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             boxShadow: [
               BoxShadow(
                 blurRadius: 4.0,
-                color: FlutterFlowTheme.of(context).alternate,
+                color: BukeerColors.borderPrimary,
                 offset: Offset(
                   0.0,
                   2.0,
@@ -113,7 +113,7 @@ class _ComponentAddScheduleActivityWidgetState
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyMediumFamily,
-                                fontSize: 22.0,
+                                fontSize: BukeerTypography.headlineSmallSize,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
@@ -128,7 +128,7 @@ class _ComponentAddScheduleActivityWidgetState
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyMediumFamily,
-                                fontSize: 22.0,
+                                fontSize: BukeerTypography.headlineSmallSize,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
@@ -184,21 +184,20 @@ class _ComponentAddScheduleActivityWidgetState
                         ),
                         errorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).error,
+                            color: BukeerColors.error,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(BukeerSpacing.s),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).error,
+                            color: BukeerColors.error,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(BukeerSpacing.s),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: BukeerColors.secondaryBackground,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily:
@@ -210,7 +209,7 @@ class _ComponentAddScheduleActivityWidgetState
                                 .bodyMediumIsCustom,
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: BukeerColors.primaryText,
                       validator: _model.textFieldTitleTextControllerValidator
                           .asValidator(context),
                     ),
@@ -273,7 +272,7 @@ class _ComponentAddScheduleActivityWidgetState
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).error,
+                                  color: BukeerColors.error,
                                   width: 1.0,
                                 ),
                                 borderRadius:
@@ -281,7 +280,7 @@ class _ComponentAddScheduleActivityWidgetState
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).error,
+                                  color: BukeerColors.error,
                                   width: 1.0,
                                 ),
                                 borderRadius:
@@ -302,8 +301,7 @@ class _ComponentAddScheduleActivityWidgetState
                                 ),
                             maxLines: null,
                             minLines: 3,
-                            cursorColor:
-                                FlutterFlowTheme.of(context).primaryText,
+                            cursorColor: BukeerColors.primaryText,
                             validator: _model
                                 .textFieldDescriptionTextControllerValidator
                                 .asValidator(context),
@@ -387,7 +385,7 @@ class _ComponentAddScheduleActivityWidgetState
                                   16.0, 0.0, 16.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).accent1,
+                              color: BukeerColors.primaryAccent,
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
@@ -451,7 +449,7 @@ class _ComponentAddScheduleActivityWidgetState
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(
@@ -500,7 +498,7 @@ class _ComponentAddScheduleActivityWidgetState
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(

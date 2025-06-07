@@ -8,7 +8,7 @@ import 'package:bukeer/services/authorization_service.dart';
 import 'package:bukeer/services/error_service.dart';
 import 'package:bukeer/services/user_service.dart';
 import 'package:bukeer/services/itinerary_service.dart';
-import 'package:bukeer/app_state_clean.dart';
+import 'package:bukeer/app_state.dart';
 import '../mocks/supabase_mocks.dart';
 
 // Generate mocks with build_runner
@@ -44,7 +44,8 @@ class TestHelpers {
   /// Clean up after each test
   static void tearDown() {
     // Reset any global state if needed
-    mockAppState.clearState();
+    // Note: FFAppState doesn't have clearState method anymore
+    mockAppState = FFAppState(); // Create new instance instead
 
     // Clean up Supabase mocks
     SupabaseMocks.tearDown();
@@ -84,22 +85,36 @@ class TestHelpers {
   }
 
   /// Mock user with specific role
-  static void mockUserWithRole(RoleType role) {
+  static void mockUserWithRole(String role) {
+    final roleType = _getRoleTypeFromString(role);
     final userRoles = [
       UserRole(
         id: 1,
-        name: role.name,
-        type: role,
+        name: role,
+        type: roleType,
         permissions: _getPermissionsForRole(role),
       ),
     ];
 
     when(mockAuthService.userRoles).thenReturn(userRoles);
-    when(mockAuthService.hasRole(role)).thenReturn(true);
+    when(mockAuthService.hasRole(roleType)).thenReturn(true);
     when(mockAuthService.isAdmin).thenReturn(
-      role == RoleType.admin || role == RoleType.superAdmin,
+      role == 'admin' || role == 'super_admin',
     );
-    when(mockAuthService.isSuperAdmin).thenReturn(role == RoleType.superAdmin);
+    when(mockAuthService.isSuperAdmin).thenReturn(role == 'super_admin');
+  }
+  
+  static RoleType _getRoleTypeFromString(String role) {
+    switch (role) {
+      case 'super_admin':
+        return RoleType.superAdmin;
+      case 'admin':
+        return RoleType.admin;
+      case 'agent':
+        return RoleType.agent;
+      default:
+        return RoleType.guest;
+    }
   }
 
   /// Mock user with specific permissions
@@ -298,9 +313,9 @@ class TestHelpers {
   }
 
   /// Get permissions for a role (helper)
-  static List<String> _getPermissionsForRole(RoleType role) {
+  static List<String> _getPermissionsForRole(String role) {
     switch (role) {
-      case RoleType.superAdmin:
+      case 'super_admin':
         return [
           'itinerary:*',
           'contact:*',
@@ -309,7 +324,7 @@ class TestHelpers {
           'payment:*',
           'report:*'
         ];
-      case RoleType.admin:
+      case 'admin':
         return [
           'itinerary:create',
           'itinerary:read',
@@ -331,7 +346,7 @@ class TestHelpers {
           'report:read',
           'report:export'
         ];
-      case RoleType.agent:
+      case 'agent':
         return [
           'itinerary:create',
           'itinerary:read',

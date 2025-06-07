@@ -271,14 +271,14 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            backgroundColor: BukeerColors.primaryBackground,
             body: Center(
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
+                    BukeerColors.primary,
                   ),
                 ),
               ),
@@ -290,7 +290,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
 
         return Scaffold(
           key: scaffoldKey,
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          backgroundColor: BukeerColors.primaryBackground,
           body: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -315,7 +315,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                       child: Container(
                         width: 100.0,
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          color: BukeerColors.primaryBackground,
                           borderRadius: BorderRadius.circular(BukeerSpacing.s),
                         ),
                         child: Align(
@@ -666,7 +666,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                         border:
                                                                             Border.all(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -784,23 +784,23 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
                                                                         borderRadius:
                                                                             BorderRadius.circular(BukeerSpacing.s),
                                                                         hoverColor:
-                                                                            FlutterFlowTheme.of(context).alternate,
+                                                                            BukeerColors.borderPrimary,
                                                                         hoverBorderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
                                                                         hoverTextColor:
-                                                                            FlutterFlowTheme.of(context).primaryText,
+                                                                            BukeerColors.primaryText,
                                                                         hoverElevation:
                                                                             3.0,
                                                                       ),
@@ -861,7 +861,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).alternate,
+                                                                              color: BukeerColors.borderPrimary,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -871,7 +871,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              color: BukeerColors.primary,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -881,7 +881,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).error,
+                                                                              color: BukeerColors.error,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -891,7 +891,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).error,
+                                                                              color: BukeerColors.error,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -900,7 +900,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                           filled:
                                                                               true,
                                                                           fillColor:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              BukeerColors.secondaryBackground,
                                                                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                                                                               20.0,
                                                                               24.0,
@@ -915,7 +915,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
                                                                         cursorColor:
-                                                                            FlutterFlowTheme.of(context).primary,
+                                                                            BukeerColors.primary,
                                                                         validator: _model
                                                                             .nameContactTextControllerValidator
                                                                             .asValidator(context),
@@ -1001,34 +1001,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       ),
                                                                                   enabledBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).alternate,
+                                                                                      color: BukeerColors.borderPrimary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   errorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedErrorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   filled: true,
-                                                                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  fillColor: BukeerColors.secondaryBackground,
                                                                                   contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1037,7 +1037,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                     ),
                                                                                 keyboardType: TextInputType.phone,
-                                                                                cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                cursorColor: BukeerColors.primary,
                                                                                 validator: _model.phoneContactTextControllerValidator.asValidator(context),
                                                                               ),
                                                                             ),
@@ -1073,34 +1073,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       ),
                                                                                   enabledBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).alternate,
+                                                                                      color: BukeerColors.borderPrimary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   errorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedErrorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   filled: true,
-                                                                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  fillColor: BukeerColors.secondaryBackground,
                                                                                   contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1109,7 +1109,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                     ),
                                                                                 keyboardType: TextInputType.phone,
-                                                                                cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                cursorColor: BukeerColors.primary,
                                                                                 validator: _model.phone2ContactTextControllerValidator.asValidator(context),
                                                                               ),
                                                                             ),
@@ -1145,34 +1145,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       ),
                                                                                   enabledBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).alternate,
+                                                                                      color: BukeerColors.borderPrimary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   errorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedErrorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   filled: true,
-                                                                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  fillColor: BukeerColors.secondaryBackground,
                                                                                   contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1181,7 +1181,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                     ),
                                                                                 keyboardType: TextInputType.emailAddress,
-                                                                                cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                cursorColor: BukeerColors.primary,
                                                                                 validator: _model.mailContactTextControllerValidator.asValidator(context),
                                                                               ),
                                                                             ),
@@ -1234,12 +1234,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               searchHintText: 'Search for an item...',
                                                                               icon: Icon(
                                                                                 Icons.keyboard_arrow_down_rounded,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 24.0,
                                                                               ),
-                                                                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              fillColor: BukeerColors.secondaryBackground,
                                                                               elevation: 2.0,
-                                                                              borderColor: FlutterFlowTheme.of(context).alternate,
+                                                                              borderColor: BukeerColors.borderPrimary,
                                                                               borderWidth: 2.0,
                                                                               borderRadius: 12.0,
                                                                               margin: EdgeInsetsDirectional.fromSTEB(20.0, 4.0, 16.0, 4.0),
@@ -1279,34 +1279,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       ),
                                                                                   enabledBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).alternate,
+                                                                                      color: BukeerColors.borderPrimary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   errorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   focusedErrorBorder: OutlineInputBorder(
                                                                                     borderSide: BorderSide(
-                                                                                      color: FlutterFlowTheme.of(context).error,
+                                                                                      color: BukeerColors.error,
                                                                                       width: 2.0,
                                                                                     ),
                                                                                     borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                   ),
                                                                                   filled: true,
-                                                                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  fillColor: BukeerColors.secondaryBackground,
                                                                                   contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1315,7 +1315,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                     ),
                                                                                 keyboardType: TextInputType.number,
-                                                                                cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                cursorColor: BukeerColors.primary,
                                                                                 validator: _model.numberIdContactTextControllerValidator.asValidator(context),
                                                                                 inputFormatters: [
                                                                                   _model.numberIdContactMask
@@ -1416,34 +1416,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                   ),
                                                                               enabledBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
+                                                                                  color: BukeerColors.borderPrimary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  color: BukeerColors.primary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               errorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedErrorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               filled: true,
-                                                                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              fillColor: BukeerColors.secondaryBackground,
                                                                               contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1454,7 +1454,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             keyboardType:
                                                                                 TextInputType.url,
                                                                             cursorColor:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             validator:
                                                                                 _model.websiteContactTextControllerValidator.asValidator(context),
                                                                           ),
@@ -1506,34 +1506,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                   ),
                                                                               enabledBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
+                                                                                  color: BukeerColors.borderPrimary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  color: BukeerColors.primary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               errorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedErrorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               filled: true,
-                                                                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              fillColor: BukeerColors.secondaryBackground,
                                                                               contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1544,7 +1544,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             keyboardType:
                                                                                 TextInputType.url,
                                                                             cursorColor:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             validator:
                                                                                 _model.cancellationPolicyContactTextControllerValidator.asValidator(context),
                                                                           ),
@@ -1596,34 +1596,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                   ),
                                                                               enabledBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
+                                                                                  color: BukeerColors.borderPrimary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  color: BukeerColors.primary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               errorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedErrorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               filled: true,
-                                                                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              fillColor: BukeerColors.secondaryBackground,
                                                                               contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1634,7 +1634,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             keyboardType:
                                                                                 TextInputType.url,
                                                                             cursorColor:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             validator:
                                                                                 _model.privacyPolicyContactTextControllerValidator.asValidator(context),
                                                                           ),
@@ -1686,34 +1686,34 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                   ),
                                                                               enabledBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
+                                                                                  color: BukeerColors.borderPrimary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  color: BukeerColors.primary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               errorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               focusedErrorBorder: OutlineInputBorder(
                                                                                 borderSide: BorderSide(
-                                                                                  color: FlutterFlowTheme.of(context).error,
+                                                                                  color: BukeerColors.error,
                                                                                   width: 2.0,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                               ),
                                                                               filled: true,
-                                                                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              fillColor: BukeerColors.secondaryBackground,
                                                                               contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
                                                                             ),
                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1724,7 +1724,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             keyboardType:
                                                                                 TextInputType.url,
                                                                             cursorColor:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             validator:
                                                                                 _model.termsConditionsContactTextControllerValidator.asValidator(context),
                                                                           ),
@@ -1802,12 +1802,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               hintText: 'Moneda base',
                                                                               icon: Icon(
                                                                                 Icons.keyboard_arrow_down_rounded,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 24.0,
                                                                               ),
-                                                                              fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              fillColor: BukeerColors.secondaryBackground,
                                                                               elevation: 2.0,
-                                                                              borderColor: FlutterFlowTheme.of(context).alternate,
+                                                                              borderColor: BukeerColors.borderPrimary,
                                                                               borderWidth: 2.0,
                                                                               borderRadius: 8.0,
                                                                               margin: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -1846,9 +1846,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               text: 'Cambiar',
                                                                               options: FFButtonOptions(
                                                                                 height: 40.0,
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                color: FlutterFlowTheme.of(context).primary,
+                                                                                color: BukeerColors.primary,
                                                                                 textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
                                                                                       color: Colors.white,
@@ -1877,7 +1877,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                 Container(
                                                                               width: 350.0,
                                                                               decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                color: BukeerColors.secondaryBackground,
                                                                                 boxShadow: [
                                                                                   BoxShadow(
                                                                                     blurRadius: 4.0,
@@ -1904,7 +1904,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           textAlign: TextAlign.center,
                                                                                           style: FlutterFlowTheme.of(context).titleMedium.override(
                                                                                                 fontFamily: FlutterFlowTheme.of(context).titleMediumFamily,
-                                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                color: BukeerColors.secondaryText,
                                                                                                 letterSpacing: 0.0,
                                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).titleMediumIsCustom,
                                                                                               ),
@@ -1933,12 +1933,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       hintText: 'Otras monedas',
                                                                                       icon: Icon(
                                                                                         Icons.keyboard_arrow_down_rounded,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         size: 24.0,
                                                                                       ),
-                                                                                      fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                      fillColor: BukeerColors.secondaryBackground,
                                                                                       elevation: 2.0,
-                                                                                      borderColor: FlutterFlowTheme.of(context).alternate,
+                                                                                      borderColor: BukeerColors.borderPrimary,
                                                                                       borderWidth: 2.0,
                                                                                       borderRadius: 8.0,
                                                                                       margin: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -1972,35 +1972,35 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                 ),
                                                                                             enabledBorder: OutlineInputBorder(
                                                                                               borderSide: BorderSide(
-                                                                                                color: FlutterFlowTheme.of(context).alternate,
+                                                                                                color: BukeerColors.borderPrimary,
                                                                                                 width: 2.0,
                                                                                               ),
                                                                                               borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                             ),
                                                                                             focusedBorder: OutlineInputBorder(
                                                                                               borderSide: BorderSide(
-                                                                                                color: FlutterFlowTheme.of(context).primary,
+                                                                                                color: BukeerColors.primary,
                                                                                                 width: 2.0,
                                                                                               ),
                                                                                               borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                             ),
                                                                                             errorBorder: OutlineInputBorder(
                                                                                               borderSide: BorderSide(
-                                                                                                color: FlutterFlowTheme.of(context).error,
+                                                                                                color: BukeerColors.error,
                                                                                                 width: 2.0,
                                                                                               ),
                                                                                               borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                             ),
                                                                                             focusedErrorBorder: OutlineInputBorder(
                                                                                               borderSide: BorderSide(
-                                                                                                color: FlutterFlowTheme.of(context).error,
+                                                                                                color: BukeerColors.error,
                                                                                                 width: 2.0,
                                                                                               ),
                                                                                               borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                             ),
                                                                                             filled: true,
-                                                                                            fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                            contentPadding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                                                                                            fillColor: BukeerColors.secondaryBackground,
+                                                                                            contentPadding: EdgeInsets.all(BukeerSpacing.m),
                                                                                           ),
                                                                                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -2008,7 +2008,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                               ),
                                                                                           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                                                          cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                          cursorColor: BukeerColors.primary,
                                                                                           validator: _model.textFieldRateTextControllerValidator.asValidator(context),
                                                                                         ),
                                                                                       ),
@@ -2031,9 +2031,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           text: 'Cerrar',
                                                                                           options: FFButtonOptions(
                                                                                             height: 35.0,
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                                                                                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.l),
                                                                                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                            color: BukeerColors.secondaryBackground,
                                                                                             textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
                                                                                                   letterSpacing: 0.0,
@@ -2041,16 +2041,16 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                 ),
                                                                                             elevation: 0.0,
                                                                                             borderSide: BorderSide(
-                                                                                              color: FlutterFlowTheme.of(context).alternate,
+                                                                                              color: BukeerColors.borderPrimary,
                                                                                               width: 2.0,
                                                                                             ),
                                                                                             borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                                                                            hoverColor: FlutterFlowTheme.of(context).alternate,
+                                                                                            hoverColor: BukeerColors.borderPrimary,
                                                                                             hoverBorderSide: BorderSide(
-                                                                                              color: FlutterFlowTheme.of(context).alternate,
+                                                                                              color: BukeerColors.borderPrimary,
                                                                                               width: 2.0,
                                                                                             ),
-                                                                                            hoverTextColor: FlutterFlowTheme.of(context).primaryText,
+                                                                                            hoverTextColor: BukeerColors.primaryText,
                                                                                             hoverElevation: 3.0,
                                                                                           ),
                                                                                         ),
@@ -2110,9 +2110,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           text: 'Agregar',
                                                                                           options: FFButtonOptions(
                                                                                             height: 35.0,
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                                                                                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.l),
                                                                                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
                                                                                                   letterSpacing: 0.0,
@@ -2124,12 +2124,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                               width: 1.0,
                                                                                             ),
                                                                                             borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                                                                            hoverColor: FlutterFlowTheme.of(context).accent1,
+                                                                                            hoverColor: BukeerColors.primaryAccent,
                                                                                             hoverBorderSide: BorderSide(
-                                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                                              color: BukeerColors.primary,
                                                                                               width: 1.0,
                                                                                             ),
-                                                                                            hoverTextColor: FlutterFlowTheme.of(context).primaryText,
+                                                                                            hoverTextColor: BukeerColors.primaryText,
                                                                                             hoverElevation: 0.0,
                                                                                           ),
                                                                                         ),
@@ -2159,7 +2159,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                 500.0,
                                                                             decoration:
                                                                                 BoxDecoration(
-                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              color: BukeerColors.secondaryBackground,
                                                                             ),
                                                                             child:
                                                                                 Padding(
@@ -2209,10 +2209,10 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                 padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 8.0, 12.0),
                                                                                                 iconAlignment: IconAlignment.end,
                                                                                                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                                color: FlutterFlowTheme.of(context).primary,
+                                                                                                color: BukeerColors.primary,
                                                                                                 textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                      color: FlutterFlowTheme.of(context).info,
+                                                                                                      color: BukeerColors.info,
                                                                                                       letterSpacing: 0.0,
                                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                                     ),
@@ -2222,12 +2222,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                   width: 1.0,
                                                                                                 ),
                                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                                                                                hoverColor: FlutterFlowTheme.of(context).accent1,
+                                                                                                hoverColor: BukeerColors.primaryAccent,
                                                                                                 hoverBorderSide: BorderSide(
-                                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                                  color: BukeerColors.primary,
                                                                                                   width: 1.0,
                                                                                                 ),
-                                                                                                hoverTextColor: FlutterFlowTheme.of(context).primaryText,
+                                                                                                hoverTextColor: BukeerColors.primaryText,
                                                                                                 hoverElevation: 0.0,
                                                                                               ),
                                                                                             ),
@@ -2242,7 +2242,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                       width: double.infinity,
                                                                                       height: 40.0,
                                                                                       decoration: BoxDecoration(
-                                                                                        color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                        color: BukeerColors.primaryBackground,
                                                                                         borderRadius: BorderRadius.only(
                                                                                           bottomLeft: Radius.circular(0.0),
                                                                                           bottomRight: Radius.circular(0.0),
@@ -2250,11 +2250,11 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           topRight: Radius.circular(8.0),
                                                                                         ),
                                                                                         border: Border.all(
-                                                                                          color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                          color: BukeerColors.primaryBackground,
                                                                                         ),
                                                                                       ),
                                                                                       child: Padding(
-                                                                                        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                        padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                         child: Row(
                                                                                           mainAxisSize: MainAxisSize.max,
                                                                                           children: [
@@ -2331,11 +2331,11 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                               child: Container(
                                                                                                 width: 100.0,
                                                                                                 decoration: BoxDecoration(
-                                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                                  color: BukeerColors.secondaryBackground,
                                                                                                   boxShadow: [
                                                                                                     BoxShadow(
                                                                                                       blurRadius: 0.0,
-                                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                                      color: BukeerColors.primaryBackground,
                                                                                                       offset: Offset(
                                                                                                         0.0,
                                                                                                         1.0,
@@ -2344,7 +2344,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                   ],
                                                                                                 ),
                                                                                                 child: Padding(
-                                                                                                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                                  padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                                   child: Row(
                                                                                                     mainAxisSize: MainAxisSize.max,
                                                                                                     children: [
@@ -2478,7 +2478,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                 Container(
                                                                               width: 344.0,
                                                                               decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                color: BukeerColors.secondaryBackground,
                                                                                 boxShadow: [
                                                                                   BoxShadow(
                                                                                     blurRadius: 4.0,
@@ -2525,7 +2525,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                                 textAlign: TextAlign.start,
                                                                                                                 style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                                       fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                                      color: BukeerColors.secondaryText,
                                                                                                                       letterSpacing: 0.0,
                                                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
                                                                                                                     ),
@@ -2564,12 +2564,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                       hintText: 'Opciones',
                                                                                                       icon: Icon(
                                                                                                         Icons.keyboard_arrow_down_rounded,
-                                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                        color: BukeerColors.secondaryText,
                                                                                                         size: 24.0,
                                                                                                       ),
-                                                                                                      fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                                      fillColor: BukeerColors.secondaryBackground,
                                                                                                       elevation: 2.0,
-                                                                                                      borderColor: FlutterFlowTheme.of(context).alternate,
+                                                                                                      borderColor: BukeerColors.borderPrimary,
                                                                                                       borderWidth: 2.0,
                                                                                                       borderRadius: 8.0,
                                                                                                       margin: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -2608,35 +2608,35 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                                     ),
                                                                                                                 enabledBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).alternate,
+                                                                                                                    color: BukeerColors.borderPrimary,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 focusedBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                                                    color: BukeerColors.primary,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 errorBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).error,
+                                                                                                                    color: BukeerColors.error,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 focusedErrorBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).error,
+                                                                                                                    color: BukeerColors.error,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 filled: true,
-                                                                                                                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                                                contentPadding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                                                                                                                fillColor: BukeerColors.secondaryBackground,
+                                                                                                                contentPadding: EdgeInsets.all(BukeerSpacing.m),
                                                                                                               ),
                                                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -2644,7 +2644,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                                                   ),
                                                                                                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                                                                              cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                                              cursorColor: BukeerColors.primary,
                                                                                                               validator: _model.textFieldPercentagesTextControllerValidator.asValidator(context),
                                                                                                             ),
                                                                                                           ),
@@ -2680,9 +2680,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           text: 'Cerrar',
                                                                                           options: FFButtonOptions(
                                                                                             height: 40.0,
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
                                                                                                   color: Colors.white,
@@ -2743,9 +2743,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           text: 'Agregar',
                                                                                           options: FFButtonOptions(
                                                                                             height: 40.0,
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
                                                                                                   color: Colors.white,
@@ -2768,7 +2768,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              BukeerColors.secondaryBackground,
                                                                         ),
                                                                         child:
                                                                             Padding(
@@ -2790,7 +2790,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                 maxWidth: 852.0,
                                                                               ),
                                                                               decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                color: BukeerColors.secondaryBackground,
                                                                               ),
                                                                               child: Padding(
                                                                                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 4.0),
@@ -2839,10 +2839,10 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                   padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 8.0, 12.0),
                                                                                                   iconAlignment: IconAlignment.end,
                                                                                                   iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                                  color: BukeerColors.primary,
                                                                                                   textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                        color: FlutterFlowTheme.of(context).info,
+                                                                                                        color: BukeerColors.info,
                                                                                                         letterSpacing: 0.0,
                                                                                                         useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                                       ),
@@ -2852,12 +2852,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                     width: 1.0,
                                                                                                   ),
                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                                                                                  hoverColor: FlutterFlowTheme.of(context).accent1,
+                                                                                                  hoverColor: BukeerColors.primaryAccent,
                                                                                                   hoverBorderSide: BorderSide(
-                                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                                    color: BukeerColors.primary,
                                                                                                     width: 1.0,
                                                                                                   ),
-                                                                                                  hoverTextColor: FlutterFlowTheme.of(context).primaryText,
+                                                                                                  hoverTextColor: BukeerColors.primaryText,
                                                                                                   hoverElevation: 0.0,
                                                                                                 ),
                                                                                               ),
@@ -2872,7 +2872,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                         width: double.infinity,
                                                                                         height: 40.0,
                                                                                         decoration: BoxDecoration(
-                                                                                          color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                          color: BukeerColors.primaryBackground,
                                                                                           borderRadius: BorderRadius.only(
                                                                                             bottomLeft: Radius.circular(0.0),
                                                                                             bottomRight: Radius.circular(0.0),
@@ -2880,11 +2880,11 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                             topRight: Radius.circular(8.0),
                                                                                           ),
                                                                                           border: Border.all(
-                                                                                            color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                            color: BukeerColors.primaryBackground,
                                                                                           ),
                                                                                         ),
                                                                                         child: Padding(
-                                                                                          padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                          padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                           child: Row(
                                                                                             mainAxisSize: MainAxisSize.max,
                                                                                             children: [
@@ -2943,11 +2943,11 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                               child: Container(
                                                                                                 width: 100.0,
                                                                                                 decoration: BoxDecoration(
-                                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                                  color: BukeerColors.secondaryBackground,
                                                                                                   boxShadow: [
                                                                                                     BoxShadow(
                                                                                                       blurRadius: 0.0,
-                                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                                      color: BukeerColors.primaryBackground,
                                                                                                       offset: Offset(
                                                                                                         0.0,
                                                                                                         1.0,
@@ -2956,7 +2956,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                   ],
                                                                                                 ),
                                                                                                 child: Padding(
-                                                                                                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                                  padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                                   child: Row(
                                                                                                     mainAxisSize: MainAxisSize.max,
                                                                                                     children: [
@@ -3068,7 +3068,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                 Container(
                                                                               width: 344.0,
                                                                               decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                color: BukeerColors.secondaryBackground,
                                                                                 boxShadow: [
                                                                                   BoxShadow(
                                                                                     blurRadius: 4.0,
@@ -3115,7 +3115,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                                 textAlign: TextAlign.start,
                                                                                                                 style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                                       fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                                      color: BukeerColors.secondaryText,
                                                                                                                       letterSpacing: 0.0,
                                                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
                                                                                                                     ),
@@ -3165,35 +3165,35 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                                     ),
                                                                                                                 enabledBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).alternate,
+                                                                                                                    color: BukeerColors.borderPrimary,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 focusedBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                                                    color: BukeerColors.primary,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 errorBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).error,
+                                                                                                                    color: BukeerColors.error,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 focusedErrorBorder: OutlineInputBorder(
                                                                                                                   borderSide: BorderSide(
-                                                                                                                    color: FlutterFlowTheme.of(context).error,
+                                                                                                                    color: BukeerColors.error,
                                                                                                                     width: 2.0,
                                                                                                                   ),
                                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                                                 ),
                                                                                                                 filled: true,
-                                                                                                                fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                                                contentPadding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                                                                                                                fillColor: BukeerColors.secondaryBackground,
+                                                                                                                contentPadding: EdgeInsets.all(BukeerSpacing.m),
                                                                                                               ),
                                                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -3201,7 +3201,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                                                   ),
                                                                                                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                                                                              cursorColor: FlutterFlowTheme.of(context).primary,
+                                                                                                              cursorColor: BukeerColors.primary,
                                                                                                               validator: _model.textFieldNamesTextControllerValidator.asValidator(context),
                                                                                                             ),
                                                                                                           ),
@@ -3234,9 +3234,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           text: 'Cerrar',
                                                                                           options: FFButtonOptions(
                                                                                             height: 40.0,
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
                                                                                                   color: Colors.white,
@@ -3276,9 +3276,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                           text: 'Agregar',
                                                                                           options: FFButtonOptions(
                                                                                             height: 40.0,
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                                   fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
                                                                                                   color: Colors.white,
@@ -3301,7 +3301,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              BukeerColors.secondaryBackground,
                                                                         ),
                                                                         child:
                                                                             Padding(
@@ -3323,7 +3323,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                 maxWidth: 852.0,
                                                                               ),
                                                                               decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                color: BukeerColors.secondaryBackground,
                                                                               ),
                                                                               child: Padding(
                                                                                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 4.0),
@@ -3372,10 +3372,10 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                   padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 8.0, 12.0),
                                                                                                   iconAlignment: IconAlignment.end,
                                                                                                   iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                                  color: BukeerColors.primary,
                                                                                                   textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                        color: FlutterFlowTheme.of(context).info,
+                                                                                                        color: BukeerColors.info,
                                                                                                         letterSpacing: 0.0,
                                                                                                         useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                                       ),
@@ -3385,12 +3385,12 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                     width: 1.0,
                                                                                                   ),
                                                                                                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                                                                                  hoverColor: FlutterFlowTheme.of(context).accent1,
+                                                                                                  hoverColor: BukeerColors.primaryAccent,
                                                                                                   hoverBorderSide: BorderSide(
-                                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                                    color: BukeerColors.primary,
                                                                                                     width: 1.0,
                                                                                                   ),
-                                                                                                  hoverTextColor: FlutterFlowTheme.of(context).primaryText,
+                                                                                                  hoverTextColor: BukeerColors.primaryText,
                                                                                                   hoverElevation: 0.0,
                                                                                                 ),
                                                                                               ),
@@ -3405,7 +3405,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                         width: double.infinity,
                                                                                         height: 40.0,
                                                                                         decoration: BoxDecoration(
-                                                                                          color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                          color: BukeerColors.primaryBackground,
                                                                                           borderRadius: BorderRadius.only(
                                                                                             bottomLeft: Radius.circular(0.0),
                                                                                             bottomRight: Radius.circular(0.0),
@@ -3413,11 +3413,11 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                             topRight: Radius.circular(8.0),
                                                                                           ),
                                                                                           border: Border.all(
-                                                                                            color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                            color: BukeerColors.primaryBackground,
                                                                                           ),
                                                                                         ),
                                                                                         child: Padding(
-                                                                                          padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                          padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                           child: Row(
                                                                                             mainAxisSize: MainAxisSize.max,
                                                                                             children: [
@@ -3475,11 +3475,11 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                 child: Container(
                                                                                                   width: 100.0,
                                                                                                   decoration: BoxDecoration(
-                                                                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                                    color: BukeerColors.secondaryBackground,
                                                                                                     boxShadow: [
                                                                                                       BoxShadow(
                                                                                                         blurRadius: 0.0,
-                                                                                                        color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                                        color: BukeerColors.primaryBackground,
                                                                                                         offset: Offset(
                                                                                                           0.0,
                                                                                                           1.0,
@@ -3488,7 +3488,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                                                     ],
                                                                                                   ),
                                                                                                   child: Padding(
-                                                                                                    padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                                    padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                                     child: Row(
                                                                                                       mainAxisSize: MainAxisSize.max,
                                                                                                       children: [

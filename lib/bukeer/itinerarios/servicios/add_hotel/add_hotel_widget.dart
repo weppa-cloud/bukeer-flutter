@@ -4,7 +4,6 @@ import '../../../../backend/supabase/supabase.dart';
 import '../../../../design_system/index.dart';
 import '../dropdown_products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -25,6 +24,7 @@ import 'add_hotel_model.dart';
 import '../../../../services/ui_state_service.dart';
 import '../../../../services/product_service.dart';
 import '../../../../services/contact_service.dart';
+import '../../../../services/app_services.dart';
 export 'add_hotel_model.dart';
 
 class AddHotelWidget extends StatefulWidget {
@@ -234,7 +234,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: SafeArea(
           top: true,
           child: Align(
@@ -258,7 +258,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                     maxHeight: 700.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -350,20 +350,15 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 5.0, 0.0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderRadius: 12.0,
-                                    borderWidth: 2.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                  child: BukeerIconButton(
                                     icon: FaIcon(
                                       FontAwesomeIcons.trashAlt,
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       size: 24.0,
                                     ),
+                                    size: BukeerIconButtonSize.medium,
+                                    variant: BukeerIconButtonVariant.danger,
                                     onPressed: () async {
                                       var confirmDialogResponse =
                                           await showDialog<bool>(
@@ -400,7 +395,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                           matchingRows: (rows) => rows.eqOrNull(
                                             'id',
                                             getJsonField(
-                                              context.read<ProductService>().allDataHotel,
+                                              context
+                                                  .read<ProductService>()
+                                                  .allDataHotel,
                                               r'''$.id''',
                                             ).toString(),
                                           ),
@@ -417,20 +414,15 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5.0, 5.0, 0.0, 0.0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderRadius: 12.0,
-                                    borderWidth: 2.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                  child: BukeerIconButton(
                                     icon: Icon(
                                       Icons.content_copy,
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       size: 24.0,
                                     ),
+                                    size: BukeerIconButtonSize.medium,
+                                    variant: BukeerIconButtonVariant.outlined,
                                     onPressed: () async {
                                       var confirmDialogResponse =
                                           await showDialog<bool>(
@@ -465,7 +457,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                             await DuplicateItineraryItemCall
                                                 .call(
                                           originalId: getJsonField(
-                                            context.read<ProductService>().allDataHotel,
+                                            context
+                                                .read<ProductService>()
+                                                .allDataHotel,
                                             r'''$.id''',
                                           ).toString(),
                                           authToken: currentJwtToken,
@@ -552,31 +546,43 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                           height: 70.0,
                                           initialStartDate: widget!.isEdit
                                               ? getJsonField(
-                                                  context.read<ProductService>().allDataHotel,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataHotel,
                                                   r'''$.date''',
                                                 ).toString()
                                               : getJsonField(
-                                                  context.read<ContactService>().allDataContact,
+                                                  context
+                                                      .read<ContactService>()
+                                                      .allDataContact,
                                                   r'''$[:].start_date''',
                                                 ).toString(),
                                           initialEndDate: widget!.isEdit
                                               ? functions.calculateDate(
                                                   valueOrDefault<String>(
                                                     getJsonField(
-                                                      context.read<ProductService>().allDataHotel,
+                                                      context
+                                                          .read<
+                                                              ProductService>()
+                                                          .allDataHotel,
                                                       r'''$.date''',
                                                     )?.toString(),
                                                     'stop',
                                                   ),
                                                   valueOrDefault<int>(
                                                     getJsonField(
-                                                      context.read<ProductService>().allDataHotel,
+                                                      context
+                                                          .read<
+                                                              ProductService>()
+                                                          .allDataHotel,
                                                       r'''$.hotel_nights''',
                                                     ),
                                                     0,
                                                   ))
                                               : getJsonField(
-                                                  context.read<ContactService>().allDataContact,
+                                                  context
+                                                      .read<ContactService>()
+                                                      .allDataContact,
                                                   r'''$[:].end_date''',
                                                 ).toString(),
                                           labelText: 'Fecha',
@@ -666,8 +672,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -676,8 +682,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .primary,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           errorBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -686,8 +692,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
@@ -697,8 +703,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           filled: true,
                                           fillColor:
@@ -795,8 +801,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -805,8 +811,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .primary,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           errorBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -815,8 +821,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
@@ -826,8 +832,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           filled: true,
                                           fillColor:
@@ -912,7 +918,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                           ),
                                         )
                                       ],
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context)
                                             .alternate,
@@ -932,7 +939,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   FlutterFlowTheme.of(context)
                                                       .accent1,
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                               shape: BoxShape.rectangle,
                                               border: Border.all(
                                                 color:
@@ -942,7 +950,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.xs),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.xs),
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
@@ -968,22 +977,31 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       widget!.isEdit == true
-                                                          ? (context.read<UiStateService>()
+                                                          ? (context
+                                                                      .read<
+                                                                          UiStateService>()
                                                                       .itemsProducts !=
                                                                   null
                                                               ? getJsonField(
-                                                                  context.read<UiStateService>()
+                                                                  context
+                                                                      .read<
+                                                                          UiStateService>()
                                                                       .itemsProducts,
                                                                   r'''$.name''',
                                                                 ).toString()
                                                               : getJsonField(
-                                                                  context.read<ProductService>().allDataHotel,
+                                                                  context
+                                                                      .read<
+                                                                          ProductService>()
+                                                                      .allDataHotel,
                                                                   r'''$.product_name''',
                                                                 ).toString())
                                                           : valueOrDefault<
                                                               String>(
                                                               getJsonField(
-                                                                context.read<UiStateService>()
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
                                                                     .itemsProducts,
                                                                 r'''$.name''',
                                                               )?.toString(),
@@ -1043,7 +1061,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   BorderRadius.circular(40.0),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.xs),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.xs),
                                               child: Icon(
                                                 Icons.chevron_right_rounded,
                                                 color:
@@ -1062,7 +1081,10 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                 Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    if ((context.read<UiStateService>().itemsProducts != null) ||
+                                    if ((context
+                                                .read<UiStateService>()
+                                                .itemsProducts !=
+                                            null) ||
                                         (widget!.isEdit == true))
                                       InkWell(
                                         splashColor: Colors.transparent,
@@ -1070,7 +1092,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.read<UiStateService>().selectRates = true;
+                                          context
+                                              .read<UiStateService>()
+                                              .selectRates = true;
                                           safeSetState(() {});
                                         },
                                         child: AnimatedContainer(
@@ -1103,7 +1127,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.s),
+                                            padding:
+                                                EdgeInsets.all(BukeerSpacing.s),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
@@ -1137,7 +1162,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                       )
                                                                         .toString()
                                                                     : getJsonField(
-                                                                        context.read<ProductService>().allDataHotel,
+                                                                        context
+                                                                            .read<ProductService>()
+                                                                            .allDataHotel,
                                                                         r'''$.rate_name''',
                                                                       )
                                                                         .toString())
@@ -1213,7 +1240,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      if (context.read<UiStateService>()
+                                                      if (context
+                                                              .read<
+                                                                  UiStateService>()
                                                               .selectRates ==
                                                           false)
                                                         Padding(
@@ -1229,7 +1258,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                             size: 24.0,
                                                           ),
                                                         ),
-                                                      if (context.read<UiStateService>()
+                                                      if (context
+                                                              .read<
+                                                                  UiStateService>()
                                                               .selectRates ==
                                                           true)
                                                         Padding(
@@ -1258,7 +1289,10 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                         ),
                                       ).animateOnPageLoad(animationsMap[
                                           'containerOnPageLoadAnimation3']!),
-                                    if (context.read<UiStateService>().selectRates == true)
+                                    if (context
+                                            .read<UiStateService>()
+                                            .selectRates ==
+                                        true)
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             4.0, 0.0, 4.0, 0.0),
@@ -1324,7 +1358,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                 fontFamily: FlutterFlowTheme.of(
                                                                         context)
                                                                     .headlineMediumFamily,
-                                                                fontSize: BukeerTypography.bodyMediumSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .bodyMediumSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 useGoogleFonts:
@@ -1344,7 +1380,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                         highlightColor:
                                                             Colors.transparent,
                                                         onTap: () async {
-                                                          _model.selectRates = false;
+                                                          _model.selectRates =
+                                                              false;
                                                           safeSetState(() {});
                                                         },
                                                         child: Card(
@@ -1375,8 +1412,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                           ),
                                                         ),
                                                       ),
-                                                    ].divide(
-                                                        SizedBox(width: BukeerSpacing.s)),
+                                                    ].divide(SizedBox(
+                                                        width:
+                                                            BukeerSpacing.s)),
                                                   ),
                                                 ),
                                                 Divider(
@@ -1393,18 +1431,30 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                       GetHotelRatesCall.call(
                                                     hotelId: widget!.isEdit ==
                                                             true
-                                                        ? (context.read<UiStateService>().itemsProducts !=
+                                                        ? (context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .itemsProducts !=
                                                                 null
                                                             ? getJsonField(
-                                                                context.read<UiStateService>().itemsProducts,
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .itemsProducts,
                                                                 r'''$.id''',
                                                               ).toString()
                                                             : getJsonField(
-                                                                context.read<ProductService>().allDataHotel,
+                                                                context
+                                                                    .read<
+                                                                        ProductService>()
+                                                                    .allDataHotel,
                                                                 r'''$.id_product''',
                                                               ).toString())
                                                         : getJsonField(
-                                                            context.read<UiStateService>().itemsProducts,
+                                                            context
+                                                                .read<
+                                                                    UiStateService>()
+                                                                .itemsProducts,
                                                             r'''$.id''',
                                                           ).toString(),
                                                     authToken: currentJwtToken,
@@ -1523,7 +1573,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                     });
                                                                   }),
                                                                 ]);
-                                                                _model.selectRates = false;
+                                                                _model.selectRates =
+                                                                    false;
                                                                 safeSetState(
                                                                     () {});
                                                               },
@@ -1557,7 +1608,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                             children: [
                                                                               Flexible(
                                                                                 child: Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                                  padding: EdgeInsets.only(left: BukeerSpacing.xs),
                                                                                   child: Text(
                                                                                     getJsonField(
                                                                                       hotelRatesItemItem,
@@ -1579,7 +1630,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                                 textAlign: TextAlign.end,
                                                                                 style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1659,7 +1710,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                                           ).toString()}%',
                                                                                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                color: BukeerColors.primaryText,
                                                                                                 letterSpacing: 0.0,
                                                                                                 fontWeight: FontWeight.bold,
                                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -1748,7 +1799,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   boxShadow: [
                                                     BoxShadow(
                                                       blurRadius: 3.0,
-                                                      color: BukeerColors.overlay,
+                                                      color:
+                                                          BukeerColors.overlay,
                                                       offset: Offset(
                                                         0.0,
                                                         1.0,
@@ -1879,7 +1931,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).alternate,
+                                                                              color: BukeerColors.borderPrimary,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -1889,7 +1941,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              color: BukeerColors.primary,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -1899,7 +1951,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).error,
+                                                                              color: BukeerColors.error,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -1909,7 +1961,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: FlutterFlowTheme.of(context).error,
+                                                                              color: BukeerColors.error,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -1918,7 +1970,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                           filled:
                                                                               true,
                                                                           fillColor:
-                                                                              FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              BukeerColors.secondaryBackground,
                                                                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                                                                               16.0,
                                                                               16.0,
@@ -1937,7 +1989,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                             decimal:
                                                                                 true),
                                                                         cursorColor:
-                                                                            FlutterFlowTheme.of(context).primary,
+                                                                            BukeerColors.primary,
                                                                         validator: _model
                                                                             .unitCostTextControllerValidator
                                                                             .asValidator(context),
@@ -2057,7 +2109,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -2069,7 +2121,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -2081,7 +2133,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -2093,7 +2145,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -2505,7 +2557,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -2515,7 +2568,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -2525,7 +2579,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -2536,7 +2591,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -2586,8 +2642,12 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                 alignment: AlignmentDirectional(0.0, 0.05),
                                 child: FFButtonWidget(
                                   onPressed: () async {
-                                    context.read<UiStateService>().itemsProducts = null;
-                                    context.read<ProductService>().allDataHotel = null;
+                                    context
+                                        .read<UiStateService>()
+                                        .itemsProducts = null;
+                                    context
+                                        .read<ProductService>()
+                                        .allDataHotel = null;
                                     Navigator.pop(context);
                                   },
                                   text: 'Cancelar',
@@ -2616,9 +2676,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                           .alternate,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
+                                    hoverColor: BukeerColors.borderPrimary,
                                     hoverBorderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -2671,16 +2731,22 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                           hotelNights: int.tryParse(_model
                                               .hotelNightsTextController.text),
                                           idProduct: getJsonField(
-                                            context.read<UiStateService>().itemsProducts,
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts,
                                             r'''$.id''',
                                           ).toString(),
                                           productType: 'Hoteles',
                                           destination: getJsonField(
-                                            context.read<UiStateService>().itemsProducts,
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts,
                                             r'''$.city''',
                                           ).toString(),
                                           productName: getJsonField(
-                                            context.read<UiStateService>().itemsProducts,
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts,
                                             r'''$.name''',
                                           ).toString(),
                                           rateName: getJsonField(
@@ -2694,7 +2760,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   _model.initialStartDate != ''
                                               ? _model.initialStartDate
                                               : getJsonField(
-                                                  context.read<ContactService>().allDataContact,
+                                                  context
+                                                      .read<ContactService>()
+                                                      .allDataContact,
                                                   r'''$[:].start_date''',
                                                 ).toString(),
                                           unitCost: double.tryParse(_model
@@ -2717,7 +2785,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                             0.0,
                                           ),
                                           idItinerary: widget!.itineraryId,
-                                          accountId: FFAppState().accountId,
+                                          accountId: currentUserUid,
                                           authToken: currentJwtToken,
                                           personalizedMessage:
                                               (String personalizedMessage) {
@@ -2730,8 +2798,12 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                         if ((_model.apiResponseAddItineraryItem
                                                 ?.succeeded ??
                                             true)) {
-                                          context.read<UiStateService>().itemsProducts = null;
-                                          context.read<ProductService>().allDataHotel = null;
+                                          context
+                                              .read<UiStateService>()
+                                              .itemsProducts = null;
+                                          context
+                                              .read<ProductService>()
+                                              .allDataHotel = null;
                                           safeSetState(() {});
                                           _model.profitHotel = 0.0;
                                           _model.unitCost = 0.0;
@@ -2793,8 +2865,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -2811,9 +2882,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -2864,7 +2935,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                             await UpdateItineraryItemsCall.call(
                                           authToken: currentJwtToken,
                                           id: getJsonField(
-                                            context.read<ProductService>().allDataHotel,
+                                            context
+                                                .read<ProductService>()
+                                                .allDataHotel,
                                             r'''$.id''',
                                           ).toString(),
                                           unitCost: double.tryParse(_model
@@ -2878,21 +2951,29 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   _model.initialStartDate != ''
                                               ? _model.initialStartDate
                                               : getJsonField(
-                                                  context.read<ProductService>().allDataHotel,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataHotel,
                                                   r'''$.date''',
                                                 ).toString(),
                                           profitPercentage: double.tryParse(
                                               _model.markupTextController.text),
-                                          idProduct:
-                                              context.read<UiStateService>().itemsProducts != null
-                                                  ? getJsonField(
-                                                      context.read<UiStateService>().itemsProducts,
-                                                      r'''$.id''',
-                                                    ).toString()
-                                                  : getJsonField(
-                                                      context.read<ProductService>().allDataHotel,
-                                                      r'''$.id_product''',
-                                                    ).toString(),
+                                          idProduct: context
+                                                      .read<UiStateService>()
+                                                      .itemsProducts !=
+                                                  null
+                                              ? getJsonField(
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .itemsProducts,
+                                                  r'''$.id''',
+                                                ).toString()
+                                              : getJsonField(
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataHotel,
+                                                  r'''$.id_product''',
+                                                ).toString(),
                                           totalPrice: valueOrDefault<double>(
                                             double.parse(
                                                     functions.calculateTotalFunction(
@@ -2911,36 +2992,50 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                             0.0,
                                           ),
                                           productType: 'Hoteles',
-                                          destination:
-                                              context.read<UiStateService>().itemsProducts != null
-                                                  ? getJsonField(
-                                                      context.read<UiStateService>().itemsProducts,
-                                                      r'''$.city''',
-                                                    ).toString()
-                                                  : getJsonField(
-                                                      context.read<ProductService>().allDataHotel,
-                                                      r'''$.destination''',
-                                                    ).toString(),
-                                          rateName:
-                                              _model.itemsHotelRates != null
-                                                  ? getJsonField(
-                                                      _model.itemsHotelRates,
-                                                      r'''$.name''',
-                                                    ).toString()
-                                                  : getJsonField(
-                                                      context.read<ProductService>().allDataHotel,
-                                                      r'''$.rate_name''',
-                                                    ).toString(),
-                                          productName:
-                                              context.read<UiStateService>().itemsProducts != null
-                                                  ? getJsonField(
-                                                      context.read<UiStateService>().itemsProducts,
-                                                      r'''$.name''',
-                                                    ).toString()
-                                                  : getJsonField(
-                                                      context.read<ProductService>().allDataHotel,
-                                                      r'''$.product_name''',
-                                                    ).toString(),
+                                          destination: context
+                                                      .read<UiStateService>()
+                                                      .itemsProducts !=
+                                                  null
+                                              ? getJsonField(
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .itemsProducts,
+                                                  r'''$.city''',
+                                                ).toString()
+                                              : getJsonField(
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataHotel,
+                                                  r'''$.destination''',
+                                                ).toString(),
+                                          rateName: _model.itemsHotelRates !=
+                                                  null
+                                              ? getJsonField(
+                                                  _model.itemsHotelRates,
+                                                  r'''$.name''',
+                                                ).toString()
+                                              : getJsonField(
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataHotel,
+                                                  r'''$.rate_name''',
+                                                ).toString(),
+                                          productName: context
+                                                      .read<UiStateService>()
+                                                      .itemsProducts !=
+                                                  null
+                                              ? getJsonField(
+                                                  context
+                                                      .read<UiStateService>()
+                                                      .itemsProducts,
+                                                  r'''$.name''',
+                                                ).toString()
+                                              : getJsonField(
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataHotel,
+                                                  r'''$.product_name''',
+                                                ).toString(),
                                           personalizedMessage:
                                               (String personalizedMessage) {
                                             return personalizedMessage
@@ -2953,8 +3048,12 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                 .apiResponseUpdateItineraryItem
                                                 ?.succeeded ??
                                             true)) {
-                                          context.read<UiStateService>().itemsProducts = null;
-                                          context.read<ProductService>().allDataHotel = null;
+                                          context
+                                              .read<UiStateService>()
+                                              .itemsProducts = null;
+                                          context
+                                              .read<ProductService>()
+                                              .allDataHotel = null;
                                           safeSetState(() {});
                                           _model.profitHotel = 0.0;
                                           _model.unitCost = 0.0;
@@ -3013,8 +3112,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -3031,9 +3129,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,

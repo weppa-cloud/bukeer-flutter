@@ -99,8 +99,8 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
             return wrapInMaterialDatePickerTheme(
               context,
               child!,
-              headerBackgroundColor: FlutterFlowTheme.of(context).primary,
-              headerForegroundColor: FlutterFlowTheme.of(context).info,
+              headerBackgroundColor: BukeerColors.primary,
+              headerForegroundColor: BukeerColors.info,
               headerTextStyle:
                   FlutterFlowTheme.of(context).headlineLarge.override(
                         fontFamily:
@@ -111,15 +111,11 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
                         useGoogleFonts:
                             !FlutterFlowTheme.of(context).headlineLargeIsCustom,
                       ),
-              pickerBackgroundColor:
-                  FlutterFlowTheme.of(context).secondaryBackground,
-              pickerForegroundColor: FlutterFlowTheme.of(context).primaryText,
-              selectedDateTimeBackgroundColor:
-                  FlutterFlowTheme.of(context).primary,
-              selectedDateTimeForegroundColor:
-                  FlutterFlowTheme.of(context).info,
-              actionButtonForegroundColor:
-                  FlutterFlowTheme.of(context).primaryText,
+              pickerBackgroundColor: BukeerColors.secondaryBackground,
+              pickerForegroundColor: BukeerColors.primaryText,
+              selectedDateTimeBackgroundColor: BukeerColors.primary,
+              selectedDateTimeForegroundColor: BukeerColors.info,
+              actionButtonForegroundColor: BukeerColors.primaryText,
               iconSize: 24.0,
             );
           },
@@ -147,7 +143,7 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
           maxWidth: 770.0,
         ),
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: BukeerColors.secondaryBackground,
           boxShadow: [
             BoxShadow(
               blurRadius: 3.0,
@@ -160,7 +156,7 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
           ],
           borderRadius: BorderRadius.circular(BukeerSpacing.s),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).alternate,
+            color: BukeerColors.borderPrimary,
             width: 1.0,
           ),
         ),
@@ -185,8 +181,7 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyLargeFamily,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
+                                color: BukeerColors.secondaryText,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.normal,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
@@ -238,7 +233,7 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
               ),
               Card(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                color: FlutterFlowTheme.of(context).primaryBackground,
+                color: BukeerColors.primaryBackground,
                 elevation: 1.0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40.0),
@@ -247,7 +242,7 @@ class _ComponentDateWidgetState extends State<ComponentDateWidget>
                   padding: EdgeInsets.all(BukeerSpacing.xs),
                   child: Icon(
                     Icons.calendar_month,
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: BukeerColors.secondaryText,
                     size: 24.0,
                   ),
                 ),

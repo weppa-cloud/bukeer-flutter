@@ -68,14 +68,14 @@ class _AddPassengersItineraryWidgetState
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            backgroundColor: BukeerColors.primaryBackground,
             body: Center(
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
+                    BukeerColors.primary,
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class _AddPassengersItineraryWidgetState
           },
           child: Scaffold(
             key: scaffoldKey,
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            backgroundColor: BukeerColors.primaryBackground,
             body: SafeArea(
               top: true,
               child: Column(
@@ -173,8 +173,8 @@ class _AddPassengersItineraryWidgetState
                                                       ),
                                                     ),
                                                     child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(BukeerSpacing.m),
+                                                      padding: EdgeInsets.all(
+                                                          BukeerSpacing.m),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -221,7 +221,7 @@ class _AddPassengersItineraryWidgetState
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).headlineSmall.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                                      color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      color: BukeerColors.primaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).headlineSmallIsCustom,
                                                                                     ),
@@ -238,16 +238,16 @@ class _AddPassengersItineraryWidgetState
                                                                                 Container(
                                                                               height: 32.0,
                                                                               decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).accent1,
+                                                                                color: BukeerColors.primaryAccent,
                                                                                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
                                                                                 border: Border.all(
-                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  color: BukeerColors.primary,
                                                                                   width: 2.0,
                                                                                 ),
                                                                               ),
                                                                               alignment: AlignmentDirectional(0.0, 0.0),
                                                                               child: Padding(
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                                                                                padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                                                                                 child: Text(
                                                                                   getJsonField(
                                                                                     addPassengersItineraryGetitIneraryDetailsResponse.jsonBody,
@@ -295,7 +295,7 @@ class _AddPassengersItineraryWidgetState
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.person,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -308,7 +308,7 @@ class _AddPassengersItineraryWidgetState
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -327,7 +327,7 @@ class _AddPassengersItineraryWidgetState
                                                                                 'ID',
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -343,7 +343,7 @@ class _AddPassengersItineraryWidgetState
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.bold,
                                                                                       useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -363,7 +363,7 @@ class _AddPassengersItineraryWidgetState
                                                                                   padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                                   child: Icon(
                                                                                     Icons.date_range,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     size: 16.0,
                                                                                   ),
                                                                                 ),
@@ -409,7 +409,7 @@ class _AddPassengersItineraryWidgetState
                                                                                     ).toString())}',
                                                                                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           letterSpacing: 0.0,
                                                                                           useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                         ),
@@ -421,7 +421,7 @@ class _AddPassengersItineraryWidgetState
                                                                               padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                               child: Icon(
                                                                                 Icons.people,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 size: 16.0,
                                                                               ),
                                                                             ),
@@ -432,7 +432,7 @@ class _AddPassengersItineraryWidgetState
                                                                               ).toString(),
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                   ),
@@ -532,7 +532,7 @@ class _AddPassengersItineraryWidgetState
                                                                               .bodyMedium
                                                                               .override(
                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                color: BukeerColors.secondaryText,
                                                                                 letterSpacing: 0.0,
                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                               ),
@@ -601,7 +601,7 @@ class _AddPassengersItineraryWidgetState
                                                                             fontFamily:
                                                                                 FlutterFlowTheme.of(context).headlineSmallFamily,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             fontSize:
                                                                                 18.0,
                                                                             letterSpacing:
@@ -721,8 +721,8 @@ class _AddPassengersItineraryWidgetState
                                                                             .remove_red_eye,
                                                                         color: _model.typeProduct ==
                                                                                 3
-                                                                            ? FlutterFlowTheme.of(context).primary
-                                                                            : FlutterFlowTheme.of(context).secondaryText,
+                                                                            ? BukeerColors.primary
+                                                                            : BukeerColors.secondaryText,
                                                                         size:
                                                                             20.0,
                                                                       ),
@@ -732,7 +732,7 @@ class _AddPassengersItineraryWidgetState
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                              color: _model.typeProduct == 3 ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).secondaryText,
+                                                                              color: _model.typeProduct == 3 ? BukeerColors.primary : BukeerColors.secondaryText,
                                                                               letterSpacing: 0.0,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
@@ -770,8 +770,8 @@ class _AddPassengersItineraryWidgetState
                                                                             .family_restroom,
                                                                         color: _model.typeProduct ==
                                                                                 4
-                                                                            ? FlutterFlowTheme.of(context).primary
-                                                                            : FlutterFlowTheme.of(context).secondaryText,
+                                                                            ? BukeerColors.primary
+                                                                            : BukeerColors.secondaryText,
                                                                         size:
                                                                             20.0,
                                                                       ),
@@ -781,7 +781,7 @@ class _AddPassengersItineraryWidgetState
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                              color: _model.typeProduct == 4 ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).secondaryText,
+                                                                              color: _model.typeProduct == 4 ? BukeerColors.primary : BukeerColors.secondaryText,
                                                                               letterSpacing: 0.0,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
@@ -1162,7 +1162,7 @@ class _AddPassengersItineraryWidgetState
                                                                           decoration:
                                                                               BoxDecoration(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).accent1,
+                                                                                BukeerColors.primaryAccent,
                                                                             borderRadius:
                                                                                 BorderRadius.circular(25.0),
                                                                           ),
@@ -1176,7 +1176,7 @@ class _AddPassengersItineraryWidgetState
                                                                               textAlign: TextAlign.center,
                                                                               style: FlutterFlowTheme.of(context).titleMedium.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).titleMediumFamily,
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                                    color: BukeerColors.primaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).titleMediumIsCustom,
                                                                                   ),
@@ -1218,7 +1218,7 @@ class _AddPassengersItineraryWidgetState
                                                                                       textAlign: TextAlign.start,
                                                                                       style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                             fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             letterSpacing: 0.0,
                                                                                             fontWeight: FontWeight.w600,
                                                                                             useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
@@ -1236,7 +1236,7 @@ class _AddPassengersItineraryWidgetState
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         letterSpacing: 0.0,
                                                                                         useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                       ),
@@ -1251,7 +1251,7 @@ class _AddPassengersItineraryWidgetState
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         letterSpacing: 0.0,
                                                                                         useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                       ),
@@ -1268,7 +1268,7 @@ class _AddPassengersItineraryWidgetState
                                                                               'Manager',
                                                                               style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    color: BukeerColors.primary,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                   ),
@@ -1280,7 +1280,7 @@ class _AddPassengersItineraryWidgetState
                                                                                   padding: EdgeInsets.all(BukeerSpacing.xs),
                                                                                   child: Icon(
                                                                                     Icons.call,
-                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    color: BukeerColors.primary,
                                                                                     size: 20.0,
                                                                                   ),
                                                                                 ),
@@ -1288,7 +1288,7 @@ class _AddPassengersItineraryWidgetState
                                                                                   padding: EdgeInsets.all(BukeerSpacing.xs),
                                                                                   child: Icon(
                                                                                     Icons.email,
-                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    color: BukeerColors.primary,
                                                                                     size: 20.0,
                                                                                   ),
                                                                                 ),
@@ -1300,7 +1300,7 @@ class _AddPassengersItineraryWidgetState
                                                                                   onTap: () async {},
                                                                                   child: Icon(
                                                                                     Icons.more_vert,
-                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    color: BukeerColors.primary,
                                                                                     size: 20.0,
                                                                                   ),
                                                                                 ),

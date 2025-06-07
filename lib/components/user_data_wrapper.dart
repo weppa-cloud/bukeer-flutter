@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/user_service.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../design_system/index.dart';
 
 /// Widget wrapper que garantiza que los datos del usuario estén cargados
 /// antes de mostrar el contenido
@@ -43,7 +42,7 @@ class _UserDataWrapperState extends State<UserDataWrapper> {
 
     // Cargar datos
     final success = await _userService.initializeUserData();
-    
+
     if (mounted) {
       setState(() {
         _isLoading = false;

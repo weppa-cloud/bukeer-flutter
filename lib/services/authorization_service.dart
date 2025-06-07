@@ -173,6 +173,14 @@ class AuthorizationService extends ChangeNotifier {
   /// Check if user is agent
   bool get isAgent => hasRole(RoleType.agent);
 
+  /// Get current user's role type
+  RoleType get currentUserRole {
+    if (isSuperAdmin) return RoleType.superAdmin;
+    if (isAdmin) return RoleType.admin;
+    if (isAgent) return RoleType.agent;
+    return RoleType.guest;
+  }
+
   /// Get highest role level (for UI purposes)
   int get roleLevel {
     if (isSuperAdmin) return 3;
@@ -187,6 +195,11 @@ class AuthorizationService extends ChangeNotifier {
     _userPermissions.clear();
     _lastRoleCheck = null;
     notifyListeners();
+  }
+
+  /// Invalidate the authorization cache
+  void invalidateCache() {
+    clearRoles();
   }
 
   /// Private helper methods

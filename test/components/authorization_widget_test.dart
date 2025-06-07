@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// import 'package:mockito/mockito.dart'; // Unused import
 
 import '../../lib/components/authorization_widget.dart';
 import '../../lib/services/authorization_service.dart';
@@ -27,7 +27,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedWidget(
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text(authorizedText),
             fallback: Text(unauthorizedText),
           ),
@@ -56,7 +56,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedWidget(
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text(authorizedText),
             fallback: Text(unauthorizedText),
           ),
@@ -84,7 +84,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedWidget(
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text(authorizedText),
             // No fallback provided
           ),
@@ -105,7 +105,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedWidget(
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text('Authorized Content'),
           ),
         );
@@ -122,14 +122,14 @@ void main() {
     group('RoleBasedWidget', () {
       testWidgets('should work correctly for admin role', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockAuthorizationResult(result: true);
 
         const adminText = 'Admin Content';
 
         final widget = TestHelpers.createTestWidget(
           child: RoleBasedWidget(
-            requiredRole: RoleType.admin,
+            requiredRole: 'admin',
             child: Text(adminText),
           ),
         );
@@ -144,14 +144,14 @@ void main() {
 
       testWidgets('should hide content for wrong role', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.agent);
+        TestHelpers.mockUserWithRole('agent');
         TestHelpers.mockAuthorizationResult(result: false);
 
         const adminText = 'Admin Content';
 
         final widget = TestHelpers.createTestWidget(
           child: RoleBasedWidget(
-            requiredRole: RoleType.admin,
+            requiredRole: 'admin',
             child: Text(adminText),
           ),
         );
@@ -168,7 +168,7 @@ void main() {
     group('AdminOnlyWidget', () {
       testWidgets('should show content for admin user', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockAuthorizationResult(result: true);
 
         const adminText = 'Admin Only Content';
@@ -189,7 +189,7 @@ void main() {
 
       testWidgets('should hide content for non-admin user', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.agent);
+        TestHelpers.mockUserWithRole('agent');
         TestHelpers.mockAuthorizationResult(result: false);
 
         const adminText = 'Admin Only Content';
@@ -212,7 +212,7 @@ void main() {
     group('SuperAdminOnlyWidget', () {
       testWidgets('should show content for super admin user', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.superAdmin);
+        TestHelpers.mockUserWithRole('super_admin');
         TestHelpers.mockAuthorizationResult(result: true);
 
         const superAdminText = 'Super Admin Only Content';
@@ -233,7 +233,7 @@ void main() {
 
       testWidgets('should hide content for admin user', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockAuthorizationResult(result: false);
 
         const superAdminText = 'Super Admin Only Content';
@@ -263,7 +263,7 @@ void main() {
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedButton(
             onPressed: () => buttonPressed = true,
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text('Delete'),
           ),
         );
@@ -292,7 +292,7 @@ void main() {
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedButton(
             onPressed: () => buttonPressed = true,
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text('Delete'),
           ),
         );
@@ -317,7 +317,7 @@ void main() {
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedButton(
             onPressed: () {},
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             child: Text('Delete'),
           ),
         );
@@ -338,7 +338,7 @@ void main() {
         final widget = TestHelpers.createTestWidget(
           child: AuthorizedButton(
             onPressed: () {},
-            requiredRoles: [RoleType.admin],
+            requiredRoles: ['admin'],
             tooltip: 'Delete item',
             child: Text('Delete'),
           ),
@@ -389,7 +389,7 @@ void main() {
       testWidgets('should show admin UI for admin user', (tester) async {
         // Arrange
         TestHelpers.mockUserData(userId: 'admin123');
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
 
         final widget = TestHelpers.createTestWidget(
           child: ResourceAccessWidget(
@@ -489,7 +489,7 @@ void main() {
     group('UserRoleBadge', () {
       testWidgets('should display role badge for user with role', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
 
         final widget = TestHelpers.createTestWidget(
           child: UserRoleBadge(userId: 'admin123'),
@@ -522,8 +522,8 @@ void main() {
       testWidgets('should display highest priority role', (tester) async {
         // Arrange
         final roles = [
-          UserRole(id: 1, name: 'agent', type: RoleType.agent, permissions: []),
-          UserRole(id: 2, name: 'admin', type: RoleType.admin, permissions: []),
+          UserRole(id: 1, name: 'agent', type: 'agent', permissions: []),
+          UserRole(id: 2, name: 'admin', type: 'admin', permissions: []),
         ];
         
         when(TestHelpers.mockAuthService.userRoles).thenReturn(roles);

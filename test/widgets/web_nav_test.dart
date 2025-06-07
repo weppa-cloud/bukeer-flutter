@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
 import 'package:bukeer/bukeer/componentes/web_nav/web_nav_widget.dart';
-import 'package:bukeer/bukeer/componentes/web_nav/web_nav_model.dart';
+// import 'package:bukeer/bukeer/componentes/web_nav/web_nav_model.dart'; // Unused import
 import 'package:bukeer/services/authorization_service.dart';
 import '../test_utils/test_helpers.dart';
 
@@ -82,7 +82,7 @@ void main() {
       testWidgets('should show admin menu items for admin users',
           (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(
@@ -101,7 +101,7 @@ void main() {
       testWidgets('should hide admin menu items for agent users',
           (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.agent);
+        TestHelpers.mockUserWithRole('agent');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(
@@ -119,7 +119,7 @@ void main() {
 
       testWidgets('should show all menu items for super admin', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.superAdmin);
+        TestHelpers.mockUserWithRole('super_admin');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(

@@ -60,7 +60,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: SafeArea(
           top: true,
           child: Column(
@@ -94,8 +94,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                             maxHeight: 900.0,
                           ),
                           decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
+                            color: BukeerColors.primaryBackground,
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -672,7 +671,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                               .headlineSmall
                                                                               .override(
                                                                                 fontFamily: FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                color: BukeerColors.primaryText,
                                                                                 fontSize: BukeerTypography.bodyMediumSize,
                                                                                 letterSpacing: 0.0,
                                                                                 fontWeight: FontWeight.bold,
@@ -746,7 +745,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                                       padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                                       child: Icon(
                                                                                         Icons.email_sharp,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         size: 16.0,
                                                                                       ),
                                                                                     ),
@@ -759,7 +758,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                                         ).toString(),
                                                                                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                              color: BukeerColors.secondaryText,
                                                                                               letterSpacing: 0.0,
                                                                                               fontWeight: FontWeight.bold,
                                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -780,7 +779,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                                       padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                                       child: Icon(
                                                                                         Icons.phone_iphone,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         size: 16.0,
                                                                                       ),
                                                                                     ),
@@ -791,7 +790,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                                       ).toString(),
                                                                                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                             fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                            color: BukeerColors.secondaryText,
                                                                                             letterSpacing: 0.0,
                                                                                             useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                                           ),

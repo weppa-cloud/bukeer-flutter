@@ -72,7 +72,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor: BukeerColors.primaryBackground,
       body: SafeArea(
         top: true,
         child: Column(
@@ -176,7 +176,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
         children: [
           CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
-              FlutterFlowTheme.of(context).primary,
+              BukeerColors.primary,
             ),
           ),
           SizedBox(height: 16),
@@ -184,7 +184,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
             'Cargando itinerario...',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
                   fontFamily: 'Readex Pro',
-                  color: FlutterFlowTheme.of(context).secondaryText,
+                  color: BukeerColors.secondaryText,
                 ),
           ),
         ],
@@ -201,7 +201,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
           children: [
             Icon(
               Icons.error_outline,
-              color: FlutterFlowTheme.of(context).error,
+              color: BukeerColors.error,
               size: 64,
             ),
             SizedBox(height: 16),
@@ -209,7 +209,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               'Error al cargar el itinerario',
               style: FlutterFlowTheme.of(context).headlineSmall.override(
                     fontFamily: 'Outfit',
-                    color: FlutterFlowTheme.of(context).error,
+                    color: BukeerColors.error,
                   ),
             ),
             SizedBox(height: 8),
@@ -218,7 +218,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: BukeerColors.secondaryText,
                   ),
             ),
             SizedBox(height: 24),
@@ -246,7 +246,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
           children: [
             Icon(
               Icons.search_off,
-              color: FlutterFlowTheme.of(context).secondaryText,
+              color: BukeerColors.secondaryText,
               size: 64,
             ),
             SizedBox(height: 16),
@@ -254,7 +254,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               'Itinerario no encontrado',
               style: FlutterFlowTheme.of(context).headlineSmall.override(
                     fontFamily: 'Outfit',
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: BukeerColors.secondaryText,
                   ),
             ),
             SizedBox(height: 8),
@@ -263,7 +263,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: BukeerColors.secondaryText,
                   ),
             ),
             SizedBox(height: 24),

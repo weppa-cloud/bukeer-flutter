@@ -57,7 +57,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: SafeArea(
           top: true,
           child: Column(
@@ -83,7 +83,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                     Flexible(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          color: BukeerColors.primaryBackground,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -525,7 +525,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                             ).toString(),
                                                                             style: FlutterFlowTheme.of(context).headlineSmall.override(
                                                                                   fontFamily: FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                                  color: FlutterFlowTheme.of(context).primaryText,
+                                                                                  color: BukeerColors.primaryText,
                                                                                   fontSize: BukeerTypography.bodyMediumSize,
                                                                                   letterSpacing: 0.0,
                                                                                   fontWeight: FontWeight.bold,
@@ -574,7 +574,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                                       padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                                       child: Icon(
                                                                                         Icons.security,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         size: 16.0,
                                                                                       ),
                                                                                     ),
@@ -588,7 +588,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                                       ),
                                                                                       style: FlutterFlowTheme.of(context).labelMedium.override(
                                                                                             fontFamily: FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             letterSpacing: 0.0,
                                                                                             fontWeight: FontWeight.w600,
                                                                                             useGoogleFonts: !FlutterFlowTheme.of(context).labelMediumIsCustom,
@@ -608,7 +608,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                                         padding: EdgeInsets.only(right: BukeerSpacing.xs),
                                                                                         child: Icon(
                                                                                           Icons.email_sharp,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           size: 16.0,
                                                                                         ),
                                                                                       ),
@@ -621,7 +621,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                                           ).toString(),
                                                                                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                color: BukeerColors.secondaryText,
                                                                                                 letterSpacing: 0.0,
                                                                                                 fontWeight: FontWeight.bold,
                                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,

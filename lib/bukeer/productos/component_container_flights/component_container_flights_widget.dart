@@ -60,7 +60,7 @@ class _ComponentContainerFlightsWidgetState
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             borderRadius: BorderRadius.circular(BukeerSpacing.m),
           ),
           child: Column(
@@ -91,7 +91,7 @@ class _ComponentContainerFlightsWidgetState
                     Expanded(
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
+                            EdgeInsets.symmetric(vertical: BukeerSpacing.s),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -121,7 +121,7 @@ class _ComponentContainerFlightsWidgetState
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
-                      color: FlutterFlowTheme.of(context).primary,
+                      color: BukeerColors.primary,
                       size: 16.0,
                     ),
                   ].divide(SizedBox(width: BukeerSpacing.s)),

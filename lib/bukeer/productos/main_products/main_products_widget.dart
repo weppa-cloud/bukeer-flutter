@@ -66,14 +66,14 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
             return Scaffold(
-              backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+              backgroundColor: BukeerColors.primaryBackground,
               body: Center(
                 child: SizedBox(
                   width: 50.0,
                   height: 50.0,
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      FlutterFlowTheme.of(context).primary,
+                      BukeerColors.primary,
                     ),
                   ),
                 ),
@@ -89,7 +89,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
             },
             child: Scaffold(
               key: scaffoldKey,
-              backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+              backgroundColor: BukeerColors.primaryBackground,
               body: SafeArea(
                 top: true,
                 child: Column(
@@ -299,8 +299,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             .local_activity_outlined,
                                                                         color: context.read<UiStateService>().selectedProductType ==
                                                                                 'activities'
-                                                                            ? FlutterFlowTheme.of(context).primary
-                                                                            : FlutterFlowTheme.of(context).secondaryText,
+                                                                            ? BukeerColors.primary
+                                                                            : BukeerColors.secondaryText,
                                                                         size:
                                                                             20.0,
                                                                       ),
@@ -310,7 +310,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                              color: context.read<UiStateService>().selectedProductType == 'activities' ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).secondaryText,
+                                                                              color: context.read<UiStateService>().selectedProductType == 'activities' ? BukeerColors.primary : BukeerColors.secondaryText,
                                                                               letterSpacing: 0.0,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
@@ -374,8 +374,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             .business,
                                                                         color: context.read<UiStateService>().selectedProductType ==
                                                                                 'hotels'
-                                                                            ? FlutterFlowTheme.of(context).primary
-                                                                            : FlutterFlowTheme.of(context).secondaryText,
+                                                                            ? BukeerColors.primary
+                                                                            : BukeerColors.secondaryText,
                                                                         size:
                                                                             20.0,
                                                                       ),
@@ -385,7 +385,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                              color: context.read<UiStateService>().selectedProductType == 'hotels' ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).secondaryText,
+                                                                              color: context.read<UiStateService>().selectedProductType == 'hotels' ? BukeerColors.primary : BukeerColors.secondaryText,
                                                                               letterSpacing: 0.0,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
@@ -447,8 +447,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             .directions_car,
                                                                         color: context.read<UiStateService>().selectedProductType ==
                                                                                 'transfers'
-                                                                            ? FlutterFlowTheme.of(context).primary
-                                                                            : FlutterFlowTheme.of(context).secondaryText,
+                                                                            ? BukeerColors.primary
+                                                                            : BukeerColors.secondaryText,
                                                                         size:
                                                                             20.0,
                                                                       ),
@@ -458,7 +458,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             .bodyMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                              color: context.read<UiStateService>().selectedProductType == 'transfers' ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).secondaryText,
+                                                                              color: context.read<UiStateService>().selectedProductType == 'transfers' ? BukeerColors.primary : BukeerColors.secondaryText,
                                                                               letterSpacing: 0.0,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                                                                             ),
@@ -511,7 +511,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                               Icon(
                                                                             Icons.search,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
+                                                                                BukeerColors.secondaryText,
                                                                             size:
                                                                                 30.0,
                                                                           ),

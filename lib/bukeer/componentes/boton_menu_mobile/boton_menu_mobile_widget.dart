@@ -1,4 +1,3 @@
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -42,20 +41,18 @@ class _BotonMenuMobileWidgetState extends State<BotonMenuMobileWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 12.0, 0.0),
-      child: FlutterFlowIconButton(
-        borderColor: FlutterFlowTheme.of(context).primary,
-        borderRadius: 12.0,
-        borderWidth: 2.0,
-        buttonSize: 46.0,
-        fillColor: FlutterFlowTheme.of(context).accent1,
-        icon: Icon(
-          Icons.menu,
-          color: FlutterFlowTheme.of(context).primaryText,
-        ),
+      padding: EdgeInsets.only(right: BukeerSpacing.s),
+      child: BukeerIconButton(
+        icon: Icon(Icons.menu),
         onPressed: () async {
           Navigator.pop(context);
         },
+        size: BukeerIconButtonSize.large,
+        variant: BukeerIconButtonVariant.outlined,
+        borderColor: BukeerColors.primary,
+        fillColor: BukeerColors.primaryAccent,
+        iconColor: BukeerColors.primaryText,
+        tooltip: 'Menú',
       ),
     );
   }

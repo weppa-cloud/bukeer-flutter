@@ -92,7 +92,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
             maxHeight: 400.0,
           ),
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             boxShadow: [
               BoxShadow(
                 blurRadius: 3.0,
@@ -106,7 +106,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
             borderRadius: BorderRadius.circular(BukeerSpacing.s),
           ),
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.s),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -114,7 +114,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                   padding: EdgeInsets.only(top: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2.0,
@@ -260,7 +260,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                   padding: EdgeInsets.only(bottom: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 1.0,
@@ -306,18 +306,17 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                                     ),
                                 elevation: 0.0,
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
+                                hoverColor: BukeerColors.borderPrimary,
                                 hoverBorderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                hoverTextColor:
-                                    FlutterFlowTheme.of(context).primaryText,
+                                hoverTextColor: BukeerColors.primaryText,
                                 hoverElevation: 3.0,
                               ),
                             ),
@@ -428,7 +427,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                                     16.0, 0.0, 16.0, 0.0),
                                 iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: BukeerColors.primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
@@ -441,7 +440,8 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                                               .titleSmallIsCustom,
                                     ),
                                 elevation: 0.0,
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                               ),
                             ),
                           ),

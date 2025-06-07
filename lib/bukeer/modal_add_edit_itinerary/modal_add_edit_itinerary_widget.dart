@@ -28,6 +28,8 @@ import '../../services/product_service.dart';
 import '../../services/contact_service.dart';
 import '../../services/itinerary_service.dart';
 import '../../services/user_service.dart';
+import '../../services/account_service.dart';
+import '../../services/app_services.dart';
 export 'modal_add_edit_itinerary_model.dart';
 
 class ModalAddEditItineraryWidget extends StatefulWidget {
@@ -180,7 +182,7 @@ class _ModalAddEditItineraryWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    context.watch<AccountService>();
 
     return Form(
       key: _model.formKey,
@@ -193,7 +195,7 @@ class _ModalAddEditItineraryWidgetState
             maxHeight: 700.0,
           ),
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             boxShadow: [
               BoxShadow(
                 blurRadius: 12.0,
@@ -260,7 +262,7 @@ class _ModalAddEditItineraryWidgetState
                   Divider(
                     height: 20.0,
                     thickness: 1.0,
-                    color: FlutterFlowTheme.of(context).alternate,
+                    color: BukeerColors.borderPrimary,
                   ),
                 ],
               ),
@@ -306,8 +308,7 @@ class _ModalAddEditItineraryWidgetState
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: BukeerColors.borderPrimary,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -315,7 +316,7 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -323,7 +324,7 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
+                                    color: BukeerColors.error,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -331,7 +332,7 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
+                                    color: BukeerColors.error,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -353,7 +354,7 @@ class _ModalAddEditItineraryWidgetState
                                         !FlutterFlowTheme.of(context)
                                             .bodyMediumIsCustom,
                                   ),
-                              cursorColor: FlutterFlowTheme.of(context).primary,
+                              cursorColor: BukeerColors.primary,
                               validator: _model
                                   .nameItineraryTextControllerValidator
                                   .asValidator(context),
@@ -506,8 +507,7 @@ class _ModalAddEditItineraryWidgetState
                                                               .isEdit ==
                                                           true) {
                                                         return getJsonField(
-                                                          FFAppState()
-                                                              .allDataItinerary,
+                                                          appServices.itinerary.selectedItinerary ?? {},
                                                           r'''$[:].contact_name''',
                                                         ).toString();
                                                       } else {
@@ -742,8 +742,7 @@ class _ModalAddEditItineraryWidgetState
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                                 elevation: 2.0,
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderColor: BukeerColors.borderPrimary,
                                 borderWidth: 2.0,
                                 borderRadius: 12.0,
                                 margin: EdgeInsetsDirectional.fromSTEB(
@@ -856,7 +855,7 @@ class _ModalAddEditItineraryWidgetState
                         Divider(
                           height: 20.0,
                           thickness: 1.0,
-                          color: FlutterFlowTheme.of(context).alternate,
+                          color: BukeerColors.borderPrimary,
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -881,20 +880,18 @@ class _ModalAddEditItineraryWidgetState
                                         ? getJsonField(
                                             context
                                                 .read<ItineraryService>()
-                                                .allDataItinerary,
+                                                .selectedItinerary ?? {},
                                             r'''$[:].currency_type''',
                                           ).toString()
                                         : getJsonField(
-                                            FFAppState()
-                                                .accountCurrency
-                                                .firstOrNull,
+                                            appServices.account.accountCurrency
+                                                ?.firstOrNull ?? {},
                                             r'''$.name''',
                                           ).toString(),
                                     'USD',
                                   ),
                                 ),
-                                options: FFAppState()
-                                    .accountCurrency
+                                options: (appServices.account.accountCurrency ?? [])
                                     .map((e) => getJsonField(
                                           e,
                                           r'''$.name''',
@@ -940,8 +937,7 @@ class _ModalAddEditItineraryWidgetState
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                                 elevation: 2.0,
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderColor: BukeerColors.borderPrimary,
                                 borderWidth: 2.0,
                                 borderRadius: 12.0,
                                 margin: EdgeInsetsDirectional.fromSTEB(
@@ -1011,8 +1007,7 @@ class _ModalAddEditItineraryWidgetState
                                 fillColor: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                                 elevation: 2.0,
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderColor: BukeerColors.borderPrimary,
                                 borderWidth: 2.0,
                                 borderRadius: 12.0,
                                 margin: EdgeInsetsDirectional.fromSTEB(
@@ -1058,8 +1053,7 @@ class _ModalAddEditItineraryWidgetState
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: BukeerColors.borderPrimary,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -1067,7 +1061,7 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -1075,7 +1069,7 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
+                                    color: BukeerColors.error,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -1083,7 +1077,7 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
+                                    color: BukeerColors.error,
                                     width: 2.0,
                                   ),
                                   borderRadius:
@@ -1107,7 +1101,7 @@ class _ModalAddEditItineraryWidgetState
                                   ),
                               maxLines: null,
                               minLines: 3,
-                              cursorColor: FlutterFlowTheme.of(context).primary,
+                              cursorColor: BukeerColors.primary,
                               validator: _model
                                   .messageActivityTextControllerValidator
                                   .asValidator(context),
@@ -1294,7 +1288,7 @@ class _ModalAddEditItineraryWidgetState
                   Divider(
                     height: 20.0,
                     thickness: 1.0,
-                    color: FlutterFlowTheme.of(context).alternate,
+                    color: BukeerColors.borderPrimary,
                   ),
                   Padding(
                     padding:
@@ -1333,19 +1327,17 @@ class _ModalAddEditItineraryWidgetState
                                   ),
                               elevation: 0.0,
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: BukeerColors.borderPrimary,
                                 width: 2.0,
                               ),
                               borderRadius:
                                   BorderRadius.circular(BukeerSpacing.s),
-                              hoverColor:
-                                  FlutterFlowTheme.of(context).alternate,
+                              hoverColor: BukeerColors.borderPrimary,
                               hoverBorderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: BukeerColors.borderPrimary,
                                 width: 2.0,
                               ),
-                              hoverTextColor:
-                                  FlutterFlowTheme.of(context).primaryText,
+                              hoverTextColor: BukeerColors.primaryText,
                               hoverElevation: 3.0,
                             ),
                           ),
@@ -1429,16 +1421,14 @@ class _ModalAddEditItineraryWidgetState
                                                   .selectedContact,
                                               r'''$.id''',
                                             ).toString(),
-                                      idFm: '${UserService().accountIdFm}-',
-                                      accountId: FFAppState().accountId,
+                                      idFm: appServices.account.accountIdFm ?? '',
+                                      accountId: appServices.account.accountId ?? '',
                                       authToken: currentJwtToken,
-                                      currencyJson: context
-                                          .read<UiStateService>()
-                                          .accountCurrency,
+                                      currencyJson:
+                                          appServices.account.accountCurrency ?? [],
                                       status: 'Presupuesto',
-                                      typesIncreaseJson: context
-                                          .read<UiStateService>()
-                                          .accountTypesIncrease,
+                                      typesIncreaseJson:
+                                          appServices.account.accountTypesIncrease ?? [],
                                       personalizedMessage:
                                           (String personalizedMessage) {
                                         return personalizedMessage.replaceAll(
@@ -1547,7 +1537,7 @@ class _ModalAddEditItineraryWidgetState
                                     24.0, 0.0, 24.0, 0.0),
                                 iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: BukeerColors.primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
@@ -1565,14 +1555,12 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 borderRadius:
                                     BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).accent1,
+                                hoverColor: BukeerColors.primaryAccent,
                                 hoverBorderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   width: 1.0,
                                 ),
-                                hoverTextColor:
-                                    FlutterFlowTheme.of(context).primaryText,
+                                hoverTextColor: BukeerColors.primaryText,
                                 hoverElevation: 0.0,
                               ),
                             ),
@@ -1763,7 +1751,7 @@ class _ModalAddEditItineraryWidgetState
                                     24.0, 0.0, 24.0, 0.0),
                                 iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: BukeerColors.primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
@@ -1781,14 +1769,12 @@ class _ModalAddEditItineraryWidgetState
                                 ),
                                 borderRadius:
                                     BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).accent1,
+                                hoverColor: BukeerColors.primaryAccent,
                                 hoverBorderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   width: 1.0,
                                 ),
-                                hoverTextColor:
-                                    FlutterFlowTheme.of(context).primaryText,
+                                hoverTextColor: BukeerColors.primaryText,
                                 hoverElevation: 0.0,
                               ),
                             ),

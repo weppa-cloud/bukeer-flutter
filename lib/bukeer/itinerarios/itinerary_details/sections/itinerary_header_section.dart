@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
+import '../../../../design_system/components/buttons/bukeer_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Header section for itinerary details
@@ -25,12 +25,19 @@ class ItineraryHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itineraryName = getJsonField(itineraryData, r'$[:].itinerary_name')?.toString() ?? 'Sin nombre';
-    final clientName = getJsonField(itineraryData, r'$[:].client_name')?.toString() ?? 'Sin cliente';
-    final startDate = getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
-    final endDate = getJsonField(itineraryData, r'$[:].end_date')?.toString() ?? '';
-    final status = getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'draft';
-    
+    final itineraryName =
+        getJsonField(itineraryData, r'$[:].itinerary_name')?.toString() ??
+            'Sin nombre';
+    final clientName =
+        getJsonField(itineraryData, r'$[:].client_name')?.toString() ??
+            'Sin cliente';
+    final startDate =
+        getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
+    final endDate =
+        getJsonField(itineraryData, r'$[:].end_date')?.toString() ?? '';
+    final status =
+        getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'draft';
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -59,21 +66,23 @@ class ItineraryHeaderSection extends StatelessWidget {
                     children: [
                       Text(
                         itineraryName,
-                        style: FlutterFlowTheme.of(context).headlineMedium.override(
-                          fontFamily: 'Outfit',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: FlutterFlowTheme.of(context)
+                            .headlineMedium
+                            .override(
+                              fontFamily: 'Outfit',
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                       SizedBox(height: 8),
                       Text(
                         'Cliente: $clientName',
                         style: FlutterFlowTheme.of(context).bodyLarge.override(
-                          fontFamily: 'Readex Pro',
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          fontSize: 16,
-                        ),
+                              fontFamily: 'Readex Pro',
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontSize: 16,
+                            ),
                       ),
                     ],
                   ),
@@ -81,9 +90,9 @@ class ItineraryHeaderSection extends StatelessWidget {
                 _buildStatusChip(context, status),
               ],
             ),
-            
+
             SizedBox(height: 16),
-            
+
             // Dates Row
             Row(
               children: [
@@ -96,16 +105,16 @@ class ItineraryHeaderSection extends StatelessWidget {
                 Text(
                   '${_formatDate(startDate)} - ${_formatDate(endDate)}',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    fontSize: 14,
-                  ),
+                        fontFamily: 'Readex Pro',
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 14,
+                      ),
                 ),
               ],
             ),
-            
+
             SizedBox(height: 24),
-            
+
             // Action Buttons
             Wrap(
               spacing: 12,
@@ -124,10 +133,10 @@ class ItineraryHeaderSection extends StatelessWidget {
                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                     elevation: 2,
                     borderSide: BorderSide(
                       color: Colors.transparent,
@@ -149,10 +158,10 @@ class ItineraryHeaderSection extends StatelessWidget {
                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 14,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: FlutterFlowTheme.of(context).primaryText,
+                          fontSize: 14,
+                        ),
                     elevation: 1,
                     borderSide: BorderSide(
                       color: FlutterFlowTheme.of(context).alternate,
@@ -174,10 +183,10 @@ class ItineraryHeaderSection extends StatelessWidget {
                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
                     color: FlutterFlowTheme.of(context).error,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                     elevation: 2,
                     borderSide: BorderSide(
                       color: Colors.transparent,
@@ -186,18 +195,15 @@ class ItineraryHeaderSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                FlutterFlowIconButton(
-                  borderColor: FlutterFlowTheme.of(context).error,
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  buttonSize: 36,
-                  fillColor: Colors.transparent,
+                BukeerIconButton(
                   icon: FaIcon(
                     FontAwesomeIcons.trash,
                     color: FlutterFlowTheme.of(context).error,
                     size: 16,
                   ),
                   onPressed: onDeletePressed,
+                  size: BukeerIconButtonSize.small,
+                  variant: BukeerIconButtonVariant.danger,
                 ),
               ],
             ),
@@ -243,18 +249,18 @@ class ItineraryHeaderSection extends StatelessWidget {
       child: Text(
         displayText,
         style: FlutterFlowTheme.of(context).bodySmall.override(
-          fontFamily: 'Readex Pro',
-          color: textColor,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
+              fontFamily: 'Readex Pro',
+              color: textColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
       ),
     );
   }
 
   String _formatDate(String dateString) {
     if (dateString.isEmpty) return 'Sin fecha';
-    
+
     try {
       final date = DateTime.parse(dateString);
       return '${date.day}/${date.month}/${date.year}';

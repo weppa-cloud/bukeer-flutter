@@ -59,29 +59,30 @@ class _ComponentDateRangeWidgetState extends State<ComponentDateRangeWidget> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () => _showDateRangePickerDialog(),
-        borderRadius: BorderRadius.circular(6.0),
+        borderRadius: BorderRadius.circular(BukeerSpacing.xs),
         child: Container(
-          height: 36.0,
+          height: BukeerSpacing.xl + BukeerSpacing.xs,
           constraints: BoxConstraints(
             minWidth: 180.0,
             maxWidth: 300.0,
           ),
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(6.0),
+            color: BukeerColors.backgroundSecondary,
+            borderRadius: BorderRadius.circular(BukeerSpacing.xs),
             border: Border.all(
-              color: FlutterFlowTheme.of(context).alternate,
+              color: BukeerColors.borderPrimary,
               width: 1.0,
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: BukeerSpacing.s, vertical: BukeerSpacing.xs),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.date_range,
-                  color: FlutterFlowTheme.of(context).secondaryText,
+                  color: BukeerColors.secondaryText,
                   size: 16.0,
                 ),
                 SizedBox(width: 6.0),
@@ -91,7 +92,7 @@ class _ComponentDateRangeWidgetState extends State<ComponentDateRangeWidget> {
                     style: FlutterFlowTheme.of(context).bodySmall.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).bodySmallFamily,
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: BukeerColors.primaryText,
                           fontSize: 13.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.normal,
@@ -104,7 +105,7 @@ class _ComponentDateRangeWidgetState extends State<ComponentDateRangeWidget> {
                 SizedBox(width: 2.0),
                 Icon(
                   Icons.keyboard_arrow_down,
-                  color: FlutterFlowTheme.of(context).secondaryText,
+                  color: BukeerColors.secondaryText,
                   size: 16.0,
                 ),
               ],

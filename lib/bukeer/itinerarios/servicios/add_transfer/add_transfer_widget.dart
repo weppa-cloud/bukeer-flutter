@@ -3,7 +3,6 @@ import '../../../../backend/api_requests/api_calls.dart';
 import '../../../../backend/supabase/supabase.dart';
 import '../dropdown_products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -214,7 +213,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: SafeArea(
           top: true,
           child: Align(
@@ -238,7 +237,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                     maxHeight: 700.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -275,8 +274,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                   children: [
                                     Icon(
                                       Icons.directions_car_rounded,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       size: 28.0,
                                     ),
                                     if (widget!.isEdit == true)
@@ -326,14 +324,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 5.0, 0.0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderRadius: 12.0,
-                                    borderWidth: 2.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                  child: BukeerIconButton(
+                                    size: BukeerIconButtonSize.small,
+                                    variant: BukeerIconButtonVariant.outlined,
                                     icon: FaIcon(
                                       FontAwesomeIcons.trashAlt,
                                       color: FlutterFlowTheme.of(context)
@@ -376,7 +369,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                           matchingRows: (rows) => rows.eqOrNull(
                                             'id',
                                             getJsonField(
-                                              context.read<ProductService>().allDataTransfer,
+                                              context
+                                                  .read<ProductService>()
+                                                  .allDataTransfer,
                                               r'''$.id''',
                                             ).toString(),
                                           ),
@@ -393,14 +388,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5.0, 5.0, 0.0, 0.0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderRadius: 12.0,
-                                    borderWidth: 2.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                  child: BukeerIconButton(
+                                    size: BukeerIconButtonSize.small,
+                                    variant: BukeerIconButtonVariant.outlined,
                                     icon: Icon(
                                       Icons.content_copy,
                                       color: FlutterFlowTheme.of(context)
@@ -441,7 +431,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                             await DuplicateItineraryItemCall
                                                 .call(
                                           originalId: getJsonField(
-                                            context.read<ProductService>().allDataTransfer,
+                                            context
+                                                .read<ProductService>()
+                                                .allDataTransfer,
                                             r'''$.id''',
                                           ).toString(),
                                           authToken: currentJwtToken,
@@ -529,11 +521,15 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                           height: 70.0,
                                           initialStartDate: widget!.isEdit
                                               ? getJsonField(
-                                                  context.read<ProductService>().allDataTransfer,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataTransfer,
                                                   r'''$.date''',
                                                 ).toString()
                                               : getJsonField(
-                                                  context.read<ContactService>().allDataContact,
+                                                  context
+                                                      .read<ContactService>()
+                                                      .allDataContact,
                                                   r'''$[:].start_date''',
                                                 ).toString(),
                                           labelText: 'Fecha',
@@ -607,8 +603,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -617,8 +613,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                       .primary,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           errorBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -627,8 +623,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
@@ -638,8 +634,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           filled: true,
                                           fillColor:
@@ -722,7 +718,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                           ),
                                         )
                                       ],
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context)
                                             .alternate,
@@ -742,7 +739,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                   FlutterFlowTheme.of(context)
                                                       .accent1,
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                               shape: BoxShape.rectangle,
                                               border: Border.all(
                                                 color:
@@ -752,7 +750,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.xs),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.xs),
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
@@ -778,20 +777,32 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       widget!.isEdit == true
-                                                          ? (context.read<UiStateService>().itemsProducts !=
+                                                          ? (context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .itemsProducts !=
                                                                   null
                                                               ? getJsonField(
-                                                                  context.read<UiStateService>().itemsProducts,
+                                                                  context
+                                                                      .read<
+                                                                          UiStateService>()
+                                                                      .itemsProducts,
                                                                   r'''$.name''',
                                                                 ).toString()
                                                               : getJsonField(
-                                                                  context.read<ProductService>().allDataTransfer,
+                                                                  context
+                                                                      .read<
+                                                                          ProductService>()
+                                                                      .allDataTransfer,
                                                                   r'''$.product_name''',
                                                                 ).toString())
                                                           : valueOrDefault<
                                                               String>(
                                                               getJsonField(
-                                                                context.read<UiStateService>().itemsProducts,
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .itemsProducts,
                                                                 r'''$.name''',
                                                               )?.toString(),
                                                               'Seleccionar',
@@ -850,7 +861,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                   BorderRadius.circular(40.0),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.xs),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.xs),
                                               child: Icon(
                                                 Icons.chevron_right_rounded,
                                                 color:
@@ -869,7 +881,10 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                 Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    if ((context.read<UiStateService>().itemsProducts != null) ||
+                                    if ((context
+                                                .read<UiStateService>()
+                                                .itemsProducts !=
+                                            null) ||
                                         (widget!.isEdit == true))
                                       InkWell(
                                         splashColor: Colors.transparent,
@@ -877,7 +892,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.read<UiStateService>().selectRates = true;
+                                          context
+                                              .read<UiStateService>()
+                                              .selectRates = true;
                                           safeSetState(() {});
                                         },
                                         child: AnimatedContainer(
@@ -915,7 +932,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.s),
+                                            padding:
+                                                EdgeInsets.all(BukeerSpacing.s),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
@@ -949,7 +967,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                       )
                                                                         .toString()
                                                                     : getJsonField(
-                                                                        FFAppState()
+                                                                        context
+                                                                            .read<ProductService>()
                                                                             .allDataTransfer,
                                                                         r'''$.rate_name''',
                                                                       )
@@ -1026,7 +1045,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      if (_model.selectRates == false)
+                                                      if (_model.selectRates ==
+                                                          false)
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.all(
@@ -1040,7 +1060,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                             size: 24.0,
                                                           ),
                                                         ),
-                                                      if (_model.selectRates == true)
+                                                      if (_model.selectRates ==
+                                                          true)
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
@@ -1067,7 +1088,10 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                         ),
                                       ).animateOnPageLoad(animationsMap[
                                           'containerOnPageLoadAnimation3']!),
-                                    if (context.read<UiStateService>().selectRates == true)
+                                    if (context
+                                            .read<UiStateService>()
+                                            .selectRates ==
+                                        true)
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             4.0, 0.0, 4.0, 0.0),
@@ -1133,7 +1157,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                 fontFamily: FlutterFlowTheme.of(
                                                                         context)
                                                                     .headlineMediumFamily,
-                                                                fontSize: BukeerTypography.bodyMediumSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .bodyMediumSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 useGoogleFonts:
@@ -1153,9 +1179,10 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                         highlightColor:
                                                             Colors.transparent,
                                                         onTap: () async {
-                                                          FFAppState()
-                                                                  .selectRates =
-                                                              false;
+                                                          context
+                                                              .read<
+                                                                  UiStateService>()
+                                                              .isSelectingRates = false;
                                                           safeSetState(() {});
                                                         },
                                                         child: Card(
@@ -1186,8 +1213,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                           ),
                                                         ),
                                                       ),
-                                                    ].divide(
-                                                        SizedBox(width: BukeerSpacing.s)),
+                                                    ].divide(SizedBox(
+                                                        width:
+                                                            BukeerSpacing.s)),
                                                   ),
                                                 ),
                                                 Divider(
@@ -1205,22 +1233,30 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                     transferId: widget!
                                                                 .isEdit ==
                                                             true
-                                                        ? (FFAppState()
-                                                                    .itemsProducts !=
+                                                        ? (context
+                                                                    .read<
+                                                                        ProductService>()
+                                                                    .selectedTransfer !=
                                                                 null
                                                             ? getJsonField(
-                                                                FFAppState()
-                                                                    .itemsProducts,
+                                                                context
+                                                                    .read<
+                                                                        ProductService>()
+                                                                    .selectedTransfer,
                                                                 r'''$.id''',
                                                               ).toString()
                                                             : getJsonField(
-                                                                FFAppState()
+                                                                context
+                                                                    .read<
+                                                                        ProductService>()
                                                                     .allDataTransfer,
                                                                 r'''$.id_product''',
                                                               ).toString())
                                                         : getJsonField(
-                                                            FFAppState()
-                                                                .itemsProducts,
+                                                            context
+                                                                .read<
+                                                                    ProductService>()
+                                                                .selectedTransfer,
                                                             r'''$.id''',
                                                           ).toString(),
                                                     authToken: currentJwtToken,
@@ -1334,9 +1370,10 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                     });
                                                                   }),
                                                                 ]);
-                                                                FFAppState()
-                                                                        .selectRates =
-                                                                    false;
+                                                                context
+                                                                    .read<
+                                                                        UiStateService>()
+                                                                    .isSelectingRates = false;
                                                                 safeSetState(
                                                                     () {});
                                                               },
@@ -1372,7 +1409,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                               children: [
                                                                                 Flexible(
                                                                                   child: Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                                    padding: EdgeInsets.only(left: BukeerSpacing.xs),
                                                                                     child: Text(
                                                                                       valueOrDefault<String>(
                                                                                         getJsonField(
@@ -1403,7 +1440,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                                       textAlign: TextAlign.end,
                                                                                       style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                             fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             letterSpacing: 0.0,
                                                                                             fontWeight: FontWeight.bold,
                                                                                             useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1449,7 +1486,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                                           ).toString()}%',
                                                                                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                color: BukeerColors.primaryText,
                                                                                                 letterSpacing: 0.0,
                                                                                                 fontWeight: FontWeight.bold,
                                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -1546,7 +1583,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                           ),
                                         )
                                       ],
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context)
                                             .alternate,
@@ -2124,7 +2162,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                 FlutterFlowTheme.of(
                                                                         context)
                                                                     .headlineSmallFamily,
-                                                            fontSize: BukeerTypography.bodyMediumSize,
+                                                            fontSize:
+                                                                BukeerTypography
+                                                                    .bodyMediumSize,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w600,
@@ -2148,7 +2188,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                                 FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyLargeFamily,
-                                                            fontSize: BukeerTypography.headlineSmallSize,
+                                                            fontSize:
+                                                                BukeerTypography
+                                                                    .headlineSmallSize,
                                                             letterSpacing: 0.0,
                                                             useGoogleFonts:
                                                                 !FlutterFlowTheme.of(
@@ -2211,7 +2253,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                     ),
                                                   ],
                                                 ),
-                                              ].divide(SizedBox(width: BukeerSpacing.s)),
+                                              ].divide(SizedBox(
+                                                  width: BukeerSpacing.s)),
                                             ),
                                           ],
                                         ),
@@ -2261,8 +2304,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                 .alternate,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -2270,8 +2313,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                 .primary,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -2279,8 +2322,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -2288,8 +2331,8 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         filled: true,
                                         fillColor: FlutterFlowTheme.of(context)
@@ -2311,8 +2354,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                           ),
                                       maxLines: null,
                                       minLines: 3,
-                                      cursorColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      cursorColor: BukeerColors.primary,
                                       validator: _model
                                           .messageActivityTextControllerValidator
                                           .asValidator(context),
@@ -2334,8 +2376,12 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                 alignment: AlignmentDirectional(0.0, 0.05),
                                 child: FFButtonWidget(
                                   onPressed: () async {
-                                    context.read<UiStateService>().itemsProducts = null;
-                                    context.read<ProductService>().allDataTransfer = null;
+                                    context
+                                        .read<UiStateService>()
+                                        .itemsProducts = null;
+                                    context
+                                        .read<ProductService>()
+                                        .allDataTransfer = null;
                                     safeSetState(() {});
                                     Navigator.pop(context);
                                   },
@@ -2365,9 +2411,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                           .alternate,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
+                                    hoverColor: BukeerColors.borderPrimary,
                                     hoverBorderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -2412,16 +2458,22 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                               .quantityTextController.text),
                                           authToken: currentJwtToken,
                                           idProduct: getJsonField(
-                                            context.read<UiStateService>().itemsProducts,
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts,
                                             r'''$.id''',
                                           ).toString(),
                                           productType: 'Transporte',
                                           destination: getJsonField(
-                                            context.read<UiStateService>().itemsProducts,
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts,
                                             r'''$.city''',
                                           ).toString(),
                                           productName: getJsonField(
-                                            context.read<UiStateService>().itemsProducts,
+                                            context
+                                                .read<UiStateService>()
+                                                .itemsProducts,
                                             r'''$.name''',
                                           ).toString(),
                                           rateName: getJsonField(
@@ -2436,7 +2488,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                   _model.initialDate != ''
                                               ? _model.initialDate
                                               : getJsonField(
-                                                  context.read<ContactService>().allDataContact,
+                                                  context
+                                                      .read<ContactService>()
+                                                      .allDataContact,
                                                   r'''$[:].start_date''',
                                                 ).toString(),
                                           idItinerary: widget!.itineraryId,
@@ -2466,8 +2520,12 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                         if ((_model.apiResponseAddItineraryItem
                                                 ?.succeeded ??
                                             true)) {
-                                          context.read<UiStateService>().itemsProducts = null;
-                                          context.read<ProductService>().allDataTransfer = null;
+                                          context
+                                              .read<UiStateService>()
+                                              .itemsProducts = null;
+                                          context
+                                              .read<ProductService>()
+                                              .allDataTransfer = null;
                                           safeSetState(() {});
                                           _model.totalCost = 0.0;
                                           _model.unitCost = 0.0;
@@ -2526,8 +2584,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -2544,9 +2601,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -2590,7 +2647,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                             await UpdateItineraryItemsCall.call(
                                           authToken: currentJwtToken,
                                           id: getJsonField(
-                                            context.read<ProductService>().allDataTransfer,
+                                            context
+                                                .read<ProductService>()
+                                                .allDataTransfer,
                                             r'''$.id''',
                                           ).toString(),
                                           unitCost: double.tryParse(_model
@@ -2601,20 +2660,27 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                   _model.initialDate != ''
                                               ? _model.initialDate
                                               : getJsonField(
-                                                  context.read<ProductService>().allDataTransfer,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataTransfer,
                                                   r'''$.date''',
                                                 ).toString(),
                                           profitPercentage: double.tryParse(
                                               _model.markupTextController.text),
-                                          idProduct: FFAppState()
-                                                      .itemsProducts !=
+                                          idProduct: context
+                                                      .read<ProductService>()
+                                                      .selectedTransfer !=
                                                   null
                                               ? getJsonField(
-                                                  context.read<UiStateService>().itemsProducts,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .selectedTransfer,
                                                   r'''$.id''',
                                                 ).toString()
                                               : getJsonField(
-                                                  context.read<ProductService>().allDataTransfer,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataTransfer,
                                                   r'''$.id_product''',
                                                 ).toString(),
                                           totalPrice: valueOrDefault<double>(
@@ -2632,15 +2698,20 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                             0.0,
                                           ),
                                           productType: 'Transporte',
-                                          destination: FFAppState()
-                                                      .itemsProducts !=
+                                          destination: context
+                                                      .read<ProductService>()
+                                                      .selectedTransfer !=
                                                   null
                                               ? getJsonField(
-                                                  context.read<UiStateService>().itemsProducts,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .selectedTransfer,
                                                   r'''$.city''',
                                                 ).toString()
                                               : getJsonField(
-                                                  context.read<ProductService>().allDataTransfer,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataTransfer,
                                                   r'''$.destination''',
                                                 ).toString(),
                                           rateName: _model
@@ -2651,18 +2722,25 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                   r'''$.name''',
                                                 ).toString()
                                               : getJsonField(
-                                                  context.read<ProductService>().allDataTransfer,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataTransfer,
                                                   r'''$.rate_name''',
                                                 ).toString(),
-                                          productName: FFAppState()
-                                                      .itemsProducts !=
+                                          productName: context
+                                                      .read<ProductService>()
+                                                      .selectedTransfer !=
                                                   null
                                               ? getJsonField(
-                                                  context.read<UiStateService>().itemsProducts,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .selectedTransfer,
                                                   r'''$.name''',
                                                 ).toString()
                                               : getJsonField(
-                                                  context.read<ProductService>().allDataTransfer,
+                                                  context
+                                                      .read<ProductService>()
+                                                      .allDataTransfer,
                                                   r'''$.product_name''',
                                                 ).toString(),
                                           personalizedMessage:
@@ -2677,8 +2755,12 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                 .apiResponseUpdateItineraryItem
                                                 ?.succeeded ??
                                             true)) {
-                                          context.read<UiStateService>().itemsProducts = null;
-                                          context.read<ProductService>().allDataTransfer = null;
+                                          context
+                                              .read<UiStateService>()
+                                              .itemsProducts = null;
+                                          context
+                                              .read<ProductService>()
+                                              .allDataTransfer = null;
                                           safeSetState(() {});
                                           _model.itemsActivitiesRates = null;
                                           _model.unitCost = 0.0;
@@ -2737,8 +2819,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -2755,9 +2836,9 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,

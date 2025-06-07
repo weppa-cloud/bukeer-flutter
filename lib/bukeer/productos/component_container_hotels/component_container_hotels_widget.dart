@@ -65,7 +65,7 @@ class _ComponentContainerHotelsWidgetState
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             borderRadius: BorderRadius.circular(BukeerSpacing.m),
           ),
           child: Column(
@@ -95,7 +95,7 @@ class _ComponentContainerHotelsWidgetState
                     Flexible(
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
+                            EdgeInsets.symmetric(vertical: BukeerSpacing.s),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +125,7 @@ class _ComponentContainerHotelsWidgetState
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .labelMediumFamily,
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     letterSpacing: 0.0,
                                     useGoogleFonts:
                                         !FlutterFlowTheme.of(context)
@@ -166,16 +166,14 @@ class _ComponentContainerHotelsWidgetState
                                       () => _model.ratingBarValue = newValue),
                                   itemBuilder: (context, index) => Icon(
                                     Icons.star_rounded,
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                   ),
                                   direction: Axis.horizontal,
                                   initialRating: _model.ratingBarValue ??= 5.0,
-                                  unratedColor:
-                                      FlutterFlowTheme.of(context).accent1,
+                                  unratedColor: BukeerColors.primaryAccent,
                                   itemCount: 5,
                                   itemSize: 20.0,
-                                  glowColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  glowColor: BukeerColors.primary,
                                 ),
                               ].divide(SizedBox(width: BukeerSpacing.xs)),
                             ),
@@ -214,7 +212,7 @@ class _ComponentContainerHotelsWidgetState
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
-                      color: FlutterFlowTheme.of(context).primary,
+                      color: BukeerColors.primary,
                       size: 16.0,
                     ),
                   ].divide(SizedBox(width: BukeerSpacing.s)),

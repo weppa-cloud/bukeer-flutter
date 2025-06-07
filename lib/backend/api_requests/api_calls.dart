@@ -1,16 +1,9 @@
 import 'dart:convert';
-import 'dart:typed_data';
-import '../schema/structs/index.dart';
-
 import 'package:flutter/foundation.dart';
-
 import '../../flutter_flow/flutter_flow_util.dart';
 import '../../config/app_config.dart';
 import 'api_manager.dart';
-
 export 'api_manager.dart' show ApiCallResponse;
-
-const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
 class GetContactSearchCall {
   static Future<ApiCallResponse> call({
@@ -29,8 +22,7 @@ class GetContactSearchCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getContactSearch',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_contacts_search',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_contacts_search',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -76,8 +68,7 @@ class GetContactIdCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getContactId',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -188,8 +179,7 @@ class UpdateContactCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateContact',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -217,8 +207,7 @@ class GetUserRolesCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'GetUserRoles',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/user_roles_view',
+      apiUrl: '${AppConfig.apiBaseUrl}/user_roles_view',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -254,8 +243,7 @@ class UpdateUserContactCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateUserContact',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -336,7 +324,7 @@ class InsertContactCall {
     );
   }
 
-  static dynamic? all(dynamic response) => getJsonField(
+  static dynamic all(dynamic response) => getJsonField(
         response,
         r'''$[:]''',
       );
@@ -581,8 +569,7 @@ class GetProductsByTypeCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getProductsByType',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_products',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_products',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -621,8 +608,7 @@ class GetProductsByTypePaginatedTestCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getProductsByTypePaginatedTest',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/get_products_paginated_test',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/get_products_paginated_test',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -661,8 +647,7 @@ class GetProductsByTypePaginatedCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getProductsByTypePaginated',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_products_paginated',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_products_paginated',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -701,8 +686,7 @@ class GetProductsFromViewsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getProductsFromViews',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_products_from_views',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_products_from_views',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -793,8 +777,7 @@ class GetRelatedContactCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getRelatedContact',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_contacts_related',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_contacts_related',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -825,8 +808,7 @@ class GetLocationsByProductCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getLocationsByProduct',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_locations_products',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_locations_products',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -877,8 +859,7 @@ class AddActivityCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addActivity',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_add_activity_test',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_add_activity_test',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -925,8 +906,7 @@ class UpdateActivityCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateActivity',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/activities?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/activities?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -988,8 +968,7 @@ class GetRatesByIdProviderCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getRatesByIdProvider',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_product_rates',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_product_rates',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1036,8 +1015,7 @@ class AddOrEditRateProductCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addOrEditRateProduct',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_add_edit_product_rates',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_add_edit_product_rates',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1073,9 +1051,9 @@ class CreateItineraryForContactCall {
     String? requestType = '',
     String? idFm = '',
     String? accountId = '',
-    dynamic? currencyJson,
+    dynamic currencyJson,
     String? status = '',
-    dynamic? typesIncreaseJson,
+    dynamic typesIncreaseJson,
     String? personalizedMessage = '',
     String? mainImage = '',
   }) async {
@@ -1104,8 +1082,7 @@ class CreateItineraryForContactCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'createItineraryForContact',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_create_itinerary',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_create_itinerary',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -1124,7 +1101,7 @@ class CreateItineraryForContactCall {
     );
   }
 
-  static dynamic? all(dynamic response) => getJsonField(
+  static dynamic all(dynamic response) => getJsonField(
         response,
         r'''$[:]''',
       );
@@ -1137,8 +1114,7 @@ class GetHotelRatesCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getHotelRates',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/hotel_rates?hotel_id=eq.${hotelId}',
+      apiUrl: '${AppConfig.apiBaseUrl}/hotel_rates?hotel_id=eq.${hotelId}',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1246,17 +1222,14 @@ class AddItineraryItemsCall {
   "total_price": ${totalPrice},
 "account_id":"${accountId}",
 "personalized_message":"${personalizedMessage}",
- 
   "flight_departure": "${flightDeparture}",
   "flight_arrival": "${flightArrival}",
   "departure_time": "${departureTime}",
   "arrival_time": "${arrivalTime}"
-
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addItineraryItems',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itinerary_items',
+      apiUrl: '${AppConfig.apiBaseUrl}/itinerary_items',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1327,8 +1300,7 @@ class AddItineraryItemsFlightsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addItineraryItemsFlights',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itinerary_items',
+      apiUrl: '${AppConfig.apiBaseUrl}/itinerary_items',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1386,8 +1358,7 @@ class UpdateItineraryItemsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateItineraryItems',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itinerary_items?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itinerary_items?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1448,8 +1419,7 @@ class UpdateItineraryItemsFlightsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateItineraryItemsFlights',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itinerary_items?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itinerary_items?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1570,8 +1540,7 @@ class GetItinerariesWithDataContactByIdCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getItinerariesWithDataContactById',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_itineraries_with_id',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_itineraries_with_id',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -1654,8 +1623,7 @@ class CreateActivityCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'createActivity',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/add_activity5',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/add_activity5',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -1692,8 +1660,7 @@ class EditRateActivityCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'editRateActivity',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_update_activity_rate',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_update_activity_rate',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1737,8 +1704,7 @@ class UpdateHotelsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateHotels',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/hotels?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/hotels?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1783,8 +1749,7 @@ class UpdateTransfersCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateTransfers',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/transfers?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/transfers?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1842,8 +1807,7 @@ class UpdateItineraryCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateItinerary',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1876,8 +1840,7 @@ class UpdateItineraryStatusCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateItineraryStatus',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1909,8 +1872,7 @@ class GetImagesAndMainImageCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getImagesAndMainImage',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_images_and_main_image',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_images_and_main_image',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -1942,8 +1904,7 @@ class UpdateItineraryVisibilityCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateItineraryVisibility',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -1977,8 +1938,7 @@ class GetHotelsPaginatedCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getHotelsPaginated',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/get_hotels_paginated',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/get_hotels_paginated',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2010,8 +1970,7 @@ class UpdateItineraryRatesVisibilityCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateItineraryRatesVisibility',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2047,8 +2006,7 @@ class GetAirlinesCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAirlines',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_airlines',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_airlines',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2075,8 +2033,7 @@ class GetDataItineraryItemsByIdCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getDataItineraryItemsById',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/itineraries?id=eq.${id}',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2099,8 +2056,7 @@ class GetNationalitiesCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getNationalities',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/nationalities?select=name',
+      apiUrl: '${AppConfig.apiBaseUrl}/nationalities?select=name',
       callType: ApiCallType.GET,
       headers: {
         'Authorization': 'Bearer ${authToken}',
@@ -2123,8 +2079,7 @@ class GetDocumentTypeCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getDocumentType',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/document_type?select=name',
+      apiUrl: '${AppConfig.apiBaseUrl}/document_type?select=name',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2163,7 +2118,6 @@ class AddPassengerItineraryCall {
   "birth_date": "${escapeStringForJson(birthDate)}",
   "itinerary_id": "${escapeStringForJson(itineraryId)}",
   "account_id": "${escapeStringForJson(accountId)}"
- 
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'addPassengerItinerary',
@@ -2240,8 +2194,7 @@ class InsertLocationsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'insertLocations',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_insert_location',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_insert_location',
       callType: ApiCallType.POST,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2307,12 +2260,10 @@ class UpdatePassengerItineraryCall {
   "number_id": "${escapeStringForJson(numberId)}",
   "nationality": "${escapeStringForJson(nationality)}",
   "birth_date": "${escapeStringForJson(birthDate)}"
- 
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updatePassengerItinerary',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/passenger?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/passenger?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2342,8 +2293,7 @@ class TestPaginatedContactsCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'testPaginatedContacts',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/contacts?name.eq=${search}',
+      apiUrl: '${AppConfig.apiBaseUrl}/contacts?name.eq=${search}',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2376,8 +2326,7 @@ class SearchProductsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'searchProducts',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_search_products',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_search_products',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2408,8 +2357,7 @@ class GetContactWithLocationCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getContactWithLocation',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_contact_with_location',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_contact_with_location',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2544,8 +2492,7 @@ class UpdateLocationsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateLocations',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/locations?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/locations?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2579,8 +2526,7 @@ class GetDataByIdProductsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getDataByIdProducts',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/get_data_by_id_products',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/get_data_by_id_products',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2617,8 +2563,7 @@ class TestProductsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'testProducts',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_test_products',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_test_products',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2653,8 +2598,7 @@ class TestProductsTresCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'testProductsTres',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_test_productstres',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_test_productstres',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2715,8 +2659,7 @@ class GetLocationsItinerariesCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getLocationsItineraries',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_locations_itineraries',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_locations_itineraries',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2752,8 +2695,7 @@ class GetAirportsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAirports',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_airports',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_airports',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2782,16 +2724,13 @@ class InsertLocationByTypeCall {
   }) async {
     final ffApiRequestBody = '''
 {
-
 "location_id":"${escapeStringForJson(locationId)}",
 "search_id":"${escapeStringForJson(searchId)}",
 "type":"${escapeStringForJson(type)}"
-
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'insertLocationByType',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_update_location_by_type',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_update_location_by_type',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2824,8 +2763,7 @@ class GetAgentCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAgent',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_agent_data',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_agent_data',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2856,8 +2794,7 @@ class GetClientItineraryCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getClientItinerary',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_client_itinerary',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_client_itinerary',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -2884,8 +2821,7 @@ class GetAllDataAccountCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getAllDataAccount',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/accounts?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/accounts?id=eq.${id}',
       callType: ApiCallType.GET,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2917,9 +2853,9 @@ class UpdateAllDataAccountCall {
     String? cancellationPolicy = '',
     String? privacyPolicy = '',
     String? termsConditions = '',
-    dynamic? currencyJson,
-    dynamic? typesIncreaseJson,
-    dynamic? paymentMethodsJson,
+    dynamic currencyJson,
+    dynamic typesIncreaseJson,
+    dynamic paymentMethodsJson,
   }) async {
     final currency = _serializeJson(currencyJson, true);
     final typesIncrease = _serializeJson(typesIncreaseJson, true);
@@ -2943,8 +2879,7 @@ class UpdateAllDataAccountCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updateAllDataAccount',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/accounts?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/accounts?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -2982,8 +2917,7 @@ class GetAllItemsItineraryCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAllItemsItinerary',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_all_items_itinerary',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_all_items_itinerary',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3015,7 +2949,7 @@ class GetAllItemsItineraryCall {
 
 class SendPDFnonCall {
   static Future<ApiCallResponse> call({
-    dynamic? dataItineraryJson,
+    dynamic dataItineraryJson,
   }) async {
     final dataItinerary = _serializeJson(dataItineraryJson);
     final ffApiRequestBody = '''
@@ -3107,8 +3041,7 @@ class GetAllDataAccountWithLocationCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAllDataAccountWithLocation',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_accounts_with_location',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_accounts_with_location',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3201,8 +3134,7 @@ class GetPassengersItineraryCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getPassengersItinerary',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_passengers_itinerary',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_passengers_itinerary',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3241,8 +3173,7 @@ class GetAgendaCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAgenda',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_agenda',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_agenda',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3281,8 +3212,7 @@ class GetAgendaByDateCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getAgendaByDate',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_agenda_by_date',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_agenda_by_date',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3317,8 +3247,7 @@ class ValidateDeleteContactCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'validateDeleteContact',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_validate_delete_contact',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_validate_delete_contact',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3349,8 +3278,7 @@ class ValidateDeleteProductCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'validateDeleteProduct',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_validate_delete_product',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_validate_delete_product',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3383,8 +3311,7 @@ class DeleteProductsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'deleteProducts',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_delete_record',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_delete_record',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3420,8 +3347,7 @@ class UpdatePersonalInformationCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'updatePersonalInformation',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
+      apiUrl: '${AppConfig.apiBaseUrl}/contacts?id=eq.${id}',
       callType: ApiCallType.PATCH,
       headers: {
         'apikey': AppConfig.supabaseAnonKey,
@@ -3455,8 +3381,7 @@ class DuplicateItineraryCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'duplicateItinerary',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_duplicate_itinerary',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_duplicate_itinerary',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3585,8 +3510,7 @@ class DuplicateItineraryItemCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'duplicateItineraryItem',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_copy_itinerary_item',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_copy_itinerary_item',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3617,8 +3541,7 @@ class GetProviderPaymentsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getProviderPayments',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_provider_payments',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_provider_payments',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3653,8 +3576,7 @@ class GetFlightsIACall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getFlightsIA',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/request_openai_extraction_edge',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/request_openai_extraction_edge',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3685,8 +3607,7 @@ class GetUserAuthCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getUserAuth',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_user_by_email',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_user_by_email',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer ${authToken}',
@@ -3721,8 +3642,7 @@ class GetReporteCuentasPorCobrarCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getReporteCuentasPorCobrar',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_cuentas_por_cobrar',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_cuentas_por_cobrar',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3757,8 +3677,7 @@ class GetReporteVentasCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getReporteVentas',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_reporte_ventas',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_reporte_ventas',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3793,8 +3712,7 @@ class GetReporteCuentasPorPagarCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getReporteCuentasPorPagar',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_cuentas_por_pagar',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_cuentas_por_pagar',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -3825,8 +3743,7 @@ class GetitIneraryDetailsCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'getitIneraryDetails',
-      apiUrl:
-          '${AppConfig.apiBaseUrl}/rpc/function_get_itinerary_details',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_itinerary_details',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer ${authToken}',
@@ -3972,7 +3889,7 @@ class InsertRelatedContactCall {
     );
   }
 
-  static dynamic? all(dynamic response) => getJsonField(
+  static dynamic all(dynamic response) => getJsonField(
         response,
         r'''$[:]''',
       );
@@ -4019,13 +3936,11 @@ class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;
   dynamic lastResponse;
-
   ApiPagingParams({
     required this.nextPageNumber,
     required this.numItems,
     required this.lastResponse,
   });
-
   @override
   String toString() =>
       'PagingParams(nextPageNumber: $nextPageNumber, numItems: $numItems, lastResponse: $lastResponse,)';
@@ -4033,18 +3948,6 @@ class ApiPagingParams {
 
 String _toEncodable(dynamic item) {
   return item;
-}
-
-String _serializeList(List? list) {
-  list ??= <String>[];
-  try {
-    return json.encode(list, toEncodable: _toEncodable);
-  } catch (_) {
-    if (kDebugMode) {
-      print("List serialization failed. Returning empty list.");
-    }
-    return '[]';
-  }
 }
 
 String _serializeJson(dynamic jsonVar, [bool isList = false]) {

@@ -1,4 +1,5 @@
 import '../../../flutter_flow/flutter_flow_theme.dart';
+import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,8 +43,8 @@ class _BotonCrearWidgetState extends State<BotonCrearWidget> {
   Widget build(BuildContext context) {
     return FaIcon(
       FontAwesomeIcons.plusCircle,
-      color: FlutterFlowTheme.of(context).primary,
-      size: 36.0,
+      color: BukeerColors.primary,
+      size: BukeerSpacing.xl,
     );
   }
 }

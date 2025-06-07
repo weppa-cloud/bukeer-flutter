@@ -14,7 +14,6 @@ import '../proveedores/show_reservation_message/show_reservation_message_widget.
 import '../servicios/add_a_i_flights/add_a_i_flights_widget.dart';
 import '../travel_planner_section/travel_planner_section_widget.dart';
 import '../../modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
@@ -120,7 +119,8 @@ class ItineraryDetailsModel extends FlutterFlowModel<ItineraryDetailsWidget> {
   @override
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
-    travelPlannerSectionModel = createModel(context, () => TravelPlannerSectionModel());
+    travelPlannerSectionModel =
+        createModel(context, () => TravelPlannerSectionModel());
   }
 
   @override

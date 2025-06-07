@@ -75,7 +75,7 @@ class _ComponentContainerItinerariesWidgetState
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             borderRadius: BorderRadius.circular(BukeerSpacing.s),
           ),
           child: Padding(
@@ -253,10 +253,10 @@ class _ComponentContainerItinerariesWidgetState
                       duration: Duration(milliseconds: 150),
                       curve: Curves.easeInOut,
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).accent1,
+                        color: BukeerColors.primaryAccent,
                         borderRadius: BorderRadius.circular(BukeerSpacing.s),
                         border: Border.all(
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           width: 2.0,
                         ),
                       ),
@@ -272,7 +272,7 @@ class _ComponentContainerItinerariesWidgetState
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodySmallFamily,
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: BukeerColors.primaryText,
                                 letterSpacing: 0.0,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
                                     .bodySmallIsCustom,
@@ -369,7 +369,7 @@ class _ComponentContainerItinerariesWidgetState
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .headlineSmallFamily,
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: BukeerColors.primary,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)

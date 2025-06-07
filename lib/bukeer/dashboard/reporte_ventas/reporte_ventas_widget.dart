@@ -3,7 +3,6 @@ import '../../../backend/api_requests/api_calls.dart';
 import '../../componentes/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -114,7 +113,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -143,7 +142,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                     height: 50.0,
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+                        BukeerColors.primary,
                       ),
                     ),
                   ),
@@ -259,19 +258,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            FlutterFlowIconButton(
-                                                              borderColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                              borderRadius:
-                                                                  12.0,
-                                                              borderWidth: 2.0,
-                                                              buttonSize: 40.0,
-                                                              fillColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .accent1,
+                                                            BukeerIconButton(
                                                               icon: Icon(
                                                                 Icons
                                                                     .arrow_back_outlined,
@@ -284,6 +271,12 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                 context
                                                                     .safePop();
                                                               },
+                                                              size:
+                                                                  BukeerIconButtonSize
+                                                                      .small,
+                                                              variant:
+                                                                  BukeerIconButtonVariant
+                                                                      .outlined,
                                                             ),
                                                             Text(
                                                               'Reporte de ventas',
@@ -473,7 +466,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).alternate,
+                                                                                BukeerColors.borderPrimary,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -485,7 +478,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -497,7 +490,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).error,
+                                                                                BukeerColors.error,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -509,7 +502,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).error,
+                                                                                BukeerColors.error,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -742,7 +735,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                                   'Desde:  ',
                                                                                   style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         fontSize: BukeerTypography.bodySmallSize,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.normal,
@@ -770,7 +763,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           fontSize: BukeerTypography.bodySmallSize,
                                                                                           letterSpacing: 0.0,
                                                                                           fontWeight: FontWeight.normal,
@@ -803,7 +796,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               Icon(
                                                                             Icons.calendar_month,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
+                                                                                BukeerColors.secondaryText,
                                                                             size:
                                                                                 22.0,
                                                                           ),
@@ -987,7 +980,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                                   'Hasta:  ',
                                                                                   style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         fontSize: BukeerTypography.bodySmallSize,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.normal,
@@ -1015,7 +1008,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           fontSize: BukeerTypography.bodySmallSize,
                                                                                           letterSpacing: 0.0,
                                                                                           fontWeight: FontWeight.normal,
@@ -1048,7 +1041,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               Icon(
                                                                             Icons.calendar_month,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
+                                                                                BukeerColors.secondaryText,
                                                                             size:
                                                                                 22.0,
                                                                           ),
@@ -1119,7 +1112,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).titleSmallFamily,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                              BukeerColors.primaryText,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
@@ -1156,7 +1149,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).headlineSmallFamily,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
@@ -1219,7 +1212,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).titleSmallFamily,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                              BukeerColors.primaryText,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
@@ -1256,7 +1249,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).headlineSmallFamily,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
@@ -1404,7 +1397,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                             .titleMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).titleMediumFamily,
-                                                                              color: FlutterFlowTheme.of(context).info,
+                                                                              color: BukeerColors.info,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.bold,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).titleMediumIsCustom,
@@ -1438,7 +1431,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                             fontFamily:
                                                                                 FlutterFlowTheme.of(context).titleMediumFamily,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                                BukeerColors.primaryText,
                                                                             letterSpacing:
                                                                                 0.0,
                                                                             fontWeight:
@@ -1465,7 +1458,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               'Total Ventas',
                                                                               style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                   ),
@@ -1485,7 +1478,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               textAlign: TextAlign.start,
                                                                               style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).success,
+                                                                                    color: BukeerColors.success,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1503,7 +1496,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               'Total Margen',
                                                                               style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                   ),
@@ -1523,7 +1516,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               textAlign: TextAlign.start,
                                                                               style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).success,
+                                                                                    color: BukeerColors.success,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1652,7 +1645,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                                 ),
                                                                                 Icon(
                                                                                   Icons.calendar_today,
-                                                                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                  color: BukeerColors.secondaryText,
                                                                                   size: 16.0,
                                                                                 ),
                                                                                 Text(
@@ -1698,7 +1691,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               textAlign: TextAlign.start,
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                    color: FlutterFlowTheme.of(context).success,
+                                                                                    color: BukeerColors.success,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -1723,7 +1716,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                               textAlign: TextAlign.start,
                                                                               style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                                    color: BukeerColors.primaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                   ),

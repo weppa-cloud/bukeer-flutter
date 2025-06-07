@@ -103,7 +103,7 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
         child: Container(
           width: 650.0,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             boxShadow: [
               BoxShadow(
                 blurRadius: 4.0,
@@ -163,7 +163,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primary,
-                                                  fontSize: BukeerTypography.bodyLargeSize,
+                                                  fontSize: BukeerTypography
+                                                      .bodyLargeSize,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w800,
                                                   useGoogleFonts:
@@ -282,7 +283,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -292,7 +294,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -302,7 +305,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -313,7 +317,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -452,7 +457,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -462,7 +468,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -472,7 +479,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -483,7 +491,8 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -547,7 +556,7 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(
@@ -577,7 +586,7 @@ class _ComponentAddCurrencyWidgetState extends State<ComponentAddCurrencyWidget>
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(

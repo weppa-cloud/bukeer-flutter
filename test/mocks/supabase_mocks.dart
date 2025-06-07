@@ -75,12 +75,11 @@ class SupabaseMocks {
   static void mockSuccessResponse(List<Map<String, dynamic>> data) {
     final response = PostgrestResponse(
       data: data,
-      status: 200,
       count: data.length,
     );
     
-    when(mockFilterBuilder.then()).thenAnswer((_) async => response);
-    when(mockBuilder.then()).thenAnswer((_) async => response);
+    when(mockFilterBuilder).thenAnswer((_) async => response);
+    when(mockBuilder).thenAnswer((_) async => response);
   }
 
   /// Mock error response
@@ -336,33 +335,30 @@ class SupabaseMocks {
   static void mockCreateSuccess(Map<String, dynamic> createdItem) {
     final response = PostgrestResponse(
       data: [createdItem],
-      status: 201,
       count: 1,
     );
     
-    when(mockBuilder.then()).thenAnswer((_) async => response);
+    when(mockBuilder).thenAnswer((_) async => response);
   }
 
   /// Mock update operation
   static void mockUpdateSuccess(Map<String, dynamic> updatedItem) {
     final response = PostgrestResponse(
       data: [updatedItem],
-      status: 200,
       count: 1,
     );
     
-    when(mockFilterBuilder.then()).thenAnswer((_) async => response);
+    when(mockFilterBuilder).thenAnswer((_) async => response);
   }
 
   /// Mock delete operation
   static void mockDeleteSuccess() {
     final response = PostgrestResponse(
       data: [],
-      status: 204,
       count: 0,
     );
     
-    when(mockFilterBuilder.then()).thenAnswer((_) async => response);
+    when(mockFilterBuilder).thenAnswer((_) async => response);
   }
 
   /// Mock specific table queries
@@ -378,11 +374,10 @@ class SupabaseMocks {
     
     final response = PostgrestResponse(
       data: data,
-      status: 200,
       count: data.length,
     );
     
-    when(filterBuilder.then()).thenAnswer((_) async => response);
+    when(filterBuilder).thenAnswer((_) async => response);
   }
 
   /// Clean up mocks

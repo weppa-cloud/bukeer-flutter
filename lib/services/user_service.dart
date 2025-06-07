@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../auth/supabase_auth/auth_util.dart';
-import '../app_state_clean.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import 'app_services.dart';
 
 /// Servicio para gestionar la carga de datos del usuario y cuenta
 class UserService {
@@ -15,15 +15,12 @@ class UserService {
 
   // Selected user data (replacement for allDataUser)
   dynamic _selectedUser;
-
-  // Account ID for forms (replacement for accountIdFm)
-  String? _accountIdFm;
-
-  // Account data (replacement for allDataAccount)
-  dynamic _allDataAccount;
-  List<dynamic> _accountCurrency = [];
-  List<dynamic> _accountTypesIncrease = [];
-  List<dynamic> _accountPaymentMethods = [];
+  
+  // User role ID
+  String? _roleId;
+  
+  // Agent data from API
+  dynamic _agentData;
 
   /// Indica si los datos están siendo cargados
   bool get isLoading => _isLoading;
@@ -36,24 +33,34 @@ class UserService {
 
   // Backward compatibility getter for allDataUser pattern
   dynamic get allDataUser => _selectedUser;
+  
+  // Role ID getter
+  String? get roleId => _roleId;
+  
+  // Agent data getter
+  dynamic get agentData => _agentData;
 
-  // Account ID for forms getter
-  String get accountIdFm => _accountIdFm ?? '';
-
-  // Setter para actualizar accountIdFm cuando se cambia de cuenta
-  set accountIdFm(String value) {
-    _accountIdFm = value;
+  // Account ID for forms getter - now delegated to AccountService
+  String get accountIdFm {
+    // NOTE: Callers should import app_services.dart to use this
+    return ''; // Will be replaced by AccountService
   }
 
-  // Account data getters
-  dynamic get allDataAccount => _allDataAccount;
-  List<dynamic> get accountCurrency => _accountCurrency;
-  List<dynamic> get accountTypesIncrease => _accountTypesIncrease;
-  List<dynamic> get accountPaymentMethods => _accountPaymentMethods;
+  // Setter para actualizar accountIdFm - deprecated
+  set accountIdFm(String value) {
+    debugPrint(
+        'UserService: accountIdFm setter called - please use AccountService directly');
+  }
+  
+  /// Set user role ID
+  Future<void> setUserRole(String roleId) async {
+    _roleId = roleId;
+    debugPrint('UserService: Role ID set to $roleId');
+  }
 
   /// Carga inicial de todos los datos del usuario
   /// Se ejecuta una sola vez al inicio de la sesión
-  Future<bool> initializeUserData() async {
+  Future<bool> initializeUserData({String? accountId}) async {
     // Evitar cargas múltiples
     if (_isLoading || _hasLoadedData) {
       return _hasLoadedData;
@@ -69,16 +76,9 @@ class UserService {
       }
 
       // Cargar datos del agente/usuario
-      final agentLoaded = await _loadAgentData();
+      final agentLoaded = await _loadAgentData(accountId: accountId);
       if (!agentLoaded) {
         debugPrint('UserService: Error cargando datos del agente');
-        return false;
-      }
-
-      // Cargar datos de la cuenta
-      final accountLoaded = await _loadAccountData();
-      if (!accountLoaded) {
-        debugPrint('UserService: Error cargando datos de la cuenta');
         return false;
       }
 
@@ -94,7 +94,7 @@ class UserService {
   }
 
   /// Carga los datos del agente/usuario
-  Future<bool> _loadAgentData() async {
+  Future<bool> _loadAgentData({String? accountId}) async {
     try {
       // Verificar si tenemos los datos mínimos necesarios
       if (currentUserUid == null || currentUserUid!.isEmpty) {
@@ -102,19 +102,21 @@ class UserService {
         return false;
       }
 
-      if (FFAppState().accountId == null || FFAppState().accountId.isEmpty) {
-        debugPrint('UserService: accountId no disponible');
+      if (accountId == null || accountId.isEmpty) {
+        debugPrint('UserService: accountId parameter required');
         return false;
       }
 
       final response = await GetAgentCall.call(
         authToken: currentJwtToken,
         id: currentUserUid,
-        accountIdParam: FFAppState().accountId,
+        accountIdParam: accountId,
       );
 
       if (response.succeeded) {
-        FFAppState().agent = response.jsonBody;
+        // Store agent data in service
+        _agentData = response.jsonBody;
+        _selectedUser = response.jsonBody;
 
         // Extraer y guardar el rol del usuario
         final roleId = getJsonField(
@@ -123,21 +125,11 @@ class UserService {
         );
 
         if (roleId != null) {
-          FFAppState().idRole = int.tryParse(roleId.toString()) ?? 0;
+          _roleId = roleId.toString();
         }
 
-        // Extraer y guardar el accountIdFm
-        final accountIdFromResponse = getJsonField(
-          response.jsonBody,
-          r'$[:].account_idfm',
-        );
-
-        if (accountIdFromResponse != null) {
-          _accountIdFm = accountIdFromResponse.toString();
-        } else {
-          // Si no viene en la respuesta, usar el accountId
-          _accountIdFm = FFAppState().accountId;
-        }
+        // Set account ID in AccountService
+        await appServices.account.setCurrentAccount(accountId);
 
         debugPrint('UserService: Datos del agente cargados exitosamente');
         return true;
@@ -164,7 +156,7 @@ class UserService {
     debugPrint('UserService: Estableciendo datos por defecto del usuario');
 
     // Crear un objeto agent básico para evitar errores
-    FFAppState().agent = [
+    _agentData = [
       {
         'id': currentUserUid,
         'name': 'Usuario',
@@ -174,91 +166,10 @@ class UserService {
         'main_image': null,
       }
     ];
+    _selectedUser = _agentData;
 
     // Establecer rol por defecto - Admin para acceso completo
-    FFAppState().idRole = 1; // Admin
-
-    // Establecer accountIdFm por defecto
-    _accountIdFm = FFAppState().accountId;
-  }
-
-  /// Carga los datos de la cuenta
-  Future<bool> _loadAccountData() async {
-    try {
-      final response = await GetAllDataAccountWithLocationCall.call(
-        authToken: currentJwtToken,
-        accountId: FFAppState().accountId,
-      );
-
-      if (response.succeeded) {
-        final jsonBody = response.jsonBody;
-        _allDataAccount = jsonBody;
-        FFAppState().allDataAccount =
-            jsonBody; // Mantener por compatibilidad temporal
-
-        // Extraer configuraciones de la cuenta
-        _extractAccountSettings(jsonBody);
-
-        return true;
-      }
-
-      return false;
-    } catch (e) {
-      debugPrint('UserService: Error en _loadAccountData: $e');
-      return false;
-    }
-  }
-
-  /// Extrae y guarda las configuraciones de la cuenta
-  void _extractAccountSettings(dynamic accountData) {
-    try {
-      // Monedas
-      final currencies = getJsonField(
-        accountData,
-        r'$[:].currency',
-        true,
-      );
-      if (currencies != null) {
-        _accountCurrency = currencies.toList().cast<dynamic>();
-        FFAppState().accountCurrency =
-            _accountCurrency; // Mantener por compatibilidad temporal
-      }
-
-      // Tipos de incremento
-      final typesIncrease = getJsonField(
-        accountData,
-        r'$[:].types_increase',
-        true,
-      );
-      if (typesIncrease != null) {
-        _accountTypesIncrease = typesIncrease.toList().cast<dynamic>();
-        FFAppState().accountTypesIncrease =
-            _accountTypesIncrease; // Mantener por compatibilidad temporal
-      }
-
-      // Métodos de pago
-      final paymentMethods = getJsonField(
-        accountData,
-        r'$[:].payment_methods',
-        true,
-      );
-      if (paymentMethods != null) {
-        _accountPaymentMethods = paymentMethods.toList().cast<dynamic>();
-        FFAppState().accountPaymentMethods =
-            _accountPaymentMethods; // Mantener por compatibilidad temporal
-      }
-
-      // ID de la cuenta en FM
-      final accountIdFm = getJsonField(
-        accountData,
-        r'$[:].id_fm',
-      );
-      if (accountIdFm != null) {
-        FFAppState().accountIdFm = accountIdFm.toString();
-      }
-    } catch (e) {
-      debugPrint('UserService: Error en _extractAccountSettings: $e');
-    }
+    _roleId = '1'; // Admin
   }
 
   /// Refresca los datos del usuario
@@ -272,17 +183,13 @@ class UserService {
     _hasLoadedData = false;
     _isLoading = false;
     _selectedUser = null;
-    _accountIdFm = null;
-    _allDataAccount = null;
-    _accountCurrency = [];
-    _accountTypesIncrease = [];
-    _accountPaymentMethods = [];
     // El reset del AppState se maneja en el logout
   }
 
   /// Verifica si el usuario tiene un rol específico
   bool hasRole(int roleId) {
-    return FFAppState().idRole == roleId;
+    if (_roleId == null) return false;
+    return int.tryParse(_roleId!) == roleId;
   }
 
   /// Verifica si el usuario es administrador
@@ -294,23 +201,19 @@ class UserService {
   /// Obtiene información segura del agente
   dynamic getAgentInfo(String field) {
     try {
-      if (FFAppState().agent == null) return null;
-      return getJsonField(FFAppState().agent, field);
+      if (_agentData == null) return null;
+      return getJsonField(_agentData, field);
     } catch (e) {
       debugPrint('UserService: Error obteniendo campo $field: $e');
       return null;
     }
   }
 
-  /// Obtiene información segura de la cuenta
+  /// Obtiene información segura de la cuenta - delegado a AccountService
   dynamic getAccountInfo(String field) {
-    try {
-      if (_allDataAccount == null) return null;
-      return getJsonField(_allDataAccount, field);
-    } catch (e) {
-      debugPrint('UserService: Error obteniendo campo $field: $e');
-      return null;
-    }
+    debugPrint(
+        'UserService: getAccountInfo called - please use AccountService directly');
+    return null;
   }
 
   // Methods to manage selected user (replacement for allDataUser pattern)

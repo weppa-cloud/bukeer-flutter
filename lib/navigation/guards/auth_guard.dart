@@ -2,26 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../auth/base_auth_user_provider.dart';
+import '../../auth/supabase_auth/auth_util.dart';
 import '../../services/app_services.dart';
 import '../route_definitions.dart';
 
 /// Authentication guard for protected routes
 class AuthGuard {
+  // Store redirect location
+  static String? _savedRedirectLocation;
   /// Check if user is authenticated and redirect if needed
   static String? check(BuildContext context, GoRouterState state) {
-    final appStateNotifier = context.read<AppStateNotifier>();
-    final isLoggedIn = appStateNotifier.loggedIn;
-    final isLoading = appStateNotifier.loading;
-
-    // If still loading, show splash
-    if (isLoading) {
-      return AppRoutes.splash;
-    }
-
+    final isLoggedIn = loggedIn;
+    
     // If not logged in, redirect to login and save current location
     if (!isLoggedIn) {
-      appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
+      // Save current location for redirect after login
+      _savedRedirectLocation = state.uri.toString();
       return AppRoutes.login;
     }
 
@@ -89,8 +85,8 @@ class AuthGuard {
   static Future<bool> ensureUserDataLoaded(BuildContext context) async {
     try {
       final userService = appServices.user;
-      if (!userService.isInitialized) {
-        await userService.initialize();
+      if (!userService.hasLoadedData) {
+        await userService.initializeUserData();
       }
       return true;
     } catch (e) {
@@ -101,11 +97,9 @@ class AuthGuard {
 
   /// Get redirect location after successful login
   static String getPostLoginRedirect(BuildContext context) {
-    final appStateNotifier = context.read<AppStateNotifier>();
-
-    if (appStateNotifier.hasRedirect()) {
-      final redirect = appStateNotifier.getRedirectLocation();
-      appStateNotifier.clearRedirectLocation();
+    if (_savedRedirectLocation != null) {
+      final redirect = _savedRedirectLocation!;
+      _savedRedirectLocation = null;
       return redirect;
     }
 
@@ -132,11 +126,8 @@ class AuthGuard {
 
   /// Helper to logout and redirect to login
   static void logout(BuildContext context) {
-    final appStateNotifier = context.read<AppStateNotifier>();
-    appStateNotifier.updateNotifyOnAuthChange(false);
-
     // Clear app services
-    appServices.clearAll();
+    appServices.reset();
 
     // Navigate to login
     context.go(AppRoutes.login);

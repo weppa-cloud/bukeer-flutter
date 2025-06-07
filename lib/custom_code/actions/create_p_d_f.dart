@@ -17,7 +17,6 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'dart:math' as math;
 import 'dart:convert';

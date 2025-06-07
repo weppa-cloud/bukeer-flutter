@@ -1,4 +1,3 @@
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_place_picker.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
@@ -57,7 +56,7 @@ class _BookingWidgetState extends State<BookingWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -67,7 +66,7 @@ class _BookingWidgetState extends State<BookingWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -78,10 +77,10 @@ class _BookingWidgetState extends State<BookingWidget> {
                           width: 53.0,
                           height: 53.0,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).accent1,
+                            color: BukeerColors.primaryAccent,
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: FlutterFlowTheme.of(context).primary,
+                              color: BukeerColors.primary,
                               width: 2.0,
                             ),
                           ),
@@ -114,20 +113,18 @@ class _BookingWidgetState extends State<BookingWidget> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(right: BukeerSpacing.m),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 20.0,
-                          buttonSize: 40.0,
+                        padding: EdgeInsets.only(right: BukeerSpacing.m),
+                        child: BukeerIconButton(
                           icon: Icon(
                             Icons.notifications_none,
-                            color: FlutterFlowTheme.of(context).primaryText,
+                            color: BukeerColors.primaryText,
                             size: 24.0,
                           ),
                           onPressed: () {
                             print('IconButton pressed ...');
                           },
+                          size: BukeerIconButtonSize.small,
+                          variant: BukeerIconButtonVariant.ghost,
                         ),
                       ),
                     ],
@@ -141,8 +138,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          FlutterFlowTheme.of(context).secondaryBackground,
-                          FlutterFlowTheme.of(context).accent4
+                          BukeerColors.secondaryBackground,
+                          BukeerColors.neutral400
                         ],
                         stops: [0.0, 1.0],
                         begin: AlignmentDirectional(0.0, -1.0),
@@ -156,8 +153,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                         width: double.infinity,
                         height: 60.0,
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 3.0,
@@ -170,7 +166,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                           ],
                           borderRadius: BorderRadius.circular(BukeerSpacing.s),
                           border: Border.all(
-                            color: FlutterFlowTheme.of(context).alternate,
+                            color: BukeerColors.borderPrimary,
                           ),
                         ),
                         child: Padding(
@@ -181,8 +177,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                             children: [
                               Icon(
                                 Icons.search_rounded,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
+                                color: BukeerColors.secondaryText,
                                 size: 24.0,
                               ),
                               Expanded(
@@ -239,31 +234,24 @@ class _BookingWidgetState extends State<BookingWidget> {
                                                 !FlutterFlowTheme.of(context)
                                                     .bodyMediumIsCustom,
                                           ),
-                                      cursorColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      cursorColor: BukeerColors.primary,
                                       validator: _model.textControllerValidator
                                           .asValidator(context),
                                     ),
                                   ),
                                 ),
                               ),
-                              FlutterFlowIconButton(
-                                borderColor:
-                                    FlutterFlowTheme.of(context).alternate,
-                                borderRadius: 10.0,
-                                borderWidth: 1.0,
-                                buttonSize: 40.0,
-                                fillColor: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
+                              BukeerIconButton(
                                 icon: Icon(
                                   Icons.tune_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: BukeerColors.primaryText,
                                   size: 24.0,
                                 ),
                                 onPressed: () {
                                   print('IconButton pressed ...');
                                 },
+                                size: BukeerIconButtonSize.small,
+                                variant: BukeerIconButtonVariant.outlined,
                               ),
                             ],
                           ),
@@ -276,8 +264,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: BukeerSpacing.m),
+                        padding: EdgeInsets.only(left: BukeerSpacing.m),
                         child: Text(
                           'Top Beaches',
                           style: FlutterFlowTheme.of(context)
@@ -292,14 +279,14 @@ class _BookingWidgetState extends State<BookingWidget> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(bottom: BukeerSpacing.xs),
+                        padding: EdgeInsets.only(bottom: BukeerSpacing.xs),
                         child: Container(
                           width: double.infinity,
                           height: 270.0,
                           decoration: BoxDecoration(),
                           child: ListView(
-                            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: BukeerSpacing.m),
                             scrollDirection: Axis.horizontal,
                             children: [
                               Padding(
@@ -311,7 +298,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     border: Border.all(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -330,7 +318,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                             children: [
                                               ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 child: Image.network(
                                                   'https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YmVhY2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60',
                                                   width: double.infinity,
@@ -502,7 +491,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     border: Border.all(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -521,7 +511,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                             children: [
                                               ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 child: Image.network(
                                                   'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhY2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60',
                                                   width: double.infinity,
@@ -693,7 +684,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     border: Border.all(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -712,7 +704,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                             children: [
                                               ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 child: Image.network(
                                                   'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJlYWNofGVufDB8fDB8fHww&auto=format&fit=crop&w=900&q=60',
                                                   width: double.infinity,
@@ -882,7 +875,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          color: BukeerColors.primaryBackground,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -933,8 +926,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                             ),
                                           )
                                         ],
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -942,7 +935,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(BukeerSpacing.s),
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.s),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -1182,8 +1176,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                             ),
                                           )
                                         ],
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -1191,7 +1185,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(BukeerSpacing.s),
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.s),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -1431,8 +1426,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                             ),
                                           )
                                         ],
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -1440,7 +1435,8 @@ class _BookingWidgetState extends State<BookingWidget> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(BukeerSpacing.s),
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.s),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:

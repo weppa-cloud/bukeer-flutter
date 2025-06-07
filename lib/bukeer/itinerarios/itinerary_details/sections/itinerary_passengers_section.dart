@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
+import '../../../../design_system/components/buttons/bukeer_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Passengers section for itinerary details
@@ -57,28 +57,31 @@ class ItineraryPassengersSection extends StatelessWidget {
                     SizedBox(width: 12),
                     Text(
                       'Pasajeros',
-                      style: FlutterFlowTheme.of(context).headlineSmall.override(
-                        fontFamily: 'Outfit',
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          FlutterFlowTheme.of(context).headlineSmall.override(
+                                fontFamily: 'Outfit',
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
                     ),
                     SizedBox(width: 12),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                        color: FlutterFlowTheme.of(context)
+                            .primary
+                            .withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         '${passengers.length}',
                         style: FlutterFlowTheme.of(context).bodySmall.override(
-                          fontFamily: 'Readex Pro',
-                          color: FlutterFlowTheme.of(context).primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                              fontFamily: 'Readex Pro',
+                              color: FlutterFlowTheme.of(context).primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ),
                   ],
@@ -96,11 +99,12 @@ class ItineraryPassengersSection extends StatelessWidget {
                       padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                       iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
                       color: FlutterFlowTheme.of(context).primary,
-                      textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'Readex Pro',
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
+                      textStyle:
+                          FlutterFlowTheme.of(context).titleSmall.override(
+                                fontFamily: 'Readex Pro',
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
                       elevation: 2,
                       borderSide: BorderSide(
                         color: Colors.transparent,
@@ -111,9 +115,9 @@ class ItineraryPassengersSection extends StatelessWidget {
                   ),
               ],
             ),
-            
+
             SizedBox(height: 20),
-            
+
             // Passengers List
             if (passengers.isEmpty)
               _buildEmptyState(context)
@@ -152,19 +156,19 @@ class ItineraryPassengersSection extends StatelessWidget {
           Text(
             'No hay pasajeros agregados',
             style: FlutterFlowTheme.of(context).bodyLarge.override(
-              fontFamily: 'Readex Pro',
-              color: FlutterFlowTheme.of(context).secondaryText,
-              fontSize: 16,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  fontSize: 16,
+                ),
           ),
           SizedBox(height: 8),
           Text(
             'Agrega pasajeros para este itinerario',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-              fontFamily: 'Readex Pro',
-              color: FlutterFlowTheme.of(context).secondaryText,
-              fontSize: 14,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  fontSize: 14,
+                ),
           ),
           if (onAddPassenger != null) ...[
             SizedBox(height: 16),
@@ -181,9 +185,9 @@ class ItineraryPassengersSection extends StatelessWidget {
                 iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
                 color: FlutterFlowTheme.of(context).primary,
                 textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                  fontFamily: 'Readex Pro',
-                  color: Colors.white,
-                ),
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                    ),
                 elevation: 2,
                 borderSide: BorderSide(
                   color: Colors.transparent,
@@ -198,13 +202,18 @@ class ItineraryPassengersSection extends StatelessWidget {
     );
   }
 
-  Widget _buildPassengerCard(BuildContext context, dynamic passenger, int index) {
+  Widget _buildPassengerCard(
+      BuildContext context, dynamic passenger, int index) {
     final name = getJsonField(passenger, r'$.name')?.toString() ?? 'Sin nombre';
     final lastName = getJsonField(passenger, r'$.last_name')?.toString() ?? '';
-    final documentType = getJsonField(passenger, r'$.document_type')?.toString() ?? '';
-    final documentNumber = getJsonField(passenger, r'$.document_number')?.toString() ?? '';
-    final birthDate = getJsonField(passenger, r'$.birth_date')?.toString() ?? '';
-    final nationality = getJsonField(passenger, r'$.nationality')?.toString() ?? '';
+    final documentType =
+        getJsonField(passenger, r'$.document_type')?.toString() ?? '';
+    final documentNumber =
+        getJsonField(passenger, r'$.document_number')?.toString() ?? '';
+    final birthDate =
+        getJsonField(passenger, r'$.birth_date')?.toString() ?? '';
+    final nationality =
+        getJsonField(passenger, r'$.nationality')?.toString() ?? '';
 
     return Container(
       margin: EdgeInsets.only(bottom: 12),
@@ -231,17 +240,17 @@ class ItineraryPassengersSection extends StatelessWidget {
               child: Text(
                 '${name.isNotEmpty ? name[0].toUpperCase() : 'P'}${lastName.isNotEmpty ? lastName[0].toUpperCase() : (index + 1).toString()}',
                 style: FlutterFlowTheme.of(context).titleMedium.override(
-                  fontFamily: 'Readex Pro',
-                  color: FlutterFlowTheme.of(context).primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontFamily: 'Readex Pro',
+                      color: FlutterFlowTheme.of(context).primary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
             ),
           ),
-          
+
           SizedBox(width: 16),
-          
+
           // Passenger Info
           Expanded(
             child: Column(
@@ -250,21 +259,21 @@ class ItineraryPassengersSection extends StatelessWidget {
                 Text(
                   '$name $lastName'.trim(),
                   style: FlutterFlowTheme.of(context).titleMedium.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontFamily: 'Readex Pro',
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 if (documentType.isNotEmpty && documentNumber.isNotEmpty) ...[
                   SizedBox(height: 4),
                   Text(
                     '$documentType: $documentNumber',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Readex Pro',
-                      color: FlutterFlowTheme.of(context).secondaryText,
-                      fontSize: 14,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          fontSize: 14,
+                        ),
                   ),
                 ],
                 if (birthDate.isNotEmpty) ...[
@@ -272,10 +281,10 @@ class ItineraryPassengersSection extends StatelessWidget {
                   Text(
                     'Nacimiento: ${_formatDate(birthDate)}',
                     style: FlutterFlowTheme.of(context).bodySmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: FlutterFlowTheme.of(context).secondaryText,
-                      fontSize: 12,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          fontSize: 12,
+                        ),
                   ),
                 ],
                 if (nationality.isNotEmpty) ...[
@@ -283,47 +292,42 @@ class ItineraryPassengersSection extends StatelessWidget {
                   Text(
                     'Nacionalidad: $nationality',
                     style: FlutterFlowTheme.of(context).bodySmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: FlutterFlowTheme.of(context).secondaryText,
-                      fontSize: 12,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          fontSize: 12,
+                        ),
                   ),
                 ],
               ],
             ),
           ),
-          
+
           // Action Buttons
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               if (onEditPassenger != null)
-                FlutterFlowIconButton(
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  buttonSize: 36,
-                  fillColor: Colors.transparent,
+                BukeerIconButton(
                   icon: Icon(
                     Icons.edit,
                     color: FlutterFlowTheme.of(context).primary,
                     size: 16,
                   ),
                   onPressed: () => onEditPassenger!(passenger),
+                  size: BukeerIconButtonSize.small,
+                  variant: BukeerIconButtonVariant.ghost,
                 ),
               if (onDeletePassenger != null) ...[
                 SizedBox(width: 8),
-                FlutterFlowIconButton(
-                  borderColor: FlutterFlowTheme.of(context).error,
-                  borderRadius: 8,
-                  borderWidth: 1,
-                  buttonSize: 36,
-                  fillColor: Colors.transparent,
+                BukeerIconButton(
                   icon: Icon(
                     Icons.delete,
                     color: FlutterFlowTheme.of(context).error,
                     size: 16,
                   ),
                   onPressed: () => onDeletePassenger!(passenger),
+                  size: BukeerIconButtonSize.small,
+                  variant: BukeerIconButtonVariant.danger,
                 ),
               ],
             ],
@@ -335,7 +339,7 @@ class ItineraryPassengersSection extends StatelessWidget {
 
   String _formatDate(String dateString) {
     if (dateString.isEmpty) return 'Sin fecha';
-    
+
     try {
       final date = DateTime.parse(dateString);
       return '${date.day}/${date.month}/${date.year}';

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 import 'package:mockito/annotations.dart';
 
 import '../../lib/services/itinerary_service.dart';
@@ -12,11 +12,11 @@ import 'itinerary_service_test.mocks.dart';
 void main() {
   group('ItineraryService Tests', () {
     late ItineraryService itineraryService;
-    late MockSupaFlow mockSupaFlow;
+    late MockSupaFlow _mockSupaFlow;
 
     setUp(() {
       itineraryService = ItineraryService();
-      mockSupaFlow = MockSupaFlow();
+      _mockSupaFlow = MockSupaFlow();
     });
 
     tearDown(() {

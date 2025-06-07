@@ -91,7 +91,7 @@ class _ComponentProviderPaymentsWidgetState
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Container(
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: BukeerColors.secondaryBackground,
           borderRadius: BorderRadius.circular(BukeerSpacing.s),
         ),
         child: Column(
@@ -127,7 +127,7 @@ class _ComponentProviderPaymentsWidgetState
                         height: 50.0,
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            FlutterFlowTheme.of(context).primary,
+                            BukeerColors.primary,
                           ),
                         ),
                       ),
@@ -162,7 +162,8 @@ class _ComponentProviderPaymentsWidgetState
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.xs),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.xs),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -231,7 +232,8 @@ class _ComponentProviderPaymentsWidgetState
                                                           .labelMediumIsCustom,
                                                 ),
                                           ),
-                                        ].divide(SizedBox(width: BukeerSpacing.s)),
+                                        ].divide(
+                                            SizedBox(width: BukeerSpacing.s)),
                                       ),
                                     ),
                                   ).animateOnPageLoad(animationsMap[
@@ -239,7 +241,7 @@ class _ComponentProviderPaymentsWidgetState
                                 ),
                                 Divider(
                                   thickness: 1.0,
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                 ),
                               ],
                             ),
@@ -260,10 +262,10 @@ class _ComponentProviderPaymentsWidgetState
                 text: 'Aceptar',
                 options: FFButtonOptions(
                   height: 40.0,
-                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
                   iconPadding:
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: FlutterFlowTheme.of(context).primary,
+                  color: BukeerColors.primary,
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                         fontFamily:
                             FlutterFlowTheme.of(context).titleSmallFamily,

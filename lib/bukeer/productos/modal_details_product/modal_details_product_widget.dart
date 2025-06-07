@@ -6,10 +6,10 @@ import '../component_preview_schedule_activity/component_preview_schedule_activi
 import '../modal_add_product/modal_add_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_expanded_image_view.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:page_transition/page_transition.dart' as pt;
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../flutter_flow/upload_data.dart';
 import 'dart:math';
@@ -414,7 +414,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
               height: 50.0,
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  FlutterFlowTheme.of(context).primary,
+                  BukeerColors.primary,
                 ),
               ),
             ),
@@ -426,7 +426,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).accent4,
+            color: BukeerColors.neutral400,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -434,7 +434,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                padding: EdgeInsets.all(BukeerSpacing.m),
                 child: Container(
                   height: MediaQuery.sizeOf(context).height * 1.0,
                   constraints: BoxConstraints(
@@ -442,7 +442,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                     maxHeight: 900.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -473,16 +473,10 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              FlutterFlowIconButton(
-                                borderColor:
-                                    FlutterFlowTheme.of(context).primary,
-                                borderRadius: 12.0,
-                                borderWidth: 2.0,
-                                fillColor: FlutterFlowTheme.of(context).accent1,
+                              BukeerIconButton(
                                 icon: Icon(
                                   Icons.arrow_back_outlined,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: BukeerColors.primaryText,
                                 ),
                                 onPressed: () async {
                                   context.read<UiStateService>().searchQuery =
@@ -934,16 +928,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 5.0),
-                                            child: FlutterFlowIconButton(
-                                              borderColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              borderRadius: 12.0,
-                                              borderWidth: 2.0,
-                                              buttonSize: 40.0,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
+                                            child: BukeerIconButton(
                                               icon: Icon(
                                                 Icons.edit_outlined,
                                                 color:
@@ -985,16 +970,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 5.0, 0.0, 0.0),
-                                            child: FlutterFlowIconButton(
-                                              borderColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              borderRadius: 12.0,
-                                              borderWidth: 2.0,
-                                              buttonSize: 40.0,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
+                                            child: BukeerIconButton(
                                               icon: FaIcon(
                                                 FontAwesomeIcons.trashAlt,
                                                 color:
@@ -1240,8 +1216,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                         Container(
                           width: MediaQuery.sizeOf(context).width * 1.0,
                           decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
+                            color: BukeerColors.primaryBackground,
                             borderRadius:
                                 BorderRadius.circular(BukeerSpacing.s),
                           ),
@@ -1767,7 +1742,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                                           fontFamily:
                                                                               FlutterFlowTheme.of(context).titleSmallFamily,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
@@ -1876,7 +1851,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                                               )}%',
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                                    color: BukeerColors.primaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.bold,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
@@ -2467,7 +2442,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                             context,
                                                             PageTransition(
                                                               type:
-                                                                  PageTransitionType
+                                                                  pt.PageTransitionType
                                                                       .fade,
                                                               child:
                                                                   FlutterFlowExpandedImageView(

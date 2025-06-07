@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
 import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_widget.dart';
-import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_model.dart';
+// import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_model.dart'; // Unused import
 import 'package:bukeer/services/authorization_service.dart';
 import '../test_utils/test_helpers.dart';
 
@@ -44,7 +44,7 @@ void main() {
         // Arrange
         TestHelpers.mockUserData();
 
-        final existingContact = {
+        final _existingContact = {
           'id': 1,
           'name': 'John',
           'last_name': 'Doe',
@@ -307,7 +307,7 @@ void main() {
           (tester) async {
         // Arrange
         TestHelpers.mockUserWithRole(
-            RoleType.admin); // Only admins can create users
+            'admin'); // Only admins can create users
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(
@@ -366,7 +366,7 @@ void main() {
         // Arrange
         TestHelpers.mockUserData();
 
-        final existingContact = {
+        final _existingContact = {
           'id': 1,
           'name': 'Existing',
           'last_name': 'Contact',
@@ -401,7 +401,7 @@ void main() {
       testWidgets('should hide user type option for non-admin users',
           (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.agent);
+        TestHelpers.mockUserWithRole('agent');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(
@@ -425,7 +425,7 @@ void main() {
 
       testWidgets('should show all options for admin users', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(

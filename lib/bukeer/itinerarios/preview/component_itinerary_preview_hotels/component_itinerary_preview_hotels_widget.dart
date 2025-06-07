@@ -3,13 +3,13 @@ import '../../../productos/component_inclusion/component_inclusion_widget.dart';
 import '../../../../flutter_flow/flutter_flow_expanded_image_view.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:page_transition/page_transition.dart' as pt;
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'component_itinerary_preview_hotels_model.dart';
 import '../../../../design_system/index.dart';
@@ -89,7 +89,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                 height: 50.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
+                    BukeerColors.primary,
                   ),
                 ),
               ),
@@ -112,7 +112,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
               maxHeight: 500.0,
             ),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
+              color: BukeerColors.secondaryBackground,
             ),
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -124,7 +124,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                     height: 1.0,
                     thickness: 1.0,
                     indent: 0.0,
-                    color: FlutterFlowTheme.of(context).alternate,
+                    color: BukeerColors.borderPrimary,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -134,10 +134,10 @@ class _ComponentItineraryPreviewHotelsWidgetState
                         width: 32.0,
                         height: 32.0,
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).accent1,
+                          color: BukeerColors.primaryAccent,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             width: 2.0,
                           ),
                         ),
@@ -145,7 +145,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: FaIcon(
                             FontAwesomeIcons.hotel,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: BukeerColors.secondaryText,
                             size: 16.0,
                           ),
                         ),
@@ -185,7 +185,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                         style: FlutterFlowTheme.of(context).labelSmall.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).labelSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: BukeerColors.primaryText,
                               fontSize: BukeerTypography.bodySmallSize,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
@@ -196,16 +196,15 @@ class _ComponentItineraryPreviewHotelsWidgetState
                     ],
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: BukeerSpacing.m),
+                    padding: EdgeInsets.only(left: BukeerSpacing.m),
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        color: BukeerColors.secondaryBackground,
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 0.0,
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             offset: Offset(
                               -2.0,
                               0.0,
@@ -213,14 +212,12 @@ class _ComponentItineraryPreviewHotelsWidgetState
                           )
                         ],
                         border: Border.all(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           width: 1.0,
                         ),
                       ),
                       child: Padding(
-                        padding:
-                            EdgeInsets.only(left: BukeerSpacing.m),
+                        padding: EdgeInsets.only(left: BukeerSpacing.m),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,7 +294,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                           context,
                                                           PageTransition(
                                                             type:
-                                                                PageTransitionType
+                                                                pt.PageTransitionType
                                                                     .fade,
                                                             child:
                                                                 FlutterFlowExpandedImageView(
@@ -575,7 +572,9 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .bodyMediumFamily,
-                                                          fontSize: BukeerTypography.bodySmallSize,
+                                                          fontSize:
+                                                              BukeerTypography
+                                                                  .bodySmallSize,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
@@ -586,7 +585,8 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                         ),
                                                   ),
                                                 ),
-                                              ].divide(SizedBox(width: BukeerSpacing.xs)),
+                                              ].divide(SizedBox(
+                                                  width: BukeerSpacing.xs)),
                                             ),
                                           Align(
                                             alignment:
@@ -655,7 +655,8 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                                 hoverColor:
                                                     FlutterFlowTheme.of(context)
                                                         .primary,
@@ -672,7 +673,8 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                               ),
                                             ),
                                           ),
-                                        ].divide(SizedBox(height: BukeerSpacing.xs)),
+                                        ].divide(
+                                            SizedBox(height: BukeerSpacing.xs)),
                                       ),
                                     ),
                                   ),

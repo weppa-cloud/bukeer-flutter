@@ -5,7 +5,9 @@ import 'product_service.dart';
 import 'contact_service.dart';
 import 'authorization_service.dart';
 import 'error_service.dart';
+import 'error_analytics_service.dart';
 import 'ui_state_service.dart';
+import 'account_service.dart';
 
 /// Central service manager for the app
 /// Provides singleton access to all services and coordinates initialization
@@ -22,6 +24,8 @@ class AppServices {
   final ContactService contact = ContactService();
   final AuthorizationService authorization = AuthorizationService();
   final ErrorService error = ErrorService();
+  final ErrorAnalyticsService errorAnalytics = ErrorAnalyticsService();
+  final AccountService account = AccountService();
 
   // Track initialization state
   bool _isInitialized = false;
@@ -39,7 +43,16 @@ class AppServices {
       _isInitializing = true;
       debugPrint('AppServices: Starting initialization...');
 
+      // Start error analytics session
+      errorAnalytics.startSession();
+
+      // Set up error service callbacks
+      error.setErrorCallback((appError) {
+        errorAnalytics.recordError(appError);
+      });
+
       // Initialize user service first (required for other services)
+      // Note: accountId will be set after initial user data load
       await user.initializeUserData();
 
       // Only proceed if user data loaded successfully
@@ -50,11 +63,18 @@ class AppServices {
           await authorization.loadUserRoles(userId);
         }
 
+        // Set account ID for AccountService
+        final accountId = user.getAgentInfo(r'$[:].id_account')?.toString();
+        if (accountId != null) {
+          await account.setAccountId(accountId);
+        }
+
         // Initialize other services in parallel
         await Future.wait([
           itinerary.initialize(),
           product.initialize(),
           contact.initialize(),
+          account.initialize(),
         ]);
 
         _isInitialized = true;
@@ -87,6 +107,12 @@ class AppServices {
       await authorization.loadUserRoles(userId);
     }
 
+    // Reload account data
+    final accountId = user.getAgentInfo(r'$[:].id_account')?.toString();
+    if (accountId != null) {
+      await account.loadAccountData();
+    }
+
     _isInitialized = true;
   }
 
@@ -94,6 +120,7 @@ class AppServices {
   void clearAllCaches() {
     product.clearCache();
     ui.clearAll();
+    account.clearData();
     // Add clear methods for other services as needed
     _isInitialized = false;
   }
@@ -103,7 +130,9 @@ class AppServices {
     clearAllCaches();
     authorization.clearRoles();
     error.clearAllErrors();
+    errorAnalytics.clearAnalytics();
     user.clearUserData();
+    account.clearData();
     _isInitialized = false;
     _isInitializing = false;
   }

@@ -5,7 +5,6 @@ import '../../../../design_system/index.dart';
 import '../dropdown_airports/dropdown_airports_widget.dart';
 import '../dropdown_products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -262,7 +261,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: SafeArea(
           top: true,
           child: Align(
@@ -286,7 +285,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                     maxHeight: 700.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -323,8 +322,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                   children: [
                                     Icon(
                                       Icons.flight,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       size: 28.0,
                                     ),
                                     if (widget!.isEdit == true)
@@ -374,14 +372,9 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 5.0, 0.0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderRadius: 12.0,
-                                    borderWidth: 2.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                  child: BukeerIconButton(
+                                    size: BukeerIconButtonSize.small,
+                                    variant: BukeerIconButtonVariant.outlined,
                                     icon: FaIcon(
                                       FontAwesomeIcons.trashAlt,
                                       color: FlutterFlowTheme.of(context)
@@ -443,14 +436,9 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5.0, 5.0, 0.0, 0.0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    borderRadius: 12.0,
-                                    borderWidth: 2.0,
-                                    buttonSize: 40.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                  child: BukeerIconButton(
+                                    size: BukeerIconButtonSize.small,
+                                    variant: BukeerIconButtonVariant.outlined,
                                     icon: Icon(
                                       Icons.content_copy,
                                       color: FlutterFlowTheme.of(context)
@@ -666,24 +654,32 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       child: Image.network(
                                                         widget!.isEdit == true
                                                             ? (getJsonField(
-                                                                      FFAppState()
-                                                                          .itemsProducts,
+                                                                      context
+                                                                          .read<
+                                                                              ProductService>()
+                                                                          .selectedFlight,
                                                                       r'''$.logo_symbol_url''',
                                                                     ) !=
                                                                     null
                                                                 ? getJsonField(
-                                                                    FFAppState()
-                                                                        .itemsProducts,
+                                                                    context
+                                                                        .read<
+                                                                            ProductService>()
+                                                                        .selectedFlight,
                                                                     r'''$.logo_symbol_url''',
                                                                   ).toString()
                                                                 : getJsonField(
-                                                                    FFAppState()
+                                                                    context
+                                                                        .read<
+                                                                            ProductService>()
                                                                         .allDataFlight,
                                                                     r'''$.logo_symbol_url''',
                                                                   ).toString())
                                                             : getJsonField(
-                                                                FFAppState()
-                                                                    .itemsProducts,
+                                                                context
+                                                                    .read<
+                                                                        ProductService>()
+                                                                    .selectedFlight,
                                                                 r'''$.logo_symbol_url''',
                                                               ).toString(),
                                                         width: 60.0,
@@ -715,19 +711,22 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                             widget!.isEdit ==
                                                                     true
                                                                 ? (getJsonField(
-                                                                          FFAppState()
-                                                                              .itemsProducts,
+                                                                          context
+                                                                              .read<ProductService>()
+                                                                              .selectedFlight,
                                                                           r'''$.name''',
                                                                         ) !=
                                                                         null
                                                                     ? getJsonField(
-                                                                        FFAppState()
-                                                                            .itemsProducts,
+                                                                        context
+                                                                            .read<ProductService>()
+                                                                            .selectedFlight,
                                                                         r'''$.name''',
                                                                       )
                                                                         .toString()
                                                                     : getJsonField(
-                                                                        FFAppState()
+                                                                        context
+                                                                            .read<ProductService>()
                                                                             .allDataFlight,
                                                                         r'''$.product_name''',
                                                                       )
@@ -735,8 +734,10 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                                 : valueOrDefault<
                                                                     String>(
                                                                     getJsonField(
-                                                                      FFAppState()
-                                                                          .itemsProducts,
+                                                                      context
+                                                                          .read<
+                                                                              ProductService>()
+                                                                          .selectedFlight,
                                                                       r'''$.name''',
                                                                     )?.toString(),
                                                                     'Seleccionar',
@@ -1082,14 +1083,18 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                                       ? (context.read<UiStateService>().departureState != null &&
                                                                               context.read<UiStateService>().departureState !=
                                                                                   ''
-                                                                          ? FFAppState()
+                                                                          ? context
+                                                                              .read<
+                                                                                  UiStateService>()
                                                                               .departureState
                                                                           : getJsonField(
                                                                               context.read<ProductService>().allDataFlight,
                                                                               r'''$.flight_departure''',
                                                                             )
                                                                               .toString())
-                                                                      : FFAppState()
+                                                                      : context
+                                                                          .read<
+                                                                              UiStateService>()
                                                                           .departureState,
                                                                   'Seleccionar',
                                                                 ).maybeHandleOverflow(
@@ -1420,14 +1425,18 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                                       ? (context.read<UiStateService>().arrivalState != null &&
                                                                               context.read<UiStateService>().arrivalState !=
                                                                                   ''
-                                                                          ? FFAppState()
+                                                                          ? context
+                                                                              .read<
+                                                                                  UiStateService>()
                                                                               .arrivalState
                                                                           : getJsonField(
                                                                               context.read<ProductService>().allDataFlight,
                                                                               r'''$.flight_arrival''',
                                                                             )
                                                                               .toString())
-                                                                      : FFAppState()
+                                                                      : context
+                                                                          .read<
+                                                                              UiStateService>()
                                                                           .arrivalState,
                                                                   'Seleccionar',
                                                                 ).maybeHandleOverflow(
@@ -2420,8 +2429,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                           ),
                                       maxLines: null,
                                       minLines: 3,
-                                      cursorColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      cursorColor: BukeerColors.primary,
                                       validator: _model
                                           .messageActivityTextControllerValidator
                                           .asValidator(context),
@@ -2486,8 +2494,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    hoverColor: BukeerColors.borderPrimary,
                                     hoverBorderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -2673,8 +2680,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -2693,8 +2699,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                       ),
                                       borderRadius: BorderRadius.circular(
                                           BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -2760,13 +2765,14 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                 ).toString(),
                                           profitPercentage: double.tryParse(
                                               _model.markupTextController.text),
-                                          idProduct: FFAppState()
-                                                      .itemsProducts !=
+                                          idProduct: context
+                                                      .read<ProductService>()
+                                                      .selectedFlight !=
                                                   null
                                               ? getJsonField(
                                                   context
-                                                      .read<UiStateService>()
-                                                      .itemsProducts,
+                                                      .read<ProductService>()
+                                                      .selectedFlight,
                                                   r'''$.id''',
                                                 ).toString()
                                               : getJsonField(
@@ -2805,7 +2811,9 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       .allDataFlight,
                                                   r'''$.airline''',
                                                 ).toString(),
-                                          flightDeparture: FFAppState()
+                                          flightDeparture: context
+                                                          .read<
+                                                              UiStateService>()
                                                           .departureState !=
                                                       null &&
                                                   context
@@ -2822,7 +2830,9 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       .allDataFlight,
                                                   r'''$.flight_departure''',
                                                 ).toString(),
-                                          flightArrival: FFAppState()
+                                          flightArrival: context
+                                                          .read<
+                                                              UiStateService>()
                                                           .arrivalState !=
                                                       null &&
                                                   context
@@ -2844,13 +2854,14 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                           arrivalTime: _model
                                               .arrivalTimeTextController.text,
                                           productType: 'Vuelos',
-                                          productName: FFAppState()
-                                                      .itemsProducts !=
+                                          productName: context
+                                                      .read<ProductService>()
+                                                      .selectedFlight !=
                                                   null
                                               ? getJsonField(
                                                   context
-                                                      .read<UiStateService>()
-                                                      .itemsProducts,
+                                                      .read<ProductService>()
+                                                      .selectedFlight,
                                                   r'''$.name''',
                                                 ).toString()
                                               : getJsonField(
@@ -2941,8 +2952,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -2961,8 +2971,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                       ),
                                       borderRadius: BorderRadius.circular(
                                           BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,

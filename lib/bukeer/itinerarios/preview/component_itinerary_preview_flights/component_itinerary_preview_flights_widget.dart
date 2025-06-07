@@ -68,7 +68,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: BukeerColors.secondaryBackground,
         ),
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -84,16 +84,16 @@ class _ComponentItineraryPreviewFlightsWidgetState
                     width: 32.0,
                     height: 32.0,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).accent1,
+                      color: BukeerColors.primaryAccent,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: BukeerColors.primary,
                         width: 2.0,
                       ),
                     ),
                     child: Icon(
                       Icons.flight,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: BukeerColors.secondaryText,
                       size: 20.0,
                     ),
                   ),
@@ -129,7 +129,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
                     style: FlutterFlowTheme.of(context).labelSmall.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).labelSmallFamily,
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: BukeerColors.primaryText,
                           fontSize: BukeerTypography.bodySmallSize,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -144,11 +144,11 @@ class _ComponentItineraryPreviewFlightsWidgetState
                 child: Container(
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 0.0,
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: BukeerColors.primary,
                         offset: Offset(
                           -2.0,
                           0.0,
@@ -156,7 +156,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
                       )
                     ],
                     border: Border.all(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       width: 1.0,
                     ),
                   ),
@@ -192,7 +192,8 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                             .headlineSmallFamily,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
-                                        fontSize: BukeerTypography.bodySmallSize,
+                                        fontSize:
+                                            BukeerTypography.bodySmallSize,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w500,
                                         useGoogleFonts:
@@ -230,7 +231,8 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                       .override(
                                         fontFamily: FlutterFlowTheme.of(context)
                                             .bodyLargeFamily,
-                                        fontSize: BukeerTypography.bodySmallSize,
+                                        fontSize:
+                                            BukeerTypography.bodySmallSize,
                                         letterSpacing: 0.0,
                                         useGoogleFonts:
                                             !FlutterFlowTheme.of(context)
@@ -261,10 +263,12 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                 Container(
                                   width: 120.0,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.l),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.l),
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                    borderRadius:
+                                        BorderRadius.circular(BukeerSpacing.s),
                                     child: Image.network(
                                       valueOrDefault<String>(
                                         widget!.image,
@@ -276,7 +280,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                 ),
                                 Icon(
                                   Icons.flight_takeoff_sharp,
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   size: 24.0,
                                 ),
                               ],
@@ -302,7 +306,8 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                             .headlineSmallFamily,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
-                                        fontSize: BukeerTypography.bodySmallSize,
+                                        fontSize:
+                                            BukeerTypography.bodySmallSize,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                         useGoogleFonts:
@@ -342,7 +347,8 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                       .override(
                                         fontFamily: FlutterFlowTheme.of(context)
                                             .bodyLargeFamily,
-                                        fontSize: BukeerTypography.bodySmallSize,
+                                        fontSize:
+                                            BukeerTypography.bodySmallSize,
                                         letterSpacing: 0.0,
                                         useGoogleFonts:
                                             !FlutterFlowTheme.of(context)
@@ -380,8 +386,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
                             children: [
                               Icon(
                                 Icons.info_outline,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
+                                color: BukeerColors.secondaryText,
                                 size: 16.0,
                               ),
                               Flexible(
@@ -396,7 +401,8 @@ class _ComponentItineraryPreviewFlightsWidgetState
                                       .override(
                                         fontFamily: FlutterFlowTheme.of(context)
                                             .bodyMediumFamily,
-                                        fontSize: BukeerTypography.bodySmallSize,
+                                        fontSize:
+                                            BukeerTypography.bodySmallSize,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.normal,
                                         useGoogleFonts:

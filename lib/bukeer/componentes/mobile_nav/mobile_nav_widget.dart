@@ -1,6 +1,7 @@
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:page_transition/page_transition.dart' as pt;
 import 'dart:ui';
 import '../../../index.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _MobileNavWidgetState extends State<MobileNavWidget> {
       width: double.infinity,
       height: 110.0,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: BukeerColors.secondaryBackground,
         boxShadow: [
           BoxShadow(
             blurRadius: 3.0,
@@ -89,7 +90,7 @@ class _MobileNavWidgetState extends State<MobileNavWidget> {
                     extra: <String, dynamic>{
                       kTransitionInfoKey: TransitionInfo(
                         hasTransition: true,
-                        transitionType: PageTransitionType.fade,
+                        transitionType: pt.PageTransitionType.fade,
                         duration: Duration(milliseconds: 0),
                       ),
                     },
@@ -101,8 +102,7 @@ class _MobileNavWidgetState extends State<MobileNavWidget> {
                   children: [
                     widget!.iconOne!,
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: BukeerSpacing.s),
+                      padding: EdgeInsets.only(top: BukeerSpacing.s),
                       child: Text(
                         'Dashboard',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -200,7 +200,7 @@ class _MobileNavWidgetState extends State<MobileNavWidget> {
                     extra: <String, dynamic>{
                       kTransitionInfoKey: TransitionInfo(
                         hasTransition: true,
-                        transitionType: PageTransitionType.fade,
+                        transitionType: pt.PageTransitionType.fade,
                         duration: Duration(milliseconds: 0),
                       ),
                     },
@@ -212,8 +212,7 @@ class _MobileNavWidgetState extends State<MobileNavWidget> {
                   children: [
                     widget!.iconFour!,
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: BukeerSpacing.s),
+                      padding: EdgeInsets.only(top: BukeerSpacing.s),
                       child: Text(
                         'Profile',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(

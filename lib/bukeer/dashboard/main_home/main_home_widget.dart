@@ -587,7 +587,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -732,8 +732,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
-                                                          color:
-                                                              BukeerColors.overlay,
+                                                          color: BukeerColors
+                                                              .overlay,
                                                           offset: Offset(
                                                             0.0,
                                                             1.0,
@@ -900,8 +900,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
-                                                          color:
-                                                              BukeerColors.overlay,
+                                                          color: BukeerColors
+                                                              .overlay,
                                                           offset: Offset(
                                                             0.0,
                                                             1.0,
@@ -1043,9 +1043,10 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                 ).animateOnPageLoad(animationsMap[
                                                     'containerOnPageLoadAnimation3']!),
                                               ]
-                                                  .divide(SizedBox(width: BukeerSpacing.m))
-                                                  .addToStart(
-                                                      SizedBox(width: BukeerSpacing.m)),
+                                                  .divide(SizedBox(
+                                                      width: BukeerSpacing.m))
+                                                  .addToStart(SizedBox(
+                                                      width: BukeerSpacing.m)),
                                             ),
                                           ),
                                         ),
@@ -1120,8 +1121,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
-                                                          color:
-                                                              BukeerColors.overlay,
+                                                          color: BukeerColors
+                                                              .overlay,
                                                           offset: Offset(
                                                             0.0,
                                                             1.0,
@@ -1290,8 +1291,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
-                                                          color:
-                                                              BukeerColors.overlay,
+                                                          color: BukeerColors
+                                                              .overlay,
                                                           offset: Offset(
                                                             0.0,
                                                             1.0,
@@ -1430,9 +1431,10 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                 ).animateOnPageLoad(animationsMap[
                                                     'containerOnPageLoadAnimation7']!),
                                               ]
-                                                  .divide(SizedBox(width: BukeerSpacing.m))
-                                                  .addToStart(
-                                                      SizedBox(width: BukeerSpacing.m)),
+                                                  .divide(SizedBox(
+                                                      width: BukeerSpacing.m))
+                                                  .addToStart(SizedBox(
+                                                      width: BukeerSpacing.m)),
                                             ),
                                           ),
                                         ),
@@ -1487,11 +1489,12 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                               ),
                                             )
                                           ],
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(BukeerSpacing.s),
+                                          padding:
+                                              EdgeInsets.all(BukeerSpacing.s),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
@@ -1561,23 +1564,23 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                         0.0, 0.0, 0.0, 8.0),
                                                 child: Text(
                                                   'Gráfico tiempo promedio',
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .headlineMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineMediumFamily,
-                                                            color: Colors.white,
-                                                            fontSize: BukeerTypography.headlineSmallSize,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineMediumIsCustom,
-                                                          ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .headlineMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineMediumFamily,
+                                                        color: Colors.white,
+                                                        fontSize: BukeerTypography
+                                                            .headlineSmallSize,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts:
+                                                            !FlutterFlowTheme
+                                                                    .of(context)
+                                                                .headlineMediumIsCustom,
+                                                      ),
                                                 ).animateOnPageLoad(animationsMap[
                                                     'textOnPageLoadAnimation13']!),
                                               ),

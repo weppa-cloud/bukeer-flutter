@@ -5,7 +5,6 @@ import '../../../component_container_activities/component_container_activities_w
 import '../../../productos/component_container_flights/component_container_flights_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/form_field_controller.dart';
@@ -92,7 +91,6 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
 
   @override
   Widget build(BuildContext context) {
-
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
       child: FutureBuilder<ApiCallResponse>(
@@ -109,7 +107,7 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                 height: 50.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
+                    BukeerColors.primary,
                   ),
                 ),
               ),
@@ -139,20 +137,19 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30.0,
-                          borderWidth: 1.0,
-                          buttonSize: 44.0,
-                          fillColor: FlutterFlowTheme.of(context).accent4,
+                        BukeerIconButton(
+                          size: BukeerIconButtonSize.medium,
+                          variant: BukeerIconButtonVariant.ghost,
                           icon: Icon(
                             Icons.close_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: BukeerColors.secondaryText,
                             size: 24.0,
                           ),
                           onPressed: () async {
                             context.read<UiStateService>().searchQuery = '';
-                            context.read<UiStateService>().selectedLocationName = '';
+                            context
+                                .read<UiStateService>()
+                                .selectedLocationName = '';
                             safeSetState(() {});
                             Navigator.pop(context);
                           },
@@ -170,7 +167,7 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                       maxHeight: 700.0,
                     ),
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 12.0,
@@ -209,9 +206,10 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                     ),
                                   )
                                 ],
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                                 border: Border.all(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                 ),
                               ),
                               child: Padding(
@@ -236,7 +234,10 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                             '_model.searchFieldTextController',
                                             Duration(milliseconds: 2000),
                                             () async {
-                                              context.read<UiStateService>().searchQuery = _model
+                                              context
+                                                      .read<UiStateService>()
+                                                      .searchQuery =
+                                                  _model
                                                       .searchFieldTextController
                                                       .text;
                                               safeSetState(() {});
@@ -283,7 +284,8 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMediumFamily,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 useGoogleFonts:
                                                     !FlutterFlowTheme.of(
@@ -303,13 +305,9 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                             null &&
                                         _model.searchFieldTextController.text !=
                                             '')
-                                      FlutterFlowIconButton(
-                                        borderColor: Colors.transparent,
-                                        borderRadius: 30.0,
-                                        borderWidth: 1.0,
-                                        buttonSize: 32.0,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .accent4,
+                                      BukeerIconButton(
+                                        size: BukeerIconButtonSize.small,
+                                        variant: BukeerIconButtonVariant.ghost,
                                         icon: Icon(
                                           Icons.close_rounded,
                                           color: FlutterFlowTheme.of(context)
@@ -326,7 +324,9 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                               });
                                             }),
                                           ]);
-                                          context.read<UiStateService>().searchQuery = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .searchQuery = '';
                                           safeSetState(() {});
                                           await Future.wait([
                                             Future(() async {
@@ -348,7 +348,8 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                       ),
                                   ]
                                       .divide(SizedBox(width: BukeerSpacing.xs))
-                                      .around(SizedBox(width: BukeerSpacing.xs)),
+                                      .around(
+                                          SizedBox(width: BukeerSpacing.xs)),
                                 ),
                               ),
                             ),
@@ -373,10 +374,10 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                       ),
                                     )
                                   ],
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                   border: Border.all(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: BukeerColors.borderPrimary,
                                   ),
                                 ),
                                 child: Padding(
@@ -414,7 +415,10 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                           onChanged: (val) async {
                                             safeSetState(() => _model
                                                 .dropDownLocationValue = val);
-                                            context.read<UiStateService>().selectedLocationName = _model.dropDownLocationValue!;
+                                            context
+                                                    .read<UiStateService>()
+                                                    .selectedLocationName =
+                                                _model.dropDownLocationValue!;
                                             safeSetState(() {});
                                             await Future.wait([
                                               Future(() async {
@@ -497,14 +501,10 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                       if (_model.dropDownLocationValue !=
                                               null &&
                                           _model.dropDownLocationValue != '')
-                                        FlutterFlowIconButton(
-                                          borderColor: Colors.transparent,
-                                          borderRadius: 30.0,
-                                          borderWidth: 1.0,
-                                          buttonSize: 32.0,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .accent4,
+                                        BukeerIconButton(
+                                          size: BukeerIconButtonSize.small,
+                                          variant:
+                                              BukeerIconButtonVariant.ghost,
                                           icon: Icon(
                                             Icons.close_rounded,
                                             color: FlutterFlowTheme.of(context)
@@ -517,7 +517,9 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                                   .dropDownLocationValueController
                                                   ?.reset();
                                             });
-                                            context.read<UiStateService>().selectedLocationName = '';
+                                            context
+                                                .read<UiStateService>()
+                                                .selectedLocationName = '';
                                             safeSetState(() {});
                                             safeSetState(() => _model
                                                 .listViewProductsPagingController
@@ -527,8 +529,10 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                           },
                                         ),
                                     ]
-                                        .divide(SizedBox(width: BukeerSpacing.xs))
-                                        .around(SizedBox(width: BukeerSpacing.xs)),
+                                        .divide(
+                                            SizedBox(width: BukeerSpacing.xs))
+                                        .around(
+                                            SizedBox(width: BukeerSpacing.xs)),
                                   ),
                                 ),
                               ),
@@ -538,7 +542,7 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                             thickness: 1.0,
                             indent: 0.0,
                             endIndent: 0.0,
-                            color: FlutterFlowTheme.of(context).alternate,
+                            color: BukeerColors.borderPrimary,
                           ),
                           if (widget!.productType != 'flights')
                             Flexible(
@@ -553,13 +557,18 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                       _model.setListViewProductsController(
                                     (nextPageMarker) =>
                                         GetProductsFromViewsCall.call(
-                                      searchTerm:
-                                          context.read<UiStateService>().searchQuery,
-                                      type: context.read<UiStateService>().selectedProductType,
+                                      searchTerm: context
+                                          .read<UiStateService>()
+                                          .searchQuery,
+                                      type: context
+                                          .read<UiStateService>()
+                                          .selectedProductType,
                                       pageSize: 5,
                                       pageNumber: nextPageMarker.nextPageNumber,
                                       authToken: currentJwtToken,
-                                      location: context.read<UiStateService>().selectedLocationName,
+                                      location: context
+                                          .read<UiStateService>()
+                                          .selectedLocationName,
                                     ),
                                   ),
                                   padding: EdgeInsets.zero,
@@ -609,11 +618,18 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.read<UiStateService>().itemsProducts =
-                                              hotelsItemItem;
-                                          context.read<UiStateService>().searchQuery = '';
-                                          context.read<UiStateService>().selectedLocationName = '';
-                                          context.read<UiStateService>().selectRates = true;
+                                          context
+                                              .read<UiStateService>()
+                                              .itemsProducts = hotelsItemItem;
+                                          context
+                                              .read<UiStateService>()
+                                              .searchQuery = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectedLocationName = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .selectRates = true;
                                           safeSetState(() {});
                                           context.safePop();
                                         },
@@ -664,7 +680,9 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                       _model.setListViewFlightsController(
                                     (nextPageMarker) => GetAirlinesCall.call(
                                       authToken: currentJwtToken,
-                                      search: context.read<UiStateService>().searchQuery,
+                                      search: context
+                                          .read<UiStateService>()
+                                          .searchQuery,
                                       pageSize: 5,
                                       pageNumber: nextPageMarker.nextPageNumber,
                                     ),
@@ -717,9 +735,12 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          context.read<UiStateService>().itemsProducts =
-                                              flightsItemItem;
-                                          context.read<UiStateService>().searchQuery = '';
+                                          context
+                                              .read<UiStateService>()
+                                              .itemsProducts = flightsItemItem;
+                                          context
+                                              .read<UiStateService>()
+                                              .searchQuery = '';
                                           safeSetState(() {});
                                           context.safePop();
                                         },

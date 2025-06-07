@@ -5,7 +5,6 @@ import '../component_itinerary_preview_activities/component_itinerary_preview_ac
 import '../component_itinerary_preview_flights/component_itinerary_preview_flights_widget.dart';
 import '../component_itinerary_preview_hotels/component_itinerary_preview_hotels_widget.dart';
 import '../component_itinerary_preview_transfers/component_itinerary_preview_transfers_widget.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -65,7 +64,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -82,7 +81,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                     height: 50.0,
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+                        BukeerColors.primary,
                       ),
                     ),
                   ),
@@ -103,8 +102,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                         '${true.toString()}')
                       Container(
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 3.0,
@@ -314,7 +312,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                                             fontFamily:
                                                                                 FlutterFlowTheme.of(context).bodyMediumFamily,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
+                                                                                BukeerColors.secondaryText,
                                                                             letterSpacing:
                                                                                 0.0,
                                                                             fontWeight:
@@ -560,25 +558,27 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                               .jsonBody,
                                                           r'''$[:].travel_planner_last_name''',
                                                         ).toString()}',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMediumFamily,
-                                                              fontSize: BukeerTypography.bodyMediumSize,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumIsCustom,
-                                                            ),
+                                                                  fontSize:
+                                                                      BukeerTypography
+                                                                          .bodyMediumSize,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  useGoogleFonts:
+                                                                      !FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMediumIsCustom,
+                                                                ),
                                                       ),
                                                       Text(
                                                         'Travel Planner',
@@ -631,7 +631,9 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryText,
-                                                                fontSize: BukeerTypography.captionSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .captionSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 useGoogleFonts:
@@ -792,10 +794,12 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(BukeerSpacing.s),
+                                              padding: EdgeInsets.all(
+                                                  BukeerSpacing.s),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -854,7 +858,9 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
-                                                            fontSize: BukeerTypography.bodyLargeSize,
+                                                            fontSize:
+                                                                BukeerTypography
+                                                                    .bodyLargeSize,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -922,7 +928,9 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
-                                                            fontSize: BukeerTypography.bodyLargeSize,
+                                                            fontSize:
+                                                                BukeerTypography
+                                                                    .bodyLargeSize,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -958,7 +966,9 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryText,
-                                                                fontSize: BukeerTypography.bodyMediumSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .bodyMediumSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight:
@@ -1010,7 +1020,9 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryText,
-                                                                fontSize: BukeerTypography.bodyMediumSize,
+                                                                fontSize:
+                                                                    BukeerTypography
+                                                                        .bodyMediumSize,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight:
@@ -1127,12 +1139,10 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                             tabletLandscape: false,
                                             desktop: false,
                                           ))
-                                            FlutterFlowIconButton(
-                                              borderRadius: 8.0,
-                                              buttonSize: 40.0,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
+                                            BukeerIconButton(
+                                              onPressed: () {
+                                                print('IconButton pressed ...');
+                                              },
                                               icon: Icon(
                                                 Icons.picture_as_pdf,
                                                 color:
@@ -1140,11 +1150,12 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                         .info,
                                                 size: 24.0,
                                               ),
-                                              onPressed: () {
-                                                print('IconButton pressed ...');
-                                              },
+                                              size: BukeerIconButtonSize.medium,
+                                              variant: BukeerIconButtonVariant
+                                                  .filled,
                                             ),
-                                        ].divide(SizedBox(width: BukeerSpacing.s)),
+                                        ].divide(
+                                            SizedBox(width: BukeerSpacing.s)),
                                       ),
                                     ].divide(SizedBox(height: BukeerSpacing.s)),
                                   ),
@@ -1161,8 +1172,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                         '${false.toString()}')
                       Container(
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 3.0,
@@ -1292,7 +1302,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                         minWidth: 843.0,
                       ),
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        color: BukeerColors.secondaryBackground,
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.only(
@@ -1353,7 +1363,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                   height: 50.0,
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                      FlutterFlowTheme.of(context).primary,
+                                      BukeerColors.primary,
                                     ),
                                   ),
                                 ),
@@ -1646,7 +1656,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                     Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        color: BukeerColors.secondaryBackground,
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 3.0,
@@ -1696,7 +1706,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .labelLargeFamily,
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     fontSize: BukeerTypography.bodySmallSize,
                                     letterSpacing: 0.0,
                                     useGoogleFonts:

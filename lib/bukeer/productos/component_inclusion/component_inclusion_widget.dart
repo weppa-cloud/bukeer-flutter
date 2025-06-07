@@ -191,7 +191,7 @@ class _ComponentInclusionWidgetState extends State<ComponentInclusionWidget>
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+        padding: EdgeInsets.all(BukeerSpacing.m),
         child: Material(
           color: Colors.transparent,
           elevation: 4.0,
@@ -204,7 +204,7 @@ class _ComponentInclusionWidgetState extends State<ComponentInclusionWidget>
               maxHeight: 500.0,
             ),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
+              color: BukeerColors.secondaryBackground,
               borderRadius: BorderRadius.circular(BukeerSpacing.xs),
             ),
             child: Column(
@@ -473,7 +473,7 @@ class _ComponentInclusionWidgetState extends State<ComponentInclusionWidget>
                               16.0, 0.0, 16.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(

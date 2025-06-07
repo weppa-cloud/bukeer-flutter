@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../design_system/index.dart';
+
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../services/error_service.dart';
 
@@ -24,7 +24,7 @@ class ErrorHandlerWidget extends StatelessWidget {
           animation: ErrorService(),
           builder: (context, _) {
             final errorService = ErrorService();
-            
+
             if (!errorService.hasError) {
               return SizedBox.shrink();
             }
@@ -86,16 +86,17 @@ class ErrorHandlerWidget extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.close, color: Colors.white, size: 20),
+                          icon:
+                              Icon(Icons.close, color: Colors.white, size: 20),
                           onPressed: () => ErrorService().clearError(),
                           padding: EdgeInsets.all(4),
                           constraints: BoxConstraints(),
                         ),
                       ],
                     ),
-                    
+
                     SizedBox(height: 8),
-                    
+
                     // Message
                     Text(
                       ErrorService().getUserMessage(error),
@@ -104,7 +105,7 @@ class ErrorHandlerWidget extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                    
+
                     // Actions
                     SizedBox(height: 12),
                     _buildErrorActions(context, error),
@@ -120,32 +121,36 @@ class ErrorHandlerWidget extends StatelessWidget {
 
   Widget _buildErrorActions(BuildContext context, AppError error) {
     final actions = ErrorService().getSuggestedActions(error);
-    
+
     if (actions.isEmpty) return SizedBox.shrink();
-    
+
     return Wrap(
       spacing: 8,
-      children: actions.take(2).map((action) => // Show max 2 actions
-        FFButtonWidget(
-          onPressed: action.action,
-          text: action.label,
-          options: FFButtonOptions(
-            height: 32,
-            padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
-            color: Colors.white.withOpacity(0.2),
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
+      children: actions
+          .take(2)
+          .map(
+            (action) => // Show max 2 actions
+                FFButtonWidget(
+              onPressed: action.action,
+              text: action.label,
+              options: FFButtonOptions(
+                height: 32,
+                padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+                color: Colors.white.withOpacity(0.2),
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+                borderSide: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
             ),
-            borderSide: BorderSide(
-              color: Colors.white.withOpacity(0.3),
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(6),
-          ),
-        ),
-      ).toList(),
+          )
+          .toList(),
     );
   }
 
@@ -254,9 +259,10 @@ class ErrorDetailsDialog extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 8),
-              ...error.metadata.entries.map((entry) =>
-                _buildDetailRow(entry.key, entry.value?.toString() ?? 'null')
-              ).toList(),
+              ...error.metadata.entries
+                  .map((entry) => _buildDetailRow(
+                      entry.key, entry.value?.toString() ?? 'null'))
+                  .toList(),
             ],
           ],
         ),
@@ -309,7 +315,7 @@ class ErrorDetailsDialog extends StatelessWidget {
 
   String _formatTime(DateTime timestamp) {
     return '${timestamp.hour.toString().padLeft(2, '0')}:'
-           '${timestamp.minute.toString().padLeft(2, '0')}:'
-           '${timestamp.second.toString().padLeft(2, '0')}';
+        '${timestamp.minute.toString().padLeft(2, '0')}:'
+        '${timestamp.second.toString().padLeft(2, '0')}';
   }
 }

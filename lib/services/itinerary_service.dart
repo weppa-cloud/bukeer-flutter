@@ -188,6 +188,18 @@ class ItineraryService extends BaseService {
     return result ?? false;
   }
 
+  // Set selected itinerary (replacement for allDataItinerary assignment)
+  void setSelectedItinerary(dynamic itinerary) {
+    _selectedItinerary = itinerary;
+    notifyListeners();
+  }
+  
+  // Set selected passenger (replacement for allDataPassenger assignment)
+  void setSelectedPassenger(dynamic passenger) {
+    _selectedPassenger = passenger;
+    notifyListeners();
+  }
+
   // Search itineraries
   List<dynamic> searchItineraries(String query) {
     if (query.isEmpty) return _itineraries;
@@ -231,27 +243,6 @@ class ItineraryService extends BaseService {
     };
   }
 
-  // Methods to manage selected itinerary (replacement for allDataItinerary pattern)
-  void setSelectedItinerary(dynamic itinerary) {
-    _selectedItinerary = itinerary;
-    notifyListeners();
-  }
-
-  void clearSelectedItinerary() {
-    _selectedItinerary = null;
-    notifyListeners();
-  }
-
-  // Methods to manage selected passenger (replacement for allDataPassenger pattern)
-  void setSelectedPassenger(dynamic passenger) {
-    _selectedPassenger = passenger;
-    notifyListeners();
-  }
-
-  void clearSelectedPassenger() {
-    _selectedPassenger = null;
-    notifyListeners();
-  }
 
   // Backward compatibility setters
   set allDataItinerary(dynamic value) {

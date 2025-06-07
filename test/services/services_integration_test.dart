@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bukeer/services/ui_state_service.dart';
 import 'package:bukeer/services/user_service.dart';
-import 'package:bukeer/app_state_clean.dart';
+import 'package:bukeer/app_state.dart';
 
 /// Integration tests for core services working together
 void main() {
@@ -19,7 +19,7 @@ void main() {
     tearDown(() {
       uiStateService.clearAll();
       userService.clearUserData();
-      appState.clearState();
+      // clearState method was removed - state is now managed by services;
     });
 
     group('UiStateService Core Functionality', () {
@@ -206,7 +206,7 @@ void main() {
         appState.allDataAccount = {'test': 'account'};
 
         // Clear state
-        appState.clearState();
+        // clearState method was removed - state is now managed by services;
 
         // Verify cleared
         expect(appState.accountId, equals(''));
@@ -269,7 +269,7 @@ void main() {
         userService.setSelectedUser({'name': 'Test User'});
 
         // Clear all services
-        appState.clearState();
+        // clearState method was removed - state is now managed by services;
         uiStateService.clearAll();
         userService.clearUserData();
 
@@ -320,7 +320,7 @@ void main() {
 
           // Clear state
           uiStateService.clearAll();
-          appState.clearState();
+          // clearState method was removed - state is now managed by services;
           userService.clearUserData();
         }
 

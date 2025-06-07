@@ -1,7 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../../backend/supabase/supabase.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -95,7 +94,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: BukeerColors.primaryBackground,
         body: SafeArea(
           top: true,
           child: Align(
@@ -190,19 +189,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 5.0,
                                                                 0.0, 0.0),
-                                                    child:
-                                                        FlutterFlowIconButton(
-                                                      borderColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
-                                                      borderRadius: 12.0,
-                                                      borderWidth: 2.0,
-                                                      buttonSize: 40.0,
-                                                      fillColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .accent4,
+                                                    child: BukeerIconButton(
                                                       icon: FaIcon(
                                                         FontAwesomeIcons
                                                             .trashAlt,
@@ -397,7 +384,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -409,7 +396,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -421,7 +408,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -433,7 +420,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -596,7 +583,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -608,7 +595,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -620,7 +607,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -632,7 +619,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -781,7 +768,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -793,7 +780,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -805,7 +792,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -817,7 +804,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -968,7 +955,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -980,7 +967,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -992,7 +979,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -1004,7 +991,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),

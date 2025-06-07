@@ -15,6 +15,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'main_profile_page_model.dart';
+import '../../../services/app_services.dart';
 export 'main_profile_page_model.dart';
 
 class MainProfilePageWidget extends StatefulWidget {
@@ -119,7 +120,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
 
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor: BukeerColors.primaryBackground,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,7 +145,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                   child: Container(
                     width: 100.0,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primaryBackground,
+                      color: BukeerColors.primaryBackground,
                     ),
                     child: Align(
                       alignment: AlignmentDirectional(0.0, -1.0),
@@ -805,7 +806,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                     'Modo oscuro',
                                                                                     style: FlutterFlowTheme.of(context).titleLarge.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).titleLargeFamily,
-                                                                                          color: FlutterFlowTheme.of(context).info,
+                                                                                          color: BukeerColors.info,
                                                                                           letterSpacing: 0.0,
                                                                                           useGoogleFonts: !FlutterFlowTheme.of(context).titleLargeIsCustom,
                                                                                         ),
@@ -816,7 +817,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                     alignment: AlignmentDirectional(1.0, -1.0),
                                                                                     child: Icon(
                                                                                       Icons.check_circle_rounded,
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       size: 32.0,
                                                                                     ).animateOnPageLoad(animationsMap['iconOnPageLoadAnimation1']!),
                                                                                   ),
@@ -856,14 +857,14 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                           height: 20.0,
                                                                                           decoration: BoxDecoration(
                                                                                             color: Color(0xD81D2429),
-                                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                                            borderRadius: BorderRadius.circular(BukeerSpacing.xs),
                                                                                           ),
                                                                                         ),
                                                                                         Container(
                                                                                           width: 16.0,
                                                                                           height: 16.0,
                                                                                           decoration: BoxDecoration(
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             shape: BoxShape.circle,
                                                                                           ),
                                                                                         ),
@@ -877,7 +878,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                       height: 44.0,
                                                                                       decoration: BoxDecoration(
                                                                                         color: Color(0xD81D2429),
-                                                                                        borderRadius: BorderRadius.circular(6.0),
+                                                                                        borderRadius: BorderRadius.circular(BukeerSpacing.xs),
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -888,7 +889,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                       height: 44.0,
                                                                                       decoration: BoxDecoration(
                                                                                         color: Color(0xD81D2429),
-                                                                                        borderRadius: BorderRadius.circular(6.0),
+                                                                                        borderRadius: BorderRadius.circular(BukeerSpacing.xs),
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -1027,7 +1028,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                     alignment: AlignmentDirectional(1.0, -1.0),
                                                                                     child: Icon(
                                                                                       Icons.check_circle_rounded,
-                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      color: BukeerColors.primary,
                                                                                       size: 32.0,
                                                                                     ).animateOnPageLoad(animationsMap['iconOnPageLoadAnimation2']!),
                                                                                   ),
@@ -1066,15 +1067,15 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                           width: 70.0,
                                                                                           height: 20.0,
                                                                                           decoration: BoxDecoration(
-                                                                                            color: FlutterFlowTheme.of(context).info,
-                                                                                            borderRadius: BorderRadius.circular(6.0),
+                                                                                            color: BukeerColors.info,
+                                                                                            borderRadius: BorderRadius.circular(BukeerSpacing.xs),
                                                                                           ),
                                                                                         ),
                                                                                         Container(
                                                                                           width: 16.0,
                                                                                           height: 16.0,
                                                                                           decoration: BoxDecoration(
-                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            color: BukeerColors.primary,
                                                                                             shape: BoxShape.circle,
                                                                                           ),
                                                                                         ),
@@ -1087,8 +1088,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                       width: double.infinity,
                                                                                       height: 44.0,
                                                                                       decoration: BoxDecoration(
-                                                                                        color: FlutterFlowTheme.of(context).info,
-                                                                                        borderRadius: BorderRadius.circular(6.0),
+                                                                                        color: BukeerColors.info,
+                                                                                        borderRadius: BorderRadius.circular(BukeerSpacing.xs),
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -1098,8 +1099,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                                       width: double.infinity,
                                                                                       height: 44.0,
                                                                                       decoration: BoxDecoration(
-                                                                                        color: FlutterFlowTheme.of(context).info,
-                                                                                        borderRadius: BorderRadius.circular(6.0),
+                                                                                        color: BukeerColors.info,
+                                                                                        borderRadius: BorderRadius.circular(BukeerSpacing.xs),
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -1140,6 +1141,9 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                             FFAppState().idRole = 0;
                                             FFAppState().accountId = '';
                                             FFAppState().agent = null;
+                                            // Limpiar cache de autorización al logout
+                                            appServices.authorization
+                                                .invalidateCache();
                                             safeSetState(() {});
                                             GoRouter.of(context)
                                                 .prepareAuthEvent();

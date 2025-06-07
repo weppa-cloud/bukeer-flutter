@@ -1,6 +1,5 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -124,21 +123,19 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+      backgroundColor: BukeerColors.secondaryBackground,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
+              BukeerIconButton(
+                size: BukeerIconButtonSize.large,
+                variant: BukeerIconButtonVariant.ghost,
                 icon: Icon(
                   Icons.arrow_back_rounded,
-                  color: FlutterFlowTheme.of(context).secondaryText,
+                  color: BukeerColors.secondaryText,
                   size: 30.0,
                 ),
                 onPressed: () async {
@@ -165,7 +162,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget>
               ),
               decoration: BoxDecoration(),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                padding: EdgeInsets.only(top: BukeerSpacing.l),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -217,35 +214,38 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget>
                               ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).alternate,
+                              color: BukeerColors.borderPrimary,
                               width: 2.0,
                             ),
-                            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                            borderRadius:
+                                BorderRadius.circular(BukeerSpacing.s),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
+                              color: BukeerColors.primary,
                               width: 2.0,
                             ),
-                            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                            borderRadius:
+                                BorderRadius.circular(BukeerSpacing.s),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
+                              color: BukeerColors.error,
                               width: 2.0,
                             ),
-                            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                            borderRadius:
+                                BorderRadius.circular(BukeerSpacing.s),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
+                              color: BukeerColors.error,
                               width: 2.0,
                             ),
-                            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                            borderRadius:
+                                BorderRadius.circular(BukeerSpacing.s),
                           ),
                           filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          fillColor: BukeerColors.secondaryBackground,
                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 24.0, 20.0, 24.0),
                         ),
@@ -256,15 +256,14 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget>
                               useGoogleFonts: !FlutterFlowTheme.of(context)
                                   .bodyMediumIsCustom,
                             ),
-                        cursorColor: FlutterFlowTheme.of(context).primary,
+                        cursorColor: BukeerColors.primary,
                         validator: _model.emailAddressTextControllerValidator
                             .asValidator(context),
                       ).animateOnPageLoad(
                           animationsMap['textFieldOnPageLoadAnimation']!),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                      padding: EdgeInsets.only(top: BukeerSpacing.l),
                       child: FFButtonWidget(
                         onPressed: () async {
                           if (_model.emailAddressTextController.text.isEmpty) {
@@ -291,7 +290,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget>
                               0.0, 0.0, 0.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(

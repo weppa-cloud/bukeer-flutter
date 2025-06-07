@@ -14,6 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'web_nav_model.dart';
 import '../../../services/user_service.dart';
+import '../../../services/authorization_service.dart';
+import '../../../services/app_services.dart';
 export 'web_nav_model.dart';
 
 class WebNavWidget extends StatefulWidget {
@@ -143,15 +145,16 @@ class _WebNavWidgetState extends State<WebNavWidget> {
 
   /// Obtiene el rol del usuario de forma segura
   String _getUserRole() {
-    final roleId = FFAppState().idRole;
+    final roleType = appServices.authorization.currentUserRole;
 
-    switch (roleId) {
-      case 1:
+    switch (roleType) {
+      case RoleType.admin:
         return 'Administrador';
-      case 2:
+      case RoleType.superAdmin:
         return 'Super Admin';
-      case 3:
+      case RoleType.agent:
         return 'Agente';
+      case RoleType.guest:
       default:
         return 'Usuario';
     }
@@ -172,14 +175,14 @@ class _WebNavWidgetState extends State<WebNavWidget> {
       return Container(
         width: 270.0,
         height: double.infinity,
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: BukeerColors.secondaryBackground,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  FlutterFlowTheme.of(context).primary,
+                  BukeerColors.primary,
                 ),
               ),
               SizedBox(height: 16),
@@ -202,10 +205,10 @@ class _WebNavWidgetState extends State<WebNavWidget> {
           maxWidth: 300.0,
         ),
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: BukeerColors.secondaryBackground,
           boxShadow: [
             BoxShadow(
-              color: FlutterFlowTheme.of(context).alternate,
+              color: BukeerColors.borderPrimary,
               offset: Offset(
                 1.0,
                 0.0,
@@ -241,7 +244,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
               Divider(
                 height: 24.0,
                 thickness: 1.0,
-                color: FlutterFlowTheme.of(context).alternate,
+                color: BukeerColors.borderPrimary,
               ),
 
               // Menú de navegación
@@ -332,7 +335,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primaryBackground,
+                      color: BukeerColors.primaryBackground,
                       borderRadius: BorderRadius.circular(BukeerSpacing.s),
                     ),
                     child: Padding(
@@ -342,7 +345,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                         children: [
                           Icon(
                             Icons.logout_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: BukeerColors.secondaryText,
                             size: 24.0,
                           ),
                           Padding(
@@ -371,15 +374,14 @@ class _WebNavWidgetState extends State<WebNavWidget> {
     final userImage = _getUserImage();
 
     return InkWell(
-      splashColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.08),
-      focusColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
-      hoverColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
-      highlightColor:
-          FlutterFlowTheme.of(context).primaryColor.withOpacity(0.12),
+      splashColor: BukeerColors.primaryColor.withOpacity(0.08),
+      focusColor: BukeerColors.primaryColor.withOpacity(0.04),
+      hoverColor: BukeerColors.primaryColor.withOpacity(0.04),
+      highlightColor: BukeerColors.primaryColor.withOpacity(0.12),
       onTap: () => context.pushNamed('Main_profilePage'),
       child: Container(
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).primaryBackground,
+          color: BukeerColors.primaryBackground,
           borderRadius: BorderRadius.circular(BukeerSpacing.s),
         ),
         child: Padding(
@@ -391,10 +393,10 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                 width: 44.0,
                 height: 44.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).accent1,
+                  color: BukeerColors.primaryAccent,
                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                   border: Border.all(
-                    color: FlutterFlowTheme.of(context).primary,
+                    color: BukeerColors.primary,
                     width: 2.0,
                   ),
                 ),
@@ -454,7 +456,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
         initials.isNotEmpty ? initials : 'U',
         style: FlutterFlowTheme.of(context).headlineSmall.override(
               fontFamily: 'Outfit',
-              color: FlutterFlowTheme.of(context).primary,
+              color: BukeerColors.primary,
             ),
       ),
     );
@@ -471,25 +473,19 @@ class _WebNavWidgetState extends State<WebNavWidget> {
     return Padding(
       padding: EdgeInsets.only(bottom: BukeerSpacing.xs),
       child: InkWell(
-        splashColor:
-            FlutterFlowTheme.of(context).primaryColor.withOpacity(0.08),
-        focusColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
-        hoverColor: FlutterFlowTheme.of(context).primaryColor.withOpacity(0.04),
-        highlightColor:
-            FlutterFlowTheme.of(context).primaryColor.withOpacity(0.12),
+        splashColor: BukeerColors.primaryColor.withOpacity(0.08),
+        focusColor: BukeerColors.primaryColor.withOpacity(0.04),
+        hoverColor: BukeerColors.primaryColor.withOpacity(0.04),
+        highlightColor: BukeerColors.primaryColor.withOpacity(0.12),
         onTap: onTap,
         child: Container(
           width: double.infinity,
           height: 48.0,
           decoration: BoxDecoration(
-            color: isSelected
-                ? FlutterFlowTheme.of(context).accent1
-                : Colors.transparent,
+            color: isSelected ? BukeerColors.primaryAccent : Colors.transparent,
             borderRadius: BorderRadius.circular(BukeerSpacing.s),
             border: Border.all(
-              color: isSelected
-                  ? FlutterFlowTheme.of(context).primary
-                  : Colors.transparent,
+              color: isSelected ? BukeerColors.primary : Colors.transparent,
               width: 1.0,
             ),
           ),
@@ -501,8 +497,8 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                 Icon(
                   icon,
                   color: isSelected
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryText,
+                      ? BukeerColors.primary
+                      : BukeerColors.secondaryText,
                   size: 24.0,
                 ),
                 Expanded(
@@ -513,8 +509,8 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
                             color: isSelected
-                                ? FlutterFlowTheme.of(context).primaryText
-                                : FlutterFlowTheme.of(context).secondaryText,
+                                ? BukeerColors.primaryText
+                                : BukeerColors.secondaryText,
                           ),
                     ),
                   ),

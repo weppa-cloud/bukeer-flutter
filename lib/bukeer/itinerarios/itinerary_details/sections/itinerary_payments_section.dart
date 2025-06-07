@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
+import '../../../../design_system/components/buttons/bukeer_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Payments section for itinerary details
@@ -26,7 +26,8 @@ class ItineraryPaymentsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalCost = _getDoubleValue(itineraryData, r'$[:].total_cost') ?? 0.0;
-    final totalPrice = _getDoubleValue(itineraryData, r'$[:].total_price') ?? 0.0;
+    final totalPrice =
+        _getDoubleValue(itineraryData, r'$[:].total_price') ?? 0.0;
     final totalProfit = totalPrice - totalCost;
     final totalPaid = _calculateTotalPaid();
     final totalPending = totalPrice - totalPaid;
@@ -63,12 +64,13 @@ class ItineraryPaymentsSection extends StatelessWidget {
                     SizedBox(width: 12),
                     Text(
                       'Resumen Financiero',
-                      style: FlutterFlowTheme.of(context).headlineSmall.override(
-                        fontFamily: 'Outfit',
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          FlutterFlowTheme.of(context).headlineSmall.override(
+                                fontFamily: 'Outfit',
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
                     ),
                   ],
                 ),
@@ -85,11 +87,12 @@ class ItineraryPaymentsSection extends StatelessWidget {
                       padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                       iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
                       color: FlutterFlowTheme.of(context).primary,
-                      textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        fontFamily: 'Readex Pro',
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
+                      textStyle:
+                          FlutterFlowTheme.of(context).titleSmall.override(
+                                fontFamily: 'Readex Pro',
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
                       elevation: 2,
                       borderSide: BorderSide(
                         color: Colors.transparent,
@@ -100,13 +103,14 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   ),
               ],
             ),
-            
+
             SizedBox(height: 24),
-            
+
             // Financial Summary Cards
             Row(
               children: [
-                Expanded(child: _buildFinancialCard(
+                Expanded(
+                    child: _buildFinancialCard(
                   context,
                   'Costo Total',
                   totalCost,
@@ -114,7 +118,8 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   Colors.orange,
                 )),
                 SizedBox(width: 12),
-                Expanded(child: _buildFinancialCard(
+                Expanded(
+                    child: _buildFinancialCard(
                   context,
                   'Precio Total',
                   totalPrice,
@@ -122,7 +127,8 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   Colors.blue,
                 )),
                 SizedBox(width: 12),
-                Expanded(child: _buildFinancialCard(
+                Expanded(
+                    child: _buildFinancialCard(
                   context,
                   'Ganancia',
                   totalProfit,
@@ -131,13 +137,14 @@ class ItineraryPaymentsSection extends StatelessWidget {
                 )),
               ],
             ),
-            
+
             SizedBox(height: 16),
-            
+
             // Payment Status Cards
             Row(
               children: [
-                Expanded(child: _buildFinancialCard(
+                Expanded(
+                    child: _buildFinancialCard(
                   context,
                   'Pagado',
                   totalPaid,
@@ -145,7 +152,8 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   Colors.green,
                 )),
                 SizedBox(width: 12),
-                Expanded(child: _buildFinancialCard(
+                Expanded(
+                    child: _buildFinancialCard(
                   context,
                   'Pendiente',
                   totalPending,
@@ -153,25 +161,29 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   totalPending > 0 ? Colors.red : Colors.green,
                 )),
                 SizedBox(width: 12),
-                Expanded(child: _buildProgressCard(context, totalPaid, totalPrice)),
+                Expanded(
+                    child: _buildProgressCard(context, totalPaid, totalPrice)),
               ],
             ),
-            
+
             SizedBox(height: 24),
-            
+
             // Transactions List
             if (transactions.isNotEmpty) ...[
               Text(
                 'Historial de Pagos',
                 style: FlutterFlowTheme.of(context).titleMedium.override(
-                  fontFamily: 'Readex Pro',
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontFamily: 'Readex Pro',
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               SizedBox(height: 12),
-              ...transactions.map((transaction) => _buildTransactionItem(context, transaction)).toList(),
+              ...transactions
+                  .map((transaction) =>
+                      _buildTransactionItem(context, transaction))
+                  .toList(),
             ] else
               _buildEmptyTransactions(context),
           ],
@@ -212,11 +224,11 @@ class ItineraryPaymentsSection extends StatelessWidget {
                 child: Text(
                   title,
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Readex Pro',
-                    color: color,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontFamily: 'Readex Pro',
+                        color: color,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ),
             ],
@@ -225,11 +237,11 @@ class ItineraryPaymentsSection extends StatelessWidget {
           Text(
             '\$${amount.toStringAsFixed(2)}',
             style: FlutterFlowTheme.of(context).titleLarge.override(
-              fontFamily: 'Outfit',
-              color: color,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
+                  fontFamily: 'Outfit',
+                  color: color,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
           ),
         ],
       ),
@@ -238,8 +250,11 @@ class ItineraryPaymentsSection extends StatelessWidget {
 
   Widget _buildProgressCard(BuildContext context, double paid, double total) {
     final percentage = total > 0 ? (paid / total).clamp(0.0, 1.0) : 0.0;
-    final color = percentage >= 1.0 ? Colors.green : 
-                  percentage >= 0.5 ? Colors.orange : Colors.red;
+    final color = percentage >= 1.0
+        ? Colors.green
+        : percentage >= 0.5
+            ? Colors.orange
+            : Colors.red;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -265,11 +280,11 @@ class ItineraryPaymentsSection extends StatelessWidget {
               Text(
                 'Progreso',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Readex Pro',
-                  color: color,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontFamily: 'Readex Pro',
+                      color: color,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
             ],
           ),
@@ -277,11 +292,11 @@ class ItineraryPaymentsSection extends StatelessWidget {
           Text(
             '${(percentage * 100).toStringAsFixed(0)}%',
             style: FlutterFlowTheme.of(context).titleLarge.override(
-              fontFamily: 'Outfit',
-              color: color,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
+                  fontFamily: 'Outfit',
+                  color: color,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
           ),
           SizedBox(height: 8),
           LinearProgressIndicator(
@@ -297,7 +312,8 @@ class ItineraryPaymentsSection extends StatelessWidget {
   Widget _buildTransactionItem(BuildContext context, dynamic transaction) {
     final amount = _getDoubleValue(transaction, r'$.amount') ?? 0.0;
     final date = getJsonField(transaction, r'$.date')?.toString() ?? '';
-    final description = getJsonField(transaction, r'$.description')?.toString() ?? 'Pago';
+    final description =
+        getJsonField(transaction, r'$.description')?.toString() ?? 'Pago';
     final type = getJsonField(transaction, r'$.type')?.toString() ?? 'income';
 
     return Container(
@@ -317,7 +333,9 @@ class ItineraryPaymentsSection extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: type == 'income' ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+              color: type == 'income'
+                  ? Colors.green.withOpacity(0.1)
+                  : Colors.red.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -334,20 +352,20 @@ class ItineraryPaymentsSection extends StatelessWidget {
                 Text(
                   description,
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                        fontFamily: 'Readex Pro',
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                 ),
                 if (date.isNotEmpty)
                   Text(
                     _formatDate(date),
                     style: FlutterFlowTheme.of(context).bodySmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: FlutterFlowTheme.of(context).secondaryText,
-                      fontSize: 12,
-                    ),
+                          fontFamily: 'Readex Pro',
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          fontSize: 12,
+                        ),
                   ),
               ],
             ),
@@ -355,25 +373,23 @@ class ItineraryPaymentsSection extends StatelessWidget {
           Text(
             '${type == 'income' ? '+' : '-'}\$${amount.toStringAsFixed(2)}',
             style: FlutterFlowTheme.of(context).titleMedium.override(
-              fontFamily: 'Readex Pro',
-              color: type == 'income' ? Colors.green : Colors.red,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: type == 'income' ? Colors.green : Colors.red,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
           ),
           if (onEditTransaction != null) ...[
             SizedBox(width: 8),
-            FlutterFlowIconButton(
-              borderRadius: 6,
-              borderWidth: 1,
-              buttonSize: 32,
-              fillColor: Colors.transparent,
+            BukeerIconButton(
               icon: Icon(
                 Icons.edit,
                 color: FlutterFlowTheme.of(context).primary,
                 size: 14,
               ),
               onPressed: () => onEditTransaction!(transaction),
+              size: BukeerIconButtonSize.small,
+              variant: BukeerIconButtonVariant.ghost,
             ),
           ],
         ],
@@ -404,19 +420,19 @@ class ItineraryPaymentsSection extends StatelessWidget {
           Text(
             'No hay pagos registrados',
             style: FlutterFlowTheme.of(context).bodyLarge.override(
-              fontFamily: 'Readex Pro',
-              color: FlutterFlowTheme.of(context).secondaryText,
-              fontSize: 16,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  fontSize: 16,
+                ),
           ),
           SizedBox(height: 8),
           Text(
             'Registra el primer pago para este itinerario',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-              fontFamily: 'Readex Pro',
-              color: FlutterFlowTheme.of(context).secondaryText,
-              fontSize: 14,
-            ),
+                  fontFamily: 'Readex Pro',
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  fontSize: 14,
+                ),
           ),
         ],
       ),
@@ -448,7 +464,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
 
   String _formatDate(String dateString) {
     if (dateString.isEmpty) return 'Sin fecha';
-    
+
     try {
       final date = DateTime.parse(dateString);
       return '${date.day}/${date.month}/${date.year}';

@@ -3,7 +3,6 @@ import '../../../backend/api_requests/api_calls.dart';
 import '../../componentes/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -114,7 +113,7 @@ class _ReporteCuentasPorPagarWidgetState
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -143,7 +142,7 @@ class _ReporteCuentasPorPagarWidgetState
                     height: 50.0,
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+                        BukeerColors.primary,
                       ),
                     ),
                   ),
@@ -234,19 +233,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            FlutterFlowIconButton(
-                                                              borderColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                              borderRadius:
-                                                                  12.0,
-                                                              borderWidth: 2.0,
-                                                              buttonSize: 40.0,
-                                                              fillColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .accent1,
+                                                            BukeerIconButton(
                                                               icon: Icon(
                                                                 Icons
                                                                     .arrow_back_outlined,
@@ -259,6 +246,12 @@ class _ReporteCuentasPorPagarWidgetState
                                                                 context
                                                                     .safePop();
                                                               },
+                                                              size:
+                                                                  BukeerIconButtonSize
+                                                                      .small,
+                                                              variant:
+                                                                  BukeerIconButtonVariant
+                                                                      .outlined,
                                                             ),
                                                             Text(
                                                               'Reporte de cuentas por pagar',
@@ -423,9 +416,9 @@ class _ReporteCuentasPorPagarWidgetState
                                                                             milliseconds:
                                                                                 2000),
                                                                         () async {
-                                                                          context.read<UiStateService>().searchQuery = _model
-                                                                              .textController
-                                                                              .text;
+                                                                          context
+                                                                              .read<UiStateService>()
+                                                                              .searchQuery = _model.textController.text;
                                                                           safeSetState(() =>
                                                                               _model.apiRequestCompleter = null);
                                                                           await _model
@@ -449,7 +442,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).alternate,
+                                                                                BukeerColors.borderPrimary,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -461,7 +454,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).primary,
+                                                                                BukeerColors.primary,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -473,7 +466,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).error,
+                                                                                BukeerColors.error,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -485,7 +478,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).error,
+                                                                                BukeerColors.error,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -717,7 +710,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                                   'Desde:  ',
                                                                                   style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         fontSize: BukeerTypography.bodySmallSize,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.normal,
@@ -745,7 +738,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           fontSize: BukeerTypography.bodySmallSize,
                                                                                           letterSpacing: 0.0,
                                                                                           fontWeight: FontWeight.normal,
@@ -778,7 +771,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                               Icon(
                                                                             Icons.calendar_month,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
+                                                                                BukeerColors.secondaryText,
                                                                             size:
                                                                                 22.0,
                                                                           ),
@@ -962,7 +955,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                                   'Hasta:  ',
                                                                                   style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                        color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                        color: BukeerColors.secondaryText,
                                                                                         fontSize: BukeerTypography.bodySmallSize,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.normal,
@@ -990,7 +983,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                                     ),
                                                                                     style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                           fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                          color: BukeerColors.secondaryText,
                                                                                           fontSize: BukeerTypography.bodySmallSize,
                                                                                           letterSpacing: 0.0,
                                                                                           fontWeight: FontWeight.normal,
@@ -1023,7 +1016,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                               Icon(
                                                                             Icons.calendar_month,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).secondaryText,
+                                                                                BukeerColors.secondaryText,
                                                                             size:
                                                                                 22.0,
                                                                           ),
@@ -1099,7 +1092,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                             .titleSmall
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              color: BukeerColors.primaryText,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.w600,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1126,7 +1119,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                             .headlineSmall
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                              color: FlutterFlowTheme.of(context).error,
+                                                                              color: BukeerColors.error,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.bold,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).headlineSmallIsCustom,
@@ -1158,8 +1151,8 @@ class _ReporteCuentasPorPagarWidgetState
                                                       ].divide(SizedBox(
                                                           width: 12.0)),
                                                     ),
-                                                  ].divide(
-                                                      SizedBox(height: BukeerSpacing.s)),
+                                                  ].divide(SizedBox(
+                                                      height: BukeerSpacing.s)),
                                                 ),
                                               ),
                                             ),
@@ -1290,7 +1283,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                             .titleMedium
                                                                             .override(
                                                                               fontFamily: FlutterFlowTheme.of(context).titleMediumFamily,
-                                                                              color: FlutterFlowTheme.of(context).info,
+                                                                              color: BukeerColors.info,
                                                                               letterSpacing: 0.0,
                                                                               fontWeight: FontWeight.bold,
                                                                               useGoogleFonts: !FlutterFlowTheme.of(context).titleMediumIsCustom,
@@ -1324,7 +1317,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                             fontFamily:
                                                                                 FlutterFlowTheme.of(context).titleMediumFamily,
                                                                             color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                                BukeerColors.primaryText,
                                                                             letterSpacing:
                                                                                 0.0,
                                                                             fontWeight:
@@ -1351,7 +1344,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                               'Total por pagar',
                                                                               style: FlutterFlowTheme.of(context).bodySmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                    color: BukeerColors.secondaryText,
                                                                                     letterSpacing: 0.0,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
                                                                                   ),
@@ -1371,7 +1364,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                               textAlign: TextAlign.start,
                                                                               style: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                     fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                    color: FlutterFlowTheme.of(context).error,
+                                                                                    color: BukeerColors.error,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.bold,
                                                                                     useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
@@ -1496,7 +1489,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                                     ),
                                                                                     Icon(
                                                                                       Icons.calendar_today,
-                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                      color: BukeerColors.secondaryText,
                                                                                       size: 16.0,
                                                                                     ),
                                                                                     Text(
@@ -1540,7 +1533,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                                   textAlign: TextAlign.start,
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                         fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                        color: FlutterFlowTheme.of(context).error,
+                                                                                        color: BukeerColors.error,
                                                                                         letterSpacing: 0.0,
                                                                                         fontWeight: FontWeight.w600,
                                                                                         useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,

@@ -5,7 +5,6 @@ import '../../componentes/component_place/component_place_widget.dart';
 import '../modal_details_product/modal_details_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -216,7 +215,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).accent4,
+        color: BukeerColors.neutral400,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -224,7 +223,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+            padding: EdgeInsets.all(BukeerSpacing.m),
             child: Container(
               height: MediaQuery.sizeOf(context).height * 1.0,
               constraints: BoxConstraints(
@@ -232,7 +231,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                 maxHeight: 900.0,
               ),
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 12.0,
@@ -265,19 +264,16 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            FlutterFlowIconButton(
-                              borderColor: FlutterFlowTheme.of(context).primary,
-                              borderRadius: 12.0,
-                              borderWidth: 2.0,
-                              buttonSize: 40.0,
-                              fillColor: FlutterFlowTheme.of(context).accent1,
+                            BukeerIconButton(
                               icon: Icon(
                                 Icons.close,
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: BukeerColors.primaryText,
                               ),
                               onPressed: () async {
                                 Navigator.pop(context);
                               },
+                              size: BukeerIconButtonSize.small,
+                              variant: BukeerIconButtonVariant.outlined,
                             ),
                             Align(
                               alignment: AlignmentDirectional(0.0, 0.0),
@@ -303,7 +299,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                         ),
                       ),
                       Divider(
-                        color: FlutterFlowTheme.of(context).alternate,
+                        color: BukeerColors.borderPrimary,
                       ),
                       Align(
                         alignment: AlignmentDirectional(-1.0, 0.0),
@@ -326,7 +322,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                         ),
                       ),
                       Divider(
-                        color: FlutterFlowTheme.of(context).alternate,
+                        color: BukeerColors.borderPrimary,
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: BukeerSpacing.s),
@@ -562,7 +558,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                               Divider(
                                 height: 20.0,
                                 thickness: 2.0,
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: BukeerColors.borderPrimary,
                               ),
                               Align(
                                 alignment: AlignmentDirectional(-1.0, 0.0),
@@ -589,7 +585,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                               ),
                               Divider(
                                 height: 20.0,
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: BukeerColors.borderPrimary,
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -1320,7 +1316,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                               ),
                               Divider(
                                 thickness: 2.0,
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: BukeerColors.borderPrimary,
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -2714,27 +2710,35 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                       .read<UiStateService>()
                                                       .selectedProductType ==
                                                   'activities') {
-                                                if (FFAppState()
-                                                        .latlngLocation !=
+                                                if (context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationLatLng !=
                                                     'LatLng(lat: 0, lng: 0)') {
                                                   _model.apiResultAddLocationActivities =
                                                       await InsertLocationsCall
                                                           .call(
                                                     authToken: currentJwtToken,
-                                                    latlng: FFAppState()
-                                                        .latlngLocation,
-                                                    name: FFAppState()
-                                                        .nameLocation,
-                                                    address: FFAppState()
-                                                        .addressLocation,
-                                                    city: FFAppState()
-                                                        .cityLocation,
-                                                    state: FFAppState()
-                                                        .stateLocation,
-                                                    country: FFAppState()
-                                                        .countryLocation,
-                                                    zipCode: FFAppState()
-                                                        .zipCodeLocation,
+                                                    latlng: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationLatLng,
+                                                    name: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationName,
+                                                    address: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationAddress,
+                                                    city: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCity,
+                                                    state: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationState,
+                                                    country: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationCountry,
+                                                    zipCode: context
+                                                        .read<UiStateService>()
+                                                        .selectedLocationZipCode,
                                                     accountId:
                                                         FFAppState().accountId,
                                                     typeEntity: 'activities',

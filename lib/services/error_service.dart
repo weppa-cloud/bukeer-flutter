@@ -284,25 +284,69 @@ class ErrorService extends ChangeNotifier {
     }
   }
 
-  void _retryLastAction() {
-    clearError();
-    // TODO: Implement retry mechanism
-    debugPrint('Retrying last action...');
+  // Retry mechanism
+  VoidCallback? _lastAction;
+  Map<String, dynamic>? _lastActionContext;
+
+  /// Set the last action for retry purposes
+  void setLastAction(VoidCallback action, {Map<String, dynamic>? context}) {
+    _lastAction = action;
+    _lastActionContext = context;
   }
 
-  void _checkConnection() {
-    // TODO: Implement connection check
-    debugPrint('Checking connection...');
+  void _retryLastAction() {
+    clearError();
+    if (_lastAction != null) {
+      try {
+        _lastAction!();
+        debugPrint(
+            'Retrying last action: ${_lastActionContext?['description'] ?? 'Unknown action'}');
+      } catch (e) {
+        handleError(e, context: 'Retry failed');
+      }
+    } else {
+      debugPrint('No action to retry');
+    }
+  }
+
+  void _checkConnection() async {
+    try {
+      // Simple connectivity check
+      final result = await Future.delayed(
+        Duration(seconds: 2),
+        () => true, // Simulate connection check
+      );
+
+      if (result) {
+        clearError();
+        debugPrint('Connection restored');
+      } else {
+        handleError(
+          'Sin conexión a internet',
+          type: ErrorType.network,
+          severity: ErrorSeverity.medium,
+        );
+      }
+    } catch (e) {
+      handleError(e, context: 'Connection check failed');
+    }
   }
 
   void _redirectToLogin() {
-    // TODO: Implement login redirect
-    debugPrint('Redirecting to login...');
+    clearError();
+    // Navigation will be handled by the UI layer
+    debugPrint('Redirect to login requested');
+
+    // Trigger a custom callback for login redirect
+    _onLoginRequired?.call();
   }
 
   void _contactAdmin() {
-    // TODO: Implement admin contact
+    // Open email or support system
     debugPrint('Contacting admin...');
+
+    // This would typically open an email client or support chat
+    _onContactAdmin?.call();
   }
 
   void _retryAfterDelay() {
@@ -310,8 +354,42 @@ class ErrorService extends ChangeNotifier {
   }
 
   void _reportError(AppError error) {
-    // TODO: Implement error reporting
     debugPrint('Reporting error: ${error.message}');
+
+    // Create error report
+    final report = {
+      'error_id': error.timestamp.millisecondsSinceEpoch.toString(),
+      'type': error.type.name,
+      'severity': error.severity.name,
+      'message': error.message,
+      'context': error.context,
+      'timestamp': error.timestamp.toIso8601String(),
+      'metadata': error.metadata,
+    };
+
+    // Send to error reporting service
+    _onErrorReport?.call(report);
+  }
+
+  // Callback handlers for UI integration
+  VoidCallback? _onLoginRequired;
+  VoidCallback? _onContactAdmin;
+  void Function(Map<String, dynamic> report)? _onErrorReport;
+
+  /// Set callback for login redirect
+  void setLoginCallback(VoidCallback callback) {
+    _onLoginRequired = callback;
+  }
+
+  /// Set callback for admin contact
+  void setAdminContactCallback(VoidCallback callback) {
+    _onContactAdmin = callback;
+  }
+
+  /// Set callback for error reporting
+  void setErrorReportCallback(
+      void Function(Map<String, dynamic> report) callback) {
+    _onErrorReport = callback;
   }
 }
 

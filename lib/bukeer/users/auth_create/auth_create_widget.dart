@@ -5,7 +5,8 @@ import '../../componentes/main_logo_small/main_logo_small_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:page_transition/page_transition.dart' as pt;
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
@@ -16,6 +17,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'auth_create_model.dart';
+import '../../../services/app_services.dart';
 export 'auth_create_model.dart';
 
 class AuthCreateWidget extends StatefulWidget {
@@ -264,7 +266,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return GestureDetector(
       onTap: () {
@@ -273,12 +275,12 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
           ),
           alignment: AlignmentDirectional(0.0, 0.0),
           child: SingleChildScrollView(
@@ -407,8 +409,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                             BukeerSpacing.s),
                                       ),
                                       filled: true,
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).accent4,
+                                      fillColor: BukeerColors.neutral400,
                                       contentPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               20.0, 24.0, 20.0, 24.0),
@@ -424,8 +425,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               !FlutterFlowTheme.of(context)
                                                   .bodyMediumIsCustom,
                                         ),
-                                    cursorColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                    cursorColor: BukeerColors.primary,
                                     validator: _model
                                         .nameAccountTextControllerValidator
                                         .asValidator(context),
@@ -509,8 +509,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                             BukeerSpacing.s),
                                       ),
                                       filled: true,
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).accent4,
+                                      fillColor: BukeerColors.neutral400,
                                       contentPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               20.0, 24.0, 20.0, 24.0),
@@ -526,8 +525,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               !FlutterFlowTheme.of(context)
                                                   .bodyMediumIsCustom,
                                         ),
-                                    cursorColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                    cursorColor: BukeerColors.primary,
                                     validator: _model
                                         .nameTextControllerValidator
                                         .asValidator(context),
@@ -612,8 +610,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                             BukeerSpacing.s),
                                       ),
                                       filled: true,
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).accent4,
+                                      fillColor: BukeerColors.neutral400,
                                       contentPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               20.0, 24.0, 20.0, 24.0),
@@ -629,8 +626,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               !FlutterFlowTheme.of(context)
                                                   .bodyMediumIsCustom,
                                         ),
-                                    cursorColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                    cursorColor: BukeerColors.primary,
                                     validator: _model
                                         .emailAddressTextControllerValidator
                                         .asValidator(context),
@@ -715,8 +711,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                             BukeerSpacing.s),
                                       ),
                                       filled: true,
-                                      fillColor:
-                                          FlutterFlowTheme.of(context).accent4,
+                                      fillColor: BukeerColors.neutral400,
                                       contentPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               20.0, 24.0, 20.0, 24.0),
@@ -748,8 +743,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                               !FlutterFlowTheme.of(context)
                                                   .bodyMediumIsCustom,
                                         ),
-                                    cursorColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                    cursorColor: BukeerColors.primary,
                                     validator: _model
                                         .passwordTextControllerValidator
                                         .asValidator(context),
@@ -804,8 +798,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       width: 2.0,
                                     ),
                                     borderRadius:
@@ -813,7 +806,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
+                                      color: BukeerColors.error,
                                       width: 2.0,
                                     ),
                                     borderRadius:
@@ -821,15 +814,14 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
+                                      color: BukeerColors.error,
                                       width: 2.0,
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(BukeerSpacing.s),
                                   ),
                                   filled: true,
-                                  fillColor:
-                                      FlutterFlowTheme.of(context).accent4,
+                                  fillColor: BukeerColors.neutral400,
                                   contentPadding:
                                       EdgeInsetsDirectional.fromSTEB(
                                           20.0, 24.0, 20.0, 24.0),
@@ -859,8 +851,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                           !FlutterFlowTheme.of(context)
                                               .bodyMediumIsCustom,
                                     ),
-                                cursorColor:
-                                    FlutterFlowTheme.of(context).primary,
+                                cursorColor: BukeerColors.primary,
                                 validator: _model
                                     .passwordConfirmTextControllerValidator
                                     .asValidator(context),
@@ -980,28 +971,36 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                                   )
                                                   .order('created_at'),
                                             );
-                                            FFAppState().accountId = _model
+                                            // Store accountId in AccountService
+                                            final accountId = _model
                                                 .responseAccount!
                                                 .firstOrNull!
                                                 .accountId!;
-                                            safeSetState(() {});
+                                            await appServices.account.setAccountId(accountId);
                                             _model.responseIdfm =
                                                 await AccountsTable().queryRows(
                                               queryFn: (q) => q.eqOrNull(
                                                 'id',
-                                                FFAppState().accountId,
+                                                accountId,
                                               ),
                                             );
-                                            FFAppState().idRole = _model
+                                            // Store roleId in UserService
+                                            final roleId = _model
                                                 .responseAccount!
                                                 .firstOrNull!
                                                 .roleId!;
-                                            // Establecer accountIdFm en UserService
+                                            await appServices.user.setUserRole(roleId.toString());
+                                            // Invalidar cache de autorización para refrescar permisos
+                                            appServices.authorization
+                                                .invalidateCache();
+                                            // Store accountIdFm in AccountService
                                             final accountIdFm = _model
                                                 .responseIdfm!.firstOrNull!.idFm
                                                 .toString();
-                                            // Nota: accountIdFm se actualizará cuando UserService cargue los datos
-                                            safeSetState(() {});
+                                            await appServices.account.setAccountIdFm(accountIdFm);
+                                            
+                                            // Initialize user data after registration
+                                            await appServices.user.initializeUserData(accountId: accountId);
                                           } else {
                                             await showDialog(
                                               context: context,
@@ -1096,7 +1095,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                         44.0, 0.0, 44.0, 0.0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(
@@ -1115,11 +1114,9 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).accent1,
+                                    hoverColor: BukeerColors.primaryAccent,
                                     hoverBorderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       width: 1.0,
                                     ),
                                     hoverTextColor: FlutterFlowTheme.of(context)
@@ -1159,7 +1156,7 @@ class _AuthCreateWidgetState extends State<AuthCreateWidget>
                                         kTransitionInfoKey: TransitionInfo(
                                           hasTransition: true,
                                           transitionType:
-                                              PageTransitionType.fade,
+                                              pt.PageTransitionType.fade,
                                           duration: Duration(milliseconds: 0),
                                         ),
                                       },

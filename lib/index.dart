@@ -27,8 +27,7 @@ export 'bukeer/itinerarios/preview/preview_itinerary_u_r_l/preview_itinerary_u_r
     show PreviewItineraryURLWidget;
 export 'bukeer/itinerarios/add_passengers_itinerary/add_passengers_itinerary_widget.dart'
     show AddPassengersItineraryWidget;
-export 'bukeer/users/auth_create/auth_create_widget.dart'
-    show AuthCreateWidget;
+export 'bukeer/users/auth_create/auth_create_widget.dart' show AuthCreateWidget;
 export 'bukeer/users/auth_reset_password/auth_reset_password_widget.dart'
     show AuthResetPasswordWidget;
 export 'bukeer/productos/edit_payment_methods/edit_payment_methods_widget.dart'
@@ -51,3 +50,5 @@ export 'bukeer/dashboard/reporte_cuentas_por_cobrar/reporte_cuentas_por_cobrar_w
     show ReporteCuentasPorCobrarWidget;
 export 'bukeer/itinerarios/itinerary_details/itinerary_details_widget.dart'
     show ItineraryDetailsWidget;
+
+export 'app_state.dart';

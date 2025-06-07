@@ -4,7 +4,8 @@ import '../../componentes/main_logo_small/main_logo_small_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
+import '../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:page_transition/page_transition.dart' as pt;
 import '../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
@@ -15,6 +16,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'auth_login_model.dart';
+import '../../../services/app_services.dart';
 export 'auth_login_model.dart';
 
 class AuthLoginWidget extends StatefulWidget {
@@ -234,7 +236,7 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return GestureDetector(
       onTap: () {
@@ -243,12 +245,12 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
           ),
           alignment: AlignmentDirectional(0.0, 0.0),
           child: SingleChildScrollView(
@@ -401,8 +403,7 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 !FlutterFlowTheme.of(context)
                                                     .bodyMediumIsCustom,
                                           ),
-                                      cursorColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      cursorColor: BukeerColors.primary,
                                       validator: _model
                                           .emailAddressTextControllerValidator
                                           .asValidator(context),
@@ -520,8 +521,7 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                                 !FlutterFlowTheme.of(context)
                                                     .bodyMediumIsCustom,
                                           ),
-                                      cursorColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      cursorColor: BukeerColors.primary,
                                       validator: _model
                                           .passwordTextControllerValidator
                                           .asValidator(context),
@@ -598,28 +598,36 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                             )
                                             .order('created_at'),
                                       );
-                                      FFAppState().accountId = _model
+                                      // Store accountId in AccountService
+                                      final accountId = _model
                                           .responseAccount!
                                           .firstOrNull!
                                           .accountId!;
-                                      safeSetState(() {});
+                                      await appServices.account.setAccountId(accountId);
                                       _model.responseIdfm =
                                           await AccountsTable().queryRows(
                                         queryFn: (q) => q.eqOrNull(
                                           'id',
-                                          FFAppState().accountId,
+                                          accountId,
                                         ),
                                       );
-                                      FFAppState().idRole = _model
+                                      // Store roleId in UserService
+                                      final roleId = _model
                                           .responseAccount!
                                           .firstOrNull!
                                           .roleId!;
-                                      // Establecer accountIdFm en UserService
+                                      await appServices.user.setUserRole(roleId.toString());
+                                      // Invalidar cache de autorización para refrescar permisos
+                                      appServices.authorization
+                                          .invalidateCache();
+                                      // Store accountIdFm in AccountService
                                       final accountIdFm = _model
                                           .responseIdfm!.firstOrNull!.idFm
                                           .toString();
-                                      // Nota: accountIdFm se actualizará cuando UserService cargue los datos
-                                      safeSetState(() {});
+                                      await appServices.account.setAccountIdFm(accountIdFm);
+                                      
+                                      // Initialize user data after login
+                                      await appServices.user.initializeUserData(accountId: accountId);
 
                                       context.goNamedAuth(
                                           MainHomeWidget.routeName,
@@ -635,8 +643,7 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -655,8 +662,7 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                       ),
                                       borderRadius: BorderRadius.circular(
                                           BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -702,7 +708,7 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                           kTransitionInfoKey: TransitionInfo(
                                             hasTransition: true,
                                             transitionType:
-                                                PageTransitionType.fade,
+                                                pt.PageTransitionType.fade,
                                             duration: Duration(milliseconds: 0),
                                           ),
                                         },

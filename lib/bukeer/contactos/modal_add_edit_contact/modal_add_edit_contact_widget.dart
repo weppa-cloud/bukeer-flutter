@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'modal_add_edit_contact_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/contact_service.dart';
+import '../../../services/app_services.dart';
 export 'modal_add_edit_contact_model.dart';
 
 class ModalAddEditContactWidget extends StatefulWidget {
@@ -93,7 +94,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                   height: 50.0,
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      FlutterFlowTheme.of(context).primary,
+                      BukeerColors.primary,
                     ),
                   ),
                 ),
@@ -108,7 +109,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                 maxWidth: 650.0,
               ),
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
               ),
               child: Padding(
@@ -123,8 +124,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 2.0,
@@ -217,17 +217,16 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                 Divider(
                                   height: 24.0,
                                   thickness: 1.0,
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                 ),
                                 Container(
                                   width: 100.0,
                                   height: 100.0,
                                   decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).accent1,
+                                    color: BukeerColors.primaryAccent,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       width: 2.0,
                                     ),
                                   ),
@@ -241,7 +240,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                           await selectMediaWithSourceBottomSheet(
                                         context: context,
                                         storageFolderPath:
-                                            '${FFAppState().accountId}/profiles',
+                                            '${currentUserUid}/profiles',
                                         allowPhoto: true,
                                       );
                                       if (selectedMedia != null &&
@@ -1140,7 +1139,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                 Divider(
                                   height: 20.0,
                                   thickness: 1.0,
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                 ),
                                 Align(
                                   alignment: AlignmentDirectional(-1.0, 0.0),
@@ -1168,7 +1167,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                 Divider(
                                   height: 20.0,
                                   thickness: 1.0,
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
@@ -1419,8 +1418,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 1.0,
@@ -1473,8 +1471,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    hoverColor: BukeerColors.borderPrimary,
                                     hoverBorderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -1796,8 +1793,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -1816,8 +1812,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                       ),
                                       borderRadius: BorderRadius.circular(
                                           BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
@@ -2276,8 +2271,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -2296,8 +2290,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                       ),
                                       borderRadius: BorderRadius.circular(
                                           BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
 import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
-import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_model.dart';
+// import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_model.dart'; // Unused import
 import '../test_utils/test_helpers.dart';
 
 void main() {
@@ -52,7 +52,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(
-            itineraryToEdit: existingItinerary,
+            allDataItinerary: existingItinerary,
           ),
         );
 
@@ -145,7 +145,7 @@ void main() {
       testWidgets('should show travel planner dropdown for admins',
           (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(
@@ -164,7 +164,7 @@ void main() {
       testWidgets('should hide travel planner dropdown for agents',
           (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.agent);
+        TestHelpers.mockUserWithRole('agent');
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(
@@ -181,11 +181,11 @@ void main() {
 
       testWidgets('should load and display users in dropdown', (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(RoleType.admin);
+        TestHelpers.mockUserWithRole('admin');
         TestHelpers.mockUserData();
 
         // Mock users data for dropdown
-        final mockUsers = [
+        final _mockUsers = [
           {'id': '1', 'name': 'John', 'last_name': 'Doe', 'photo_url': null},
           {
             'id': '2',
@@ -254,7 +254,7 @@ void main() {
 
         final widget = TestHelpers.createTestWidget(
           child: ModalAddEditItineraryWidget(
-            itineraryToEdit: existingItinerary,
+            allDataItinerary: existingItinerary,
           ),
         );
 

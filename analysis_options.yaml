@@ -21,9 +21,15 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # Disable common FlutterFlow warnings to reduce noise
+    avoid_print: false  # Allow print statements in development
+    prefer_const_constructors: false  # FlutterFlow generates non-const constructors
+    prefer_const_literals_to_create_immutables: false  # Common in FlutterFlow
+    unnecessary_getters_setters: false  # FlutterFlow pattern
     unnecessary_string_escapes: false
+    use_super_parameters: false  # FlutterFlow doesn't generate super parameters
+    # Keep disabled for now to reduce warnings count
+    deprecated_member_use_from_same_package: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

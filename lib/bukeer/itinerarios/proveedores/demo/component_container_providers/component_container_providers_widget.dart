@@ -80,7 +80,7 @@ class _ComponentContainerProvidersWidgetState
               child: Container(
                 width: MediaQuery.sizeOf(context).width * 1.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  color: BukeerColors.primaryBackground,
                 ),
                 child: SingleChildScrollView(
                   child: Column(
@@ -115,7 +115,7 @@ class _ComponentContainerProvidersWidgetState
                               height: 50.0,
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  FlutterFlowTheme.of(context).primary,
+                                  BukeerColors.primary,
                                 ),
                               ),
                             ),
@@ -127,7 +127,7 @@ class _ComponentContainerProvidersWidgetState
                               height: 50.0,
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  FlutterFlowTheme.of(context).primary,
+                                  BukeerColors.primary,
                                 ),
                               ),
                             ),

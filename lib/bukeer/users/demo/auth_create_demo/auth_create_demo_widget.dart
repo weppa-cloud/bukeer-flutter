@@ -3,7 +3,8 @@ import '../../../componentes/main_logo_small/main_logo_small_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../design_system/index.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart';
+import '../../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:page_transition/page_transition.dart' as pt;
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
@@ -243,16 +244,13 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                FlutterFlowTheme.of(context).accent1,
-                FlutterFlowTheme.of(context).primary
-              ],
+              colors: [BukeerColors.primaryAccent, BukeerColors.primary],
               stops: [0.3, 1.0],
               begin: AlignmentDirectional(1.0, -1.0),
               end: AlignmentDirectional(-1.0, 1.0),
@@ -367,7 +365,8 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                             .alternate,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -375,27 +374,27 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                             .primary,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     filled: true,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                    fillColor: BukeerColors.neutral400,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
                                             20.0, 24.0, 20.0, 24.0),
@@ -410,8 +409,7 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                             !FlutterFlowTheme.of(context)
                                                 .bodyMediumIsCustom,
                                       ),
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  cursorColor: BukeerColors.primary,
                                   validator: _model
                                       .emailAddressTextControllerValidator
                                       .asValidator(context),
@@ -466,7 +464,8 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                             .alternate,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -474,27 +473,27 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                             .primary,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
+                                        color: BukeerColors.error,
                                         width: 2.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                     filled: true,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent4,
+                                    fillColor: BukeerColors.neutral400,
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
                                             20.0, 24.0, 20.0, 24.0),
@@ -524,8 +523,7 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                             !FlutterFlowTheme.of(context)
                                                 .bodyMediumIsCustom,
                                       ),
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                  cursorColor: BukeerColors.primary,
                                   validator: _model
                                       .passwordTextControllerValidator
                                       .asValidator(context),
@@ -571,35 +569,38 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: BukeerColors.borderPrimary,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
+                                    color: BukeerColors.error,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).error,
+                                    color: BukeerColors.error,
                                     width: 2.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
                                 ),
                                 filled: true,
-                                fillColor: FlutterFlowTheme.of(context).accent4,
+                                fillColor: BukeerColors.neutral400,
                                 contentPadding: EdgeInsetsDirectional.fromSTEB(
                                     20.0, 24.0, 20.0, 24.0),
                                 suffixIcon: InkWell(
@@ -628,7 +629,7 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                         !FlutterFlowTheme.of(context)
                                             .bodyMediumIsCustom,
                                   ),
-                              cursorColor: FlutterFlowTheme.of(context).primary,
+                              cursorColor: BukeerColors.primary,
                               validator: _model
                                   .passwordConfirmTextControllerValidator
                                   .asValidator(context),
@@ -679,7 +680,7 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                       44.0, 0.0, 44.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: BukeerColors.primary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleMedium
                                       .override(
@@ -695,15 +696,14 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
-                                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                  hoverColor:
-                                      FlutterFlowTheme.of(context).accent1,
+                                  borderRadius:
+                                      BorderRadius.circular(BukeerSpacing.s),
+                                  hoverColor: BukeerColors.primaryAccent,
                                   hoverBorderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     width: 1.0,
                                   ),
-                                  hoverTextColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  hoverTextColor: BukeerColors.primaryText,
                                   hoverElevation: 0.0,
                                 ),
                               ).animateOnPageLoad(
@@ -738,7 +738,7 @@ class _AuthCreateDemoWidgetState extends State<AuthCreateDemoWidget>
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
+                                        transitionType: pt.PageTransitionType.fade,
                                         duration: Duration(milliseconds: 0),
                                       ),
                                     },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../app_state_clean.dart';
+import '../app_state.dart';
 import '../services/ui_state_service.dart';
 import '../services/app_services.dart';
 
@@ -49,6 +49,9 @@ class AppProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: appServices.error,
+        ),
+        ChangeNotifierProvider.value(
+          value: appServices.account,
         ),
       ],
       child: child,

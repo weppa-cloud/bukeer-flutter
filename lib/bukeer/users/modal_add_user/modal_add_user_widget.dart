@@ -3,7 +3,6 @@ import '../../../backend/api_requests/api_calls.dart';
 import '../../../backend/supabase/supabase.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -125,7 +124,7 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).accent4,
+        color: BukeerColors.neutral400,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -140,7 +139,7 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                 maxWidth: 670.0,
               ),
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 12.0,
@@ -215,16 +214,12 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 60.0, 5.0, 40.0),
-                            child: FlutterFlowIconButton(
-                              borderColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderRadius: 12.0,
-                              borderWidth: 2.0,
-                              buttonSize: 40.0,
-                              fillColor: FlutterFlowTheme.of(context).accent4,
+                            child: BukeerIconButton(
+                              size: BukeerIconButtonSize.small,
+                              variant: BukeerIconButtonVariant.outlined,
                               icon: FaIcon(
                                 FontAwesomeIcons.trashAlt,
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: BukeerColors.primaryText,
                                 size: 24.0,
                               ),
                               onPressed: () async {
@@ -279,7 +274,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                     ),
                                     returnRows: true,
                                   );
-                                  context.read<UserService>().allDataUser = null;
+                                  context.read<UserService>().allDataUser =
+                                      null;
                                   safeSetState(() {});
                                   Navigator.pop(context);
                                 }
@@ -376,8 +372,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -386,8 +382,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .primary,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           errorBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -396,8 +392,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
@@ -407,8 +403,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           filled: true,
                                           fillColor:
@@ -485,8 +481,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .alternate,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -495,8 +491,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .primary,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           errorBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -505,8 +501,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
@@ -516,8 +512,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       .error,
                                               width: 2.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                           ),
                                           filled: true,
                                           fillColor:
@@ -597,7 +593,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -607,7 +604,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -617,7 +615,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -628,7 +627,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -712,7 +712,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -722,7 +723,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             errorBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -732,7 +734,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             focusedErrorBorder:
                                                 OutlineInputBorder(
@@ -743,7 +746,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 width: 2.0,
                                               ),
                                               borderRadius:
-                                                  BorderRadius.circular(BukeerSpacing.s),
+                                                  BorderRadius.circular(
+                                                      BukeerSpacing.s),
                                             ),
                                             filled: true,
                                             fillColor:
@@ -802,7 +806,9 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                         _model.roleAgentValue ??=
                                             widget!.isEdit == true
                                                 ? getJsonField(
-                                                    context.read<UserService>().allDataUser,
+                                                    context
+                                                        .read<UserService>()
+                                                        .allDataUser,
                                                     r'''$.user_rol''',
                                                   ).toString()
                                                 : 'Seleccionar rol',
@@ -873,7 +879,9 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                     alignment: AlignmentDirectional(0.0, 0.05),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        context.read<UserService>().allDataUser = null;
+                                        context
+                                            .read<UserService>()
+                                            .allDataUser = null;
                                         safeSetState(() {});
                                         context.safePop();
                                       },
@@ -904,8 +912,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                               .alternate,
                                           width: 2.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         hoverColor: FlutterFlowTheme.of(context)
                                             .alternate,
                                         hoverBorderSide: BorderSide(
@@ -954,7 +962,9 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                   rows.eqOrNull(
                                                 'id',
                                                 getJsonField(
-                                                  context.read<UserService>().allDataUser,
+                                                  context
+                                                      .read<UserService>()
+                                                      .allDataUser,
                                                   r'''$.id_user_rol''',
                                                 ),
                                               ),
@@ -963,7 +973,9 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                 await UpdateUserContactCall
                                                     .call(
                                               id: getJsonField(
-                                                context.read<UserService>().allDataUser,
+                                                context
+                                                    .read<UserService>()
+                                                    .allDataUser,
                                                 r'''$.id''',
                                               ).toString(),
                                               name: _model
@@ -979,7 +991,9 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                     .apiResponseUpdateuserContact
                                                     ?.succeeded ??
                                                 true)) {
-                                              context.read<UserService>().allDataUser = null;
+                                              context
+                                                  .read<UserService>()
+                                                  .allDataUser = null;
                                               safeSetState(() {});
                                               Navigator.pop(context);
                                             } else {
@@ -1054,8 +1068,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                             color: Colors.transparent,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                           hoverColor:
                                               FlutterFlowTheme.of(context)
                                                   .accent1,
@@ -1430,8 +1444,8 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                             color: Colors.transparent,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                           hoverColor:
                                               FlutterFlowTheme.of(context)
                                                   .accent1,

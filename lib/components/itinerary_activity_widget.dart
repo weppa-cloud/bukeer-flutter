@@ -1,6 +1,7 @@
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../design_system/index.dart';
+
 import '../flutter_flow/flutter_flow_util.dart';
 import 'dart:math';
 import 'dart:ui';
@@ -157,8 +158,7 @@ class _ItineraryActivityWidgetState extends State<ItineraryActivityWidget>
                         ],
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(top: BukeerSpacing.xs),
+                        padding: EdgeInsets.only(top: BukeerSpacing.xs),
                         child: Text(
                           valueOrDefault<String>(
                             widget!.description,

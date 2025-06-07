@@ -198,12 +198,12 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: BukeerColors.secondaryBackground,
         body: Container(
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
           ),
           alignment: AlignmentDirectional(0.0, 0.0),
           child: SingleChildScrollView(
@@ -310,8 +310,8 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                                 .alternate,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -319,8 +319,8 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                                 .primary,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -328,8 +328,8 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -337,8 +337,8 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                                 .error,
                                             width: 2.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(BukeerSpacing.s),
+                                          borderRadius: BorderRadius.circular(
+                                              BukeerSpacing.s),
                                         ),
                                         filled: true,
                                         fillColor: FlutterFlowTheme.of(context)
@@ -376,8 +376,7 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                                 !FlutterFlowTheme.of(context)
                                                     .bodyMediumIsCustom,
                                           ),
-                                      cursorColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      cursorColor: BukeerColors.primary,
                                       validator: _model
                                           .passwordResertTextControllerValidator
                                           .asValidator(context),
@@ -491,8 +490,7 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
@@ -509,9 +507,9 @@ class _AuthResetPasswordWidgetState extends State<AuthResetPasswordWidget>
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                      hoverColor:
-                                          FlutterFlowTheme.of(context).accent1,
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
+                                      hoverColor: BukeerColors.primaryAccent,
                                       hoverBorderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
                                             .primary,

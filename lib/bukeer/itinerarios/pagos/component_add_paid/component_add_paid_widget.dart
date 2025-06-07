@@ -20,6 +20,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_add_paid_model.dart';
+import '../../../../services/app_services.dart';
 export 'component_add_paid_model.dart';
 
 class ComponentAddPaidWidget extends StatefulWidget {
@@ -136,7 +137,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
             maxWidth: 650.0,
           ),
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
+            color: BukeerColors.secondaryBackground,
             borderRadius: BorderRadius.circular(BukeerSpacing.s),
           ),
           child: Padding(
@@ -151,7 +152,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2.0,
@@ -192,8 +193,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                   ),
                   Expanded(
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(top: BukeerSpacing.s),
+                      padding: EdgeInsets.only(top: BukeerSpacing.s),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -240,7 +240,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                       fontFamily: FlutterFlowTheme
                                                               .of(context)
                                                           .headlineLargeFamily,
-                                                      fontSize: BukeerTypography.displaySmallSize,
+                                                      fontSize: BukeerTypography
+                                                          .displaySmallSize,
                                                       letterSpacing: 0.0,
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -304,8 +305,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                             ),
                                           )
                                         ],
-                                        borderRadius:
-                                            BorderRadius.circular(BukeerSpacing.s),
+                                        borderRadius: BorderRadius.circular(
+                                            BukeerSpacing.s),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .alternate,
@@ -313,7 +314,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.all(BukeerSpacing.s),
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.s),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
@@ -429,7 +431,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                     BorderRadius.circular(40.0),
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.all(BukeerSpacing.xs),
+                                                padding: EdgeInsets.all(
+                                                    BukeerSpacing.xs),
                                                 child: Icon(
                                                   Icons.calendar_month,
                                                   color: FlutterFlowTheme.of(
@@ -463,7 +466,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                           ),
                                         )
                                       ],
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                       shape: BoxShape.rectangle,
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context)
@@ -579,7 +583,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -589,7 +594,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -599,7 +605,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               focusedErrorBorder:
                                                   OutlineInputBorder(
@@ -610,7 +617,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               filled: true,
                                               fillColor:
@@ -655,7 +663,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                               fontFamily:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMediumFamily,
-                                              fontSize: BukeerTypography.headlineSmallSize,
+                                              fontSize: BukeerTypography
+                                                  .headlineSmallSize,
                                               letterSpacing: 0.0,
                                               useGoogleFonts:
                                                   !FlutterFlowTheme.of(context)
@@ -719,7 +728,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -729,7 +739,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -739,7 +750,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               focusedErrorBorder:
                                                   OutlineInputBorder(
@@ -750,7 +762,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(BukeerSpacing.s),
+                                                    BorderRadius.circular(
+                                                        BukeerSpacing.s),
                                               ),
                                               filled: true,
                                               fillColor:
@@ -805,7 +818,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                     onPressed: () async {
                                       final selectedFiles = await selectFiles(
                                         storageFolderPath:
-                                            '${FFAppState().accountId}/vouchers/',
+                                            '${currentUserUid}/vouchers/',
                                         multiFile: false,
                                       );
                                       if (selectedFiles != null) {
@@ -863,8 +876,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
@@ -878,7 +890,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                     .titleSmallIsCustom,
                                           ),
                                       elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                      borderRadius: BorderRadius.circular(
+                                          BukeerSpacing.s),
                                     ),
                                   ),
                                 ],
@@ -891,7 +904,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 1.0,
@@ -937,18 +950,17 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                     ),
                                 elevation: 0.0,
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
+                                hoverColor: BukeerColors.borderPrimary,
                                 hoverBorderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: BukeerColors.borderPrimary,
                                   width: 2.0,
                                 ),
-                                hoverTextColor:
-                                    FlutterFlowTheme.of(context).primaryText,
+                                hoverTextColor: BukeerColors.primaryText,
                                 hoverElevation: 3.0,
                               ),
                             ),
@@ -1256,7 +1268,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                     16.0, 0.0, 16.0, 0.0),
                                 iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: BukeerColors.primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
@@ -1269,7 +1281,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                               .titleSmallIsCustom,
                                     ),
                                 elevation: 0.0,
-                                borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                                borderRadius:
+                                    BorderRadius.circular(BukeerSpacing.s),
                               ),
                             ),
                           ),

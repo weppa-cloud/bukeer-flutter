@@ -3,7 +3,8 @@ import '../../../productos/component_inclusion/component_inclusion_widget.dart';
 import '../../../../components/itinerary_activity_widget.dart';
 import '../../../../flutter_flow/flutter_flow_expanded_image_view.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart';
+import '../../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:page_transition/page_transition.dart' as pt;
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -93,7 +94,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                   height: 50.0,
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      FlutterFlowTheme.of(context).primary,
+                      BukeerColors.primary,
                     ),
                   ),
                 ),
@@ -114,7 +115,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
             return Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: BukeerColors.secondaryBackground,
               ),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -126,7 +127,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                       height: 1.0,
                       thickness: 1.0,
                       indent: 0.0,
-                      color: FlutterFlowTheme.of(context).alternate,
+                      color: BukeerColors.borderPrimary,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
@@ -136,16 +137,16 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                           width: 32.0,
                           height: 32.0,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).accent1,
+                            color: BukeerColors.primaryAccent,
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: FlutterFlowTheme.of(context).primary,
+                              color: BukeerColors.primary,
                               width: 2.0,
                             ),
                           ),
                           child: Icon(
                             Icons.volunteer_activism_sharp,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: BukeerColors.secondaryText,
                             size: 20.0,
                           ),
                         ),
@@ -187,7 +188,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .labelSmallFamily,
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: BukeerColors.primaryText,
                                 fontSize: BukeerTypography.bodySmallSize,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.w500,
@@ -198,17 +199,15 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                       ],
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.only(left: BukeerSpacing.m),
+                      padding: EdgeInsets.only(left: BukeerSpacing.m),
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 0.0,
-                              color: FlutterFlowTheme.of(context).primary,
+                              color: BukeerColors.primary,
                               offset: Offset(
                                 -2.0,
                                 0.0,
@@ -308,7 +307,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                               context,
                                                               PageTransition(
                                                                 type:
-                                                                    PageTransitionType
+                                                                    pt.PageTransitionType
                                                                         .fade,
                                                                 child:
                                                                     FlutterFlowExpandedImageView(
@@ -556,23 +555,24 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                   'Sin descripción',
                                                 ),
                                                 maxLines: 3,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          fontSize: BukeerTypography.bodySmallSize,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMediumIsCustom,
-                                                        ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      fontFamily:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMediumFamily,
+                                                      fontSize: BukeerTypography
+                                                          .bodySmallSize,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      useGoogleFonts:
+                                                          !FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMediumIsCustom,
+                                                    ),
                                               ),
                                             ),
                                             if (widget!.personalizedMessage !=
@@ -605,7 +605,9 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                                 FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMediumFamily,
-                                                            fontSize: BukeerTypography.bodySmallSize,
+                                                            fontSize:
+                                                                BukeerTypography
+                                                                    .bodySmallSize,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight
@@ -617,7 +619,8 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                           ),
                                                     ),
                                                   ),
-                                                ].divide(SizedBox(width: BukeerSpacing.xs)),
+                                                ].divide(SizedBox(
+                                                    width: BukeerSpacing.xs)),
                                               ),
                                             Align(
                                               alignment: AlignmentDirectional(
@@ -748,7 +751,9 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                                 FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMediumFamily,
-                                                            fontSize: BukeerTypography.bodyMediumSize,
+                                                            fontSize:
+                                                                BukeerTypography
+                                                                    .bodyMediumSize,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -802,7 +807,8 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                 );
                                               },
                                             ),
-                                          ].divide(SizedBox(height: BukeerSpacing.xs)),
+                                          ].divide(SizedBox(
+                                              height: BukeerSpacing.xs)),
                                         ),
                                       ),
                                     ],

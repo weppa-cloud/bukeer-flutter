@@ -12,7 +12,6 @@ import '../../productos/modal_add_product/modal_add_product_widget.dart';
 import '../../productos/modal_details_product/modal_details_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_button_tabbar.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -361,7 +360,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).accent4,
+        color: BukeerColors.neutral400,
       ),
       child: FutureBuilder<ApiCallResponse>(
         future: GetContactWithLocationCall.call(
@@ -380,7 +379,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                 height: 50.0,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
+                    BukeerColors.primary,
                   ),
                 ),
               ),
@@ -402,7 +401,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                     maxHeight: 900.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -436,20 +435,18 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     8.0, 0.0, 0.0, 0.0),
-                                child: FlutterFlowIconButton(
-                                  borderColor:
-                                      FlutterFlowTheme.of(context).primary,
-                                  borderRadius: 12.0,
-                                  borderWidth: 2.0,
-                                  fillColor:
-                                      FlutterFlowTheme.of(context).accent1,
+                                child: BukeerIconButton(
+                                  size: BukeerIconButtonSize.medium,
+                                  variant: BukeerIconButtonVariant.filled,
                                   icon: Icon(
                                     Icons.arrow_back_outlined,
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                   ),
                                   onPressed: () async {
-                                    context.read<ContactService>().allDataContact = null;
+                                    context
+                                        .read<ContactService>()
+                                        .allDataContact = null;
                                     safeSetState(() {});
                                     Navigator.pop(context);
                                   },
@@ -536,8 +533,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                         7.0, 0.0, 0.0, 0.0),
                                     child: Icon(
                                       Icons.business,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: BukeerColors.primary,
                                       size: 24.0,
                                     ),
                                   ),
@@ -591,8 +587,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .accent1,
-                                            borderRadius:
-                                                BorderRadius.circular(BukeerSpacing.s),
+                                            borderRadius: BorderRadius.circular(
+                                                BukeerSpacing.s),
                                             border: Border.all(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -601,7 +597,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.all(BukeerSpacing.xs),
+                                            padding: EdgeInsets.all(
+                                                BukeerSpacing.xs),
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
@@ -933,16 +930,10 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 5.0),
-                                            child: FlutterFlowIconButton(
-                                              borderColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              borderRadius: 12.0,
-                                              borderWidth: 2.0,
-                                              buttonSize: 40.0,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
+                                            child: BukeerIconButton(
+                                              size: BukeerIconButtonSize.small,
+                                              variant: BukeerIconButtonVariant
+                                                  .outlined,
                                               icon: Icon(
                                                 Icons.edit_outlined,
                                                 color:
@@ -977,16 +968,10 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 5.0, 0.0, 0.0),
-                                            child: FlutterFlowIconButton(
-                                              borderColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              borderRadius: 12.0,
-                                              borderWidth: 2.0,
-                                              buttonSize: 40.0,
-                                              fillColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
+                                            child: BukeerIconButton(
+                                              size: BukeerIconButtonSize.small,
+                                              variant: BukeerIconButtonVariant
+                                                  .outlined,
                                               icon: FaIcon(
                                                 FontAwesomeIcons.trashAlt,
                                                 color:
@@ -1457,9 +1442,9 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                         Container(
                           width: MediaQuery.sizeOf(context).width * 1.0,
                           decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                            color: BukeerColors.primaryBackground,
+                            borderRadius:
+                                BorderRadius.circular(BukeerSpacing.s),
                           ),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
@@ -1519,7 +1504,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           .bodyMediumIsCustom,
                                                 ),
                                           ),
-                                        ].divide(SizedBox(width: BukeerSpacing.s)),
+                                        ].divide(
+                                            SizedBox(width: BukeerSpacing.s)),
                                       ),
                                     ),
                                   ),
@@ -1571,7 +1557,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                         .bodyMediumIsCustom,
                                               ),
                                         ),
-                                      ].divide(SizedBox(width: BukeerSpacing.s)),
+                                      ].divide(
+                                          SizedBox(width: BukeerSpacing.s)),
                                     ),
                                   ),
                                 InkWell(
@@ -1769,7 +1756,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .titleMediumFamily,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.normal,
                                                 useGoogleFonts:
@@ -1805,7 +1793,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.all(6.0),
+                                                  padding: EdgeInsets.all(
+                                                      BukeerSpacing.xs),
                                                   child: Icon(
                                                     Icons
                                                         .local_activity_outlined,
@@ -1822,7 +1811,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.all(6.0),
+                                                  padding: EdgeInsets.all(
+                                                      BukeerSpacing.xs),
                                                   child: Icon(
                                                     Icons
                                                         .local_activity_outlined,
@@ -1839,7 +1829,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.all(6.0),
+                                                  padding: EdgeInsets.all(
+                                                      BukeerSpacing.xs),
                                                   child: Icon(
                                                     Icons.directions_car,
                                                     size: 20.0,
@@ -1855,17 +1846,23 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                           onTap: (i) async {
                                             [
                                               () async {
-                                                context.read<UiStateService>().selectedProductType =
+                                                context
+                                                        .read<UiStateService>()
+                                                        .selectedProductType =
                                                     'activities';
                                                 safeSetState(() {});
                                               },
                                               () async {
-                                                context.read<UiStateService>().selectedProductType =
+                                                context
+                                                        .read<UiStateService>()
+                                                        .selectedProductType =
                                                     'hotels';
                                                 safeSetState(() {});
                                               },
                                               () async {
-                                                context.read<UiStateService>().selectedProductType =
+                                                context
+                                                        .read<UiStateService>()
+                                                        .selectedProductType =
                                                     'transfers';
                                                 safeSetState(() {});
                                               }
@@ -1891,8 +1888,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           AlignmentDirectional(
                                                               1.0, 0.0),
                                                       child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(BukeerSpacing.s),
+                                                        padding: EdgeInsets.all(
+                                                            BukeerSpacing.s),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
                                                             await showModalBottomSheet(
@@ -2157,8 +2154,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           AlignmentDirectional(
                                                               1.0, 0.0),
                                                       child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(BukeerSpacing.s),
+                                                        padding: EdgeInsets.all(
+                                                            BukeerSpacing.s),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
                                                             await showModalBottomSheet(
@@ -2427,8 +2424,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           AlignmentDirectional(
                                                               1.0, 0.0),
                                                       child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(BukeerSpacing.s),
+                                                        padding: EdgeInsets.all(
+                                                            BukeerSpacing.s),
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
                                                             await showModalBottomSheet(
@@ -3566,7 +3563,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -3578,7 +3575,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -3590,7 +3587,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -3602,7 +3599,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).error,
+                                                                              BukeerColors.error,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -3706,7 +3703,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             ),
                                                                           ),
                                                                           unselectedWidgetColor:
-                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                              BukeerColors.borderPrimary,
                                                                         ),
                                                                         child:
                                                                             Checkbox(
@@ -3717,16 +3714,16 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             safeSetState(() =>
                                                                                 _model.notifyValue = newValue!);
                                                                           },
-                                                                          side: (FlutterFlowTheme.of(context).alternate != null)
+                                                                          side: (BukeerColors.borderPrimary != null)
                                                                               ? BorderSide(
                                                                                   width: 2,
-                                                                                  color: FlutterFlowTheme.of(context).alternate!,
+                                                                                  color: BukeerColors.borderPrimary!,
                                                                                 )
                                                                               : null,
                                                                           activeColor:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              BukeerColors.primary,
                                                                           checkColor:
-                                                                              FlutterFlowTheme.of(context).info,
+                                                                              BukeerColors.info,
                                                                         ),
                                                                       ),
                                                                     ].addToEnd(

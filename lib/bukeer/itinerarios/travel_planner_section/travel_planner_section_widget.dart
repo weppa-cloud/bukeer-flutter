@@ -2,7 +2,6 @@ import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../../backend/supabase/supabase.dart';
 import '../dropdown_travel_planner/dropdown_travel_planner_widget.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -12,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'travel_planner_section_model.dart';
+import '../../../services/authorization_service.dart';
+import '../../../services/app_services.dart';
 export 'travel_planner_section_model.dart';
 
 class TravelPlannerSectionWidget extends StatefulWidget {
@@ -82,10 +83,10 @@ class _TravelPlannerSectionWidgetState
             ),
           ),
         ),
-        
+
         // Información del Travel Planner
         Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+          padding: EdgeInsets.only(left: BukeerSpacing.xs),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,46 +99,61 @@ class _TravelPlannerSectionWidgetState
                     if (widget.travelPlannerName != null &&
                         widget.travelPlannerName!.isNotEmpty)
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 2.0, 0.0),
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 2.0, 0.0),
                         child: Text(
                           widget.travelPlannerName!,
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
-                                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                useGoogleFonts: !FlutterFlowTheme.of(context)
+                                    .bodyMediumIsCustom,
                               ),
                         ),
                       ),
                     if (widget.travelPlannerLastName != null &&
                         widget.travelPlannerLastName!.isNotEmpty)
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 2.0, 0.0),
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 2.0, 0.0),
                         child: Text(
                           widget.travelPlannerLastName!,
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.bold,
-                                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                useGoogleFonts: !FlutterFlowTheme.of(context)
+                                    .bodyMediumIsCustom,
                               ),
                         ),
                       ),
                     if ((widget.travelPlannerName == null ||
-                            widget.travelPlannerName!.isEmpty) && !_model.isEditing)
+                            widget.travelPlannerName!.isEmpty) &&
+                        !_model.isEditing)
                       Text(
                         'Sin asignar',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodyMediumFamily,
+                              color: BukeerColors.secondaryText,
                               letterSpacing: 0.0,
                               fontStyle: FontStyle.italic,
-                              useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                              useGoogleFonts: !FlutterFlowTheme.of(context)
+                                  .bodyMediumIsCustom,
                             ),
                       ),
-                    
+
                     // Botón de editar al lado del nombre
-                    if (widget.isEditable && _canEditTravelPlanner() && !_model.isEditing)
+                    if (widget.isEditable &&
+                        _canEditTravelPlanner() &&
+                        !_model.isEditing)
                       Padding(
                         padding: EdgeInsets.only(left: BukeerSpacing.s),
                         child: InkWell(
@@ -151,25 +167,27 @@ class _TravelPlannerSectionWidgetState
                           },
                           child: Icon(
                             Icons.edit_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: BukeerColors.secondaryText,
                             size: 16.0,
                           ),
                         ),
                       ),
                   ],
                 ),
-              
+
               if (!_model.isEditing)
                 Text(
                   'Travel Planner',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                        color: FlutterFlowTheme.of(context).secondaryText,
+                        fontFamily:
+                            FlutterFlowTheme.of(context).bodyMediumFamily,
+                        color: BukeerColors.secondaryText,
                         letterSpacing: 0.0,
-                        useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                        useGoogleFonts:
+                            !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                       ),
                 ),
-              
+
               // Modo edición con dropdown
               if (_model.isEditing)
                 Row(
@@ -185,7 +203,8 @@ class _TravelPlannerSectionWidgetState
                           itineraryId: widget.itineraryId,
                           onAgentChanged: (newAgentId) async {
                             // Actualizar el travel planner
-                            _model.updateSuccess = await actions.updateTravelPlanner(
+                            _model.updateSuccess =
+                                await actions.updateTravelPlanner(
                               widget.itineraryId,
                               newAgentId!,
                             );
@@ -196,18 +215,19 @@ class _TravelPlannerSectionWidgetState
                                   content: Text(
                                     'Travel Planner actualizado correctamente',
                                     style: TextStyle(
-                                      color: FlutterFlowTheme.of(context).primaryText,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
                                     ),
                                   ),
                                   duration: Duration(milliseconds: 2000),
-                                  backgroundColor: FlutterFlowTheme.of(context).success,
+                                  backgroundColor: BukeerColors.success,
                                 ),
                               );
-                              
+
                               // Salir del modo edición
                               _model.isEditing = false;
                               safeSetState(() {});
-                              
+
                               // Ejecutar callback si existe
                               if (widget.onUpdated != null) {
                                 widget.onUpdated!();
@@ -222,7 +242,7 @@ class _TravelPlannerSectionWidgetState
                                     ),
                                   ),
                                   duration: Duration(milliseconds: 2000),
-                                  backgroundColor: FlutterFlowTheme.of(context).error,
+                                  backgroundColor: BukeerColors.error,
                                 ),
                               );
                             }
@@ -230,7 +250,7 @@ class _TravelPlannerSectionWidgetState
                         ),
                       ),
                     ),
-                    
+
                     // Botón cancelar
                     Padding(
                       padding: EdgeInsets.only(left: BukeerSpacing.s),
@@ -245,7 +265,7 @@ class _TravelPlannerSectionWidgetState
                         },
                         child: Icon(
                           Icons.close_rounded,
-                          color: FlutterFlowTheme.of(context).error,
+                          color: BukeerColors.error,
                           size: 20.0,
                         ),
                       ),
@@ -261,18 +281,9 @@ class _TravelPlannerSectionWidgetState
 
   /// Verifica si el usuario actual puede editar el travel planner
   bool _canEditTravelPlanner() {
-    // Admin siempre puede editar
-    if (FFAppState().idRole == 1) {
-      return true;
-    }
-    
-    // Super admin siempre puede editar
-    if (FFAppState().idRole == 2) {
-      return true;
-    }
-    
-    // Otros roles no pueden editar por ahora
-    // Puedes agregar más lógica aquí según tus requerimientos
-    return false;
+    final roleType = appServices.authorization.currentUserRole;
+
+    // Admin y Super admin siempre pueden editar
+    return roleType == RoleType.admin || roleType == RoleType.superAdmin;
   }
 }

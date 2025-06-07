@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 import 'package:mockito/annotations.dart';
 
 import '../../lib/services/contact_service.dart';
@@ -12,11 +12,11 @@ import 'contact_service_test.mocks.dart';
 void main() {
   group('ContactService Tests', () {
     late ContactService contactService;
-    late MockSupaFlow mockSupaFlow;
+    late MockSupaFlow _mockSupaFlow;
 
     setUp(() {
       contactService = ContactService();
-      mockSupaFlow = MockSupaFlow();
+      _mockSupaFlow = MockSupaFlow();
     });
 
     tearDown(() {

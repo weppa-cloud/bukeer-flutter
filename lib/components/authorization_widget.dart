@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../design_system/index.dart';
+
 import '../services/authorization_service.dart';
 import '../auth/supabase_auth/auth_util.dart';
 

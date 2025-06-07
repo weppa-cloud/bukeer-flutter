@@ -96,7 +96,7 @@ class _ComponentPlaceWidgetState extends State<ComponentPlaceWidget>
         maxWidth: 770.0,
       ),
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: BukeerColors.secondaryBackground,
         boxShadow: [
           BoxShadow(
             blurRadius: 3.0,
@@ -109,7 +109,7 @@ class _ComponentPlaceWidgetState extends State<ComponentPlaceWidget>
         ],
         borderRadius: BorderRadius.circular(BukeerSpacing.s),
         border: Border.all(
-          color: FlutterFlowTheme.of(context).alternate,
+          color: BukeerColors.borderPrimary,
           width: 1.0,
         ),
       ),
@@ -159,8 +159,7 @@ class _ComponentPlaceWidgetState extends State<ComponentPlaceWidget>
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyLargeFamily,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
+                                color: BukeerColors.secondaryText,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.normal,
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
@@ -175,7 +174,7 @@ class _ComponentPlaceWidgetState extends State<ComponentPlaceWidget>
             ),
             Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              color: FlutterFlowTheme.of(context).primaryBackground,
+              color: BukeerColors.primaryBackground,
               elevation: 1.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
@@ -191,17 +190,17 @@ class _ComponentPlaceWidgetState extends State<ComponentPlaceWidget>
                 defaultText: '',
                 icon: Icon(
                   Icons.place,
-                  color: FlutterFlowTheme.of(context).info,
+                  color: BukeerColors.info,
                   size: 16.0,
                 ),
                 buttonOptions: FFButtonOptions(
                   width: 40.0,
                   height: 40.0,
-                  color: FlutterFlowTheme.of(context).primary,
+                  color: BukeerColors.primary,
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                         fontFamily:
                             FlutterFlowTheme.of(context).titleSmallFamily,
-                        color: FlutterFlowTheme.of(context).info,
+                        color: BukeerColors.info,
                         letterSpacing: 0.0,
                         useGoogleFonts:
                             !FlutterFlowTheme.of(context).titleSmallIsCustom,

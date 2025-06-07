@@ -1,7 +1,6 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import 'dart:math';
@@ -92,7 +91,7 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).accent4,
+            color: BukeerColors.neutral400,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -108,7 +107,7 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                   decoration: BoxDecoration(),
                 ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                padding: EdgeInsets.only(top: BukeerSpacing.l),
                 child: Container(
                   width: double.infinity,
                   constraints: BoxConstraints(
@@ -121,20 +120,17 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30.0,
-                          borderWidth: 1.0,
-                          buttonSize: 44.0,
-                          fillColor: FlutterFlowTheme.of(context).accent4,
+                        BukeerIconButton(
                           icon: Icon(
                             Icons.close_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                            color: BukeerColors.secondaryText,
                             size: 24.0,
                           ),
                           onPressed: () async {
                             Navigator.pop(context);
                           },
+                          size: BukeerIconButtonSize.medium,
+                          variant: BukeerIconButtonVariant.ghost,
                         ),
                       ],
                     ),
@@ -149,7 +145,7 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                     maxWidth: 530.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -207,7 +203,7 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                                 thickness: 1.0,
                                 indent: 0.0,
                                 endIndent: 0.0,
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: BukeerColors.borderPrimary,
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -494,7 +490,7 @@ class _DropdownHotelTarifaWidgetState extends State<DropdownHotelTarifaWidget>
                                                                               .bodyMedium
                                                                               .override(
                                                                                 fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                color: BukeerColors.primaryText,
                                                                                 letterSpacing: 0.0,
                                                                                 fontWeight: FontWeight.bold,
                                                                                 useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,

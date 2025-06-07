@@ -1,9 +1,11 @@
-# 🚀 Bukeer Flutter - Workflow de Desarrollo
+# 🚀 Bukeer Flutter - Workflow de Desarrollo Completo
 
 ## 📋 Índice
 
 - [🏗️ Setup de Desarrollo](#️-setup-de-desarrollo)
 - [🔄 Flujo de Trabajo Diario](#-flujo-de-trabajo-diario)
+- [🤝 Colaboración en Equipo](#-colaboración-en-equipo)
+- [🚀 Deploy y Producción](#-deploy-y-producción)
 - [🎯 Patrones de Código](#-patrones-de-código)
 - [🧪 Testing Guidelines](#-testing-guidelines)
 - [📊 Performance Guidelines](#-performance-guidelines)
@@ -103,6 +105,125 @@ dart format .
 # Commit con mensaje descriptivo
 git add .
 git commit -m "feat: descripción clara del cambio"
+```
+
+---
+
+## 🤝 Colaboración en Equipo
+
+### Script Principal: `./flow.sh`
+
+```bash
+# 🚀 EJECUCIÓN
+./flow.sh run                     # Ejecutar app (Chrome con config correcta)
+./flow.sh run ios                 # Ejecutar en iOS
+./flow.sh run android             # Ejecutar en Android
+
+# 🛠️  DESARROLLO
+./flow.sh dev mi-funcionalidad    # Crear nueva rama
+./flow.sh save                    # Guardar cambios (auto-commit)
+./flow.sh save "fix: bug login"   # Guardar con mensaje custom
+
+# 🧪 TESTING  
+./flow.sh test                    # Ejecutar todas las pruebas
+
+# 📋 COLABORACIÓN
+./flow.sh pr                      # Crear Pull Request
+./flow.sh status                  # Ver estado del proyecto
+./flow.sh sync                    # Sincronizar con main (última versión)
+./flow.sh clean                   # Limpiar ramas viejas
+
+# 🚀 PRODUCCIÓN
+./flow.sh deploy                  # Deploy a producción (solo admins)
+```
+
+### Flujo para Equipos de 2+ Desarrolladores
+
+```
+Desarrollador A          │  Desarrollador B          │  Lead/Admin
+━━━━━━━━━━━━━━━━━━━━━━━━━━━│━━━━━━━━━━━━━━━━━━━━━━━━━━━│━━━━━━━━━━━━━━━━━━━━
+./flow.sh dev feature-A │ ./flow.sh dev feature-B  │
+[desarrollar...]         │ [desarrollar...]          │
+./flow.sh save          │ ./flow.sh save           │
+./flow.sh test          │ ./flow.sh test           │
+./flow.sh pr            │ ./flow.sh pr             │
+                         │                           │ [revisar PRs]
+                         │                           │ ./flow.sh deploy
+                         │                           │      ↓
+                         │                           │ 🌐 CapRover Deploy
+```
+
+### Mantener Código Actualizado
+
+#### **🌅 Al Empezar el Día:**
+```bash
+# SIEMPRE empezar actualizando
+git checkout main
+git pull
+./flow.sh dev tarea-del-dia
+```
+
+#### **🔄 Durante el Desarrollo:**
+```bash
+# Sincronizar frecuentemente (cada 2-3 horas)
+./flow.sh sync              # Trae cambios de main a tu rama
+./flow.sh save             # Guarda tu progreso
+```
+
+#### **📤 Antes de Pull Request:**
+```bash
+# OBLIGATORIO: Sincronizar antes de PR
+./flow.sh sync              # Obtener últimos cambios
+./flow.sh test             # Verificar que todo funciona
+./flow.sh pr               # Crear PR
+```
+
+### Git Hooks - Protecciones Automáticas
+
+#### **Pre-commit** (antes de cada commit):
+- ✅ **Auto-formatea** código Dart
+- ✅ **Ejecuta** `flutter analyze`
+- ✅ **Verifica** sintaxis de archivos modificados
+- ❌ **Bloquea** commit si hay errores críticos
+
+#### **Pre-push** (antes de cada push):
+- 🛡️ **Protege rama main** - requiere confirmación manual
+- 🔍 **Detecta archivos grandes** (>1MB)
+- 🔐 **Escanea secretos** (passwords, API keys, tokens)
+- 🧪 **Ejecuta tests completos** en ramas feature
+- ❌ **Bloquea** push si algo falla
+
+---
+
+## 🚀 Deploy y Producción
+
+### CapRover - Deploy Automático
+
+#### Configuración:
+- **Trigger:** Push a rama `main`
+- **Dockerfile:** `docker/Dockerfile.caprover`
+- **Tiempo:** ~2-5 minutos (automático)
+
+#### Proceso:
+```
+1. ./flow.sh deploy
+   ↓
+2. Merge a main + push
+   ↓
+3. CapRover detecta push
+   ↓
+4. Build automático (Docker)
+   ↓
+5. Deploy a producción 🌐
+```
+
+#### Variables de Entorno (CapRover):
+```bash
+supabaseUrl=https://wzlxbpicdcdvxvdcvgas.supabase.co
+supabaseAnonKey=eyJhbGciOiJIUzI1NiIs...
+apiBaseUrl=https://wzlxbpicdcdvxvdcvgas.supabase.co/rest/v1
+googleMapsApiKey=AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc
+environment=production
 ```
 
 ---

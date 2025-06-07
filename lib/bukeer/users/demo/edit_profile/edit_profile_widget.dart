@@ -1,4 +1,3 @@
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
@@ -48,7 +47,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+      backgroundColor: BukeerColors.secondaryBackground,
       appBar: responsiveVisibility(
         context: context,
         tablet: false,
@@ -56,16 +55,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         desktop: false,
       )
           ? AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+              backgroundColor: BukeerColors.secondaryBackground,
               automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
+              leading: BukeerIconButton(
+                size: BukeerIconButtonSize.large,
+                variant: BukeerIconButtonVariant.ghost,
                 icon: Icon(
                   Icons.arrow_back_rounded,
-                  color: FlutterFlowTheme.of(context).primaryText,
+                  color: BukeerColors.primaryText,
                   size: 30.0,
                 ),
                 onPressed: () async {
@@ -95,7 +92,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               maxWidth: 530.0,
             ),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
+              color: BukeerColors.secondaryBackground,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -111,10 +108,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         width: 100.0,
                         height: 100.0,
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).accent1,
+                          color: BukeerColors.primaryAccent,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             width: 2.0,
                           ),
                         ),
@@ -157,8 +154,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: BukeerColors.secondaryBackground,
                           textStyle: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
@@ -170,17 +166,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               ),
                           elevation: 0.0,
                           borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).alternate,
+                            color: BukeerColors.borderPrimary,
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                          hoverColor: FlutterFlowTheme.of(context).alternate,
+                          hoverColor: BukeerColors.borderPrimary,
                           hoverBorderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).alternate,
+                            color: BukeerColors.borderPrimary,
                             width: 2.0,
                           ),
-                          hoverTextColor:
-                              FlutterFlowTheme.of(context).primaryText,
+                          hoverTextColor: BukeerColors.primaryText,
                           hoverElevation: 3.0,
                         ),
                       ),
@@ -217,35 +212,34 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).alternate,
+                          color: BukeerColors.borderPrimary,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(BukeerSpacing.s),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primary,
+                          color: BukeerColors.primary,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(BukeerSpacing.s),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).error,
+                          color: BukeerColors.error,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(BukeerSpacing.s),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).error,
+                          color: BukeerColors.error,
                           width: 2.0,
                         ),
                         borderRadius: BorderRadius.circular(BukeerSpacing.s),
                       ),
                       filled: true,
-                      fillColor:
-                          FlutterFlowTheme.of(context).secondaryBackground,
+                      fillColor: BukeerColors.secondaryBackground,
                       contentPadding: EdgeInsetsDirectional.fromSTEB(
                           20.0, 24.0, 20.0, 24.0),
                     ),
@@ -256,7 +250,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           useGoogleFonts:
                               !FlutterFlowTheme.of(context).bodyMediumIsCustom,
                         ),
-                    cursorColor: FlutterFlowTheme.of(context).primary,
+                    cursorColor: BukeerColors.primary,
                     validator: _model.yourNameTextControllerValidator
                         .asValidator(context),
                   ),
@@ -302,7 +296,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           EdgeInsetsDirectional.fromSTEB(44.0, 0.0, 44.0, 0.0),
                       iconPadding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: FlutterFlowTheme.of(context).primary,
+                      color: BukeerColors.primary,
                       textStyle: FlutterFlowTheme.of(context)
                           .titleMedium
                           .override(
@@ -318,12 +312,12 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                      hoverColor: FlutterFlowTheme.of(context).accent1,
+                      hoverColor: BukeerColors.primaryAccent,
                       hoverBorderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: BukeerColors.primary,
                         width: 1.0,
                       ),
-                      hoverTextColor: FlutterFlowTheme.of(context).primaryText,
+                      hoverTextColor: BukeerColors.primaryText,
                       hoverElevation: 0.0,
                     ),
                   ),

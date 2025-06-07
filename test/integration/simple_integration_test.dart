@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
 
-import 'package:bukeer/app_state_clean.dart';
+import 'package:bukeer/app_state.dart';
 import 'package:bukeer/services/ui_state_service.dart';
 import 'package:bukeer/services/user_service.dart';
 import 'package:bukeer/bukeer/users/auth_login/auth_login_widget.dart';
@@ -26,7 +26,7 @@ void main() {
     });
 
     tearDown(() {
-      appState.clearState();
+      // clearState method was removed - state is now managed by services;
       uiStateService.clearAll();
     });
 
@@ -214,7 +214,7 @@ void main() {
         await tester.pump();
 
         // Clear state (simulate logout)
-        appState.clearState();
+        // clearState method was removed - state is now managed by services;
         await tester.pump();
 
         // Assert

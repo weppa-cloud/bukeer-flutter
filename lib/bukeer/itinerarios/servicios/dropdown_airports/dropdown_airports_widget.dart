@@ -2,7 +2,6 @@ import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '../../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../services/ui_state_service.dart';
@@ -110,15 +109,12 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    FlutterFlowIconButton(
-                      borderColor: Colors.transparent,
-                      borderRadius: 30.0,
-                      borderWidth: 1.0,
-                      buttonSize: 44.0,
-                      fillColor: FlutterFlowTheme.of(context).accent4,
+                    BukeerIconButton(
+                      size: BukeerIconButtonSize.medium,
+                      variant: BukeerIconButtonVariant.ghost,
                       icon: Icon(
                         Icons.close_rounded,
-                        color: FlutterFlowTheme.of(context).secondaryText,
+                        color: BukeerColors.secondaryText,
                         size: 24.0,
                       ),
                       onPressed: () async {
@@ -141,7 +137,7 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                     maxHeight: 400.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -155,8 +151,7 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                     borderRadius: BorderRadius.circular(BukeerSpacing.m),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                    padding: EdgeInsets.all(BukeerSpacing.m),
                     child: SingleChildScrollView(
                       primary: false,
                       child: Column(

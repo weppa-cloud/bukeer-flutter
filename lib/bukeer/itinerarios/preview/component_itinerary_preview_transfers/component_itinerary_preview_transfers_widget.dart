@@ -71,7 +71,7 @@ class _ComponentItineraryPreviewTransfersWidgetState
           maxWidth: 900.0,
         ),
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: BukeerColors.secondaryBackground,
         ),
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -87,23 +87,22 @@ class _ComponentItineraryPreviewTransfersWidgetState
                     width: 32.0,
                     height: 32.0,
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).accent1,
+                      color: BukeerColors.primaryAccent,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: BukeerColors.primary,
                         width: 2.0,
                       ),
                     ),
                     child: Icon(
                       Icons.directions_car,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: BukeerColors.secondaryText,
                       size: 20.0,
                     ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(left: BukeerSpacing.s),
+                      padding: EdgeInsets.only(left: BukeerSpacing.s),
                       child: Text(
                         'Transfer',
                         style:
@@ -127,7 +126,7 @@ class _ComponentItineraryPreviewTransfersWidgetState
                     style: FlutterFlowTheme.of(context).labelSmall.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).labelSmallFamily,
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: BukeerColors.primaryText,
                           fontSize: BukeerTypography.bodySmallSize,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.normal,
@@ -145,11 +144,11 @@ class _ComponentItineraryPreviewTransfersWidgetState
                     maxWidth: MediaQuery.sizeOf(context).width * 1.0,
                   ),
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    color: BukeerColors.secondaryBackground,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 0.0,
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: BukeerColors.primary,
                         offset: Offset(
                           -2.0,
                           0.0,
@@ -157,7 +156,7 @@ class _ComponentItineraryPreviewTransfersWidgetState
                       )
                     ],
                     border: Border.all(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      color: BukeerColors.secondaryBackground,
                       width: 1.0,
                     ),
                   ),
@@ -192,7 +191,8 @@ class _ComponentItineraryPreviewTransfersWidgetState
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyLargeFamily,
-                                                fontSize: BukeerTypography.bodySmallSize,
+                                                fontSize: BukeerTypography
+                                                    .bodySmallSize,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.bold,
                                                 useGoogleFonts:
@@ -314,7 +314,8 @@ class _ComponentItineraryPreviewTransfersWidgetState
                                           fontFamily:
                                               FlutterFlowTheme.of(context)
                                                   .bodyLargeFamily,
-                                          fontSize: BukeerTypography.bodySmallSize,
+                                          fontSize:
+                                              BukeerTypography.bodySmallSize,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.normal,
                                           useGoogleFonts:
@@ -346,7 +347,8 @@ class _ComponentItineraryPreviewTransfersWidgetState
                                                       FlutterFlowTheme.of(
                                                               context)
                                                           .bodyLargeFamily,
-                                                  fontSize: BukeerTypography.bodySmallSize,
+                                                  fontSize: BukeerTypography
+                                                      .bodySmallSize,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.normal,
                                                   useGoogleFonts:
@@ -356,13 +358,15 @@ class _ComponentItineraryPreviewTransfersWidgetState
                                                 ),
                                           ),
                                         ),
-                                      ].divide(SizedBox(width: BukeerSpacing.xs)),
+                                      ].divide(
+                                          SizedBox(width: BukeerSpacing.xs)),
                                     ),
                                 ].divide(SizedBox(height: BukeerSpacing.xs)),
                               ),
                             ),
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                              borderRadius:
+                                  BorderRadius.circular(BukeerSpacing.s),
                               child: Image.network(
                                 valueOrDefault<String>(
                                   widget!.image != null && widget!.image != ''

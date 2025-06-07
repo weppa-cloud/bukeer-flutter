@@ -57,7 +57,7 @@ class _ComponentContainerAccountsWidgetState
           minHeight: 70.0,
         ),
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: BukeerColors.secondaryBackground,
           boxShadow: [
             BoxShadow(
               blurRadius: 3.0,
@@ -70,12 +70,12 @@ class _ComponentContainerAccountsWidgetState
           ],
           borderRadius: BorderRadius.circular(BukeerSpacing.s),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).alternate,
+            color: BukeerColors.borderPrimary,
             width: 1.0,
           ),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+          padding: EdgeInsets.all(BukeerSpacing.m),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -83,7 +83,7 @@ class _ComponentContainerAccountsWidgetState
                 width: 50.0,
                 height: 50.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).accent1,
+                  color: BukeerColors.primaryAccent,
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: Padding(
@@ -94,7 +94,7 @@ class _ComponentContainerAccountsWidgetState
                     style: FlutterFlowTheme.of(context).titleMedium.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).titleMediumFamily,
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: BukeerColors.primaryText,
                           letterSpacing: 0.0,
                           useGoogleFonts:
                               !FlutterFlowTheme.of(context).titleMediumIsCustom,
@@ -123,7 +123,7 @@ class _ComponentContainerAccountsWidgetState
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .bodyLargeFamily,
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: BukeerColors.primary,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                     useGoogleFonts:
@@ -133,7 +133,7 @@ class _ComponentContainerAccountsWidgetState
                             ),
                           Icon(
                             Icons.business,
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             size: 16.0,
                           ),
                         ].divide(SizedBox(width: BukeerSpacing.s)),
@@ -151,7 +151,7 @@ class _ComponentContainerAccountsWidgetState
                       style: FlutterFlowTheme.of(context).bodySmall.override(
                             fontFamily:
                                 FlutterFlowTheme.of(context).bodySmallFamily,
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 !FlutterFlowTheme.of(context).bodySmallIsCustom,
@@ -164,7 +164,7 @@ class _ComponentContainerAccountsWidgetState
                           padding: EdgeInsets.all(BukeerSpacing.xs),
                           child: Icon(
                             Icons.call,
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             size: 20.0,
                           ),
                         ),
@@ -172,7 +172,7 @@ class _ComponentContainerAccountsWidgetState
                           padding: EdgeInsets.all(BukeerSpacing.xs),
                           child: Icon(
                             Icons.email,
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             size: 20.0,
                           ),
                         ),
@@ -184,7 +184,7 @@ class _ComponentContainerAccountsWidgetState
                           onTap: () async {},
                           child: Icon(
                             Icons.more_vert,
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: BukeerColors.primary,
                             size: 20.0,
                           ),
                         ),

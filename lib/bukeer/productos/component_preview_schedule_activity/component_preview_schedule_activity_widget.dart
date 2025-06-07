@@ -1,5 +1,4 @@
 import '../component_add_schedule_activity/component_add_schedule_activity_widget.dart';
-import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -66,14 +65,14 @@ class _ComponentPreviewScheduleActivityWidgetState
         maxWidth: 852.0,
       ),
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: BukeerColors.secondaryBackground,
         borderRadius: BorderRadius.circular(BukeerSpacing.s),
         border: Border.all(
-          color: FlutterFlowTheme.of(context).alternate,
+          color: BukeerColors.borderPrimary,
         ),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 8.0),
+        padding: EdgeInsets.symmetric(vertical: BukeerSpacing.s),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +81,7 @@ class _ComponentPreviewScheduleActivityWidgetState
               width: 110.0,
               height: 110.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primaryBackground,
+                color: BukeerColors.primaryBackground,
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(BukeerSpacing.s),
@@ -101,8 +100,7 @@ class _ComponentPreviewScheduleActivityWidgetState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsets.only(left: BukeerSpacing.s),
+                    padding: EdgeInsets.only(left: BukeerSpacing.s),
                     child: Text(
                       valueOrDefault<String>(
                         widget!.title,
@@ -138,15 +136,10 @@ class _ComponentPreviewScheduleActivityWidgetState
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FlutterFlowIconButton(
-                  borderColor: FlutterFlowTheme.of(context).alternate,
-                  borderRadius: 16.0,
-                  borderWidth: 2.0,
-                  buttonSize: 35.0,
-                  fillColor: FlutterFlowTheme.of(context).accent4,
+                BukeerIconButton(
                   icon: FaIcon(
                     FontAwesomeIcons.edit,
-                    color: FlutterFlowTheme.of(context).primaryText,
+                    color: BukeerColors.primaryText,
                     size: 16.0,
                   ),
                   onPressed: () async {
@@ -171,15 +164,10 @@ class _ComponentPreviewScheduleActivityWidgetState
                     ).then((value) => safeSetState(() {}));
                   },
                 ),
-                FlutterFlowIconButton(
-                  borderColor: FlutterFlowTheme.of(context).alternate,
-                  borderRadius: 16.0,
-                  borderWidth: 2.0,
-                  buttonSize: 35.0,
-                  fillColor: FlutterFlowTheme.of(context).accent4,
+                BukeerIconButton(
                   icon: Icon(
                     Icons.delete_outline,
-                    color: FlutterFlowTheme.of(context).primaryText,
+                    color: BukeerColors.primaryText,
                     size: 20.0,
                   ),
                   onPressed: () async {

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 import 'package:mockito/annotations.dart';
 
 import '../../lib/services/product_service.dart';
@@ -12,11 +12,11 @@ import 'product_service_test.mocks.dart';
 void main() {
   group('ProductService Tests', () {
     late ProductService productService;
-    late MockSupaFlow mockSupaFlow;
+    late MockSupaFlow _mockSupaFlow;
 
     setUp(() {
       productService = ProductService();
-      mockSupaFlow = MockSupaFlow();
+      _mockSupaFlow = MockSupaFlow();
     });
 
     tearDown(() {
