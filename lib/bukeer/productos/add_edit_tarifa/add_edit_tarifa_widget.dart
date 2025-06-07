@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_edit_tarifa_model.dart';
 import '../../../services/ui_state_service.dart';
+import '../../../services/app_services.dart';
 export 'add_edit_tarifa_model.dart';
 
 class AddEditTarifaWidget extends StatefulWidget {
@@ -1158,7 +1159,8 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                             authToken:
                                                                 currentJwtToken,
                                                             accountId:
-                                                                FFAppState()
+                                                                appServices
+                                                                    .account
                                                                     .accountId,
                                                             profit: double
                                                                 .tryParse(_model
@@ -1197,7 +1199,8 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                               authToken:
                                                                   currentJwtToken,
                                                               accountId:
-                                                                  FFAppState()
+                                                                  appServices
+                                                                      .account
                                                                       .accountId,
                                                               profit: double
                                                                   .tryParse(_model

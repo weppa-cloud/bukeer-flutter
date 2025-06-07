@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'reservation_message_model.dart';
 import '../../../../design_system/index.dart';
+import '../../../../services/app_services.dart';
 export 'reservation_message_model.dart';
 
 class ReservationMessageWidget extends StatefulWidget {
@@ -336,7 +337,10 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                                     await AccountsTable().queryRows(
                                   queryFn: (q) => q.eqOrNull(
                                     'id',
-                                    FFAppState().accountId,
+                                    context
+                                        .read<AppServices>()
+                                        .account
+                                        .accountId,
                                   ),
                                 );
                                 _model.responseReservation =

@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'modal_add_product_model.dart';
 import '../../../services/ui_state_service.dart';
+import '../../../services/app_services.dart';
 export 'modal_add_product_model.dart';
 
 class ModalAddProductWidget extends StatefulWidget {
@@ -209,7 +210,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Container(
       width: double.infinity,
@@ -1528,8 +1529,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                             .read<
                                                                 UiStateService>()
                                                             .selectedLocationZipCode,
-                                                        accountId: FFAppState()
-                                                            .accountId,
+                                                        accountId: appServices
+                                                            .account.accountId!,
                                                         typeEntity:
                                                             'activities',
                                                       );
@@ -1894,9 +1895,9 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                               .read<
                                                                   UiStateService>()
                                                               .selectedLocationZipCode,
-                                                          accountId:
-                                                              FFAppState()
-                                                                  .accountId,
+                                                          accountId: appServices
+                                                              .account
+                                                              .accountId!,
                                                           typeEntity: 'hotels',
                                                         );
 
@@ -2262,8 +2263,9 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                     UiStateService>()
                                                                 .selectedLocationZipCode,
                                                             accountId:
-                                                                FFAppState()
-                                                                    .accountId,
+                                                                appServices
+                                                                    .account
+                                                                    .accountId!,
                                                             typeEntity:
                                                                 'transfers',
                                                           );
@@ -2739,8 +2741,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                     zipCode: context
                                                         .read<UiStateService>()
                                                         .selectedLocationZipCode,
-                                                    accountId:
-                                                        FFAppState().accountId,
+                                                    accountId: appServices
+                                                        .account.accountId!,
                                                     typeEntity: 'activities',
                                                   );
 
@@ -2830,8 +2832,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                     idContact:
                                                         widget!.idContact,
                                                     authToken: currentJwtToken,
-                                                    accountId:
-                                                        FFAppState().accountId,
+                                                    accountId: appServices
+                                                        .account.accountId!,
                                                     location: (_model
                                                                 .apiResultAddLocationActivities
                                                                 ?.jsonBody ??
@@ -3014,8 +3016,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                           .read<
                                                               UiStateService>()
                                                           .selectedLocationZipCode,
-                                                      accountId: FFAppState()
-                                                          .accountId,
+                                                      accountId: appServices
+                                                          .account.accountId!,
                                                       typeEntity: 'hotels',
                                                     );
 
@@ -3110,8 +3112,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                   ?.jsonBody ??
                                                               '')
                                                           .toString(),
-                                                      'account_id': FFAppState()
-                                                          .accountId,
+                                                      'account_id': appServices
+                                                          .account.accountId!,
                                                       'description_short': (String
                                                           description) {
                                                         return description
@@ -3255,8 +3257,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                             .read<
                                                                 UiStateService>()
                                                             .selectedLocationZipCode,
-                                                        accountId: FFAppState()
-                                                            .accountId,
+                                                        accountId: appServices
+                                                            .account.accountId!,
                                                         typeEntity: 'transfers',
                                                       );
 
@@ -3353,8 +3355,8 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                                                 '')
                                                             .toString(),
                                                         'account_id':
-                                                            FFAppState()
-                                                                .accountId,
+                                                            appServices.account
+                                                                .accountId!,
                                                         'description_short': (String
                                                             description) {
                                                           return description

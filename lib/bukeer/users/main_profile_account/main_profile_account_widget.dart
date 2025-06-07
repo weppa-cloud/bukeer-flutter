@@ -25,6 +25,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'main_profile_account_model.dart';
+import '../../../services/app_services.dart';
 export 'main_profile_account_model.dart';
 
 class MainProfileAccountWidget extends StatefulWidget {
@@ -56,7 +57,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
       _model.apiResponseDataAccount =
           await GetAllDataAccountWithLocationCall.call(
         authToken: currentJwtToken,
-        accountId: FFAppState().accountId,
+        accountId: context.read<AppServices>().account.accountId,
       );
 
       if ((_model.apiResponseDataAccount?.succeeded ?? true)) {

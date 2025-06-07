@@ -116,7 +116,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed as part of FFAppState migration
 
     return Scaffold(
       key: scaffoldKey,
@@ -255,14 +255,14 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                     imageUrl:
                                                         valueOrDefault<String>(
                                                       getJsonField(
-                                                                FFAppState()
-                                                                    .agent,
+                                                                appServices.user
+                                                                    .selectedUser,
                                                                 r'''$[:].user_image''',
                                                               ) !=
                                                               null
                                                           ? getJsonField(
-                                                              FFAppState()
-                                                                  .agent,
+                                                              appServices.user
+                                                                  .selectedUser,
                                                               r'''$[:].user_image''',
                                                             ).toString()
                                                           : 'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/profile_default.png',
@@ -291,10 +291,12 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                                 0.0, 0.0),
                                                     child: Text(
                                                       '${getJsonField(
-                                                        FFAppState().agent,
+                                                        appServices
+                                                            .user.selectedUser,
                                                         r'''$[:].name''',
                                                       ).toString()} ${getJsonField(
-                                                        FFAppState().agent,
+                                                        appServices
+                                                            .user.selectedUser,
                                                         r'''$[:].last_name''',
                                                       ).toString()}',
                                                       style: FlutterFlowTheme
@@ -321,7 +323,8 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                                     child: Text(
                                                       valueOrDefault<String>(
                                                         getJsonField(
-                                                          FFAppState().agent,
+                                                          appServices.user
+                                                              .selectedUser,
                                                           r'''$[:].email''',
                                                         )?.toString(),
                                                         'Sin email',
@@ -1138,9 +1141,9 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
                                       children: [
                                         FFButtonWidget(
                                           onPressed: () async {
-                                            FFAppState().idRole = 0;
-                                            FFAppState().accountId = '';
-                                            FFAppState().agent = null;
+                                            // FFAppState().idRole = 0; // Removed as part of FFAppState migration
+                                            // FFAppState().accountId = ''; // Removed as part of FFAppState migration
+                                            // FFAppState().agent = null; // Removed as part of FFAppState migration
                                             // Limpiar cache de autorización al logout
                                             appServices.authorization
                                                 .invalidateCache();

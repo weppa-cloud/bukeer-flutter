@@ -482,7 +482,8 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                         controller: _model
                                                 .dropDownValueController ??=
                                             FormFieldController<String>(null),
-                                        options: FFAppState()
+                                        options: context
+                                            .read<UiStateService>()
                                             .accountPaymentMethods
                                             .map((e) => getJsonField(
                                                   e,
@@ -1009,7 +1010,10 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                               .text),
                                           'payment_method':
                                               _model.dropDownValue,
-                                          'account_id': FFAppState().accountId,
+                                          'account_id': context
+                                              .read<AppServices>()
+                                              .account
+                                              .accountId,
                                           'type': widget!.typeTransaction,
                                           'voucher_url': _model
                                               .uploadedFileUrl_uploadVouchers,
@@ -1041,7 +1045,10 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                             await AccountsTable().queryRows(
                                           queryFn: (q) => q.eqOrNull(
                                             'id',
-                                            FFAppState().accountId,
+                                            context
+                                                .read<AppServices>()
+                                                .account
+                                                .accountId,
                                           ),
                                         );
                                         _shouldSetState = true;
@@ -1199,7 +1206,10 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
                                                   widget!.rates?.toList()),
                                           'payment_method':
                                               _model.dropDownValue,
-                                          'account_id': FFAppState().accountId,
+                                          'account_id': context
+                                              .read<AppServices>()
+                                              .account
+                                              .accountId,
                                           'type': widget!.typeTransaction,
                                           'voucher_url': _model
                                               .uploadedFileUrl_uploadVouchers,

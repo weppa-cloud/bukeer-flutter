@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_add_schedule_activity_model.dart';
 import '../../../services/ui_state_service.dart';
+import '../../../services/app_services.dart';
 export 'component_add_schedule_activity_model.dart';
 
 class ComponentAddScheduleActivityWidget extends StatefulWidget {
@@ -328,7 +329,7 @@ class _ComponentAddScheduleActivityWidgetState
                                   await selectMediaWithSourceBottomSheet(
                                 context: context,
                                 storageFolderPath:
-                                    '${FFAppState().accountId}/products/${context.read<UiStateService>().selectedProductType}',
+                                    '${appServices.account.accountId}/products/${context.read<UiStateService>().selectedProductType}',
                                 allowPhoto: true,
                               );
                               if (selectedMedia != null &&

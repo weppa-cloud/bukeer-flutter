@@ -8,6 +8,7 @@ import '../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../flutter_flow/upload_data.dart';
 import 'dart:ui';
 import '../../../index.dart';
+import '../../../services/app_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,14 +39,14 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
 
     _model.nameTextController ??= TextEditingController(
         text: getJsonField(
-      FFAppState().agent,
+      appServices.user.selectedUser ?? appServices.user.agentData,
       r'''$[:].name''',
     ).toString().toString());
     _model.nameFocusNode ??= FocusNode();
 
     _model.lastNameTextController ??= TextEditingController(
         text: getJsonField(
-      FFAppState().agent,
+      appServices.user.selectedUser ?? appServices.user.agentData,
       r'''$[:].last_name''',
     ).toString().toString());
     _model.lastNameFocusNode ??= FocusNode();
@@ -62,7 +63,7 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Scaffold(
       key: scaffoldKey,
@@ -154,12 +155,14 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
                                   return _model
                                       .uploadedFileUrl_uploadPersonalPhoto;
                                 } else if (getJsonField(
-                                      FFAppState().agent,
+                                      appServices.user.selectedUser ??
+                                          appServices.user.agentData,
                                       r'''$[:].user_image''',
                                     ) !=
                                     null) {
                                   return getJsonField(
-                                    FFAppState().agent,
+                                    appServices.user.selectedUser ??
+                                        appServices.user.agentData,
                                     r'''$[:].user_image''',
                                   ).toString();
                                 } else {
@@ -186,7 +189,7 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
                               await selectMediaWithSourceBottomSheet(
                             context: context,
                             storageFolderPath:
-                                '${FFAppState().accountId}/profiles',
+                                '${appServices.account.accountId}/profiles',
                             allowPhoto: true,
                           );
                           if (selectedMedia != null &&
@@ -432,7 +435,8 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
                       child: Text(
                     valueOrDefault<String>(
                       getJsonField(
-                        FFAppState().agent,
+                        appServices.user.selectedUser ??
+                            appServices.user.agentData,
                         r'''$[:].email''',
                       )?.toString(),
                       'Sin correo electrónico',
@@ -497,7 +501,8 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
                           _model.apiResponseUpdatePersonal =
                               await UpdatePersonalInformationCall.call(
                             id: getJsonField(
-                              FFAppState().agent,
+                              appServices.user.selectedUser ??
+                                  appServices.user.agentData,
                               r'''$[:].id''',
                             ).toString(),
                             authToken: currentJwtToken,
@@ -508,7 +513,8 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
                                         ''
                                 ? _model.uploadedFileUrl_uploadPersonalPhoto
                                 : getJsonField(
-                                    FFAppState().agent,
+                                    appServices.user.selectedUser ??
+                                        appServices.user.agentData,
                                     r'''$[:].user_image''',
                                   ).toString(),
                             name: _model.nameTextController.text,
@@ -521,13 +527,14 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
                                 await GetAgentCall.call(
                               authToken: currentJwtToken,
                               id: currentUserUid,
-                              accountIdParam: FFAppState().accountId,
+                              accountIdParam: appServices.account.accountId,
                             );
 
                             if ((_model.apiResponseGetAgent?.succeeded ??
                                 true)) {
-                              FFAppState().agent =
-                                  (_model.apiResponseGetAgent?.jsonBody ?? '');
+                              // Update user data in service
+                              // TODO: Implement user data refresh after profile update
+                              // await appServices.user.refreshUserData();
                               safeSetState(() {});
 
                               context

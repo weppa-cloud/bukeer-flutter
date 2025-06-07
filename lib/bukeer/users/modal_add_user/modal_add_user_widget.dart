@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'modal_add_user_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/user_service.dart';
+import '../../../services/app_services.dart';
 export 'modal_add_user_model.dart';
 
 class ModalAddUserWidget extends StatefulWidget {
@@ -1138,8 +1139,10 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                     return null;
                                                   }
                                                 }(),
-                                                'account_id':
-                                                    FFAppState().accountId,
+                                                'account_id': context
+                                                    .read<AppServices>()
+                                                    .account
+                                                    .accountId,
                                               });
                                               _shouldSetState = true;
                                               _model.responseUserContact =
@@ -1161,8 +1164,10 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                   r'''$.user.id''',
                                                 ).toString(),
                                                 authToken: currentJwtToken,
-                                                accountId:
-                                                    FFAppState().accountId,
+                                                accountId: context
+                                                    .read<AppServices>()
+                                                    .account
+                                                    .accountId,
                                               );
 
                                               _shouldSetState = true;
@@ -1259,8 +1264,10 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                         return null;
                                                       }
                                                     }(),
-                                                    'account_id':
-                                                        FFAppState().accountId,
+                                                    'account_id': context
+                                                        .read<AppServices>()
+                                                        .account
+                                                        .accountId,
                                                   });
                                                   _shouldSetState = true;
                                                   _model.responseUserContact2 =
@@ -1284,8 +1291,10 @@ class _ModalAddUserWidgetState extends State<ModalAddUserWidget>
                                                       r'''$.id''',
                                                     ).toString(),
                                                     authToken: currentJwtToken,
-                                                    accountId:
-                                                        FFAppState().accountId,
+                                                    accountId: context
+                                                        .read<AppServices>()
+                                                        .account
+                                                        .accountId,
                                                   );
 
                                                   _shouldSetState = true;

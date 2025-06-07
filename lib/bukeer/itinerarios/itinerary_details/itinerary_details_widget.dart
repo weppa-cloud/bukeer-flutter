@@ -45,6 +45,13 @@ class ItineraryDetailsWidget extends StatefulWidget {
 
 class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   late ItineraryDetailsModel _model;
+
+  // Helper to safely parse itinerary ID
+  int? get _itineraryId {
+    if (widget.id == null) return null;
+    return int.tryParse(widget.id!);
+  }
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -91,9 +98,23 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
                 loadingWidget: _buildLoadingState(),
                 errorBuilder: (error) => _buildErrorState(error),
                 builder: (context, itineraryService) {
-                  final itineraryData = widget.id != null
-                      ? itineraryService.getItinerary(int.parse(widget.id!))
-                      : null;
+                  // Validate and parse ID
+                  int? itineraryId;
+                  if (widget.id != null) {
+                    try {
+                      itineraryId = int.tryParse(widget.id!);
+                    } catch (e) {
+                      debugPrint(
+                          'ItineraryDetails: Invalid ID format: ${widget.id}');
+                    }
+                  }
+
+                  if (itineraryId == null) {
+                    return _buildNotFoundState();
+                  }
+
+                  final itineraryData =
+                      itineraryService.getItinerary(itineraryId);
 
                   if (itineraryData == null) {
                     return _buildNotFoundState();
@@ -110,10 +131,12 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   }
 
   Widget _buildContent(dynamic itineraryData) {
-    final itineraryItems =
-        appServices.itinerary.getItineraryItems(int.parse(widget.id!));
-    final passengers =
-        appServices.itinerary.getItineraryPassengers(int.parse(widget.id!));
+    final itineraryItems = _itineraryId != null
+        ? appServices.itinerary.getItineraryItems(_itineraryId!)
+        : [];
+    final passengers = _itineraryId != null
+        ? appServices.itinerary.getItineraryPassengers(_itineraryId!)
+        : [];
     // TODO: Load transactions from transactions service when implemented
     final transactions = <dynamic>[];
 
@@ -224,9 +247,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                if (widget.id != null) {
-                  appServices.itinerary
-                      .loadItineraryDetails(int.parse(widget.id!));
+                if (_itineraryId != null) {
+                  appServices.itinerary.loadItineraryDetails(_itineraryId!);
                 }
               },
               child: Text('Reintentar'),
@@ -279,8 +301,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
 
   // Action Handlers
   void _handleEditItinerary() {
-    final itineraryData =
-        appServices.itinerary.getItinerary(int.parse(widget.id!));
+    if (_itineraryId == null) return;
+    final itineraryData = appServices.itinerary.getItinerary(_itineraryId!);
     if (itineraryData == null) return;
 
     showModalBottomSheet(
@@ -335,10 +357,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
 
   void _handleGeneratePdf() async {
     try {
-      final itineraryData =
-          appServices.itinerary.getItinerary(int.parse(widget.id!));
+      if (_itineraryId == null) return;
+      final itineraryData = appServices.itinerary.getItinerary(_itineraryId!);
       final itineraryItems =
-          appServices.itinerary.getItineraryItems(int.parse(widget.id!));
+          appServices.itinerary.getItineraryItems(_itineraryId!);
 
       if (itineraryData == null) return;
 
@@ -515,8 +537,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   }
 
   void _handleAddPayment() {
+    if (_itineraryId == null) return;
     final passengers =
-        appServices.itinerary.getItineraryPassengers(int.parse(widget.id!));
+        appServices.itinerary.getItineraryPassengers(_itineraryId!);
 
     showModalBottomSheet(
       isScrollControlled: true,

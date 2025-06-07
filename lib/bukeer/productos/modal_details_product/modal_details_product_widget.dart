@@ -27,6 +27,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'modal_details_product_model.dart';
 import '../../../services/ui_state_service.dart';
+import '../../../services/app_services.dart';
 export 'modal_details_product_model.dart';
 
 class ModalDetailsProductWidget extends StatefulWidget {
@@ -2231,7 +2232,7 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                               final selectedFiles =
                                                   await selectFiles(
                                                 storageFolderPath:
-                                                    '${FFAppState().accountId}/products/${context.read<UiStateService>().selectedProductType}',
+                                                    '${appServices.account.accountId}/products/${context.read<UiStateService>().selectedProductType}',
                                                 multiFile: true,
                                               );
                                               if (selectedFiles != null) {
@@ -2290,7 +2291,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                   widget!.dataActivity,
                                                   r'''$.id''',
                                                 ).toString(),
-                                                FFAppState().accountId,
+                                                appServices.account.accountId ??
+                                                    '',
                                                 currentJwtToken!,
                                               );
                                               safeSetState(() {
@@ -2441,9 +2443,9 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                           await Navigator.push(
                                                             context,
                                                             PageTransition(
-                                                              type:
-                                                                  pt.PageTransitionType
-                                                                      .fade,
+                                                              type: pt
+                                                                  .PageTransitionType
+                                                                  .fade,
                                                               child:
                                                                   FlutterFlowExpandedImageView(
                                                                 image: Image
