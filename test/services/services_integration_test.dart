@@ -2,14 +2,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bukeer/services/ui_state_service.dart';
 import 'package:bukeer/services/user_service.dart';
-import 'package:bukeer/app_state.dart';
+import 'package:bukeer/services/account_service.dart';
+import 'package:bukeer/services/app_services.dart';
 
 /// Integration tests for core services working together
 void main() {
   group('Services Integration Tests', () {
     late UiStateService uiStateService;
     late UserService userService;
-    late FFAppState appState;
+    late AccountService accountService;
+    late AppServices appServices;
 
     setUpAll(() async {
       // Initialize SharedPreferences for tests
@@ -20,21 +22,19 @@ void main() {
       // Initialize SharedPreferences with mock values
       final prefs = await SharedPreferences.getInstance();
       await prefs.clear(); // Clear any previous values
-      
+
       uiStateService = UiStateService();
       userService = UserService();
-      appState = FFAppState();
-      await appState.initializePersistedState();
+      accountService = AccountService();
+      // Initialize AppServices singleton for tests
+      appServices = AppServices();
     });
 
     tearDown(() {
       uiStateService.clearAll();
       userService.clearUserData();
-      // Reset FFAppState manually
-      appState.accountId = '';
-      appState.idRole = 0;
-      appState.agent = null;
-      appState.allDataAccount = null;
+      // Reset account service
+      accountService.clearAccountData();
     });
 
     group('UiStateService Core Functionality', () {
@@ -191,57 +191,55 @@ void main() {
       });
     });
 
-    group('FFAppState Core Functionality', () {
-      test('should manage account state', () {
-        expect(appState.accountId, equals(''));
-        expect(appState.idRole, equals(0));
+    group('AccountService Core Functionality', () {
+      test('should manage account state', () async {
+        expect(accountService.accountId, isNull);
+        expect(userService.roleId, equals(0));
 
-        appState.accountId = 'account-123';
-        appState.idRole = 1; // Admin
+        await accountService.setAccountId('account-123');
+        await userService.setUserRole('1'); // Admin
 
-        expect(appState.accountId, equals('account-123'));
-        expect(appState.idRole, equals(1));
+        expect(accountService.accountId, equals('account-123'));
+        expect(userService.roleId, equals(1));
       });
 
-      test('should manage agent data', () {
+      test('should manage agent data', () async {
         final agentData = {
           'id': 'agent-123',
           'name': 'Test Agent',
           'role_id': 1,
         };
 
-        appState.agent = agentData;
-        expect(appState.agent, equals(agentData));
+        await userService.setAgentData(agentData);
+        expect(userService.agentData, equals(agentData));
       });
 
-      test('should clear state correctly', () {
+      test('should clear state correctly', () async {
         // Set some state
-        appState.accountId = 'test-account';
-        appState.idRole = 2;
-        appState.agent = {'test': 'agent'};
-        appState.allDataAccount = {'test': 'account'};
+        await accountService.setAccountId('test-account');
+        await userService.setUserRole('2');
+        await userService.setAgentData({'test': 'agent'});
+        accountService.setAccountData({'test': 'account'});
 
-        // Clear state manually
-        appState.accountId = '';
-        appState.idRole = 0;
-        appState.agent = null;
-        appState.allDataAccount = null;
+        // Clear state
+        accountService.clearAccountData();
+        userService.clearUserData();
 
         // Verify cleared
-        expect(appState.accountId, equals(''));
-        expect(appState.idRole, equals(0));
-        expect(appState.agent, isNull);
-        expect(appState.allDataAccount, isNull);
+        expect(accountService.accountId, isNull);
+        expect(userService.roleId, equals(0));
+        expect(userService.agentData, isNull);
+        expect(accountService.accountData, isNull);
       });
     });
 
     group('Cross-Service Integration', () {
-      test('should work together for product management workflow', () {
+      test('should work together for product management workflow', () async {
         // Simulate a product management workflow
 
         // 1. Set account context
-        appState.accountId = 'account-123';
-        appState.idRole = 1; // Admin
+        await accountService.setAccountId('account-123');
+        await userService.setUserRole('1'); // Admin
 
         // 2. Search for products
         uiStateService.searchQuery = 'beach hotel';
@@ -267,7 +265,7 @@ void main() {
         });
 
         // Verify all services maintain their state
-        expect(appState.accountId, equals('account-123'));
+        expect(accountService.accountId, equals('account-123'));
         expect(uiStateService.searchQuery, equals('beach hotel'));
         expect(uiStateService.selectedProductType, equals('hotels'));
         expect(uiStateService.selectedProductId, equals('hotel-456'));
@@ -275,10 +273,10 @@ void main() {
         expect(userService.selectedUser?['name'], equals('Product Manager'));
       });
 
-      test('should handle cleanup workflow correctly', () {
+      test('should handle cleanup workflow correctly', () async {
         // Set up complex state across all services
-        appState.accountId = 'test-account';
-        appState.agent = {'name': 'Test Agent'};
+        await accountService.setAccountId('test-account');
+        await userService.setAgentData({'name': 'Test Agent'});
 
         uiStateService.searchQuery = 'test search';
         uiStateService.selectedProductId = 'product-123';
@@ -288,16 +286,13 @@ void main() {
         userService.setSelectedUser({'name': 'Test User'});
 
         // Clear all services
-        appState.accountId = '';
-        appState.idRole = 0;
-        appState.agent = null;
-        appState.allDataAccount = null;
+        accountService.clearAccountData();
         uiStateService.clearAll();
         userService.clearUserData();
 
         // Verify complete cleanup
-        expect(appState.accountId, equals(''));
-        expect(appState.agent, isNull);
+        expect(accountService.accountId, isNull);
+        expect(userService.agentData, isNull);
         expect(uiStateService.searchQuery, equals(''));
         expect(uiStateService.selectedProductId, equals(''));
         expect(uiStateService.selectedLocationName, equals(''));
@@ -337,22 +332,19 @@ void main() {
             name: 'Location-$i',
             city: 'City-$i',
           );
-          appState.accountId = 'account-$i';
+          await accountService.setAccountId('account-$i');
           userService.setSelectedUser({'id': 'user-$i'});
 
           // Clear state
           uiStateService.clearAll();
-          appState.accountId = '';
-          appState.idRole = 0;
-          appState.agent = null;
-          appState.allDataAccount = null;
+          accountService.clearAccountData();
           userService.clearUserData();
         }
 
         // Verify final clean state
         expect(uiStateService.searchQuery, equals(''));
         expect(uiStateService.selectedLocationName, equals(''));
-        expect(appState.accountId, equals(''));
+        expect(accountService.accountId, isNull);
         expect(userService.selectedUser, isNull);
       });
     });

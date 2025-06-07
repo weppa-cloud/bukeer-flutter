@@ -6,6 +6,7 @@
 import 'dart:async' as _i2;
 import 'dart:ui' as _i4;
 
+import 'package:bukeer/services/account_service.dart' as _i9;
 import 'package:bukeer/services/authorization_service.dart' as _i3;
 import 'package:bukeer/services/error_service.dart' as _i5;
 import 'package:bukeer/services/itinerary_service.dart' as _i8;
@@ -750,13 +751,13 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as bool);
 
   @override
-  dynamic getItinerary(int? id) => super.noSuchMethod(Invocation.method(
+  dynamic getItinerary(String? id) => super.noSuchMethod(Invocation.method(
         #getItinerary,
         [id],
       ));
 
   @override
-  List<dynamic> getItineraryItems(int? id) => (super.noSuchMethod(
+  List<dynamic> getItineraryItems(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getItineraryItems,
           [id],
@@ -765,7 +766,7 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as List<dynamic>);
 
   @override
-  List<dynamic> getItineraryPassengers(int? id) => (super.noSuchMethod(
+  List<dynamic> getItineraryPassengers(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getItineraryPassengers,
           [id],
@@ -794,7 +795,7 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as _i2.Future<void>);
 
   @override
-  _i2.Future<void> loadItineraryDetails(int? itineraryId) =>
+  _i2.Future<void> loadItineraryDetails(String? itineraryId) =>
       (super.noSuchMethod(
         Invocation.method(
           #loadItineraryDetails,
@@ -805,7 +806,7 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as _i2.Future<void>);
 
   @override
-  _i2.Future<int?> createItinerary({
+  _i2.Future<String?> createItinerary({
     required String? name,
     required String? startDate,
     required String? endDate,
@@ -830,12 +831,12 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
             #passengerCount: passengerCount,
           },
         ),
-        returnValue: _i2.Future<int?>.value(),
-      ) as _i2.Future<int?>);
+        returnValue: _i2.Future<String?>.value(),
+      ) as _i2.Future<String?>);
 
   @override
   _i2.Future<bool> updateItinerary({
-    required int? itineraryId,
+    required String? itineraryId,
     String? name,
     String? startDate,
     String? endDate,
@@ -862,7 +863,7 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
 
   @override
   _i2.Future<bool> addItineraryItem({
-    required int? itineraryId,
+    required String? itineraryId,
     required String? type,
     required Map<String, dynamic>? itemData,
   }) =>
@@ -880,7 +881,7 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as _i2.Future<bool>);
 
   @override
-  _i2.Future<bool> deleteItinerary(int? itineraryId) => (super.noSuchMethod(
+  _i2.Future<bool> deleteItinerary(String? itineraryId) => (super.noSuchMethod(
         Invocation.method(
           #deleteItinerary,
           [itineraryId],
@@ -925,7 +926,7 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as List<dynamic>);
 
   @override
-  Map<String, double> calculateItineraryTotals(int? itineraryId) =>
+  Map<String, double> calculateItineraryTotals(String? itineraryId) =>
       (super.noSuchMethod(
         Invocation.method(
           #calculateItineraryTotals,
@@ -933,6 +934,349 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
         ),
         returnValue: <String, double>{},
       ) as Map<String, double>);
+
+  @override
+  _i2.Future<T?> loadData<T>(
+    _i2.Future<T> Function()? loader, {
+    String? context,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #loadData,
+          [loader],
+          {#context: context},
+        ),
+        returnValue: _i2.Future<T?>.value(),
+      ) as _i2.Future<T?>);
+
+  @override
+  _i2.Future<void> refresh() => (super.noSuchMethod(
+        Invocation.method(
+          #refresh,
+          [],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  T? safeGet<T>(
+    dynamic data,
+    String? path, {
+    T? defaultValue,
+  }) =>
+      (super.noSuchMethod(Invocation.method(
+        #safeGet,
+        [
+          data,
+          path,
+        ],
+        {#defaultValue: defaultValue},
+      )) as T?);
+
+  @override
+  _i2.Future<List<T>> batchLoad<T>(List<_i2.Future<T>>? operations) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #batchLoad,
+          [operations],
+        ),
+        returnValue: _i2.Future<List<T>>.value(<T>[]),
+      ) as _i2.Future<List<T>>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i4.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i4.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i2.Timer createManagedTimer(
+    Duration? duration,
+    _i4.VoidCallback? callback,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createManagedTimer,
+          [
+            duration,
+            callback,
+          ],
+        ),
+        returnValue: _FakeTimer_1(
+          this,
+          Invocation.method(
+            #createManagedTimer,
+            [
+              duration,
+              callback,
+            ],
+          ),
+        ),
+      ) as _i2.Timer);
+
+  @override
+  _i2.Timer createManagedPeriodicTimer(
+    Duration? duration,
+    void Function(_i2.Timer)? callback,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createManagedPeriodicTimer,
+          [
+            duration,
+            callback,
+          ],
+        ),
+        returnValue: _FakeTimer_1(
+          this,
+          Invocation.method(
+            #createManagedPeriodicTimer,
+            [
+              duration,
+              callback,
+            ],
+          ),
+        ),
+      ) as _i2.Timer);
+
+  @override
+  void addManagedSubscription(_i2.StreamSubscription<dynamic>? subscription) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addManagedSubscription,
+          [subscription],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void disposeManagedResources() => super.noSuchMethod(
+        Invocation.method(
+          #disposeManagedResources,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [AccountService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAccountService extends _i1.Mock implements _i9.AccountService {
+  MockAccountService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  List<dynamic> get currency => (super.noSuchMethod(
+        Invocation.getter(#currency),
+        returnValue: <dynamic>[],
+      ) as List<dynamic>);
+
+  @override
+  List<dynamic> get typesIncrease => (super.noSuchMethod(
+        Invocation.getter(#typesIncrease),
+        returnValue: <dynamic>[],
+      ) as List<dynamic>);
+
+  @override
+  List<dynamic> get paymentMethods => (super.noSuchMethod(
+        Invocation.getter(#paymentMethods),
+        returnValue: <dynamic>[],
+      ) as List<dynamic>);
+
+  @override
+  String get accountIdFm => (super.noSuchMethod(
+        Invocation.getter(#accountIdFm),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#accountIdFm),
+        ),
+      ) as String);
+
+  @override
+  bool get isLoading => (super.noSuchMethod(
+        Invocation.getter(#isLoading),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get hasError => (super.noSuchMethod(
+        Invocation.getter(#hasError),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  Duration get cacheDuration => (super.noSuchMethod(
+        Invocation.getter(#cacheDuration),
+        returnValue: _FakeDuration_0(
+          this,
+          Invocation.getter(#cacheDuration),
+        ),
+      ) as Duration);
+
+  @override
+  bool get isCacheValid => (super.noSuchMethod(
+        Invocation.getter(#isCacheValid),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  String get memoryKey => (super.noSuchMethod(
+        Invocation.getter(#memoryKey),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#memoryKey),
+        ),
+      ) as String);
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i2.Future<void> setCurrentAccount(String? accountId) => (super.noSuchMethod(
+        Invocation.method(
+          #setCurrentAccount,
+          [accountId],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<void> setAccountId(
+    String? accountId, {
+    bool? loadData = true,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setAccountId,
+          [accountId],
+          {#loadData: loadData},
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<void> setAccountIdFm(String? accountIdFm) => (super.noSuchMethod(
+        Invocation.method(
+          #setAccountIdFm,
+          [accountIdFm],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<void> loadAccountData() => (super.noSuchMethod(
+        Invocation.method(
+          #loadAccountData,
+          [],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<void> updateCurrency(List<dynamic>? newCurrency) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateCurrency,
+          [newCurrency],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<void> updatePaymentMethods(List<dynamic>? newMethods) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updatePaymentMethods,
+          [newMethods],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<void> updateTypesIncrease(List<dynamic>? newTypes) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateTypesIncrease,
+          [newTypes],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  dynamic getCurrencyByName(String? name) =>
+      super.noSuchMethod(Invocation.method(
+        #getCurrencyByName,
+        [name],
+      ));
+
+  @override
+  dynamic getPaymentMethodByName(String? name) =>
+      super.noSuchMethod(Invocation.method(
+        #getPaymentMethodByName,
+        [name],
+      ));
+
+  @override
+  void clearData() => super.noSuchMethod(
+        Invocation.method(
+          #clearData,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i2.Future<void> initialize() => (super.noSuchMethod(
+        Invocation.method(
+          #initialize,
+          [],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 
   @override
   _i2.Future<T?> loadData<T>(

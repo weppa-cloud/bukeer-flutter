@@ -1,23 +1,104 @@
 {
-    "name": "bukeer",
-    "short_name": "bukeer",
-    "start_url": ".",
+    "name": "Bukeer - Travel Management Platform",
+    "short_name": "Bukeer",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "description": "Comprehensive travel agency management platform for creating itineraries, managing clients, and handling bookings.",
+    "orientation": "any",
     "prefer_related_applications": false,
+    "categories": ["business", "travel", "productivity"],
+    "lang": "es-ES",
+    "dir": "ltr",
     "icons": [
         {
             "src": "icons/Icon-192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
             "src": "icons/Icon-512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "favicon.png",
+            "sizes": "48x48",
+            "type": "image/png",
+            "purpose": "any"
         }
-    ]
+    ],
+    "screenshots": [
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Bukeer Dashboard"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "Access the main dashboard",
+            "url": "/mainHome",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Itinerarios",
+            "short_name": "Itinerarios",
+            "description": "Manage travel itineraries",
+            "url": "/main_itineraries",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Contactos",
+            "short_name": "Contactos",
+            "description": "Manage contacts and clients",
+            "url": "/main_contacts",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        },
+        {
+            "name": "Productos",
+            "short_name": "Productos",
+            "description": "Manage travel products",
+            "url": "/mainProducts",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        }
+    ],
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    }
 }

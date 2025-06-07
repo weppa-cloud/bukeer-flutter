@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
 
-import 'package:bukeer/app_state.dart';
+import 'package:bukeer/services/account_service.dart';
 import 'package:bukeer/services/ui_state_service.dart';
 import 'package:bukeer/services/user_service.dart';
 import 'package:bukeer/bukeer/users/auth_login/auth_login_widget.dart';
@@ -16,24 +16,26 @@ void main() {
 
   group('Simple Integration Tests', () {
     late UiStateService uiStateService;
-    late FFAppState appState;
+    late AccountService accountService;
     late UserService userService;
 
     setUp(() {
       uiStateService = UiStateService();
-      appState = FFAppState();
+      accountService = AccountService();
       userService = UserService();
     });
 
     tearDown(() {
-      // clearState method was removed - state is now managed by services;
+      // Clear all services
       uiStateService.clearAll();
+      accountService.clearAccountData();
+      userService.clearUserData();
     });
 
     Widget createTestWidget({required Widget child}) {
       return MultiProvider(
         providers: [
-          ChangeNotifierProvider<FFAppState>.value(value: appState),
+          Provider<AccountService>.value(value: accountService),
           ChangeNotifierProvider<UiStateService>.value(value: uiStateService),
           Provider<UserService>.value(value: userService),
         ],
@@ -177,7 +179,7 @@ void main() {
       });
     });
 
-    group('FFAppState Integration', () {
+    group('AccountService Integration', () {
       testWidgets('should manage account state', (tester) async {
         // Arrange
         final widget = createTestWidget(
@@ -188,13 +190,13 @@ void main() {
 
         // Act
         await tester.pumpWidget(widget);
-        appState.accountId = 'account-123';
-        appState.idRole = 1; // Admin role
+        await accountService.setAccountId('account-123');
+        await userService.setUserRole('1'); // Admin role
         await tester.pump();
 
         // Assert
-        expect(appState.accountId, equals('account-123'));
-        expect(appState.idRole, equals(1));
+        expect(accountService.accountId, equals('account-123'));
+        expect(userService.roleId, equals(1));
       });
 
       testWidgets('should clear state on logout', (tester) async {
@@ -209,17 +211,18 @@ void main() {
         await tester.pumpWidget(widget);
 
         // Set some state
-        appState.accountId = 'account-123';
-        appState.agent = {'name': 'Test Agent'};
+        await accountService.setAccountId('account-123');
+        await userService.setAgentData({'name': 'Test Agent'});
         await tester.pump();
 
         // Clear state (simulate logout)
-        // clearState method was removed - state is now managed by services;
+        accountService.clearAccountData();
+        userService.clearUserData();
         await tester.pump();
 
         // Assert
-        expect(appState.accountId, equals(''));
-        expect(appState.agent, isNull);
+        expect(accountService.accountId, isNull);
+        expect(userService.agentData, isNull);
       });
     });
 
@@ -229,13 +232,13 @@ void main() {
         Widget testChild = Builder(
           builder: (context) {
             final uiState = context.read<UiStateService>();
-            final appState = context.read<FFAppState>();
+            final accountService = context.read<AccountService>();
             final userService = context.read<UserService>();
 
             return Column(
               children: [
                 Text('UiState: ${uiState.searchQuery}'),
-                Text('Account: ${appState.accountId}'),
+                Text('Account: ${accountService.accountId ?? ''}'),
                 Text('User Service: ${userService.hasLoadedData}'),
               ],
             );
@@ -319,7 +322,7 @@ void main() {
 
         // Set initial state
         uiStateService.searchQuery = 'persistent search';
-        appState.accountId = 'persistent-account';
+        await accountService.setAccountId('persistent-account');
         await tester.pump();
 
         // Rebuild widget tree
@@ -328,7 +331,7 @@ void main() {
 
         // Assert - State should persist
         expect(uiStateService.searchQuery, equals('persistent search'));
-        expect(appState.accountId, equals('persistent-account'));
+        expect(accountService.accountId, equals('persistent-account'));
       });
     });
 

@@ -110,7 +110,8 @@ class ItineraryService extends BaseService {
         _itineraries.clear();
         _invalidateCache();
 
-        return getJsonField(response.jsonBody, r'$[0].id')?.toString();
+        final id = getJsonField(response.jsonBody, r'$[0].id')?.toString();
+        return id ?? ''; // Return empty string if null
       }
       throw Exception('Failed to create itinerary');
     });

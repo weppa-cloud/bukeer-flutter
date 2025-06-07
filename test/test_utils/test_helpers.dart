@@ -8,7 +8,7 @@ import 'package:bukeer/services/authorization_service.dart';
 import 'package:bukeer/services/error_service.dart';
 import 'package:bukeer/services/user_service.dart';
 import 'package:bukeer/services/itinerary_service.dart';
-import 'package:bukeer/app_state.dart';
+import 'package:bukeer/services/account_service.dart';
 import '../mocks/supabase_mocks.dart';
 
 // Generate mocks with build_runner
@@ -17,6 +17,7 @@ import '../mocks/supabase_mocks.dart';
   ErrorService,
   UserService,
   ItineraryService,
+  AccountService,
 ])
 import 'test_helpers.mocks.dart';
 
@@ -27,7 +28,7 @@ class TestHelpers {
   static late MockErrorService mockErrorService;
   static late MockUserService mockUserService;
   static late MockItineraryService mockItineraryService;
-  static late FFAppState mockAppState;
+  static late AccountService mockAccountService;
 
   /// Initialize all mocks before each test
   static void setUp() {
@@ -35,7 +36,7 @@ class TestHelpers {
     mockErrorService = MockErrorService();
     mockUserService = MockUserService();
     mockItineraryService = MockItineraryService();
-    mockAppState = FFAppState();
+    mockAccountService = AccountService();
 
     // Initialize Supabase mocks
     SupabaseMocks.setUp();
@@ -44,8 +45,8 @@ class TestHelpers {
   /// Clean up after each test
   static void tearDown() {
     // Reset any global state if needed
-    // Note: FFAppState doesn't have clearState method anymore
-    mockAppState = FFAppState(); // Create new instance instead
+    // Clear modern services
+    // mockAccountService.clearAccountData(); // Method doesn't exist, skip for now
 
     // Clean up Supabase mocks
     SupabaseMocks.tearDown();
@@ -58,12 +59,12 @@ class TestHelpers {
     ErrorService? errorService,
     UserService? userService,
     ItineraryService? itineraryService,
-    FFAppState? appState,
+    AccountService? accountService,
   }) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<FFAppState>.value(
-          value: appState ?? mockAppState,
+        Provider<AccountService>.value(
+          value: accountService ?? mockAccountService,
         ),
         ChangeNotifierProvider<AuthorizationService>.value(
           value: authService ?? mockAuthService,
@@ -103,7 +104,7 @@ class TestHelpers {
     );
     when(mockAuthService.isSuperAdmin).thenReturn(role == 'super_admin');
   }
-  
+
   static RoleType _getRoleTypeFromString(String role) {
     switch (role) {
       case 'super_admin':
@@ -209,7 +210,7 @@ class TestHelpers {
         .thenReturn(itineraries ?? defaultItineraries);
 
     if (itineraryDetails != null && itineraryId != null) {
-      when(mockItineraryService.getItinerary(int.parse(itineraryId)))
+      when(mockItineraryService.getItinerary(itineraryId))
           .thenReturn(itineraryDetails);
     }
   }

@@ -18,11 +18,24 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Bukeer">
+  
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="bukeer">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Bukeer">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/Icon-192.png">
+  
+  <!-- Microsoft/Windows meta tags -->
+  <meta name="msapplication-TileImage" content="icons/Icon-512.png">
+  <meta name="msapplication-TileColor" content="#0175C2">
+  <meta name="msapplication-tap-highlight" content="no">
 
   
 
@@ -88,6 +101,81 @@
   
   
   
+  <!-- Service Worker Registration -->
+  <script>
+    // Register service worker for PWA functionality
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js', {
+          scope: '/'
+        }).then(function (registration) {
+          console.log('✅ Service Worker registered successfully:', registration.scope);
+          
+          // Check for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // Show update available notification
+                  console.log('🔄 New version available! Refresh to update.');
+                  if (window.showUpdateNotification) {
+                    window.showUpdateNotification();
+                  }
+                }
+              });
+            }
+          });
+          
+        }).catch(function (error) {
+          console.warn('⚠️ Service Worker registration failed:', error);
+        });
+      });
+    }
+
+    // PWA Install Handler
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('💾 PWA install prompt available');
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install button or banner
+      if (window.showInstallPrompt) {
+        window.showInstallPrompt(deferredPrompt);
+      }
+    });
+
+    // Track PWA usage
+    window.addEventListener('appinstalled', () => {
+      console.log('📱 PWA was installed successfully');
+      deferredPrompt = null;
+      
+      // Analytics or tracking code here
+      if (window.gtag) {
+        window.gtag('event', 'pwa_install', {
+          'event_category': 'PWA',
+          'event_label': 'App Installed'
+        });
+      }
+    });
+
+    // Handle PWA display mode
+    function getPWADisplayMode() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      if (document.referrer.startsWith('android-app://')) {
+        return 'twa';
+      } else if (navigator.standalone || isStandalone) {
+        return 'standalone';
+      }
+      return 'browser';
+    }
+
+    // Store display mode for app usage
+    window.PWA_DISPLAY_MODE = getPWADisplayMode();
+    console.log('🖥️ PWA Display Mode:', window.PWA_DISPLAY_MODE);
+  </script>
+
   <script>
     {{flutter_bootstrap_js}}
   </script>
