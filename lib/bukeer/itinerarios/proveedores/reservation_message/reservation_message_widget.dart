@@ -80,7 +80,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),

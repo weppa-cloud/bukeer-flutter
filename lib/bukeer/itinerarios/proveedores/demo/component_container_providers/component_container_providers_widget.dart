@@ -60,7 +60,7 @@ class _ComponentContainerProvidersWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Visibility(
       visible: widget!.parameter3 == 5,

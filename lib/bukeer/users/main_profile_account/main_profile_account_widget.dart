@@ -265,7 +265,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
       future: (_model.apiRequestCompleter ??= Completer<ApiCallResponse>()
             ..complete(GetAllDataAccountWithLocationCall.call(
               authToken: currentJwtToken,
-              accountId: FFAppState().accountId,
+              accountId: appServices.account.accountId!,
             )))
           .future,
       builder: (context, snapshot) {
@@ -710,7 +710,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                           context:
                                                                               context,
                                                                           storageFolderPath:
-                                                                              '${FFAppState().accountId}/brand',
+                                                                              '${appServices.account.accountId}/brand',
                                                                           allowPhoto:
                                                                               true,
                                                                         );
@@ -3707,9 +3707,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                           .read<
                                                                               UiStateService>()
                                                                           .selectedLocationZipCode,
-                                                                      accountId:
-                                                                          FFAppState()
-                                                                              .accountId,
+                                                                      accountId: appServices
+                                                                          .account
+                                                                          .accountId!,
                                                                       typeEntity:
                                                                           'accounts',
                                                                     );

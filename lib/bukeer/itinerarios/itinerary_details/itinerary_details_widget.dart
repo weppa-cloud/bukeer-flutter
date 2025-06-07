@@ -46,11 +46,8 @@ class ItineraryDetailsWidget extends StatefulWidget {
 class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   late ItineraryDetailsModel _model;
 
-  // Helper to safely parse itinerary ID
-  int? get _itineraryId {
-    if (widget.id == null) return null;
-    return int.tryParse(widget.id!);
-  }
+  // Helper to get itinerary ID
+  String? get _itineraryId => widget.id;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -61,8 +58,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
 
     // Load itinerary data when page loads
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (widget.id != null) {
-        await appServices.itinerary.loadItineraryDetails(int.parse(widget.id!));
+      if (_itineraryId != null && _itineraryId!.isNotEmpty) {
+        await appServices.itinerary.loadItineraryDetails(_itineraryId!);
       }
     });
 
@@ -98,23 +95,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
                 loadingWidget: _buildLoadingState(),
                 errorBuilder: (error) => _buildErrorState(error),
                 builder: (context, itineraryService) {
-                  // Validate and parse ID
-                  int? itineraryId;
-                  if (widget.id != null) {
-                    try {
-                      itineraryId = int.tryParse(widget.id!);
-                    } catch (e) {
-                      debugPrint(
-                          'ItineraryDetails: Invalid ID format: ${widget.id}');
-                    }
-                  }
-
-                  if (itineraryId == null) {
+                  // Validate ID
+                  if (widget.id == null || widget.id!.isEmpty) {
                     return _buildNotFoundState();
                   }
 
                   final itineraryData =
-                      itineraryService.getItinerary(itineraryId);
+                      itineraryService.getItinerary(widget.id!);
 
                   if (itineraryData == null) {
                     return _buildNotFoundState();

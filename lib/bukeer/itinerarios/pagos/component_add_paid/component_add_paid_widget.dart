@@ -21,6 +21,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_add_paid_model.dart';
 import '../../../../services/app_services.dart';
+import '../../../../services/ui_state_service.dart';
 export 'component_add_paid_model.dart';
 
 class ComponentAddPaidWidget extends StatefulWidget {
@@ -124,7 +125,7 @@ class _ComponentAddPaidWidgetState extends State<ComponentAddPaidWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),

@@ -9,30 +9,30 @@ class ItineraryService extends BaseService {
 
   // Cached data
   List<dynamic> _itineraries = [];
-  Map<int, dynamic> _itineraryDetails = {};
-  Map<int, List<dynamic>> _itineraryItems = {};
-  Map<int, List<dynamic>> _itineraryPassengers = {};
+  Map<String, dynamic> _itineraryDetails = {};
+  Map<String, List<dynamic>> _itineraryItems = {};
+  Map<String, List<dynamic>> _itineraryPassengers = {};
 
   // Selected itinerary data (replacement for allDataItinerary)
   dynamic _selectedItinerary;
-  
+
   // Selected passenger data (replacement for allDataPassenger)
   dynamic _selectedPassenger;
 
   // Collection getters
   List<dynamic> get itineraries => _itineraries;
 
-  dynamic getItinerary(int id) => _itineraryDetails[id];
-  List<dynamic> getItineraryItems(int id) => _itineraryItems[id] ?? [];
-  List<dynamic> getItineraryPassengers(int id) =>
+  dynamic getItinerary(String id) => _itineraryDetails[id];
+  List<dynamic> getItineraryItems(String id) => _itineraryItems[id] ?? [];
+  List<dynamic> getItineraryPassengers(String id) =>
       _itineraryPassengers[id] ?? [];
 
   // Selected itinerary getters (replacement for allDataItinerary)
   dynamic get selectedItinerary => _selectedItinerary;
-  
+
   // Selected passenger getters (replacement for allDataPassenger)
   dynamic get selectedPassenger => _selectedPassenger;
-  
+
   // Backward compatibility getters
   dynamic get allDataItinerary => _selectedItinerary;
   dynamic get allDataPassenger => _selectedPassenger;
@@ -57,10 +57,10 @@ class ItineraryService extends BaseService {
   }
 
   // Load specific itinerary details
-  Future<void> loadItineraryDetails(int itineraryId) async {
+  Future<void> loadItineraryDetails(String itineraryId) async {
     await loadData(() async {
-      final response = await GetitIneraryDetailsCall.call(
-          itineraryId: itineraryId.toString());
+      final response =
+          await GetitIneraryDetailsCall.call(itineraryId: itineraryId);
       if (response.succeeded) {
         _itineraryDetails[itineraryId] =
             getJsonField(response.jsonBody, r'$[0]');
@@ -83,7 +83,7 @@ class ItineraryService extends BaseService {
   }
 
   // Create new itinerary
-  Future<int?> createItinerary({
+  Future<String?> createItinerary({
     required String name,
     required String startDate,
     required String endDate,
@@ -110,7 +110,7 @@ class ItineraryService extends BaseService {
         _itineraries.clear();
         _invalidateCache();
 
-        return getJsonField(response.jsonBody, r'$[0].id');
+        return getJsonField(response.jsonBody, r'$[0].id')?.toString();
       }
       throw Exception('Failed to create itinerary');
     });
@@ -118,7 +118,7 @@ class ItineraryService extends BaseService {
 
   // Update itinerary
   Future<bool> updateItinerary({
-    required int itineraryId,
+    required String itineraryId,
     String? name,
     String? startDate,
     String? endDate,
@@ -128,7 +128,7 @@ class ItineraryService extends BaseService {
   }) async {
     final result = await loadData(() async {
       final response = await UpdateItineraryCall.call(
-        id: itineraryId.toString(),
+        id: itineraryId,
         name: name,
         startDate: startDate,
         endDate: endDate,
@@ -153,7 +153,7 @@ class ItineraryService extends BaseService {
 
   // Add item to itinerary
   Future<bool> addItineraryItem({
-    required int itineraryId,
+    required String itineraryId,
     required String type,
     required Map<String, dynamic> itemData,
   }) async {
@@ -171,12 +171,12 @@ class ItineraryService extends BaseService {
   }
 
   // Delete itinerary
-  Future<bool> deleteItinerary(int itineraryId) async {
+  Future<bool> deleteItinerary(String itineraryId) async {
     final result = await loadData(() async {
       // TODO: Implement proper delete API call when available
       // For now, just remove from local cache
-      _itineraries
-          .removeWhere((item) => getJsonField(item, r'$.id') == itineraryId);
+      _itineraries.removeWhere(
+          (item) => getJsonField(item, r'$.id')?.toString() == itineraryId);
       _itineraryDetails.remove(itineraryId);
       _itineraryItems.remove(itineraryId);
       _itineraryPassengers.remove(itineraryId);
@@ -193,7 +193,7 @@ class ItineraryService extends BaseService {
     _selectedItinerary = itinerary;
     notifyListeners();
   }
-  
+
   // Set selected passenger (replacement for allDataPassenger assignment)
   void setSelectedPassenger(dynamic passenger) {
     _selectedPassenger = passenger;
@@ -226,7 +226,7 @@ class ItineraryService extends BaseService {
   }
 
   // Calculate totals
-  Map<String, double> calculateItineraryTotals(int itineraryId) {
+  Map<String, double> calculateItineraryTotals(String itineraryId) {
     final items = getItineraryItems(itineraryId);
     double totalCost = 0;
     double totalPrice = 0;
@@ -242,7 +242,6 @@ class ItineraryService extends BaseService {
       'profit': totalPrice - totalCost,
     };
   }
-
 
   // Backward compatibility setters
   set allDataItinerary(dynamic value) {
