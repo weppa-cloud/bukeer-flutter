@@ -19,6 +19,7 @@ import '../servicios/add_activities/add_activities_widget.dart';
 import '../servicios/add_transfer/add_transfer_widget.dart';
 import '../pasajeros/modal_add_passenger/modal_add_passenger_widget.dart';
 import '../pagos/component_add_paid/component_add_paid_widget.dart';
+import '../main_itineraries/main_itineraries_widget.dart';
 import '../../../custom_code/actions/index.dart' as actions;
 import 'itinerary_details_model.dart';
 
@@ -277,7 +278,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
             ),
             SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () => context.goNamed('main_itineraries'),
+              onPressed: () => context.goNamed(MainItinerariesWidget.routeName),
               child: Text('Volver a Itinerarios'),
             ),
           ],
@@ -326,7 +327,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               Navigator.of(context).pop();
               // TODO: Add delete functionality to itinerary service
               debugPrint('Delete itinerary: ${widget.id}');
-              // context.goNamed('main_itineraries');
+              // context.goNamed(MainItinerariesWidget.routeName);
             },
             child: Text('Eliminar'),
           ),

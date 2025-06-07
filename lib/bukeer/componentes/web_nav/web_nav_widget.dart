@@ -259,28 +259,32 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                         icon: Icons.dashboard_rounded,
                         label: 'Dashboard',
                         isSelected: widget.selectedNav == 1,
-                        onTap: () => context.pushNamed('Main_Home'),
+                        onTap: () =>
+                            context.pushNamed(MainHomeWidget.routeName),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.event_note_rounded,
                         label: 'Itinerarios',
                         isSelected: widget.selectedNav == 2,
-                        onTap: () => context.pushNamed('main_itineraries'),
+                        onTap: () =>
+                            context.pushNamed(MainItinerariesWidget.routeName),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.inventory_2_rounded,
                         label: 'Productos',
                         isSelected: widget.selectedNav == 3,
-                        onTap: () => context.pushNamed('main_products'),
+                        onTap: () =>
+                            context.pushNamed(MainProductsWidget.routeName),
                       ),
                       _buildNavItem(
                         context,
                         icon: Icons.people_rounded,
                         label: 'Contactos',
                         isSelected: widget.selectedNav == 4,
-                        onTap: () => context.pushNamed('main_contacts'),
+                        onTap: () =>
+                            context.pushNamed(MainContactsWidget.routeName),
                       ),
 
                       // Mostrar usuarios solo para admins
@@ -290,7 +294,8 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                           icon: Icons.supervised_user_circle_rounded,
                           label: 'Usuarios',
                           isSelected: widget.selectedNav == 5,
-                          onTap: () => context.pushNamed('main_users'),
+                          onTap: () =>
+                              context.pushNamed(MainUsersWidget.routeName),
                         ),
 
                       // Configuración de la cuenta
@@ -299,7 +304,8 @@ class _WebNavWidgetState extends State<WebNavWidget> {
                         icon: Icons.settings_rounded,
                         label: 'Configuración',
                         isSelected: widget.selectedNav == 6,
-                        onTap: () => context.pushNamed('Main_profileAccount'),
+                        onTap: () => context
+                            .pushNamed(MainProfileAccountWidget.routeName),
                       ),
                     ],
                   ),
@@ -378,7 +384,7 @@ class _WebNavWidgetState extends State<WebNavWidget> {
       focusColor: BukeerColors.primaryColor.withOpacity(0.04),
       hoverColor: BukeerColors.primaryColor.withOpacity(0.04),
       highlightColor: BukeerColors.primaryColor.withOpacity(0.12),
-      onTap: () => context.pushNamed('Main_profilePage'),
+      onTap: () => context.pushNamed(MainProfilePageWidget.routeName),
       child: Container(
         decoration: BoxDecoration(
           color: BukeerColors.primaryBackground,
