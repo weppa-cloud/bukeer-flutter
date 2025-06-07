@@ -22,6 +22,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_contactos_model.dart';
 import '../../../services/ui_state_service.dart';
+import '../../../services/app_services.dart';
 export 'dropdown_contactos_model.dart';
 
 class DropdownContactosWidget extends StatefulWidget {
@@ -1176,8 +1177,7 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                                     UiStateService>()
                                                                 .selectedLocationZipCode,
                                                             accountId:
-                                                                FFAppState()
-                                                                    .accountId,
+                                                                appServices.account.accountId!,
                                                             typeEntity:
                                                                 'contacts',
                                                           );
@@ -1213,8 +1213,7 @@ class _DropdownContactosWidgetState extends State<DropdownContactosWidget>
                                                               birthDate:
                                                                   '0001-01-01',
                                                               accountId:
-                                                                  FFAppState()
-                                                                      .accountId,
+                                                                  appServices.account.accountId!,
                                                               location: (_model
                                                                           .responseInsertLocation
                                                                           ?.jsonBody ??

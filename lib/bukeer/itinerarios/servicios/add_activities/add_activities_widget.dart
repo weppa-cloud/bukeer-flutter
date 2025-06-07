@@ -208,7 +208,7 @@ class _AddActivitiesWidgetState extends State<AddActivitiesWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Migrated to modern services
 
     return GestureDetector(
       onTap: () {

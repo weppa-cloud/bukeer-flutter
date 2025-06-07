@@ -28,6 +28,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'modal_details_contact_model.dart';
+import '../../../services/app_services.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/contact_service.dart';
 export 'modal_details_contact_model.dart';
@@ -354,7 +355,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Container(
       width: double.infinity,
@@ -3908,7 +3909,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             zipCode:
                                                                                 context.read<UiStateService>().selectedLocationZipCode,
                                                                             accountId:
-                                                                                FFAppState().accountId,
+                                                                                appServices.account.accountId!,
                                                                             typeEntity:
                                                                                 'contacts',
                                                                           );
@@ -3929,7 +3930,7 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                               isProvider: false,
                                                                               authToken: currentJwtToken,
                                                                               birthDate: '0001-01-01',
-                                                                              accountId: FFAppState().accountId,
+                                                                              accountId: appServices.account.accountId!,
                                                                               location: (_model.responseInsertLocation?.jsonBody ?? '').toString(),
                                                                               idRelatedContact: getJsonField(
                                                                                 columnGetContactWithLocationResponse.jsonBody,

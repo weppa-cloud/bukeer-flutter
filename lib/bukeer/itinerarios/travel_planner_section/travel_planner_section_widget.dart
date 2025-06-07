@@ -64,7 +64,7 @@ class _TravelPlannerSectionWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     // Simplificado: solo retornamos el Row sin Container wrapper
     return Row(

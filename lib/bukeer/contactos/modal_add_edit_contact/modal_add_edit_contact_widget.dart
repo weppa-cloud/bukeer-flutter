@@ -71,7 +71,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
@@ -1576,7 +1576,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                             zipCode: context
                                                 .read<UiStateService>()
                                                 .selectedLocationZipCode,
-                                            accountId: FFAppState().accountId,
+                                            accountId: appServices.account.accountId!,
                                             typeEntity: 'contacts',
                                           );
 
@@ -1632,7 +1632,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                               ?.jsonBody ??
                                                           '')
                                                       .toString(),
-                                              accountId: FFAppState().accountId,
+                                              accountId: appServices.account.accountId!,
                                             );
 
                                             _shouldSetState = true;
@@ -1969,7 +1969,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                     .read<UiStateService>()
                                                     .selectedLocationZipCode,
                                                 accountId:
-                                                    FFAppState().accountId,
+                                                    appServices.account.accountId!,
                                                 typeEntity: 'contacts',
                                               );
 

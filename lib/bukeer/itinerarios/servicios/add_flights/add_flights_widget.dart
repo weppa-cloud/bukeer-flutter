@@ -26,6 +26,7 @@ import 'add_flights_model.dart';
 import '../../../../services/ui_state_service.dart';
 import '../../../../services/product_service.dart';
 import '../../../../services/contact_service.dart';
+import '../../../../services/app_services.dart';
 export 'add_flights_model.dart';
 
 class AddFlightsWidget extends StatefulWidget {
@@ -252,7 +253,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Migrated to modern services
 
     return GestureDetector(
       onTap: () {
@@ -2597,7 +2598,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                 .itemsProducts,
                                             r'''$.name''',
                                           ).toString(),
-                                          accountId: FFAppState().accountId,
+                                          accountId: appServices.account.accountId!,
                                           personalizedMessage:
                                               (String personalizedMessage) {
                                             return personalizedMessage

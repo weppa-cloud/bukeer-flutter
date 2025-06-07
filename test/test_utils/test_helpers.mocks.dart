@@ -597,10 +597,22 @@ class MockUserService extends _i1.Mock implements _i7.UserService {
       );
 
   @override
-  _i2.Future<bool> initializeUserData() => (super.noSuchMethod(
+  _i2.Future<void> setUserRole(String? roleId) => (super.noSuchMethod(
+        Invocation.method(
+          #setUserRole,
+          [roleId],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
+
+  @override
+  _i2.Future<bool> initializeUserData({String? accountId}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #initializeUserData,
           [],
+          {#accountId: accountId},
         ),
         returnValue: _i2.Future<bool>.value(false),
       ) as _i2.Future<bool>);
@@ -877,6 +889,24 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
       ) as _i2.Future<bool>);
 
   @override
+  void setSelectedItinerary(dynamic itinerary) => super.noSuchMethod(
+        Invocation.method(
+          #setSelectedItinerary,
+          [itinerary],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setSelectedPassenger(dynamic passenger) => super.noSuchMethod(
+        Invocation.method(
+          #setSelectedPassenger,
+          [passenger],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   List<dynamic> searchItineraries(String? query) => (super.noSuchMethod(
         Invocation.method(
           #searchItineraries,
@@ -903,42 +933,6 @@ class MockItineraryService extends _i1.Mock implements _i8.ItineraryService {
         ),
         returnValue: <String, double>{},
       ) as Map<String, double>);
-
-  @override
-  void setSelectedItinerary(dynamic itinerary) => super.noSuchMethod(
-        Invocation.method(
-          #setSelectedItinerary,
-          [itinerary],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void clearSelectedItinerary() => super.noSuchMethod(
-        Invocation.method(
-          #clearSelectedItinerary,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setSelectedPassenger(dynamic passenger) => super.noSuchMethod(
-        Invocation.method(
-          #setSelectedPassenger,
-          [passenger],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void clearSelectedPassenger() => super.noSuchMethod(
-        Invocation.method(
-          #clearSelectedPassenger,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
 
   @override
   _i2.Future<T?> loadData<T>(

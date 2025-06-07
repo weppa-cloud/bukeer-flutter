@@ -352,7 +352,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
         agent,
         itineraryData,
         itineraryItems,
-        FFAppState().accountId,
+        appServices.account.accountId!,
         account,
       );
 
@@ -454,7 +454,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
           padding: MediaQuery.viewInsetsOf(context),
           child: ModalAddPassengerWidget(
             itineraryId: widget.id!,
-            accountId: FFAppState().accountId,
+            accountId: appServices.account.accountId!,
             isEdit: false,
           ),
         ),
@@ -477,7 +477,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
           padding: MediaQuery.viewInsetsOf(context),
           child: ModalAddPassengerWidget(
             itineraryId: widget.id!,
-            accountId: FFAppState().accountId,
+            accountId: appServices.account.accountId!,
             isEdit: true,
           ),
         ),

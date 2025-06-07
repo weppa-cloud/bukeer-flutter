@@ -86,7 +86,7 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Removed - using services instead
 
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
@@ -345,7 +345,7 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                   future: GetAccountSearchCall.call(
                                     authToken: currentJwtToken,
                                     pUserId: currentUserUid,
-                                    pAccountId: FFAppState().accountId,
+                                    pAccountId: appServices.account.accountId,
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -435,21 +435,21 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                                     ).toString(),
                                                   ),
                                                 );
-                                                UserService().accountIdFm =
+                                                await appServices.account.setAccountIdFm(
                                                     _model.responseIdFm!
                                                         .firstOrNull!.idFm
-                                                        .toString();
-                                                FFAppState().accountId =
-                                                    getJsonField(
+                                                        .toString());
+                                                final newAccountId = getJsonField(
                                                   accountsItemItem,
                                                   r'''$.account_id''',
                                                 ).toString();
+                                                await appServices.account.setAccountId(newAccountId);
                                                 // Actualizar rol a través del UserService
                                                 final newRoleId = _model
                                                     .responseAccount!
                                                     .firstOrNull!
                                                     .roleId!;
-                                                FFAppState().idRole = newRoleId;
+                                                await appServices.user.setUserRole(newRoleId.toString());
                                                 // Invalidar cache de autorización para refrescar permisos
                                                 appServices.authorization
                                                     .invalidateCache();

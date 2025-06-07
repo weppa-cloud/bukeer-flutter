@@ -24,6 +24,7 @@ import '../../../../design_system/index.dart';
 import '../../../../services/ui_state_service.dart';
 import '../../../../services/product_service.dart';
 import '../../../../services/contact_service.dart';
+import '../../../../services/app_services.dart';
 export 'add_transfer_model.dart';
 
 class AddTransferWidget extends StatefulWidget {
@@ -204,7 +205,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    // context.watch<FFAppState>(); // Migrated to modern services
 
     return GestureDetector(
       onTap: () {
@@ -2508,7 +2509,7 @@ class _AddTransferWidgetState extends State<AddTransferWidget>
                                                     .text),
                                             0.0,
                                           ),
-                                          accountId: FFAppState().accountId,
+                                          accountId: appServices.account.accountId!,
                                           personalizedMessage:
                                               (String personalizedMessage) {
                                             return personalizedMessage
