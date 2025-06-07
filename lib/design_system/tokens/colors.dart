@@ -24,6 +24,8 @@ class BukeerColors {
   // ================================
   // NEUTRAL COLORS
   // ================================
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF000000);
   static const Color neutral100 = Color(0xFFFFFFFF);
   static const Color neutral200 = Color(0xFFF5F5F5);
   static const Color neutral300 = Color(0xFFE0E0E0);
@@ -62,6 +64,16 @@ class BukeerColors {
   static const Color backgroundDark = Color(0xFF0F172A);
   static const Color backgroundDarkSecondary = Color(0xFF1E293B);
 
+  // FlutterFlow compatibility aliases
+  static const Color primaryBackground = backgroundPrimary;
+  static const Color secondaryBackground = backgroundSecondary;
+  static const Color primaryColor = primary;
+  static const Color surfacePrimary = backgroundPrimary;
+  static const Color surfaceSecondary = backgroundSecondary;
+  static const Color neutralLight = neutral300;
+  static const Color neutralMedium = neutral500;
+  static const Color neutralDark = neutral700;
+
   // ================================
   // TEXT COLORS
   // ================================
@@ -70,6 +82,10 @@ class BukeerColors {
   static const Color textTertiary = Color(0xFF94A3B8);
   static const Color textInverse = Color(0xFFFFFFFF);
   static const Color textDisabled = Color(0xFFCBD5E1);
+
+  // FlutterFlow compatibility aliases
+  static const Color primaryText = textPrimary;
+  static const Color secondaryText = textSecondary;
 
   // ================================
   // BORDER COLORS
@@ -104,7 +120,7 @@ class BukeerColors {
   // ================================
   // HELPER METHODS
   // ================================
-  
+
   /// Get color with opacity
   static Color withOpacity(Color color, double opacity) {
     return color.withOpacity(opacity);
