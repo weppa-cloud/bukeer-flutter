@@ -13,7 +13,7 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            callBackDate: (date) async {
+            onDateSelected: (date) async {
               selectedDate = date;
             },
           ),
@@ -38,8 +38,8 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            birthDate: birthDate,
-            callBackDate: (date) async {},
+            initialDate: birthDate,
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -56,7 +56,7 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            callBackDate: (date) async {
+            onDateSelected: (date) async {
               selectedDate = date;
             },
           ),
@@ -81,8 +81,8 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            birthDate: veryOldDate, // Fecha muy antigua
-            callBackDate: (date) async {
+            initialDate: veryOldDate, // Fecha muy antigua
+            onDateSelected: (date) async {
               selectedDate = date;
             },
           ),
@@ -101,8 +101,8 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            birthDate: birthDate,
-            callBackDate: (date) async {},
+            initialDate: birthDate,
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -121,7 +121,7 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            callBackDate: (date) async {
+            onDateSelected: (date) async {
               selectedDate = date;
               callbackCalled = true;
             },
@@ -161,7 +161,7 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            callBackDate: (date) async {},
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -186,8 +186,8 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            birthDate: DateTime(1990, 1, 1),
-            callBackDate: (date) async {
+            initialDate: DateTime(1990, 1, 1),
+            onDateSelected: (date) async {
               clearedDate = date;
             },
           ),
@@ -212,8 +212,8 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            birthDate: minorDate,
-            callBackDate: (date) async {},
+            initialDate: minorDate,
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -229,8 +229,8 @@ void main() {
         tester,
         createTestableWidget(
           BirthDatePickerWidget(
-            birthDate: birthDate,
-            callBackDate: (date) async {},
+            initialDate: birthDate,
+            onDateSelected: (date) async {},
           ),
         ),
       );

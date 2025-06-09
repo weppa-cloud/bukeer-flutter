@@ -14,7 +14,7 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            callBackDateRange: (start, end) {
+            onDateRangeSelected: (start, end) {
               startDate = start;
               endDate = end;
             },
@@ -38,9 +38,9 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            dateStart: initialStart,
-            dateEnd: initialEnd,
-            callBackDateRange: (start, end) {},
+            initialDate: initialStart,
+            initialEndDate: initialEnd,
+            onDateRangeSelected: (start, end) {},
           ),
         ),
       );
@@ -58,7 +58,7 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            callBackDateRange: (start, end) {},
+            onDateRangeSelected: (start, end) {},
           ),
         ),
       );
@@ -82,7 +82,7 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            callBackDateRange: (start, end) {
+            onDateRangeSelected: (start, end) {
               selectedStart = start;
               selectedEnd = end;
               callbackCalled = true;
@@ -114,7 +114,7 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            callBackDateRange: (start, end) {
+            onDateRangeSelected: (start, end) {
               selectedStart = start;
               selectedEnd = end;
             },
@@ -148,9 +148,9 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            dateStart: DateTime(2024, 1, 15),
-            dateEnd: DateTime(2024, 1, 10), // Fecha inválida (antes del inicio)
-            callBackDateRange: (start, end) {
+            initialDate: DateTime(2024, 1, 15),
+            initialEndDate: DateTime(2024, 1, 10), // Fecha inválida (antes del inicio)
+            onDateRangeSelected: (start, end) {
               validatedStart = start;
               validatedEnd = end;
             },
@@ -167,7 +167,7 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            callBackDateRange: (start, end) {},
+            onDateRangeSelected: (start, end) {},
           ),
         ),
       );
@@ -194,9 +194,9 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            dateStart: DateTime.now(),
-            dateEnd: DateTime.now().add(Duration(days: 7)),
-            callBackDateRange: (start, end) {
+            initialDate: DateTime.now(),
+            initialEndDate: DateTime.now().add(Duration(days: 7)),
+            onDateRangeSelected: (start, end) {
               clearedStart = start;
               clearedEnd = end;
             },
@@ -221,9 +221,9 @@ void main() {
         tester,
         createTestableWidget(
           DateRangePickerWidget(
-            dateStart: start,
-            dateEnd: end,
-            callBackDateRange: (start, end) {},
+            initialDate: start,
+            initialEndDate: end,
+            onDateRangeSelected: (start, end) {},
           ),
         ),
       );

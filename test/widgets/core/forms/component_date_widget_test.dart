@@ -13,7 +13,7 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            callBackDate: (date) async {
+            onDateSelected: (date) async {
               selectedDate = date;
             },
           ),
@@ -38,8 +38,8 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            dateStart: initialDate,
-            callBackDate: (date) async {},
+            initialDate: initialDate,
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -53,7 +53,7 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            callBackDate: (date) async {},
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -76,7 +76,7 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            callBackDate: (date) async {
+            onDateSelected: (date) async {
               selectedDate = date;
               callbackCalled = true;
             },
@@ -113,8 +113,8 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            dateStart: testDate,
-            callBackDate: (date) async {},
+            initialDate: testDate,
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -131,8 +131,8 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            dateStart: DateTime.now(),
-            callBackDate: (date) async {
+            initialDate: DateTime.now(),
+            onDateSelected: (date) async {
               clearedDate = date;
             },
           ),
@@ -153,7 +153,7 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            callBackDate: (date) async {},
+            onDateSelected: (date) async {},
           ),
         ),
       );
@@ -168,7 +168,7 @@ void main() {
         tester,
         createTestableWidget(
           DatePickerWidget(
-            callBackDate: (date) async {
+            onDateSelected: (date) async {
               // Simular operación larga
               await Future.delayed(Duration(seconds: 2));
             },

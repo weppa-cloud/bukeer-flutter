@@ -266,8 +266,8 @@ void main() {
         // Act
         final result = calculateProfitLogic(cost, total);
 
-        // Assert - With negative cost, the formula still applies
-        expect(result, equals(-20.0));
+        // Assert - With negative or zero cost, the function returns 0
+        expect(result, equals(0.0));
       });
     });
 

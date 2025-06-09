@@ -16,7 +16,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {
+            onPlaceSelected: (city, country, lat, lng) {
               selectedCity = city;
               selectedCountry = country;
               latitude = lat;
@@ -41,9 +41,9 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            city: initialCity,
-            country: initialCountry,
-            callBackPlace: (city, country, lat, lng) {},
+            initialCity: initialCity,
+            initialCountry: initialCountry,
+            onPlaceSelected: (city, country, lat, lng) {},
           ),
         ),
       );
@@ -57,7 +57,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {},
+            onPlaceSelected: (city, country, lat, lng) {},
           ),
         ),
       );
@@ -71,7 +71,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {},
+            onPlaceSelected: (city, country, lat, lng) {},
           ),
         ),
       );
@@ -96,7 +96,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {
+            onPlaceSelected: (city, country, lat, lng) {
               selectedCity = city;
               selectedCountry = country;
               latitude = lat;
@@ -123,7 +123,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {},
+            onPlaceSelected: (city, country, lat, lng) {},
           ),
         ),
       );
@@ -155,9 +155,9 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            city: 'Miami',
-            country: 'USA',
-            callBackPlace: (city, country, lat, lng) {
+            initialCity: 'Miami',
+            initialCountry: 'USA',
+            onPlaceSelected: (city, country, lat, lng) {
               clearedCity = city;
               clearedCountry = country;
               clearedLat = lat;
@@ -183,7 +183,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {},
+            onPlaceSelected: (city, country, lat, lng) {},
           ),
         ),
       );
@@ -205,9 +205,9 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            city: city,
-            country: country,
-            callBackPlace: (city, country, lat, lng) {},
+            initialCity: city,
+            initialCountry: country,
+            onPlaceSelected: (city, country, lat, lng) {},
           ),
         ),
       );
@@ -235,7 +235,7 @@ void main() {
         tester,
         createTestableWidget(
           PlacePickerWidget(
-            callBackPlace: (city, country, lat, lng) {
+            onPlaceSelected: (city, country, lat, lng) {
               receivedLat = lat;
               receivedLng = lng;
             },

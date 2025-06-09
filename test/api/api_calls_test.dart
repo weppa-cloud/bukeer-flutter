@@ -75,8 +75,9 @@ void main() {
         final isClient = GetContactSearchCall.isClient(emptyResponse);
 
         // Assert
-        expect(isCompany, isEmpty);
-        expect(isClient, isEmpty);
+        // Empty response returns null, not empty list
+        expect(isCompany, isNull);
+        expect(isClient, isNull);
       });
 
       test('should validate search parameters', () {
@@ -376,8 +377,8 @@ void main() {
         final isCompany = GetContactSearchCall.isCompany(incompleteResponse);
 
         // Assert
-        // When fields are missing, the method returns empty list
-        expect(isCompany, isEmpty);
+        // When fields are missing, the method returns null
+        expect(isCompany, isNull);
         // Should handle missing fields gracefully without throwing
       });
     });

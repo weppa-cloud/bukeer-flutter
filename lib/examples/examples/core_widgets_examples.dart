@@ -84,8 +84,8 @@ class _DateFormExampleState extends State<DateFormExample> {
         // Fecha individual
         Text('Fecha de evento:'),
         DatePickerWidget(
-          dateStart: _singleDate,
-          callBackDate: (newDate) {
+          initialDate: _singleDate,
+          onDateSelected: (newDate) {
             setState(() {
               _singleDate = newDate;
             });
@@ -96,9 +96,9 @@ class _DateFormExampleState extends State<DateFormExample> {
         // Rango de fechas
         Text('Periodo del viaje:'),
         DateRangePickerWidget(
-          dateStart: _startDate,
-          dateEnd: _endDate,
-          callBackDateRange: (start, end) {
+          initialStartDate: _startDate,
+          initialEndDate: _endDate,
+          onDateRangeSelected: (start, end) {
             setState(() {
               _startDate = start;
               _endDate = end;
@@ -112,8 +112,8 @@ class _DateFormExampleState extends State<DateFormExample> {
         // Fecha de nacimiento
         Text('Fecha de nacimiento del pasajero:'),
         BirthDatePickerWidget(
-          birthDate: _birthDate,
-          callBackDate: (newDate) {
+          initialDate: _birthDate,
+          onDateSelected: (newDate) {
             setState(() {
               _birthDate = newDate;
             });
@@ -146,9 +146,9 @@ class _LocationPriceFormExampleState extends State<LocationPriceFormExample> {
         // Selector de lugar
         Text('Destino:'),
         PlacePickerWidget(
-          city: _city,
-          country: _country,
-          callBackPlace: (city, country, lat, lng) {
+          initialCity: _city,
+          initialCountry: _country,
+          onPlaceSelected: (city, country, lat, lng) {
             setState(() {
               _city = city;
               _country = country;
@@ -170,8 +170,8 @@ class _LocationPriceFormExampleState extends State<LocationPriceFormExample> {
         // Input de precio con moneda
         Text('Precio del servicio:'),
         CurrencySelectorWidget(
-          amount: _price,
-          currency: _currency,
+          initialAmount: _price,
+          initialCurrency: _currency,
           onAmountChanged: (value) {
             setState(() {
               _price = value;
@@ -264,7 +264,7 @@ class ListWithCreateExample extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: BtnCreateWidget(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Abrir modal de creación
           showModalBottomSheet(
@@ -273,6 +273,7 @@ class ListWithCreateExample extends StatelessWidget {
             builder: (context) => CreateItemModal(),
           );
         },
+        child: BtnCreateWidget(),
       ),
     );
   }
@@ -373,9 +374,9 @@ class _BookingFormExampleState extends State<BookingFormExample> {
             Text('Destino seleccionado:', style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
             PlacePickerWidget(
-              city: _destination,
-              country: _country,
-              callBackPlace: (city, country, lat, lng) {
+              initialCity: _destination,
+              initialCountry: _country,
+              onPlaceSelected: (city, country, lat, lng) {
                 setState(() {
                   _destination = city;
                   _country = country;
@@ -389,9 +390,9 @@ class _BookingFormExampleState extends State<BookingFormExample> {
             Text('Fechas del viaje:', style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
             DateRangePickerWidget(
-              dateStart: _checkIn,
-              dateEnd: _checkOut,
-              callBackDateRange: (start, end) {
+              initialStartDate: _checkIn,
+              initialEndDate: _checkOut,
+              onDateRangeSelected: (start, end) {
                 setState(() {
                   _checkIn = start;
                   _checkOut = end;
@@ -405,8 +406,8 @@ class _BookingFormExampleState extends State<BookingFormExample> {
             Text('Presupuesto estimado:', style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
             CurrencySelectorWidget(
-              amount: _budget,
-              currency: _currency,
+              initialAmount: _budget,
+              initialCurrency: _currency,
               onAmountChanged: (value) {
                 setState(() {
                   _budget = value;

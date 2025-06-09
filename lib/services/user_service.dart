@@ -183,6 +183,8 @@ class UserService {
     _hasLoadedData = false;
     _isLoading = false;
     _selectedUser = null;
+    _roleId = null;
+    _agentData = null;
     // El reset del AppState se maneja en el logout
   }
 

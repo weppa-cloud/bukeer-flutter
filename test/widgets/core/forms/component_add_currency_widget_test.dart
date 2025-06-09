@@ -42,8 +42,8 @@ void main() {
         tester,
         createTestableWidget(
           CurrencySelectorWidget(
-            amount: initialAmount,
-            currency: initialCurrency,
+            initialAmount: initialAmount,
+            initialCurrency: initialCurrency,
             onAmountChanged: (amount) {},
             onCurrencyChanged: (currency) {},
           ),
@@ -63,7 +63,7 @@ void main() {
         tester,
         createTestableWidget(
           CurrencySelectorWidget(
-            amount: 1234567.89,
+            initialAmount: 1234567.89,
             onAmountChanged: (amount) {},
             onCurrencyChanged: (currency) {},
           ),
@@ -222,7 +222,7 @@ void main() {
         tester,
         createTestableWidget(
           CurrencySelectorWidget(
-            amount: 0,
+            initialAmount: 0,
             onAmountChanged: (amount) {},
             onCurrencyChanged: (currency) {},
           ),
@@ -241,7 +241,7 @@ void main() {
         tester,
         createTestableWidget(
           CurrencySelectorWidget(
-            amount: 1000,
+            initialAmount: 1000,
             onAmountChanged: (amount) {
               clearedAmount = amount;
             },

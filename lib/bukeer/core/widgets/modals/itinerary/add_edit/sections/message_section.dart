@@ -5,7 +5,7 @@ import 'package:bukeer/design_system/tokens/index.dart';
 class MessageSection extends StatelessWidget {
   final TextEditingController messageController;
   final FocusNode messageFocusNode;
-  final String? Function(BuildContext, String?)? messageValidator;
+  final FormFieldValidator<String>? messageValidator;
 
   const MessageSection({
     super.key,

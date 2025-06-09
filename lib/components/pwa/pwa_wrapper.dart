@@ -185,8 +185,8 @@ class PWAScaffold extends StatelessWidget {
           return const PWAUpdateFAB();
         }
 
-        // Otherwise, show the regular FAB
-        return floatingActionButton;
+        // Otherwise, show the regular FAB if it exists
+        return floatingActionButton ?? const SizedBox.shrink();
       },
     );
   }

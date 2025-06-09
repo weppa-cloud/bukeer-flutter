@@ -4,7 +4,7 @@ import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
 import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
 import 'package:bukeer/services/app_services.dart';
-import 'package:bukeer/legacy/flutter_flow/custom_functions.dart' as functions;
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 
 class TravelPlannerSection extends StatelessWidget {
   final String? currencyTypeValue;
@@ -38,7 +38,7 @@ class TravelPlannerSection extends StatelessWidget {
           FlutterFlowDropDown<String>(
             controller: FormFieldController<String>(currencyTypeValue),
             options: (appServices.account.accountCurrency ?? [])
-                .map((e) => functions.getJsonField(e, r'''$.name'''))
+                .map((e) => getJsonField(e, r'''$.name'''))
                 .toList()
                 .map((e) => e.toString())
                 .toList(),

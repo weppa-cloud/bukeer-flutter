@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bukeer/bukeer/core/widgets/buttons/boton_menu_mobile/boton_menu_mobile_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/buttons/btn_mobile_menu/btn_mobile_menu_widget.dart';
 import '../test_helpers.dart';
 
 void main() {
-  group('BotonMenuMobileWidget', () {
+  group('BtnMobileMenuWidget', () {
     testWidgets('renders correctly', (WidgetTester tester) async {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonMenuMobileWidget(),
+          BtnMobileMenuWidget(),
         ),
       );
 
       // Verificar que se renderiza
-      expect(find.byType(BotonMenuMobileWidget), findsOneWidget);
+      expect(find.byType(BtnMobileMenuWidget), findsOneWidget);
 
       // Verificar que contiene un IconButton
       expect(find.byType(IconButton), findsOneWidget);
@@ -32,7 +32,7 @@ void main() {
           home: Scaffold(
             key: scaffoldKey,
             appBar: AppBar(
-              leading: BotonMenuMobileWidget(),
+              leading: BtnMobileMenuWidget(),
             ),
             drawer: Drawer(
               child: ListView(
@@ -61,7 +61,7 @@ void main() {
       expect(find.text('Option 1'), findsNothing);
 
       // Tap en el botón de menú
-      await tapAndSettle(tester, find.byType(BotonMenuMobileWidget));
+      await tapAndSettle(tester, find.byType(BtnMobileMenuWidget));
 
       // Verificar que el drawer se abrió
       expect(find.text('Menu'), findsOneWidget);
@@ -79,12 +79,12 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonMenuMobileWidget(),
+          BtnMobileMenuWidget(),
         ),
       );
 
       // Debería ser visible en móvil
-      expect(find.byType(BotonMenuMobileWidget), findsOneWidget);
+      expect(find.byType(BtnMobileMenuWidget), findsOneWidget);
     });
 
     testWidgets('responsive visibility on tablet', (WidgetTester tester) async {
@@ -97,19 +97,19 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonMenuMobileWidget(),
+          BtnMobileMenuWidget(),
         ),
       );
 
       // El comportamiento en tablet depende de la implementación
-      expect(find.byType(BotonMenuMobileWidget), findsOneWidget);
+      expect(find.byType(BtnMobileMenuWidget), findsOneWidget);
     });
 
     testWidgets('has correct icon style', (WidgetTester tester) async {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonMenuMobileWidget(),
+          BtnMobileMenuWidget(),
         ),
       );
 
@@ -124,7 +124,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonMenuMobileWidget(),
+          BtnMobileMenuWidget(),
         ),
       );
 
@@ -151,7 +151,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             appBar: AppBar(
-              leading: BotonMenuMobileWidget(),
+              leading: BtnMobileMenuWidget(),
             ),
             drawer: Drawer(
               child: Container(
@@ -166,7 +166,7 @@ void main() {
       );
 
       // Tap para abrir
-      await tester.tap(find.byType(BotonMenuMobileWidget));
+      await tester.tap(find.byType(BtnMobileMenuWidget));
 
       // Verificar animación del drawer
       await tester.pump(); // Inicio de animación
@@ -185,7 +185,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             appBar: AppBar(
-              leading: BotonMenuMobileWidget(),
+              leading: BtnMobileMenuWidget(),
             ),
             drawer: Drawer(
               child: Text('Drawer'),
@@ -195,7 +195,7 @@ void main() {
       );
 
       // Abrir drawer
-      await tapAndSettle(tester, find.byType(BotonMenuMobileWidget));
+      await tapAndSettle(tester, find.byType(BtnMobileMenuWidget));
       expect(find.text('Drawer'), findsOneWidget);
 
       // Simular botón atrás
@@ -211,7 +211,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonMenuMobileWidget(),
+          BtnMobileMenuWidget(),
         ),
       );
 
@@ -228,7 +228,7 @@ void main() {
           theme: ThemeData.light(),
           home: Scaffold(
             appBar: AppBar(
-              leading: BotonMenuMobileWidget(),
+              leading: BtnMobileMenuWidget(),
             ),
           ),
         ),
@@ -244,7 +244,7 @@ void main() {
           theme: ThemeData.dark(),
           home: Scaffold(
             appBar: AppBar(
-              leading: BotonMenuMobileWidget(),
+              leading: BtnMobileMenuWidget(),
             ),
           ),
         ),
