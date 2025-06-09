@@ -303,14 +303,27 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                               image:
                                                                   Image.network(
                                                                 itemMediaProductItem
-                                                                    .toString(),
+                                                                        ?.toString() ??
+                                                                    'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
                                                                 fit: BoxFit
                                                                     .contain,
+                                                                errorBuilder:
+                                                                    (context,
+                                                                        error,
+                                                                        stackTrace) {
+                                                                  return Icon(
+                                                                      Icons
+                                                                          .hotel,
+                                                                      size: 48,
+                                                                      color: Colors
+                                                                          .grey);
+                                                                },
                                                               ),
                                                               allowRotation:
                                                                   false,
                                                               tag: itemMediaProductItem
-                                                                  .toString(),
+                                                                      ?.toString() ??
+                                                                  'hotel-image',
                                                               useHeroAnimation:
                                                                   true,
                                                             ),
@@ -318,9 +331,9 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                         );
                                                       },
                                                       child: Hero(
-                                                        tag:
-                                                            itemMediaProductItem
-                                                                .toString(),
+                                                        tag: itemMediaProductItem
+                                                                ?.toString() ??
+                                                            'hotel-image',
                                                         transitionOnUserGestures:
                                                             true,
                                                         child: ClipRRect(
@@ -330,10 +343,26 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                                       8.0),
                                                           child: Image.network(
                                                             itemMediaProductItem
-                                                                .toString(),
+                                                                    ?.toString() ??
+                                                                'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
                                                             width: 200.0,
                                                             height: 200.0,
                                                             fit: BoxFit.cover,
+                                                            errorBuilder:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              return Container(
+                                                                width: 200.0,
+                                                                height: 200.0,
+                                                                color: Colors
+                                                                    .grey[200],
+                                                                child: Icon(
+                                                                    Icons.hotel,
+                                                                    size: 48,
+                                                                    color: Colors
+                                                                        .grey),
+                                                              );
+                                                            },
                                                           ),
                                                         ),
                                                       ),

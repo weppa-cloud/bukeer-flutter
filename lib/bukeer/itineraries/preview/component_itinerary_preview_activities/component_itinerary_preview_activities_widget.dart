@@ -344,11 +344,33 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                               child:
                                                                   Image.network(
                                                                 itemMediaProductItem
-                                                                    .toString(),
+                                                                        ?.toString() ??
+                                                                    'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/activity-default.png',
                                                                 width: 200.0,
                                                                 height: 200.0,
                                                                 fit: BoxFit
                                                                     .cover,
+                                                                errorBuilder:
+                                                                    (context,
+                                                                        error,
+                                                                        stackTrace) {
+                                                                  return Container(
+                                                                    width:
+                                                                        200.0,
+                                                                    height:
+                                                                        200.0,
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        200],
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .local_activity,
+                                                                        size:
+                                                                            48,
+                                                                        color: Colors
+                                                                            .grey),
+                                                                  );
+                                                                },
                                                               ),
                                                             ),
                                                           ),

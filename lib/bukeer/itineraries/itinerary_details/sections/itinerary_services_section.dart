@@ -68,7 +68,8 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
             Icon(
               Icons.flight_takeoff,
               size: 64,
-              color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
+              color:
+                  FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
             ),
             SizedBox(height: 16),
             Text(
@@ -86,7 +87,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
       itemBuilder: (context, index) {
         final flightData = flightItems[index];
         final flightInfo = getJsonField(flightData, r'$.flights');
-        
+
         if (flightInfo == null) {
           return SizedBox.shrink();
         }
@@ -96,14 +97,18 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
           child: ComponentItineraryPreviewFlightsWidget(
             origen: getJsonField(flightInfo, r'$.origin')?.toString(),
             destination: getJsonField(flightInfo, r'$.destination')?.toString(),
-            departureTime: getJsonField(flightInfo, r'$.departure_time')?.toString(),
-            arrivalTime: getJsonField(flightInfo, r'$.arrival_time')?.toString(),
+            departureTime:
+                getJsonField(flightInfo, r'$.departure_time')?.toString(),
+            arrivalTime:
+                getJsonField(flightInfo, r'$.arrival_time')?.toString(),
             date: DateTime.tryParse(
               getJsonField(flightInfo, r'$.departure_date')?.toString() ?? '',
             ),
-            flightNumber: getJsonField(flightInfo, r'$.flight_number')?.toString(),
+            flightNumber:
+                getJsonField(flightInfo, r'$.flight_number')?.toString(),
             image: getJsonField(flightInfo, r'$.airline_logo')?.toString(),
-            personalizedMessage: getJsonField(flightData, r'$.personalized_message')?.toString(),
+            personalizedMessage:
+                getJsonField(flightData, r'$.personalized_message')?.toString(),
           ),
         );
       },
@@ -123,7 +128,8 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
             Icon(
               Icons.hotel,
               size: 64,
-              color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
+              color:
+                  FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
             ),
             SizedBox(height: 16),
             Text(
@@ -141,7 +147,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
       itemBuilder: (context, index) {
         final hotelData = hotelItems[index];
         final hotelInfo = getJsonField(hotelData, r'$.hotels');
-        
+
         if (hotelInfo == null) {
           return SizedBox.shrink();
         }
@@ -149,21 +155,18 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
         return Padding(
           padding: EdgeInsets.only(bottom: 16),
           child: ComponentItineraryPreviewHotelsWidget(
-            hotelName: getJsonField(hotelInfo, r'$.name')?.toString(),
-            address: getJsonField(hotelInfo, r'$.address')?.toString(),
-            nights: getJsonField(hotelData, r'$.nights')?.toString(),
-            checkIn: DateTime.tryParse(
+            name: getJsonField(hotelInfo, r'$.name')?.toString(),
+            rateName: getJsonField(hotelData, r'$.room_type')?.toString(),
+            date: DateTime.tryParse(
               getJsonField(hotelData, r'$.check_in')?.toString() ?? '',
             ),
-            checkOut: DateTime.tryParse(
-              getJsonField(hotelData, r'$.check_out')?.toString() ?? '',
-            ),
-            room: getJsonField(hotelData, r'$.room_type')?.toString(),
-            roomQuantity: getJsonField(hotelData, r'$.room_quantity'),
-            paxRooms: getJsonField(hotelData, r'$.pax_per_room'),
-            regime: getJsonField(hotelData, r'$.meal_plan')?.toString(),
-            personalizedMessage: getJsonField(hotelData, r'$.personalized_message')?.toString(),
-            image: getJsonField(hotelInfo, r'$.image')?.toString(),
+            location: getJsonField(hotelInfo, r'$.address')?.toString(),
+            idEntity: getJsonField(hotelInfo, r'$.id')?.toString(),
+            media: getJsonField(hotelInfo, r'$.images') as List<dynamic>?,
+            passengers:
+                getJsonField(hotelData, r'$.total_passengers')?.toDouble(),
+            personalizedMessage:
+                getJsonField(hotelData, r'$.personalized_message')?.toString(),
           ),
         );
       },
@@ -183,7 +186,8 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
             Icon(
               Icons.local_activity,
               size: 64,
-              color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
+              color:
+                  FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
             ),
             SizedBox(height: 16),
             Text(
@@ -201,7 +205,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
       itemBuilder: (context, index) {
         final activityData = activityItems[index];
         final activityInfo = getJsonField(activityData, r'$.activities');
-        
+
         if (activityInfo == null) {
           return SizedBox.shrink();
         }
@@ -209,16 +213,18 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
         return Padding(
           padding: EdgeInsets.only(bottom: 16),
           child: ComponentItineraryPreviewActivitiesWidget(
-            activityName: getJsonField(activityInfo, r'$.name')?.toString(),
+            name: getJsonField(activityInfo, r'$.name')?.toString(),
+            rateName: getJsonField(activityData, r'$.rate_name')?.toString(),
             location: getJsonField(activityInfo, r'$.location')?.toString(),
             date: DateTime.tryParse(
               getJsonField(activityData, r'$.date')?.toString() ?? '',
             ),
-            time: getJsonField(activityData, r'$.time')?.toString(),
-            duration: getJsonField(activityInfo, r'$.duration')?.toString(),
-            personalizedMessage: getJsonField(activityData, r'$.personalized_message')?.toString(),
-            image: getJsonField(activityInfo, r'$.image')?.toString(),
-            scheduleData: getJsonField(activityInfo, r'$.schedule'),
+            idEntity: getJsonField(activityInfo, r'$.id')?.toString(),
+            media: getJsonField(activityInfo, r'$.images') as List<dynamic>?,
+            passengers: getJsonField(activityData, r'$.passengers')?.toDouble(),
+            personalizedMessage:
+                getJsonField(activityData, r'$.personalized_message')
+                    ?.toString(),
           ),
         );
       },
@@ -238,7 +244,8 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
             Icon(
               Icons.directions_car,
               size: 64,
-              color: FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
+              color:
+                  FlutterFlowTheme.of(context).secondaryText.withOpacity(0.5),
             ),
             SizedBox(height: 16),
             Text(
@@ -256,7 +263,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
       itemBuilder: (context, index) {
         final transferData = transferItems[index];
         final transferInfo = getJsonField(transferData, r'$.transfers');
-        
+
         if (transferInfo == null) {
           return SizedBox.shrink();
         }
@@ -264,15 +271,20 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
         return Padding(
           padding: EdgeInsets.only(bottom: 16),
           child: ComponentItineraryPreviewTransfersWidget(
-            transferName: getJsonField(transferInfo, r'$.name')?.toString(),
-            origin: getJsonField(transferData, r'$.pickup_location')?.toString(),
-            destination: getJsonField(transferData, r'$.dropoff_location')?.toString(),
+            name: getJsonField(transferInfo, r'$.name')?.toString(),
+            departureTime: getJsonField(transferData, r'$.time')?.toString(),
+            description:
+                getJsonField(transferInfo, r'$.description')?.toString(),
+            location:
+                getJsonField(transferData, r'$.pickup_location')?.toString(),
             date: DateTime.tryParse(
               getJsonField(transferData, r'$.date')?.toString() ?? '',
             ),
-            time: getJsonField(transferData, r'$.time')?.toString(),
-            personalizedMessage: getJsonField(transferData, r'$.personalized_message')?.toString(),
             image: getJsonField(transferInfo, r'$.image')?.toString(),
+            passengers: getJsonField(transferData, r'$.passengers')?.toDouble(),
+            personalizedMessage:
+                getJsonField(transferData, r'$.personalized_message')
+                    ?.toString(),
           ),
         );
       },
