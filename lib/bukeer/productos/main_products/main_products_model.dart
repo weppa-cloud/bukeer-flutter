@@ -1,10 +1,10 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../component_container_activities/component_container_activities_widget.dart';
-import '../../componentes/boton_menu_mobile/boton_menu_mobile_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../../componentes/search_box/search_box_widget.dart';
-import '../modal_details_product/modal_details_product_widget.dart';
+import '../../core/widgets/containers/activities/activities_container_widget.dart';
+import '../../core/widgets/buttons/btn_mobile_menu/btn_mobile_menu_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/forms/search_box/search_box_widget.dart';
+import '../../core/widgets/modals/product/details/modal_details_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_drop_down.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -25,8 +25,8 @@ class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
 
   // Model for webNav component.
   late WebNavModel webNavModel;
-  // Model for BotonMenuMobile component.
-  late BotonMenuMobileModel botonMenuMobileModel;
+  // Model for BtnMobileMenu component.
+  late BtnMobileMenuModel btnMobileMenuModel;
   // Model for SearchBox component.
   late SearchBoxModel searchBoxModel;
   // State field(s) for DropDownLocation widget.
@@ -40,14 +40,14 @@ class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
   @override
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
-    botonMenuMobileModel = createModel(context, () => BotonMenuMobileModel());
+    btnMobileMenuModel = createModel(context, () => BtnMobileMenuModel());
     searchBoxModel = createModel(context, () => SearchBoxModel());
   }
 
   @override
   void dispose() {
     webNavModel.dispose();
-    botonMenuMobileModel.dispose();
+    btnMobileMenuModel.dispose();
     searchBoxModel.dispose();
 
     listViewPagingController?.dispose();

@@ -1,0 +1,140 @@
+# Test: Navegación Principal
+# Descripción: Verifica que todas las secciones principales son accesibles
+# Prerequisito: Usuario debe estar logueado
+# Prioridad: ALTA
+# Tiempo estimado: 30-45 segundos
+
+appId: com.bukeer.app
+---
+
+# 1. Lanzar app (asume que ya está logueado)
+- launchApp:
+    stopApp: false  # No detener si ya está corriendo
+
+# 2. Verificar que estamos en una página autenticada
+- assertVisible:
+    anyOf:
+      - "Dashboard"
+      - "Inicio"
+      - "Itinerarios"
+    timeout: 10000
+
+# Si no estamos logueados, hacer login rápido
+- runFlow:
+    when:
+      visible: "Iniciar Sesión"
+    file: ../auth/01_login_success.yaml
+
+# 3. Navegar a Itinerarios
+- tapOn:
+    text: "Itinerarios"
+    index: 0  # En caso de que aparezca en múltiples lugares
+- waitForAnimationToEnd
+- assertVisible:
+    anyOf:
+      - "Mis Itinerarios"
+      - "Lista de Itinerarios"
+      - "Crear Itinerario"
+- takeScreenshot: "nav_01_itinerarios"
+
+# Verificar elementos específicos
+- assertVisible:
+    anyOf:
+      - id: ".*floating.*action.*button.*"  # FAB para crear
+      - "+"  # Botón de agregar
+
+# 4. Navegar a Productos
+- tapOn:
+    text: "Productos"
+    index: 0
+- waitForAnimationToEnd
+- assertVisible:
+    anyOf:
+      - "Catálogo"
+      - "Lista de Productos"
+      - "Hoteles"
+      - "Actividades"
+- takeScreenshot: "nav_02_productos"
+
+# 5. Navegar a Contactos
+- tapOn:
+    text: "Contactos"
+    index: 0
+- waitForAnimationToEnd
+- assertVisible:
+    anyOf:
+      - "Clientes"
+      - "Lista de Contactos"
+      - "Agregar Contacto"
+- takeScreenshot: "nav_03_contactos"
+
+# 6. Navegar a Agenda (si está disponible)
+- runFlow:
+    when:
+      visible: "Agenda"
+    commands:
+      - tapOn: "Agenda"
+      - waitForAnimationToEnd
+      - assertVisible:
+          anyOf:
+            - "Calendario"
+            - "Eventos"
+            - "Próximas Actividades"
+      - takeScreenshot: "nav_04_agenda"
+
+# 7. Navegar a Perfil/Configuración
+- tapOn:
+    anyOf:
+      - "Perfil"
+      - "Mi Cuenta"
+      - id: ".*profile.*icon.*"
+      - id: ".*avatar.*"
+    index: 0
+- waitForAnimationToEnd
+- assertVisible:
+    anyOf:
+      - "Mi Perfil"
+      - "Configuración"
+      - "Cerrar Sesión"
+      - ${EMAIL:-admin@bukeer.com}
+- takeScreenshot: "nav_05_perfil"
+
+# 8. Verificar navegación móvil (si aplica)
+- runFlow:
+    when:
+      visible: 
+        id: ".*bottom.*navigation.*"
+    commands:
+      - assertVisible:
+          - id: ".*home.*"
+          - id: ".*itinerary.*"
+          - id: ".*products.*"
+
+# 9. Volver al inicio
+- tapOn:
+    anyOf:
+      - "Inicio"
+      - "Dashboard"
+      - "Home"
+      - id: ".*home.*icon.*"
+    index: 0
+- waitForAnimationToEnd
+
+# 10. Verificación final
+- assertVisible:
+    anyOf:
+      - "Dashboard"
+      - "Ventas del Mes"
+      - "Resumen"
+    timeout: 5000
+
+# Log de éxito
+- runScript: |
+    console.log("Navigation test completed successfully");
+    output.navigationSuccess = true;
+    output.sectionsVisited = [
+      "itinerarios",
+      "productos", 
+      "contactos",
+      "perfil"
+    ];

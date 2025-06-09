@@ -3,8 +3,9 @@ import 'package:flutter/scheduler.dart';
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../../flutter_flow/flutter_flow_util.dart' hide responsiveVisibility;
+import '../../../flutter_flow/flutter_flow_util.dart' show responsiveVisibility;
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../services/app_services.dart';
 import '../../../services/itinerary_service.dart';
 import '../../../components/service_builder.dart';
@@ -12,16 +13,17 @@ import 'sections/itinerary_header_section.dart';
 import 'sections/itinerary_services_section.dart';
 import 'sections/itinerary_passengers_section.dart';
 import 'sections/itinerary_payments_section.dart';
-import '../../modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
+import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import '../servicios/add_hotel/add_hotel_widget.dart';
 import '../servicios/add_flights/add_flights_widget.dart';
 import '../servicios/add_activities/add_activities_widget.dart';
 import '../servicios/add_transfer/add_transfer_widget.dart';
-import '../pasajeros/modal_add_passenger/modal_add_passenger_widget.dart';
-import '../pagos/component_add_paid/component_add_paid_widget.dart';
+import '../../core/widgets/modals/passenger/add/modal_add_passenger_widget.dart';
+import '../../core/widgets/payments/payment_add/payment_add_widget.dart';
 import '../main_itineraries/main_itineraries_widget.dart';
 import '../../../custom_code/actions/index.dart' as actions;
 import 'itinerary_details_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
 export 'itinerary_details_model.dart';
 
@@ -77,43 +79,55 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: BukeerColors.primaryBackground,
-      body: SafeArea(
-        top: true,
-        child: Column(
-          children: [
-            // Navigation Bar
-            wrapWithModel(
-              model: _model.webNavModel,
-              updateCallback: () => safeSetState(() {}),
-              child: WebNavWidget(),
+      backgroundColor: BukeerColors.getBackground(context),
+      body: Column(
+        children: [
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Navigation Bar (hidden on mobile)
+                if (responsiveVisibility(
+                  context: context,
+                  phone: false,
+                  tablet: false,
+                ))
+                  wrapWithModel(
+                    model: _model.webNavModel,
+                    updateCallback: () => safeSetState(() {}),
+                    child: WebNavWidget(),
+                  ),
+
+                // Main Content
+                Flexible(
+                  child: SafeArea(
+                    top: true,
+                    child: ServiceBuilder<ItineraryService>(
+                      service: appServices.itinerary,
+                      loadingWidget: _buildLoadingState(),
+                      errorBuilder: (error) => _buildErrorState(error),
+                      builder: (context, itineraryService) {
+                        // Validate ID
+                        if (widget.id == null || widget.id!.isEmpty) {
+                          return _buildNotFoundState();
+                        }
+
+                        final itineraryData =
+                            itineraryService.getItinerary(widget.id!);
+
+                        if (itineraryData == null) {
+                          return _buildNotFoundState();
+                        }
+
+                        return _buildContent(itineraryData);
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-
-            // Main Content
-            Expanded(
-              child: ServiceBuilder<ItineraryService>(
-                service: appServices.itinerary,
-                loadingWidget: _buildLoadingState(),
-                errorBuilder: (error) => _buildErrorState(error),
-                builder: (context, itineraryService) {
-                  // Validate ID
-                  if (widget.id == null || widget.id!.isEmpty) {
-                    return _buildNotFoundState();
-                  }
-
-                  final itineraryData =
-                      itineraryService.getItinerary(widget.id!);
-
-                  if (itineraryData == null) {
-                    return _buildNotFoundState();
-                  }
-
-                  return _buildContent(itineraryData);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -129,7 +143,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
     final transactions = <dynamic>[];
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(24),
+      padding: EdgeInsets.all(BukeerSpacing.l),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -142,7 +156,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
             onPdfPressed: _handleGeneratePdf,
           ),
 
-          SizedBox(height: 24),
+          SizedBox(height: BukeerSpacing.l),
 
           // Services Section
           ItineraryServicesSection(
@@ -154,7 +168,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
             onAddTransfer: _handleAddTransfer,
           ),
 
-          SizedBox(height: 24),
+          SizedBox(height: BukeerSpacing.l),
 
           // Passengers Section
           ItineraryPassengersSection(
@@ -165,7 +179,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
             onDeletePassenger: _handleDeletePassenger,
           ),
 
-          SizedBox(height: 24),
+          SizedBox(height: BukeerSpacing.l),
 
           // Payments Section
           ItineraryPaymentsSection(
@@ -190,7 +204,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               BukeerColors.primary,
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: BukeerSpacing.m),
           Text(
             'Cargando itinerario...',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -206,7 +220,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   Widget _buildErrorState(String error) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(BukeerSpacing.l),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -215,7 +229,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               color: BukeerColors.error,
               size: 64,
             ),
-            SizedBox(height: 16),
+            SizedBox(height: BukeerSpacing.m),
             Text(
               'Error al cargar el itinerario',
               style: FlutterFlowTheme.of(context).headlineSmall.override(
@@ -223,7 +237,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
                     color: BukeerColors.error,
                   ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: BukeerSpacing.s),
             Text(
               error,
               textAlign: TextAlign.center,
@@ -232,7 +246,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
                     color: BukeerColors.secondaryText,
                   ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: BukeerSpacing.l),
             ElevatedButton(
               onPressed: () {
                 if (_itineraryId != null) {
@@ -250,7 +264,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
   Widget _buildNotFoundState() {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(BukeerSpacing.l),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -259,7 +273,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
               color: BukeerColors.secondaryText,
               size: 64,
             ),
-            SizedBox(height: 16),
+            SizedBox(height: BukeerSpacing.m),
             Text(
               'Itinerario no encontrado',
               style: FlutterFlowTheme.of(context).headlineSmall.override(
@@ -267,7 +281,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
                     color: BukeerColors.secondaryText,
                   ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: BukeerSpacing.s),
             Text(
               'El itinerario solicitado no existe o fue eliminado.',
               textAlign: TextAlign.center,
@@ -276,7 +290,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
                     color: BukeerColors.secondaryText,
                   ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: BukeerSpacing.l),
             ElevatedButton(
               onPressed: () => context.goNamed(MainItinerariesWidget.routeName),
               child: Text('Volver a Itinerarios'),
@@ -538,7 +552,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
           padding: MediaQuery.viewInsetsOf(context),
-          child: ComponentAddPaidWidget(
+          child: PaymentAddWidget(
             idItinerary: widget.id,
             agentName: currentUserEmail,
             agentEmail: currentUserEmail,

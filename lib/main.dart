@@ -15,6 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'services/app_services.dart';
 import 'providers/app_providers.dart';
 import 'config/app_config.dart';
+import 'design_system/themes/theme_data.dart';
 import 'index.dart';
 
 void main() async {
@@ -136,12 +137,8 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [
         Locale('es'),
       ],
-      theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
+      theme: BukeerThemeData.light,
+      darkTheme: BukeerThemeData.dark,
       themeMode: _themeMode,
       routerConfig: _router,
     );

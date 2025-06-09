@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_itinerary_preview_hotels_model.dart';
 import '../../../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_itinerary_preview_hotels_model.dart';
 
 class ComponentItineraryPreviewHotelsWidget extends StatefulWidget {
@@ -112,7 +113,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
               maxHeight: 500.0,
             ),
             decoration: BoxDecoration(
-              color: BukeerColors.secondaryBackground,
+              color: BukeerColors.getBackground(context, secondary: true),
             ),
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -124,7 +125,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                     height: 1.0,
                     thickness: 1.0,
                     indent: 0.0,
-                    color: BukeerColors.borderPrimary,
+                    color: FlutterFlowTheme.of(context).alternate,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -200,7 +201,8 @@ class _ComponentItineraryPreviewHotelsWidgetState
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: BukeerColors.secondaryBackground,
+                        color: BukeerColors.getBackground(context,
+                            secondary: true),
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 0.0,
@@ -212,7 +214,8 @@ class _ComponentItineraryPreviewHotelsWidgetState
                           )
                         ],
                         border: Border.all(
-                          color: BukeerColors.secondaryBackground,
+                          color: BukeerColors.getBackground(context,
+                              secondary: true),
                           width: 1.0,
                         ),
                       ),
@@ -293,9 +296,9 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                         await Navigator.push(
                                                           context,
                                                           PageTransition(
-                                                            type:
-                                                                pt.PageTransitionType
-                                                                    .fade,
+                                                            type: pt
+                                                                .PageTransitionType
+                                                                .fade,
                                                             child:
                                                                 FlutterFlowExpandedImageView(
                                                               image:

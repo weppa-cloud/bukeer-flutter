@@ -12,10 +12,10 @@ import 'guards/auth_guard.dart';
 import 'guards/permission_guard.dart';
 
 // Import existing widgets
-import '../bukeer/users/auth_login/auth_login_widget.dart';
-import '../bukeer/users/auth_create/auth_create_widget.dart';
-import '../bukeer/users/forgot_password/forgot_password_widget.dart';
-import '../bukeer/users/auth_reset_password/auth_reset_password_widget.dart';
+import '../bukeer/users/auth/login/auth_login_widget.dart';
+import '../bukeer/users/auth/register/auth_create_widget.dart';
+import '../bukeer/users/auth/forgot_password/forgot_password_widget.dart';
+import '../bukeer/users/auth/reset_password/auth_reset_password_widget.dart';
 import '../bukeer/dashboard/main_home/main_home_widget.dart';
 import '../bukeer/dashboard/reporte_ventas/reporte_ventas_widget.dart';
 import '../bukeer/dashboard/reporte_cuentas_por_pagar/reporte_cuentas_por_pagar_widget.dart';
@@ -30,13 +30,12 @@ import '../bukeer/itinerarios/add_passengers_itinerary/add_passengers_itinerary_
 import '../bukeer/agenda/main_agenda/main_agenda_widget.dart';
 import '../bukeer/productos/main_products/main_products_widget.dart';
 import '../bukeer/productos/add_edit_tarifa/add_edit_tarifa_widget.dart';
-import '../bukeer/productos/demo/booking/booking_widget.dart';
-import '../bukeer/productos/edit_payment_methods/edit_payment_methods_widget.dart';
+import '../examples/examples/productos/booking/booking_widget.dart';
+import '../bukeer/core/widgets/payments/edit_payment_methods/edit_payment_methods_widget.dart';
 import '../bukeer/contactos/main_contacts/main_contacts_widget.dart';
-import '../bukeer/users/main_profile_page/main_profile_page_widget.dart';
-import '../bukeer/users/demo/edit_profile/edit_profile_widget.dart';
-import '../bukeer/users/edit_personal_profile/edit_personal_profile_widget.dart';
-import '../bukeer/users/main_profile_account/main_profile_account_widget.dart';
+import '../bukeer/users/profile/main_page/main_profile_page_widget.dart';
+import '../bukeer/users/profile/edit_personal/edit_personal_profile_widget.dart';
+import '../bukeer/users/profile/main_account/main_profile_account_widget.dart';
 import '../bukeer/users/main_users/main_users_widget.dart';
 import '../bukeer/itinerarios/preview/preview_itinerary_u_r_l/preview_itinerary_u_r_l_widget.dart';
 import '../components/error_monitoring_dashboard.dart';
@@ -336,7 +335,7 @@ class ModernRouter {
           GoRoute(
             path: 'edit',
             name: RouteNames.editProfile,
-            builder: (context, state) => const EditProfileWidget(),
+            builder: (context, state) => const EditPersonalProfileWidget(),
           ),
           GoRoute(
             path: 'personal',

@@ -2,8 +2,8 @@ import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
 import '../../../../backend/supabase/supabase.dart';
 import '../../../../design_system/index.dart';
-import '../dropdown_airports/dropdown_airports_widget.dart';
-import '../dropdown_products/dropdown_products_widget.dart';
+import '../../../core/widgets/forms/dropdowns/airports/dropdown_airports_widget.dart';
+import '../../../core/widgets/forms/dropdowns/products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
@@ -27,6 +27,7 @@ import '../../../../services/ui_state_service.dart';
 import '../../../../services/product_service.dart';
 import '../../../../services/contact_service.dart';
 import '../../../../services/app_services.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'add_flights_model.dart';
 
 class AddFlightsWidget extends StatefulWidget {
@@ -262,7 +263,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.primaryBackground,
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Align(
@@ -286,7 +287,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                     maxHeight: 700.0,
                   ),
                   decoration: BoxDecoration(
-                    color: BukeerColors.secondaryBackground,
+                    color: BukeerColors.getBackground(context, secondary: true),
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -635,7 +636,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                         .accent1,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                     shape: BoxShape.rectangle,
                                                     border: Border.all(
                                                       color:
@@ -1045,7 +1046,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       .secondaryBackground,
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          12.0),
+                                                          BukeerSpacing.sm),
                                                   border: Border.all(
                                                     color: FlutterFlowTheme.of(
                                                             context)
@@ -1163,7 +1164,8 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.all(
-                                                                  4.0),
+                                                                  BukeerSpacing
+                                                                      .xs),
                                                           child: Icon(
                                                             Icons
                                                                 .chevron_right_rounded,
@@ -1235,7 +1237,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
@@ -1248,7 +1250,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   errorBorder:
                                                       OutlineInputBorder(
@@ -1261,7 +1263,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   focusedErrorBorder:
                                                       OutlineInputBorder(
@@ -1274,7 +1276,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   filled: true,
                                                   fillColor:
@@ -1387,7 +1389,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                   ],
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          12.0),
+                                                          BukeerSpacing.sm),
                                                   border: Border.all(
                                                     color: FlutterFlowTheme.of(
                                                             context)
@@ -1505,7 +1507,8 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.all(
-                                                                  4.0),
+                                                                  BukeerSpacing
+                                                                      .xs),
                                                           child: Icon(
                                                             Icons
                                                                 .chevron_right_rounded,
@@ -1577,7 +1580,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
@@ -1590,7 +1593,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   errorBorder:
                                                       OutlineInputBorder(
@@ -1603,7 +1606,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   focusedErrorBorder:
                                                       OutlineInputBorder(
@@ -1616,7 +1619,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   filled: true,
                                                   fillColor:
@@ -1797,7 +1800,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
@@ -1810,7 +1813,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
@@ -1823,7 +1826,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
@@ -1836,7 +1839,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     filled: true,
                                                     fillColor: FlutterFlowTheme
@@ -1971,7 +1974,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
@@ -1984,7 +1987,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
@@ -1997,7 +2000,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
@@ -2010,7 +2013,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     filled: true,
                                                     fillColor: FlutterFlowTheme
@@ -2141,7 +2144,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
@@ -2154,7 +2157,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     errorBorder:
                                                         OutlineInputBorder(
@@ -2167,7 +2170,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
@@ -2180,7 +2183,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     filled: true,
                                                     fillColor: FlutterFlowTheme
@@ -2495,7 +2498,8 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor: BukeerColors.borderPrimary,
+                                    hoverColor:
+                                        FlutterFlowTheme.of(context).alternate,
                                     hoverBorderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
@@ -2598,7 +2602,8 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget>
                                                 .itemsProducts,
                                             r'''$.name''',
                                           ).toString(),
-                                          accountId: appServices.account.accountId!,
+                                          accountId:
+                                              appServices.account.accountId!,
                                           personalizedMessage:
                                               (String personalizedMessage) {
                                             return personalizedMessage

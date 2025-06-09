@@ -604,3 +604,18 @@ String getCurrentRoute(BuildContext context) =>
     context.mounted ? MyApp.of(context).getRoute() : '';
 List<String> getCurrentRouteStack(BuildContext context) =>
     context.mounted ? MyApp.of(context).getRouteStack() : [];
+
+/// UI Constants for consistent timing and animations across the app
+class UiConstants {
+  UiConstants._();
+
+  // Animation durations
+  static const Duration animationDurationFast = Duration(milliseconds: 150);
+  static const Duration animationDuration = Duration(milliseconds: 300);
+  static const Duration animationDurationSlow = Duration(milliseconds: 600);
+
+  // Common timing values
+  static const Duration transitionDuration = Duration(milliseconds: 250);
+  static const Duration tooltipDuration = Duration(milliseconds: 1500);
+  static const Duration snackbarDuration = Duration(seconds: 4);
+}

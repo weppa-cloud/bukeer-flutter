@@ -8,6 +8,7 @@ import 'error_service.dart';
 import 'error_analytics_service.dart';
 import 'ui_state_service.dart';
 import 'account_service.dart';
+import 'pwa_service.dart';
 
 /// Central service manager for the app
 /// Provides singleton access to all services and coordinates initialization
@@ -26,6 +27,7 @@ class AppServices {
   final ErrorService error = ErrorService();
   final ErrorAnalyticsService errorAnalytics = ErrorAnalyticsService();
   final AccountService account = AccountService();
+  final PWAService pwa = PWAService();
 
   // Track initialization state
   bool _isInitialized = false;
@@ -45,6 +47,9 @@ class AppServices {
 
       // Start error analytics session
       errorAnalytics.startSession();
+
+      // Initialize PWA service for web features
+      pwa.initialize();
 
       // Set up error service callbacks
       error.setErrorCallback((appError) {

@@ -47,6 +47,14 @@ lib/config/api_keys.dart
 web/config.js
 config.js
 
+# Maestro E2E Testing
+.maestro/
+maestro/.maestro/
+maestro/screenshots/
+maestro/.env.maestro
+*.mp4
+*.avi
+
 # OS específicos
 .DS_Store
 .DS_Store?

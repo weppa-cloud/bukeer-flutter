@@ -4,6 +4,7 @@ import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../../design_system/components/buttons/bukeer_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
 /// Payments section for itinerary details
 /// Displays financial summary and payment tracking
@@ -36,7 +37,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
@@ -46,7 +47,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(BukeerSpacing.l),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -98,18 +99,18 @@ class ItineraryPaymentsSection extends StatelessWidget {
                         color: Colors.transparent,
                         width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
                     ),
                   ),
               ],
             ),
 
-            SizedBox(height: 24),
+            SizedBox(height: BukeerSpacing.l),
 
             // Financial Summary Cards
             Row(
               children: [
-                Expanded(
+                Flexible(
                     child: _buildFinancialCard(
                   context,
                   'Costo Total',
@@ -118,7 +119,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   Colors.orange,
                 )),
                 SizedBox(width: 12),
-                Expanded(
+                Flexible(
                     child: _buildFinancialCard(
                   context,
                   'Precio Total',
@@ -127,7 +128,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   Colors.blue,
                 )),
                 SizedBox(width: 12),
-                Expanded(
+                Flexible(
                     child: _buildFinancialCard(
                   context,
                   'Ganancia',
@@ -138,12 +139,12 @@ class ItineraryPaymentsSection extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 16),
+            SizedBox(height: BukeerSpacing.m),
 
             // Payment Status Cards
             Row(
               children: [
-                Expanded(
+                Flexible(
                     child: _buildFinancialCard(
                   context,
                   'Pagado',
@@ -152,7 +153,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   Colors.green,
                 )),
                 SizedBox(width: 12),
-                Expanded(
+                Flexible(
                     child: _buildFinancialCard(
                   context,
                   'Pendiente',
@@ -161,12 +162,12 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   totalPending > 0 ? Colors.red : Colors.green,
                 )),
                 SizedBox(width: 12),
-                Expanded(
+                Flexible(
                     child: _buildProgressCard(context, totalPaid, totalPrice)),
               ],
             ),
 
-            SizedBox(height: 24),
+            SizedBox(height: BukeerSpacing.l),
 
             // Transactions List
             if (transactions.isNotEmpty) ...[
@@ -200,10 +201,10 @@ class ItineraryPaymentsSection extends StatelessWidget {
     Color color,
   ) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         border: Border.all(
           color: color.withOpacity(0.3),
           width: 1,
@@ -219,7 +220,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                 color: color,
                 size: 20,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: BukeerSpacing.s),
               Expanded(
                 child: Text(
                   title,
@@ -233,7 +234,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          SizedBox(height: BukeerSpacing.s),
           Text(
             '\$${amount.toStringAsFixed(2)}',
             style: FlutterFlowTheme.of(context).titleLarge.override(
@@ -257,10 +258,10 @@ class ItineraryPaymentsSection extends StatelessWidget {
             : Colors.red;
 
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         border: Border.all(
           color: color.withOpacity(0.3),
           width: 1,
@@ -276,7 +277,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                 color: color,
                 size: 20,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: BukeerSpacing.s),
               Text(
                 'Progreso',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -288,7 +289,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          SizedBox(height: BukeerSpacing.s),
           Text(
             '${(percentage * 100).toStringAsFixed(0)}%',
             style: FlutterFlowTheme.of(context).titleLarge.override(
@@ -298,7 +299,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: BukeerSpacing.s),
           LinearProgressIndicator(
             value: percentage,
             backgroundColor: color.withOpacity(0.2),
@@ -318,10 +319,10 @@ class ItineraryPaymentsSection extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(bottom: 8),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(BukeerSpacing.sm),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(BukeerSpacing.s),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
           width: 1,
@@ -380,7 +381,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                 ),
           ),
           if (onEditTransaction != null) ...[
-            SizedBox(width: 8),
+            SizedBox(width: BukeerSpacing.s),
             BukeerIconButton(
               icon: Icon(
                 Icons.edit,
@@ -400,10 +401,10 @@ class ItineraryPaymentsSection extends StatelessWidget {
   Widget _buildEmptyTransactions(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(24),
+      padding: EdgeInsets.all(BukeerSpacing.l),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
           width: 1,
@@ -416,7 +417,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
             color: FlutterFlowTheme.of(context).secondaryText,
             size: 48,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: BukeerSpacing.m),
           Text(
             'No hay pagos registrados',
             style: FlutterFlowTheme.of(context).bodyLarge.override(
@@ -425,7 +426,7 @@ class ItineraryPaymentsSection extends StatelessWidget {
                   fontSize: 16,
                 ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: BukeerSpacing.s),
           Text(
             'Registra el primer pago para este itinerario',
             style: FlutterFlowTheme.of(context).bodyMedium.override(

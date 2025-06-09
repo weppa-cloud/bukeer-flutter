@@ -1,10 +1,10 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../component_container_activities/component_container_activities_widget.dart';
-import '../../componentes/boton_menu_mobile/boton_menu_mobile_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../../componentes/search_box/search_box_widget.dart';
-import '../modal_details_product/modal_details_product_widget.dart';
+import '../../core/widgets/containers/activities/activities_container_widget.dart';
+import '../../core/widgets/buttons/btn_mobile_menu/btn_mobile_menu_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/forms/search_box/search_box_widget.dart';
+import '../../core/widgets/modals/product/details/modal_details_product_widget.dart';
 import '../../../flutter_flow/flutter_flow_drop_down.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'main_products_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/performance_optimized_service.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'main_products_model.dart';
 
 class MainProductsWidget extends StatefulWidget {
@@ -66,7 +67,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
             return Scaffold(
-              backgroundColor: BukeerColors.primaryBackground,
+              backgroundColor: BukeerColors.getBackground(context),
               body: Center(
                 child: SizedBox(
                   width: 50.0,
@@ -89,7 +90,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
             },
             child: Scaffold(
               key: scaffoldKey,
-              backgroundColor: BukeerColors.primaryBackground,
+              backgroundColor: BukeerColors.getBackground(context),
               body: SafeArea(
                 top: true,
                 child: Column(
@@ -188,12 +189,12 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                 ))
                                                                   wrapWithModel(
                                                                     model: _model
-                                                                        .botonMenuMobileModel,
+                                                                        .btnMobileMenuModel,
                                                                     updateCallback: () =>
                                                                         safeSetState(
                                                                             () {}),
                                                                     child:
-                                                                        BotonMenuMobileWidget(),
+                                                                        BtnMobileMenuWidget(),
                                                                   ),
                                                                 Text(
                                                                   'Productos',
@@ -316,8 +317,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             ),
                                                                       ),
                                                                     ].divide(SizedBox(
-                                                                        width:
-                                                                            8.0)),
+                                                                        width: BukeerSpacing
+                                                                            .s)),
                                                                   ),
                                                                 ),
                                                                 InkWell(
@@ -391,8 +392,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             ),
                                                                       ),
                                                                     ].divide(SizedBox(
-                                                                        width:
-                                                                            8.0)),
+                                                                        width: BukeerSpacing
+                                                                            .s)),
                                                                   ),
                                                                 ),
                                                                 InkWell(
@@ -464,8 +465,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                             ),
                                                                       ),
                                                                     ].divide(SizedBox(
-                                                                        width:
-                                                                            8.0)),
+                                                                        width: BukeerSpacing
+                                                                            .s)),
                                                                   ),
                                                                 ),
                                                               ].divide(SizedBox(
@@ -537,7 +538,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                           ),
                                                                         ),
                                                                       ].divide(SizedBox(
-                                                                              width: 8.0)),
+                                                                              width: BukeerSpacing.s)),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -719,7 +720,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                               ),
                                                             ),
                                                           ].divide(SizedBox(
-                                                              width: 16.0)),
+                                                              width:
+                                                                  BukeerSpacing
+                                                                      .m)),
                                                         ),
                                                       ].divide(SizedBox(
                                                           height:
@@ -864,7 +867,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                         safeSetState(() {}));
                                                   },
                                                   child:
-                                                      ComponentContainerActivitiesWidget(
+                                                      ActivitiesContainerWidget(
                                                     key: Key(
                                                         'Key7cc_${itemActivityIndex}_of_${_model.listViewPagingController!.itemList!.length}'),
                                                     name: getJsonField(

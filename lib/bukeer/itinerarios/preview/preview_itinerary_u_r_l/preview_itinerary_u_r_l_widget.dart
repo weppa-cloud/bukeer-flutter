@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'preview_itinerary_u_r_l_model.dart';
 import '../../../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'preview_itinerary_u_r_l_model.dart';
 
 class PreviewItineraryURLWidget extends StatefulWidget {
@@ -64,7 +65,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.primaryBackground,
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -102,7 +103,8 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                         '${true.toString()}')
                       Container(
                         decoration: BoxDecoration(
-                          color: BukeerColors.secondaryBackground,
+                          color: BukeerColors.getBackground(context,
+                              secondary: true),
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 3.0,
@@ -484,7 +486,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                     ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              8.0),
+                                                              BukeerSpacing.s),
                                                       child: Image.network(
                                                         getJsonField(
                                                                   columnGetClientItineraryResponse
@@ -1112,7 +1114,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          12.0),
+                                                          BukeerSpacing.sm),
                                                   hoverColor:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -1172,7 +1174,8 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                         '${false.toString()}')
                       Container(
                         decoration: BoxDecoration(
-                          color: BukeerColors.secondaryBackground,
+                          color: BukeerColors.getBackground(context,
+                              secondary: true),
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 3.0,
@@ -1262,7 +1265,7 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                                                     ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              8.0),
+                                                              BukeerSpacing.s),
                                                       child: Image.network(
                                                         getJsonField(
                                                                   columnGetClientItineraryResponse
@@ -1302,7 +1305,8 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                         minWidth: 843.0,
                       ),
                       decoration: BoxDecoration(
-                        color: BukeerColors.secondaryBackground,
+                        color: BukeerColors.getBackground(context,
+                            secondary: true),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.only(
@@ -1656,7 +1660,8 @@ class _PreviewItineraryURLWidgetState extends State<PreviewItineraryURLWidget> {
                     Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       decoration: BoxDecoration(
-                        color: BukeerColors.secondaryBackground,
+                        color: BukeerColors.getBackground(context,
+                            secondary: true),
                         boxShadow: [
                           BoxShadow(
                             blurRadius: 3.0,

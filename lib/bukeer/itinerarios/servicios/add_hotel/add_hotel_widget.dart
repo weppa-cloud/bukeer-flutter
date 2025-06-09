@@ -2,7 +2,7 @@ import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
 import '../../../../backend/supabase/supabase.dart';
 import '../../../../design_system/index.dart';
-import '../dropdown_products/dropdown_products_widget.dart';
+import '../../../core/widgets/forms/dropdowns/products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';
@@ -25,6 +25,7 @@ import '../../../../services/ui_state_service.dart';
 import '../../../../services/product_service.dart';
 import '../../../../services/contact_service.dart';
 import '../../../../services/app_services.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'add_hotel_model.dart';
 
 class AddHotelWidget extends StatefulWidget {
@@ -234,7 +235,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.primaryBackground,
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Align(
@@ -258,7 +259,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                     maxHeight: 700.0,
                   ),
                   decoration: BoxDecoration(
-                    color: BukeerColors.secondaryBackground,
+                    color: BukeerColors.getBackground(context, secondary: true),
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 12.0,
@@ -1248,7 +1249,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.all(
-                                                                  4.0),
+                                                                  BukeerSpacing
+                                                                      .xs),
                                                           child: Icon(
                                                             Icons
                                                                 .chevron_right_rounded,
@@ -1401,7 +1403,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                           child: Padding(
                                                             padding:
                                                                 EdgeInsets.all(
-                                                                    8.0),
+                                                                    BukeerSpacing
+                                                                        .s),
                                                             child: Icon(
                                                               Icons.close_sharp,
                                                               color: FlutterFlowTheme
@@ -1592,9 +1595,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                   Expanded(
                                                                     child:
                                                                         Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              8.0),
+                                                                      padding: EdgeInsets.all(
+                                                                          BukeerSpacing
+                                                                              .s),
                                                                       child:
                                                                           Column(
                                                                         mainAxisSize:
@@ -1809,7 +1812,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                   ],
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          12.0),
+                                                          BukeerSpacing.sm),
                                                   border: Border.all(
                                                     color: FlutterFlowTheme.of(
                                                             context)
@@ -1931,7 +1934,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                               OutlineInputBorder(
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: BukeerColors.borderPrimary,
+                                                                              color: FlutterFlowTheme.of(context).alternate,
                                                                               width: 2.0,
                                                                             ),
                                                                             borderRadius:
@@ -1969,8 +1972,9 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                           ),
                                                                           filled:
                                                                               true,
-                                                                          fillColor:
-                                                                              BukeerColors.secondaryBackground,
+                                                                          fillColor: BukeerColors.getBackground(
+                                                                              context,
+                                                                              secondary: true),
                                                                           contentPadding: EdgeInsetsDirectional.fromSTEB(
                                                                               16.0,
                                                                               16.0,
@@ -2109,7 +2113,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              BukeerColors.borderPrimary,
+                                                                              FlutterFlowTheme.of(context).alternate,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -2304,7 +2308,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -2317,7 +2321,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -2330,7 +2334,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -2343,7 +2347,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     filled:
                                                                         true,
@@ -2497,7 +2501,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                                             ],
                                                           ),
                                                         ].divide(SizedBox(
-                                                            width: 8.0)),
+                                                            width: BukeerSpacing
+                                                                .s)),
                                                       ),
                                                     ],
                                                   ),
@@ -2678,7 +2683,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget>
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor: BukeerColors.borderPrimary,
+                                    hoverColor:
+                                        FlutterFlowTheme.of(context).alternate,
                                     hoverBorderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,

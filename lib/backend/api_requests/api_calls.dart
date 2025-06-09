@@ -589,6 +589,7 @@ class GetProductsByTypeCall {
   }
 }
 
+/*
 class GetProductsByTypePaginatedTestCall {
   static Future<ApiCallResponse> call({
     String? searchTerm = '',
@@ -627,6 +628,7 @@ class GetProductsByTypePaginatedTestCall {
     );
   }
 }
+*/
 
 class GetProductsByTypePaginatedCall {
   static Future<ApiCallResponse> call({
@@ -2215,6 +2217,7 @@ class InsertLocationsCall {
   }
 }
 
+/*
 class TestUsersCall {
   static Future<ApiCallResponse> call({
     String? authToken = '',
@@ -2240,6 +2243,7 @@ class TestUsersCall {
     );
   }
 }
+*/
 
 class UpdatePassengerItineraryCall {
   static Future<ApiCallResponse> call({
@@ -2284,6 +2288,7 @@ class UpdatePassengerItineraryCall {
   }
 }
 
+/*
 class TestPaginatedContactsCall {
   static Future<ApiCallResponse> call({
     int? offset,
@@ -2312,6 +2317,7 @@ class TestPaginatedContactsCall {
     );
   }
 }
+*/
 
 class SearchProductsCall {
   static Future<ApiCallResponse> call({
@@ -2430,6 +2436,7 @@ class GetProductsByTypeLocationSearchCall {
   }
 }
 
+/*
 class TESTGetProductsByTypeSearchCall {
   static Future<ApiCallResponse> call({
     String? authToken = '',
@@ -2467,6 +2474,7 @@ class TESTGetProductsByTypeSearchCall {
     );
   }
 }
+*/
 
 class UpdateLocationsCall {
   static Future<ApiCallResponse> call({
@@ -2546,6 +2554,7 @@ class GetDataByIdProductsCall {
   }
 }
 
+/*
 class TestProductsCall {
   static Future<ApiCallResponse> call({
     String? authToken = '',
@@ -2582,7 +2591,9 @@ class TestProductsCall {
     );
   }
 }
+*/
 
+/*
 class TestProductsTresCall {
   static Future<ApiCallResponse> call({
     String? authToken = '',
@@ -2617,7 +2628,9 @@ class TestProductsTresCall {
     );
   }
 }
+*/
 
+/*
 class TestProductsDosCall {
   static Future<ApiCallResponse> call({
     String? searchTerm = '',
@@ -2647,6 +2660,7 @@ class TestProductsDosCall {
     );
   }
 }
+*/
 
 class GetLocationsItinerariesCall {
   static Future<ApiCallResponse> call({

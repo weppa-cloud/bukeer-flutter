@@ -8,7 +8,7 @@ class BukeerColors {
   // ================================
   // PRIMARY COLORS
   // ================================
-  static const Color primary = Color(0xFF4B39EF);
+  static const Color primary = Color(0xFF7C57B3); // FlutterFlow purple
   static const Color primaryAccent = Color(0xFF6F61EF);
   static const Color primaryLight = Color(0xFF9A8FF0);
   static const Color primaryDark = Color(0xFF3730C1);
@@ -16,10 +16,27 @@ class BukeerColors {
   // ================================
   // SECONDARY COLORS
   // ================================
-  static const Color secondary = Color(0xFF39D2C0);
+  static const Color secondary = Color(0xFF102877); // FlutterFlow dark blue
   static const Color secondaryAccent = Color(0xFF4DDAC6);
-  static const Color secondaryLight = Color(0xFF9AE6DC);
-  static const Color secondaryDark = Color(0xFF26A69A);
+  static const Color secondaryLight = Color(0xFF102877); // Light mode
+  static const Color secondaryDark = Color(0xFF68E0F8); // Dark mode cyan
+
+  // ================================
+  // FLUTTERFLOW ADDITIONAL COLORS
+  // ================================
+  static const Color tertiary = Color(0xFF4098F8); // Light blue
+  static const Color tertiaryDark = Color(0xFF4098F8);
+  static const Color alternate = Color(0xFFB7BAC3); // Light gray
+  static const Color alternateDark = Color(0xFFB7BAC3);
+  static const Color accent1 = Color(0x4D9489F5);
+  static const Color accent2 = Color(0x4C39D2C0);
+  static const Color accent3 = Color(0x4CEE8B60);
+  static const Color accent4 = Color(0x9AFFFFFF);
+  static const Color accent4Dark = Color(0xFF2A2F3C);
+  static const Color overlayFF = Color(0x9A1D2428); // FlutterFlow overlay
+  static const Color overlay0 = Color(0x00FFFFFF);
+  static const Color overlay0Dark = Color(0x000B191E);
+  static const Color background = Color(0xFF1A1D24); // FlutterFlow background
 
   // ================================
   // NEUTRAL COLORS
@@ -61,8 +78,13 @@ class BukeerColors {
   static const Color backgroundPrimary = Color(0xFFFFFFFF);
   static const Color backgroundSecondary = Color(0xFFF8FAFC);
   static const Color backgroundTertiary = Color(0xFFF1F5F9);
-  static const Color backgroundDark = Color(0xFF0F172A);
-  static const Color backgroundDarkSecondary = Color(0xFF1E293B);
+  static const Color backgroundDark = Color(0xFF1A1D24);
+  static const Color backgroundDarkSecondary = Color(0xFF252832);
+  static const Color backgroundDarkTertiary = Color(0xFF2A2F3C);
+
+  // Form field specific colors for dark mode
+  static const Color formFieldBackgroundLight = Color(0xFFF8FAFC);
+  static const Color formFieldBackgroundDark = Color(0xFF2A2F3C);
 
   // FlutterFlow compatibility aliases
   static const Color primaryBackground = backgroundPrimary;
@@ -83,6 +105,11 @@ class BukeerColors {
   static const Color textInverse = Color(0xFFFFFFFF);
   static const Color textDisabled = Color(0xFFCBD5E1);
 
+  // Dark mode text colors (FlutterFlow original)
+  static const Color textPrimaryDark = Color(0xFFFFFFFF);
+  static const Color textSecondaryDark = Color(0xFFA9ADC6);
+  static const Color textTertiaryDark = Color(0xFF94A3B8);
+
   // FlutterFlow compatibility aliases
   static const Color primaryText = textPrimary;
   static const Color secondaryText = textSecondary;
@@ -92,8 +119,13 @@ class BukeerColors {
   // ================================
   static const Color borderPrimary = Color(0xFFE2E8F0);
   static const Color borderSecondary = Color(0xFFCBD5E1);
-  static const Color borderFocus = Color(0xFF4B39EF);
+  static const Color borderFocus =
+      Color(0xFF7C57B3); // Updated to match primary
   static const Color borderError = Color(0xFFEF4444);
+
+  // Dark mode border colors (FlutterFlow compatible)
+  static const Color borderPrimaryDark = Color(0xFF313442);
+  static const Color borderSecondaryDark = Color(0xFF475569);
 
   // ================================
   // OVERLAY COLORS
@@ -145,6 +177,52 @@ class BukeerColors {
         return info;
     }
   }
+
+  /// Get appropriate form field background color based on theme
+  static Color getFormFieldBackground(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? formFieldBackgroundDark
+        : formFieldBackgroundLight;
+  }
+
+  /// Get appropriate background color based on theme
+  static Color getBackground(BuildContext context, {bool secondary = false}) {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      return secondary ? backgroundDarkSecondary : backgroundDark;
+    }
+    return secondary ? backgroundSecondary : backgroundPrimary;
+  }
+
+  /// Get appropriate text color based on theme
+  static Color getTextColor(BuildContext context,
+      {TextColorType type = TextColorType.primary}) {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      switch (type) {
+        case TextColorType.primary:
+          return textPrimaryDark;
+        case TextColorType.secondary:
+          return textSecondaryDark;
+        case TextColorType.tertiary:
+          return textTertiaryDark;
+      }
+    }
+    switch (type) {
+      case TextColorType.primary:
+        return textPrimary;
+      case TextColorType.secondary:
+        return textSecondary;
+      case TextColorType.tertiary:
+        return textTertiary;
+    }
+  }
+
+  /// Get appropriate border color based on theme
+  static Color getBorderColor(BuildContext context, {bool secondary = false}) {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      return secondary ? borderSecondaryDark : borderPrimaryDark;
+    }
+    return secondary ? borderSecondary : borderPrimary;
+  }
 }
 
 /// Status types for semantic colors
@@ -153,6 +231,13 @@ enum StatusType {
   warning,
   error,
   info,
+}
+
+/// Text color types for dynamic text color selection
+enum TextColorType {
+  primary,
+  secondary,
+  tertiary,
 }
 
 /// Extension for easier color access in widgets

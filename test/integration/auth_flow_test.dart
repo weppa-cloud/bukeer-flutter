@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 // // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
-import 'package:bukeer/bukeer/users/auth_login/auth_login_widget.dart';
-import 'package:bukeer/bukeer/users/auth_create/auth_create_widget.dart';
-import 'package:bukeer/bukeer/users/forgot_password/forgot_password_widget.dart';
+import 'package:bukeer/bukeer/users/auth/login/auth_login_widget.dart';
+import 'package:bukeer/bukeer/users/auth/register/auth_create_widget.dart';
+import 'package:bukeer/bukeer/users/auth/forgot_password/forgot_password_widget.dart';
 import 'package:bukeer/bukeer/dashboard/main_home/main_home_widget.dart';
 import 'package:bukeer/main.dart';
 import '../test_utils/test_helpers.dart';

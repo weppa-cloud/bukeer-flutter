@@ -1,7 +1,7 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../../backend/supabase/supabase.dart';
-import '../dropdown_travel_planner/dropdown_travel_planner_widget.dart';
+import '../../core/widgets/forms/dropdowns/travel_planner/dropdown_travel_planner_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'travel_planner_section_model.dart';
 import '../../../services/authorization_service.dart';
 import '../../../services/app_services.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'travel_planner_section_model.dart';
 
 class TravelPlannerSectionWidget extends StatefulWidget {

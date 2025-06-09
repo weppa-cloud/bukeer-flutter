@@ -1,6 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'reporte_ventas_model.dart';
 // import '../../../services/ui_state_service.dart'; // TODO: Create UiStateService
 import '../../../custom_code/widgets/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'reporte_ventas_model.dart';
 
 class ReporteVentasWidget extends StatefulWidget {
@@ -113,7 +114,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.secondaryBackground,
+        backgroundColor: BukeerColors.getBackground(context, secondary: true),
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -298,7 +299,9 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                   ),
                                                             ),
                                                           ].divide(SizedBox(
-                                                              width: 8.0)),
+                                                              width:
+                                                                  BukeerSpacing
+                                                                      .s)),
                                                         ),
                                                       ],
                                                     ),
@@ -466,7 +469,7 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                BukeerColors.borderPrimary,
+                                                                                FlutterFlowTheme.of(context).alternate,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -1387,9 +1390,9 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              8.0),
+                                                                      padding: EdgeInsets.all(
+                                                                          BukeerSpacing
+                                                                              .s),
                                                                       child:
                                                                           Text(
                                                                         'TP',
@@ -1564,7 +1567,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                       __) =>
                                                                   SizedBox(
                                                                       height:
-                                                                          8.0),
+                                                                          BukeerSpacing
+                                                                              .s),
                                                               itemBuilder: (context,
                                                                   ventaItemIndex) {
                                                                 final ventaItemItem =
@@ -1580,13 +1584,13 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                         .primaryBackground,
                                                                     borderRadius:
                                                                         BorderRadius.circular(
-                                                                            8.0),
+                                                                            BukeerSpacing.s),
                                                                   ),
                                                                   child:
                                                                       Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            12.0),
+                                                                    padding: EdgeInsets.all(
+                                                                        BukeerSpacing
+                                                                            .sm),
                                                                     child: Row(
                                                                       mainAxisSize:
                                                                           MainAxisSize

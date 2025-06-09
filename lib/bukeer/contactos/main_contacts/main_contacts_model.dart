@@ -1,10 +1,10 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/boton_crear/boton_crear_widget.dart';
-import '../../componentes/search_box/search_box_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../modal_add_edit_contact/modal_add_edit_contact_widget.dart';
-import '../modal_details_contact/modal_details_contact_widget.dart';
+import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
+import '../../core/widgets/forms/search_box/search_box_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/modals/contact/add_edit/modal_add_edit_contact_widget.dart';
+import '../../core/widgets/modals/contact/details/modal_details_contact_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
@@ -26,8 +26,8 @@ class MainContactsModel extends FlutterFlowModel<MainContactsWidget> {
 
   // Model for webNav component.
   late WebNavModel webNavModel;
-  // Model for BotonCrear component.
-  late BotonCrearModel botonCrearModel;
+  // Model for BtnCreate component.
+  late BtnCreateModel btnCreateModel;
   // Model for SearchBox component.
   late SearchBoxModel searchBoxModel;
   // State field(s) for ListViewSearch widget.
@@ -38,14 +38,14 @@ class MainContactsModel extends FlutterFlowModel<MainContactsWidget> {
   @override
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
-    botonCrearModel = createModel(context, () => BotonCrearModel());
+    btnCreateModel = createModel(context, () => BtnCreateModel());
     searchBoxModel = createModel(context, () => SearchBoxModel());
   }
 
   @override
   void dispose() {
     webNavModel.dispose();
-    botonCrearModel.dispose();
+    btnCreateModel.dispose();
     searchBoxModel.dispose();
 
     listViewSearchPagingController?.dispose();

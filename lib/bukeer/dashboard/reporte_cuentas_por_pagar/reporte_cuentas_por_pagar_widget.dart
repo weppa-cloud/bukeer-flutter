@@ -1,6 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'reporte_cuentas_por_pagar_model.dart';
 import '../../../services/ui_state_service.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'reporte_cuentas_por_pagar_model.dart';
 
 class ReporteCuentasPorPagarWidget extends StatefulWidget {
@@ -113,7 +114,7 @@ class _ReporteCuentasPorPagarWidgetState
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.secondaryBackground,
+        backgroundColor: BukeerColors.getBackground(context, secondary: true),
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -273,7 +274,9 @@ class _ReporteCuentasPorPagarWidgetState
                                                                   ),
                                                             ),
                                                           ].divide(SizedBox(
-                                                              width: 8.0)),
+                                                              width:
+                                                                  BukeerSpacing
+                                                                      .s)),
                                                         ),
                                                       ],
                                                     ),
@@ -442,7 +445,7 @@ class _ReporteCuentasPorPagarWidgetState
                                                                           borderSide:
                                                                               BorderSide(
                                                                             color:
-                                                                                BukeerColors.borderPrimary,
+                                                                                FlutterFlowTheme.of(context).alternate,
                                                                             width:
                                                                                 1.0,
                                                                           ),
@@ -1273,9 +1276,9 @@ class _ReporteCuentasPorPagarWidgetState
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              8.0),
+                                                                      padding: EdgeInsets.all(
+                                                                          BukeerSpacing
+                                                                              .s),
                                                                       child:
                                                                           Text(
                                                                         'PR',
@@ -1409,7 +1412,8 @@ class _ReporteCuentasPorPagarWidgetState
                                                                       __) =>
                                                                   SizedBox(
                                                                       height:
-                                                                          8.0),
+                                                                          BukeerSpacing
+                                                                              .s),
                                                               itemBuilder: (context,
                                                                   productItemIndex) {
                                                                 final productItemItem =

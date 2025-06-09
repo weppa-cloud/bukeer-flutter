@@ -1,6 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';

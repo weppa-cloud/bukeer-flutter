@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 // // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
-import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_widget.dart';
-// import 'package:bukeer/bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_model.dart'; // Unused import
+import 'package:bukeer/bukeer/core/widgets/modals/contact/add_edit/modal_add_edit_contact_widget.dart';
+// import 'package:bukeer/bukeer/core/widgets/modals/contact/add_edit/modal_add_edit_contact_model.dart'; // Unused import
 import 'package:bukeer/services/authorization_service.dart';
 import '../test_utils/test_helpers.dart';
 
@@ -306,8 +306,7 @@ void main() {
       testWidgets('should show user-specific fields for user type',
           (tester) async {
         // Arrange
-        TestHelpers.mockUserWithRole(
-            'admin'); // Only admins can create users
+        TestHelpers.mockUserWithRole('admin'); // Only admins can create users
         TestHelpers.mockUserData();
 
         final widget = TestHelpers.createTestWidget(

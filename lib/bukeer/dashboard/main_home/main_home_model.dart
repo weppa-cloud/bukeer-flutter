@@ -1,4 +1,4 @@
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';

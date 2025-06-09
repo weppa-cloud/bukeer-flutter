@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_itinerary_preview_flights_model.dart';
 import '../../../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_itinerary_preview_flights_model.dart';
 
 class ComponentItineraryPreviewFlightsWidget extends StatefulWidget {
@@ -68,7 +69,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         decoration: BoxDecoration(
-          color: BukeerColors.secondaryBackground,
+          color: BukeerColors.getBackground(context, secondary: true),
         ),
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -144,7 +145,7 @@ class _ComponentItineraryPreviewFlightsWidgetState
                 child: Container(
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   decoration: BoxDecoration(
-                    color: BukeerColors.secondaryBackground,
+                    color: BukeerColors.getBackground(context, secondary: true),
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 0.0,
@@ -156,7 +157,8 @@ class _ComponentItineraryPreviewFlightsWidgetState
                       )
                     ],
                     border: Border.all(
-                      color: BukeerColors.secondaryBackground,
+                      color:
+                          BukeerColors.getBackground(context, secondary: true),
                       width: 1.0,
                     ),
                   ),

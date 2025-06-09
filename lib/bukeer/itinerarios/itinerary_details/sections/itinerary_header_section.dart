@@ -4,6 +4,7 @@ import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../../design_system/components/buttons/bukeer_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
 /// Header section for itinerary details
 /// Contains title, status, basic info and action buttons
@@ -42,7 +43,7 @@ class ItineraryHeaderSection extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
@@ -52,7 +53,7 @@ class ItineraryHeaderSection extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(BukeerSpacing.l),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -75,7 +76,7 @@ class ItineraryHeaderSection extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: BukeerSpacing.s),
                       Text(
                         'Cliente: $clientName',
                         style: FlutterFlowTheme.of(context).bodyLarge.override(
@@ -91,7 +92,7 @@ class ItineraryHeaderSection extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 16),
+            SizedBox(height: BukeerSpacing.m),
 
             // Dates Row
             Row(
@@ -101,7 +102,7 @@ class ItineraryHeaderSection extends StatelessWidget {
                   color: FlutterFlowTheme.of(context).primary,
                   size: 20,
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: BukeerSpacing.s),
                 Text(
                   '${_formatDate(startDate)} - ${_formatDate(endDate)}',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -113,7 +114,7 @@ class ItineraryHeaderSection extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 24),
+            SizedBox(height: BukeerSpacing.l),
 
             // Action Buttons
             Wrap(
@@ -142,7 +143,7 @@ class ItineraryHeaderSection extends StatelessWidget {
                       color: Colors.transparent,
                       width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
                   ),
                 ),
                 FFButtonWidget(
@@ -167,7 +168,7 @@ class ItineraryHeaderSection extends StatelessWidget {
                       color: FlutterFlowTheme.of(context).alternate,
                       width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
                   ),
                 ),
                 FFButtonWidget(
@@ -192,7 +193,7 @@ class ItineraryHeaderSection extends StatelessWidget {
                       color: Colors.transparent,
                       width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
                   ),
                 ),
                 BukeerIconButton(
@@ -244,7 +245,7 @@ class ItineraryHeaderSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(BukeerSpacing.m),
       ),
       child: Text(
         displayText,

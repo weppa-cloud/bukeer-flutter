@@ -7,6 +7,7 @@ import '../../preview/component_itinerary_preview_hotels/component_itinerary_pre
 import '../../preview/component_itinerary_preview_activities/component_itinerary_preview_activities_widget.dart';
 import '../../preview/component_itinerary_preview_transfers/component_itinerary_preview_transfers_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
 /// Services section for itinerary details
 /// Contains flights, hotels, activities, and transfers in organized tabs
@@ -57,9 +58,10 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      constraints: BoxConstraints(maxHeight: 600),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
@@ -69,10 +71,11 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Section Header
           Padding(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(BukeerSpacing.l),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -138,8 +141,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
           ),
 
           // Tab Content
-          Container(
-            height: 500, // Fixed height for consistent layout
+          Flexible(
             child: TabBarView(
               controller: _tabController,
               children: [
@@ -184,11 +186,12 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
     VoidCallback? onAddPressed,
   }) {
     return Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
         // Add Service Button
         if (onAddPressed != null)
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(BukeerSpacing.m),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -214,7 +217,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
                       color: Colors.transparent,
                       width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
                   ),
                 ),
               ],
@@ -222,9 +225,9 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
           ),
 
         // Service Content
-        Expanded(
+        Flexible(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
             child: child,
           ),
         ),
@@ -251,11 +254,11 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
     return Row(
       children: [
         _buildStatChip('Vuelos', flights, Colors.blue),
-        SizedBox(width: 8),
+        SizedBox(width: BukeerSpacing.s),
         _buildStatChip('Hoteles', hotels, Colors.green),
-        SizedBox(width: 8),
+        SizedBox(width: BukeerSpacing.s),
         _buildStatChip('Actividades', activities, Colors.orange),
-        SizedBox(width: 8),
+        SizedBox(width: BukeerSpacing.s),
         _buildStatChip('Traslados', transfers, Colors.purple),
       ],
     );
@@ -266,7 +269,7 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         border: Border.all(
           color: color.withOpacity(0.3),
           width: 1,

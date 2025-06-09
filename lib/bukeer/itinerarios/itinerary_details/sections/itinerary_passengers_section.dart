@@ -4,6 +4,7 @@ import '../../../../flutter_flow/flutter_flow_util.dart';
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import '../../../../design_system/components/buttons/bukeer_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
 /// Passengers section for itinerary details
 /// Displays and manages passengers for the itinerary
@@ -29,7 +30,7 @@ class ItineraryPassengersSection extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
@@ -39,7 +40,7 @@ class ItineraryPassengersSection extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(BukeerSpacing.l),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,7 +73,7 @@ class ItineraryPassengersSection extends StatelessWidget {
                         color: FlutterFlowTheme.of(context)
                             .primary
                             .withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
                       ),
                       child: Text(
                         '${passengers.length}',
@@ -110,7 +111,7 @@ class ItineraryPassengersSection extends StatelessWidget {
                         color: Colors.transparent,
                         width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(BukeerSpacing.s),
                     ),
                   ),
               ],
@@ -136,10 +137,10 @@ class ItineraryPassengersSection extends StatelessWidget {
   Widget _buildEmptyState(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(32),
+      padding: EdgeInsets.all(BukeerSpacing.xl),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
           width: 1,
@@ -152,7 +153,7 @@ class ItineraryPassengersSection extends StatelessWidget {
             color: FlutterFlowTheme.of(context).secondaryText,
             size: 48,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: BukeerSpacing.m),
           Text(
             'No hay pasajeros agregados',
             style: FlutterFlowTheme.of(context).bodyLarge.override(
@@ -161,7 +162,7 @@ class ItineraryPassengersSection extends StatelessWidget {
                   fontSize: 16,
                 ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: BukeerSpacing.s),
           Text(
             'Agrega pasajeros para este itinerario',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -171,7 +172,7 @@ class ItineraryPassengersSection extends StatelessWidget {
                 ),
           ),
           if (onAddPassenger != null) ...[
-            SizedBox(height: 16),
+            SizedBox(height: BukeerSpacing.m),
             FFButtonWidget(
               onPressed: onAddPassenger,
               text: 'Agregar Primer Pasajero',
@@ -193,7 +194,7 @@ class ItineraryPassengersSection extends StatelessWidget {
                   color: Colors.transparent,
                   width: 1,
                 ),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(BukeerSpacing.s),
               ),
             ),
           ],
@@ -217,10 +218,10 @@ class ItineraryPassengersSection extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(bottom: 12),
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primaryBackground,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
           width: 1,
@@ -249,7 +250,7 @@ class ItineraryPassengersSection extends StatelessWidget {
             ),
           ),
 
-          SizedBox(width: 16),
+          SizedBox(width: BukeerSpacing.m),
 
           // Passenger Info
           Expanded(
@@ -318,7 +319,7 @@ class ItineraryPassengersSection extends StatelessWidget {
                   variant: BukeerIconButtonVariant.ghost,
                 ),
               if (onDeletePassenger != null) ...[
-                SizedBox(width: 8),
+                SizedBox(width: BukeerSpacing.s),
                 BukeerIconButton(
                   icon: Icon(
                     Icons.delete,

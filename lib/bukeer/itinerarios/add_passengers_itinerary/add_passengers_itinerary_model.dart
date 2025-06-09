@@ -1,6 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../pasajeros/modal_add_passenger/modal_add_passenger_widget.dart';
+import '../../core/widgets/modals/passenger/add/modal_add_passenger_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';

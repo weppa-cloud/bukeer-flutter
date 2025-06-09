@@ -11,6 +11,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_inclusion_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_inclusion_model.dart';
 
 class ComponentInclusionWidget extends StatefulWidget {
@@ -204,7 +205,7 @@ class _ComponentInclusionWidgetState extends State<ComponentInclusionWidget>
               maxHeight: 500.0,
             ),
             decoration: BoxDecoration(
-              color: BukeerColors.secondaryBackground,
+              color: BukeerColors.getBackground(context, secondary: true),
               borderRadius: BorderRadius.circular(BukeerSpacing.xs),
             ),
             child: Column(

@@ -1,10 +1,10 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/boton_crear/boton_crear_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../modal_add_edit_contact/modal_add_edit_contact_widget.dart';
-import '../modal_details_contact/modal_details_contact_widget.dart';
-import '../../componentes/search_box/search_box_widget.dart';
+import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/modals/contact/add_edit/modal_add_edit_contact_widget.dart';
+import '../../core/widgets/modals/contact/details/modal_details_contact_widget.dart';
+import '../../core/widgets/forms/search_box/search_box_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'main_contacts_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/contact_service.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'main_contacts_model.dart';
 
 class MainContactsWidget extends StatefulWidget {
@@ -60,7 +61,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.secondaryBackground,
+        backgroundColor: BukeerColors.getBackground(context, secondary: true),
         body: SafeArea(
           top: true,
           child: Column(
@@ -94,7 +95,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                             maxHeight: 900.0,
                           ),
                           decoration: BoxDecoration(
-                            color: BukeerColors.primaryBackground,
+                            color: BukeerColors.getBackground(context),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -212,11 +213,11 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                       },
                                                       child: wrapWithModel(
                                                         model: _model
-                                                            .botonCrearModel,
+                                                            .btnCreateModel,
                                                         updateCallback: () =>
                                                             safeSetState(() {}),
                                                         child:
-                                                            BotonCrearWidget(),
+                                                            BtnCreateWidget(),
                                                       ),
                                                     ),
                                                   ],
@@ -232,7 +233,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                         .primaryBackground,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8.0),
+                                                            BukeerSpacing.s),
                                                   ),
                                                   child: Padding(
                                                     padding:
@@ -309,7 +310,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                     ),
                                                               ),
                                                             ].divide(SizedBox(
-                                                                width: 8.0)),
+                                                                width:
+                                                                    BukeerSpacing
+                                                                        .s)),
                                                           ),
                                                         ),
                                                         InkWell(
@@ -372,7 +375,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                     ),
                                                               ),
                                                             ].divide(SizedBox(
-                                                                width: 8.0)),
+                                                                width:
+                                                                    BukeerSpacing
+                                                                        .s)),
                                                           ),
                                                         ),
                                                       ].divide(SizedBox(
@@ -693,8 +698,8 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                                             16.0,
                                                                       ),
                                                                   ].divide(SizedBox(
-                                                                      width:
-                                                                          8.0)),
+                                                                      width: BukeerSpacing
+                                                                          .s)),
                                                                 ),
                                                                 Row(
                                                                   mainAxisSize:
@@ -843,7 +848,8 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                             ),
                                                           ),
                                                         ].divide(SizedBox(
-                                                            width: 16.0)),
+                                                            width: BukeerSpacing
+                                                                .m)),
                                                       ),
                                                     ),
                                                   ].addToStart(SizedBox(

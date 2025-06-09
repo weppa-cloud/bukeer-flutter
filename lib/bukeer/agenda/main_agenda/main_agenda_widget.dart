@@ -1,6 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
@@ -22,6 +22,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import '../../../services/ui_state_service.dart';
 import 'main_agenda_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 export 'main_agenda_model.dart';
 
 class MainAgendaWidget extends StatefulWidget {
@@ -117,7 +119,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.secondaryBackground,
+        backgroundColor: BukeerColors.getBackground(context, secondary: true),
         body: SafeArea(
           top: true,
           child: Column(
@@ -151,7 +153,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                             maxHeight: 2000.0,
                           ),
                           decoration: BoxDecoration(
-                            color: BukeerColors.primaryBackground,
+                            color: BukeerColors.getBackground(context),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -231,7 +233,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                         .primaryBackground,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8.0),
+                                                            BukeerSpacing.s),
                                                   ),
                                                   child: Padding(
                                                     padding:
@@ -391,7 +393,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -404,7 +406,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -417,7 +419,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -430,7 +432,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              12.0),
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     contentPadding:
                                                                         EdgeInsetsDirectional.fromSTEB(
@@ -724,9 +726,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                     ),
                                                                     child:
                                                                         Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              4.0),
+                                                                      padding: EdgeInsets.all(
+                                                                          BukeerSpacing
+                                                                              .xs),
                                                                       child:
                                                                           Icon(
                                                                         Icons
@@ -976,9 +978,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                     ),
                                                                     child:
                                                                         Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              4.0),
+                                                                      padding: EdgeInsets.all(
+                                                                          BukeerSpacing
+                                                                              .xs),
                                                                       child:
                                                                           Icon(
                                                                         Icons
@@ -1509,7 +1511,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                     mainAxisSize: MainAxisSize.max,
                                                                                     children: [
                                                                                       AnimatedContainer(
-                                                                                        duration: Duration(milliseconds: 150),
+                                                                                        duration: UiConstants.animationDurationFast,
                                                                                         curve: Curves.easeInOut,
                                                                                         width: 30.0,
                                                                                         height: 30.0,
@@ -1536,7 +1538,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         ),
                                                                                       ),
                                                                                       AnimatedContainer(
-                                                                                        duration: Duration(milliseconds: 150),
+                                                                                        duration: UiConstants.animationDurationFast,
                                                                                         curve: Curves.easeInOut,
                                                                                         width: 30.0,
                                                                                         height: 30.0,
@@ -1563,7 +1565,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                                         ),
                                                                                       ),
                                                                                       AnimatedContainer(
-                                                                                        duration: Duration(milliseconds: 150),
+                                                                                        duration: UiConstants.animationDurationFast,
                                                                                         curve: Curves.easeInOut,
                                                                                         width: 30.0,
                                                                                         height: 30.0,

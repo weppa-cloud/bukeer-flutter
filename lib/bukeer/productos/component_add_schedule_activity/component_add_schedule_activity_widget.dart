@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'component_add_schedule_activity_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/app_services.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_add_schedule_activity_model.dart';
 
 class ComponentAddScheduleActivityWidget extends StatefulWidget {
@@ -83,11 +84,11 @@ class _ComponentAddScheduleActivityWidgetState
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
           decoration: BoxDecoration(
-            color: BukeerColors.secondaryBackground,
+            color: BukeerColors.getBackground(context, secondary: true),
             boxShadow: [
               BoxShadow(
                 blurRadius: 4.0,
-                color: BukeerColors.borderPrimary,
+                color: FlutterFlowTheme.of(context).alternate,
                 offset: Offset(
                   0.0,
                   2.0,
@@ -198,7 +199,8 @@ class _ComponentAddScheduleActivityWidgetState
                           borderRadius: BorderRadius.circular(BukeerSpacing.s),
                         ),
                         filled: true,
-                        fillColor: BukeerColors.secondaryBackground,
+                        fillColor: BukeerColors.getBackground(context,
+                            secondary: true),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily:

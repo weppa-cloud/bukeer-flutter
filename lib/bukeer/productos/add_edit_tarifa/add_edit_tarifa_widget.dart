@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'add_edit_tarifa_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/app_services.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'add_edit_tarifa_model.dart';
 
 class AddEditTarifaWidget extends StatefulWidget {
@@ -95,7 +96,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.primaryBackground,
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Align(
@@ -385,7 +386,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              BukeerColors.borderPrimary,
+                                                                              FlutterFlowTheme.of(context).alternate,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -584,7 +585,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              BukeerColors.borderPrimary,
+                                                                              FlutterFlowTheme.of(context).alternate,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -769,7 +770,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              BukeerColors.borderPrimary,
+                                                                              FlutterFlowTheme.of(context).alternate,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -956,7 +957,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                                         borderSide:
                                                                             BorderSide(
                                                                           color:
-                                                                              BukeerColors.borderPrimary,
+                                                                              FlutterFlowTheme.of(context).alternate,
                                                                           width:
                                                                               2.0,
                                                                         ),
@@ -1111,7 +1112,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                       elevation: 0.0,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              8.0),
+                                                              BukeerSpacing.s),
                                                     ),
                                                   ),
                                                 ),
@@ -1291,7 +1292,7 @@ class _AddEditTarifaWidgetState extends State<AddEditTarifaWidget> {
                                                       elevation: 0.0,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              8.0),
+                                                              BukeerSpacing.s),
                                                     ),
                                                   ),
                                                 ),

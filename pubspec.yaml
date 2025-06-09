@@ -123,10 +123,6 @@ dependencies:
   video_player_avfoundation: 2.6.2
   video_player_platform_interface: 6.2.3
   video_player_web: 2.3.2
-  webview_flutter: 4.9.0
-  webview_flutter_android: 3.16.7
-  webview_flutter_platform_interface: 2.10.0
-  webview_flutter_wkwebview: 3.15.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -148,10 +144,13 @@ dev_dependencies:
     sdk: flutter
   # Testing dependencies
   mockito: ^5.4.4
-  build_runner: ^2.4.9
+  mocktail: ^1.0.4
+  build_runner: ^2.4.15
   test: ^1.25.7
   integration_test:
     sdk: flutter
+  widgetbook: ^3.14.2
+  widgetbook_generator: ^3.13.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

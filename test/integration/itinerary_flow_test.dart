@@ -5,7 +5,7 @@ import 'package:integration_test/integration_test.dart';
 
 import 'package:bukeer/bukeer/itinerarios/main_itineraries/main_itineraries_widget.dart';
 import 'package:bukeer/bukeer/itinerarios/itinerary_details/itinerary_details_widget.dart';
-import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import 'package:bukeer/bukeer/contactos/main_contacts/main_contacts_widget.dart';
 import 'package:bukeer/bukeer/productos/main_products/main_products_widget.dart';
 import '../test_utils/test_helpers.dart';

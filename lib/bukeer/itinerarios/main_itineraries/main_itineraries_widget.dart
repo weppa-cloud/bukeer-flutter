@@ -1,8 +1,8 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/boton_crear/boton_crear_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../../modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
+import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -21,6 +21,8 @@ import '../../../services/contact_service.dart';
 import '../../../services/itinerary_service.dart';
 import '../itinerary_details/itinerary_details_widget.dart';
 import 'main_itineraries_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 export 'main_itineraries_model.dart';
 
 class MainItinerariesWidget extends StatefulWidget {
@@ -67,7 +69,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.primaryBackground,
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Column(
@@ -101,7 +103,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                             maxHeight: 2000.0,
                           ),
                           decoration: BoxDecoration(
-                            color: BukeerColors.primaryBackground,
+                            color: BukeerColors.getBackground(context),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -227,11 +229,11 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                       },
                                                       child: wrapWithModel(
                                                         model: _model
-                                                            .botonCrearModel,
+                                                            .btnCreateModel,
                                                         updateCallback: () =>
                                                             safeSetState(() {}),
                                                         child:
-                                                            BotonCrearWidget(),
+                                                            BtnCreateWidget(),
                                                       ),
                                                     ),
                                                   ],
@@ -247,7 +249,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                         .primaryBackground,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8.0),
+                                                            BukeerSpacing.s),
                                                   ),
                                                   child: Padding(
                                                     padding:
@@ -326,7 +328,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                     ),
                                                               ),
                                                             ].divide(SizedBox(
-                                                                width: 8.0)),
+                                                                width:
+                                                                    BukeerSpacing
+                                                                        .s)),
                                                           ),
                                                         ),
                                                         InkWell(
@@ -385,7 +389,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                     ),
                                                               ),
                                                             ].divide(SizedBox(
-                                                                width: 8.0)),
+                                                                width:
+                                                                    BukeerSpacing
+                                                                        .s)),
                                                           ),
                                                         ),
                                                         InkWell(
@@ -449,7 +455,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                     ),
                                                               ),
                                                             ].divide(SizedBox(
-                                                                width: 8.0)),
+                                                                width:
+                                                                    BukeerSpacing
+                                                                        .s)),
                                                           ),
                                                         ),
                                                       ].divide(SizedBox(
@@ -600,7 +608,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                   ),
                                                                 ),
                                                               ].divide(SizedBox(
-                                                                  width: 8.0)),
+                                                                  width:
+                                                                      BukeerSpacing
+                                                                          .s)),
                                                             ),
                                                           ],
                                                         ),
@@ -715,20 +725,23 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                   // Store selected itinerary in service
                                                   context
                                                       .read<ItineraryService>()
-                                                      .setSelectedItinerary(itineriesItemItem);
-                                                  
+                                                      .setSelectedItinerary(
+                                                          itineriesItemItem);
+
                                                   // Clear search query
                                                   context
                                                       .read<UiStateService>()
                                                       .searchQuery = '';
-                                                  
+
                                                   // Navigate to details
-                                                  final itineraryId = getJsonField(
+                                                  final itineraryId =
+                                                      getJsonField(
                                                     itineriesItemItem,
                                                     r'''$.itinerary_id''',
                                                   )?.toString();
-                                                  
-                                                  if (itineraryId != null && itineraryId.isNotEmpty) {
+
+                                                  if (itineraryId != null &&
+                                                      itineraryId.isNotEmpty) {
                                                     context.pushNamed(
                                                       'itineraryDetails',
                                                       pathParameters: {
@@ -743,7 +756,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   child: Container(
                                                     width: MediaQuery.sizeOf(
@@ -756,7 +769,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                           .secondaryBackground,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     child: Padding(
                                                       padding: EdgeInsets.all(
@@ -1097,9 +1110,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                 ),
                                                               ),
                                                               AnimatedContainer(
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        150),
+                                                                duration:
+                                                                    UiConstants
+                                                                        .animationDurationFast,
                                                                 curve: Curves
                                                                     .easeInOut,
                                                                 decoration:

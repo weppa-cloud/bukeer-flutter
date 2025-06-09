@@ -1,0 +1,89 @@
+# Test: Login Exitoso
+# Descripción: Verifica que un usuario puede hacer login con credenciales válidas
+# Prioridad: CRÍTICA
+# Tiempo estimado: 10-15 segundos
+
+appId: com.bukeer.app  # Cambiar según tu bundle ID
+env:
+  EMAIL: ${TEST_EMAIL:-admin@bukeer.com}
+  PASSWORD: ${TEST_PASSWORD:-Test123!}
+---
+
+# 1. Lanzar aplicación en estado limpio
+- launchApp:
+    clearState: true
+    permissions:
+      notifications: deny  # Evitar popups de permisos
+
+# 2. Verificar que estamos en la pantalla de login
+- assertVisible:
+    text: "Iniciar Sesión"
+    timeout: 10000
+
+# Tomar screenshot para documentación
+- takeScreenshot: "01_login_screen"
+
+# 3. Verificar elementos del formulario
+- assertVisible:
+    - "Correo"
+    - "Contraseña"
+    - "Ingresar"
+
+# 4. Ingresar email
+- tapOn:
+    text: "Correo"
+    index: 0  # Por si hay múltiples campos similares
+- inputText: ${EMAIL}
+
+# 5. Ingresar contraseña
+- tapOn:
+    text: "Contraseña"
+    index: 0
+- inputText: ${PASSWORD}
+
+# 6. Ocultar teclado (importante en móvil)
+- hideKeyboard
+
+# 7. Tap en botón de login
+- tapOn:
+    text: "Ingresar"
+    enabled: true  # Solo si el botón está habilitado
+
+# 8. Esperar a que termine la animación/carga
+- waitForAnimationToEnd
+- waitUntilNotVisible:
+    text: "Cargando"
+    timeout: 30000  # 30 segundos para el login
+
+# 9. Verificar login exitoso
+# Deberíamos ver el dashboard o página principal
+- assertVisible:
+    anyOf:
+      - "Dashboard"
+      - "Bienvenido"
+      - "Inicio"
+      - "Itinerarios"
+    timeout: 10000
+
+# 10. Verificar que NO hay mensajes de error
+- assertNotVisible:
+    - "Error"
+    - "Contraseña incorrecta"
+    - "Usuario no encontrado"
+
+# 11. Tomar screenshot del estado final
+- takeScreenshot: "02_login_success_dashboard"
+
+# 12. Verificar que los servicios se cargaron (específico de Bukeer)
+- runScript: |
+    // Log para debugging
+    console.log("Login test completed successfully");
+    output.loginSuccess = true;
+
+# 13. Opcional: Verificar elementos específicos del dashboard
+- assertVisible:
+    anyOf:
+      - "Ventas"
+      - "Nuevos Itinerarios"
+      - "Productos"
+    timeout: 5000

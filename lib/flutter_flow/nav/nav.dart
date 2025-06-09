@@ -109,11 +109,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   : MainHomeWidget(),
             ),
             FFRoute(
-              name: AuthCreateDemoWidget.routeName,
-              path: AuthCreateDemoWidget.routePath,
-              builder: (context, params) => AuthCreateDemoWidget(),
-            ),
-            FFRoute(
               name: ForgotPasswordWidget.routeName,
               path: ForgotPasswordWidget.routePath,
               builder: (context, params) => ForgotPasswordWidget(),
@@ -125,12 +120,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => params.isEmpty
                   ? NavBarPage(initialPage: 'Main_profilePage')
                   : MainProfilePageWidget(),
-            ),
-            FFRoute(
-              name: EditProfileWidget.routeName,
-              path: EditProfileWidget.routePath,
-              requireAuth: true,
-              builder: (context, params) => EditProfileWidget(),
             ),
             FFRoute(
               name: MainContactsWidget.routeName,
@@ -152,12 +141,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               requireAuth: true,
               builder: (context, params) => EditPersonalProfileWidget(),
             ),
-            FFRoute(
-              name: BookingWidget.routeName,
-              path: BookingWidget.routePath,
-              requireAuth: true,
-              builder: (context, params) => BookingWidget(),
-            ),
+            // FFRoute(
+            //   name: BookingWidget.routeName,
+            //   path: BookingWidget.routePath,
+            //   requireAuth: true,
+            //   builder: (context, params) => BookingWidget(),
+            // ), // Temporarily disabled - example moved
             FFRoute(
               name: MainProductsWidget.routeName,
               path: MainProductsWidget.routePath,

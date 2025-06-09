@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'reservation_message_model.dart';
 import '../../../../design_system/index.dart';
 import '../../../../services/app_services.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'reservation_message_model.dart';
 
 class ReservationMessageWidget extends StatefulWidget {
@@ -93,7 +94,7 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
             maxHeight: 400.0,
           ),
           decoration: BoxDecoration(
-            color: BukeerColors.secondaryBackground,
+            color: BukeerColors.getBackground(context, secondary: true),
             boxShadow: [
               BoxShadow(
                 blurRadius: 3.0,
@@ -115,7 +116,8 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                   padding: EdgeInsets.only(top: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: BukeerColors.secondaryBackground,
+                      color:
+                          BukeerColors.getBackground(context, secondary: true),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2.0,
@@ -261,7 +263,8 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                   padding: EdgeInsets.only(bottom: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: BukeerColors.secondaryBackground,
+                      color:
+                          BukeerColors.getBackground(context, secondary: true),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 1.0,
@@ -307,14 +310,15 @@ class _ReservationMessageWidgetState extends State<ReservationMessageWidget> {
                                     ),
                                 elevation: 0.0,
                                 borderSide: BorderSide(
-                                  color: BukeerColors.borderPrimary,
+                                  color: FlutterFlowTheme.of(context).alternate,
                                   width: 2.0,
                                 ),
                                 borderRadius:
                                     BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor: BukeerColors.borderPrimary,
+                                hoverColor:
+                                    FlutterFlowTheme.of(context).alternate,
                                 hoverBorderSide: BorderSide(
-                                  color: BukeerColors.borderPrimary,
+                                  color: FlutterFlowTheme.of(context).alternate,
                                   width: 2.0,
                                 ),
                                 hoverTextColor: BukeerColors.primaryText,

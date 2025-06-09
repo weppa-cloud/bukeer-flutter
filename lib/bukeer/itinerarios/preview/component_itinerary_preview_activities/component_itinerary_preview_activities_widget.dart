@@ -3,7 +3,8 @@ import '../../../productos/component_inclusion/component_inclusion_widget.dart';
 import '../../../../components/itinerary_activity_widget.dart';
 import '../../../../flutter_flow/flutter_flow_expanded_image_view.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import '../../../../flutter_flow/flutter_flow_util.dart'
+    hide PageTransitionType;
 import 'package:page_transition/page_transition.dart' as pt;
 import '../../../../flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
@@ -15,6 +16,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'component_itinerary_preview_activities_model.dart';
 import '../../../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_itinerary_preview_activities_model.dart';
 
 class ComponentItineraryPreviewActivitiesWidget extends StatefulWidget {
@@ -115,7 +117,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
             return Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               decoration: BoxDecoration(
-                color: BukeerColors.secondaryBackground,
+                color: BukeerColors.getBackground(context, secondary: true),
               ),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -127,7 +129,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                       height: 1.0,
                       thickness: 1.0,
                       indent: 0.0,
-                      color: BukeerColors.borderPrimary,
+                      color: FlutterFlowTheme.of(context).alternate,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
@@ -203,7 +205,8 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: BukeerColors.secondaryBackground,
+                          color: BukeerColors.getBackground(context,
+                              secondary: true),
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 0.0,
@@ -306,9 +309,9 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                                 .push(
                                                               context,
                                                               PageTransition(
-                                                                type:
-                                                                    pt.PageTransitionType
-                                                                        .fade,
+                                                                type: pt
+                                                                    .PageTransitionType
+                                                                    .fade,
                                                                 child:
                                                                     FlutterFlowExpandedImageView(
                                                                   image: Image
@@ -691,7 +694,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          12.0),
+                                                          BukeerSpacing.sm),
                                                   hoverColor:
                                                       FlutterFlowTheme.of(
                                                               context)

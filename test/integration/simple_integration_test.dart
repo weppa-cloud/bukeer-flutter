@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:bukeer/services/account_service.dart';
 import 'package:bukeer/services/ui_state_service.dart';
 import 'package:bukeer/services/user_service.dart';
-import 'package:bukeer/bukeer/users/auth_login/auth_login_widget.dart';
-import 'package:bukeer/bukeer/users/auth_create/auth_create_widget.dart';
+import 'package:bukeer/bukeer/users/auth/login/auth_login_widget.dart';
+import 'package:bukeer/bukeer/users/auth/register/auth_create_widget.dart';
 import 'package:bukeer/bukeer/contactos/main_contacts/main_contacts_widget.dart';
 import 'package:bukeer/bukeer/productos/main_products/main_products_widget.dart';
 

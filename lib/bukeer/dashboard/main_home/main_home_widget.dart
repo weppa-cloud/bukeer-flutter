@@ -1,4 +1,4 @@
-import '../../componentes/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
@@ -14,12 +14,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'main_home_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'main_home_model.dart';
 
 class MainHomeWidget extends StatefulWidget {
   const MainHomeWidget({super.key});
 
-  static String routeName = 'Main_Home';
+  static String routeName = 'mainHome';
   static String routePath = 'mainHome';
 
   @override
@@ -587,7 +588,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.primaryBackground,
+        backgroundColor: BukeerColors.getBackground(context),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -742,7 +743,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       ],
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                       border: Border.all(
                                                         color:
                                                             FlutterFlowTheme.of(
@@ -810,7 +811,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                           Padding(
                                                             padding:
                                                                 EdgeInsets.all(
-                                                                    12.0),
+                                                                    BukeerSpacing
+                                                                        .sm),
                                                             child: Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
@@ -910,7 +912,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       ],
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                       border: Border.all(
                                                         color:
                                                             FlutterFlowTheme.of(
@@ -978,7 +980,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                           Padding(
                                                             padding:
                                                                 EdgeInsets.all(
-                                                                    12.0),
+                                                                    BukeerSpacing
+                                                                        .sm),
                                                             child: Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
@@ -1131,7 +1134,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       ],
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                       border: Border.all(
                                                         color:
                                                             FlutterFlowTheme.of(
@@ -1198,7 +1201,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                           Padding(
                                                             padding:
                                                                 EdgeInsets.all(
-                                                                    12.0),
+                                                                    BukeerSpacing
+                                                                        .sm),
                                                             child: Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
@@ -1301,7 +1305,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       ],
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12.0),
+                                                              BukeerSpacing.sm),
                                                       border: Border.all(
                                                         color:
                                                             FlutterFlowTheme.of(
@@ -1369,7 +1373,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                           Padding(
                                                             padding:
                                                                 EdgeInsets.all(
-                                                                    12.0),
+                                                                    BukeerSpacing
+                                                                        .sm),
                                                             child: Column(
                                                               mainAxisSize:
                                                                   MainAxisSize

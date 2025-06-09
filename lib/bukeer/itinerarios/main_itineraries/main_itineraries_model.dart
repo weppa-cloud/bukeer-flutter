@@ -1,8 +1,8 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/boton_crear/boton_crear_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../../modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
+import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
 import '../../../flutter_flow/flutter_flow_widgets.dart';
@@ -29,7 +29,7 @@ class MainItinerariesModel extends FlutterFlowModel<MainItinerariesWidget> {
   // Model for webNav component.
   late WebNavModel webNavModel;
   // Model for BotonCrear component.
-  late BotonCrearModel botonCrearModel;
+  late BtnCreateModel btnCreateModel;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
@@ -43,13 +43,13 @@ class MainItinerariesModel extends FlutterFlowModel<MainItinerariesWidget> {
   @override
   void initState(BuildContext context) {
     webNavModel = createModel(context, () => WebNavModel());
-    botonCrearModel = createModel(context, () => BotonCrearModel());
+    btnCreateModel = createModel(context, () => BtnCreateModel());
   }
 
   @override
   void dispose() {
     webNavModel.dispose();
-    botonCrearModel.dispose();
+    btnCreateModel.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();
 

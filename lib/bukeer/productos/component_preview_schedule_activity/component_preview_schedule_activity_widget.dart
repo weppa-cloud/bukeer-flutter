@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_preview_schedule_activity_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_preview_schedule_activity_model.dart';
 
 class ComponentPreviewScheduleActivityWidget extends StatefulWidget {
@@ -65,10 +66,10 @@ class _ComponentPreviewScheduleActivityWidgetState
         maxWidth: 852.0,
       ),
       decoration: BoxDecoration(
-        color: BukeerColors.secondaryBackground,
+        color: BukeerColors.getBackground(context, secondary: true),
         borderRadius: BorderRadius.circular(BukeerSpacing.s),
         border: Border.all(
-          color: BukeerColors.borderPrimary,
+          color: FlutterFlowTheme.of(context).alternate,
         ),
       ),
       child: Padding(
@@ -81,7 +82,7 @@ class _ComponentPreviewScheduleActivityWidgetState
               width: 110.0,
               height: 110.0,
               decoration: BoxDecoration(
-                color: BukeerColors.primaryBackground,
+                color: BukeerColors.getBackground(context),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(BukeerSpacing.s),

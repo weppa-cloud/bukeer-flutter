@@ -1,9 +1,9 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../componentes/boton_crear/boton_crear_widget.dart';
-import '../../componentes/search_box/search_box_widget.dart';
-import '../../componentes/web_nav/web_nav_widget.dart';
-import '../modal_add_user/modal_add_user_widget.dart';
+import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
+import '../../core/widgets/forms/search_box/search_box_widget.dart';
+import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/modals/user/add/modal_add_user_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'main_users_model.dart';
 import '../../../services/ui_state_service.dart';
 import '../../../services/user_service.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'main_users_model.dart';
 
 class MainUsersWidget extends StatefulWidget {
@@ -57,7 +58,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.secondaryBackground,
+        backgroundColor: BukeerColors.getBackground(context, secondary: true),
         body: SafeArea(
           top: true,
           child: Column(
@@ -83,7 +84,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                     Flexible(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: BukeerColors.primaryBackground,
+                          color: BukeerColors.getBackground(context),
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -194,11 +195,11 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                           safeSetState(() {}));
                                                     },
                                                     child: wrapWithModel(
-                                                      model: _model
-                                                          .botonCrearModel,
+                                                      model:
+                                                          _model.btnCreateModel,
                                                       updateCallback: () =>
                                                           safeSetState(() {}),
-                                                      child: BotonCrearWidget(),
+                                                      child: BtnCreateWidget(),
                                                     ),
                                                   ),
                                                 ],
@@ -241,7 +242,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                       .primaryBackground,
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          8.0),
+                                                          BukeerSpacing.s),
                                                 ),
                                                 child: Padding(
                                                   padding: EdgeInsetsDirectional
@@ -285,7 +286,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                 ),
                                                           ),
                                                         ].divide(SizedBox(
-                                                            width: 8.0)),
+                                                            width: BukeerSpacing
+                                                                .s)),
                                                       ),
                                                       Row(
                                                         mainAxisSize:
@@ -319,7 +321,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                 ),
                                                           ),
                                                         ].divide(SizedBox(
-                                                            width: 8.0)),
+                                                            width: BukeerSpacing
+                                                                .s)),
                                                       ),
                                                     ].divide(SizedBox(
                                                         width:
@@ -470,7 +473,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                     ],
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12.0),
+                                                            BukeerSpacing.sm),
                                                     border: Border.all(
                                                       color:
                                                           FlutterFlowTheme.of(
@@ -535,8 +538,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                                         ),
                                                                       ),
                                                                     ].divide(SizedBox(
-                                                                        width:
-                                                                            8.0)),
+                                                                        width: BukeerSpacing
+                                                                            .s)),
                                                                   ),
                                                                   Row(
                                                                     mainAxisSize:
@@ -676,14 +679,18 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                               ),
                                                             ),
                                                           ].divide(SizedBox(
-                                                              width: 16.0)),
+                                                              width:
+                                                                  BukeerSpacing
+                                                                      .m)),
                                                         ),
                                                       ),
                                                     ]
                                                         .divide(SizedBox(
                                                             height: 12.0))
                                                         .addToStart(SizedBox(
-                                                            height: 8.0)),
+                                                            height:
+                                                                BukeerSpacing
+                                                                    .s)),
                                                   ),
                                                 ),
                                               ),

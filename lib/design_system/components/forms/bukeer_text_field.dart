@@ -4,7 +4,7 @@ import '../../tokens/index.dart';
 
 /// Standardized text field component for the Bukeer application
 /// Replaces inconsistent TextFormField implementations
-/// 
+///
 /// Features:
 /// - Consistent styling and behavior
 /// - Built-in validation states
@@ -15,64 +15,64 @@ import '../../tokens/index.dart';
 class BukeerTextField extends StatefulWidget {
   /// Text field label
   final String? label;
-  
+
   /// Placeholder text
   final String? hintText;
-  
+
   /// Help text displayed below the field
   final String? helperText;
-  
+
   /// Error text (overrides helperText when present)
   final String? errorText;
-  
+
   /// Text field controller
   final TextEditingController? controller;
-  
+
   /// Initial value (used if controller is not provided)
   final String? initialValue;
-  
+
   /// Field type for appropriate keyboard and validation
   final BukeerTextFieldType type;
-  
+
   /// Whether field is required (shows * in label)
   final bool required;
-  
+
   /// Whether field is enabled
   final bool enabled;
-  
+
   /// Whether field is read-only
   final bool readOnly;
-  
+
   /// Maximum number of lines (1 for single line, null for unlimited)
   final int? maxLines;
-  
+
   /// Maximum character length
   final int? maxLength;
-  
+
   /// Leading icon
   final IconData? leadingIcon;
-  
+
   /// Trailing icon (optional action)
   final IconData? trailingIcon;
-  
+
   /// Trailing icon callback
   final VoidCallback? onTrailingIconPressed;
-  
+
   /// Text change callback
   final Function(String)? onChanged;
-  
+
   /// Form validation callback
   final String? Function(String?)? validator;
-  
+
   /// Field submission callback
   final Function(String)? onSubmitted;
-  
+
   /// Focus node for managing focus
   final FocusNode? focusNode;
-  
+
   /// Input formatters
   final List<TextInputFormatter>? inputFormatters;
-  
+
   /// Text capitalization
   final TextCapitalization textCapitalization;
 
@@ -265,10 +265,10 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize obscure text for password fields
     _obscureText = widget.type == BukeerTextFieldType.password;
-    
+
     // Initialize controller
     if (widget.controller != null) {
       _controller = widget.controller!;
@@ -276,7 +276,7 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
       _controller = TextEditingController(text: widget.initialValue);
       _isControllerManaged = true;
     }
-    
+
     // Initialize focus node
     if (widget.focusNode != null) {
       _focusNode = widget.focusNode!;
@@ -303,15 +303,13 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Label
-        if (widget.label != null)
-          _buildLabel(),
-        
-        if (widget.label != null)
-          SizedBox(height: BukeerSpacing.xs),
-        
+        if (widget.label != null) _buildLabel(),
+
+        if (widget.label != null) SizedBox(height: BukeerSpacing.xs),
+
         // Text field
         _buildTextField(),
-        
+
         // Helper/Error text
         if (widget.helperText != null || widget.errorText != null)
           _buildHelperText(),
@@ -361,7 +359,7 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
   Widget _buildHelperText() {
     final text = widget.errorText ?? widget.helperText;
     final isError = widget.errorText != null;
-    
+
     return Padding(
       padding: EdgeInsets.only(top: BukeerSpacing.xs),
       child: Text(
@@ -375,16 +373,16 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
 
   InputDecoration _buildInputDecoration() {
     final hasError = widget.errorText != null;
-    
+
     return InputDecoration(
       hintText: widget.hintText,
       hintStyle: BukeerTypography.formFieldHint,
       filled: true,
-      fillColor: widget.enabled 
-        ? BukeerColors.backgroundSecondary 
-        : BukeerColors.neutral200,
+      fillColor: widget.enabled
+          ? BukeerColors.getFormFieldBackground(context)
+          : BukeerColors.neutral200,
       contentPadding: BukeerSpacing.formFieldPadding,
-      
+
       // Borders
       border: OutlineInputBorder(
         borderRadius: BukeerBorderRadius.mediumRadius,
@@ -428,19 +426,17 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
           width: 1.0,
         ),
       ),
-      
+
       // Icons
-      prefixIcon: widget.leadingIcon != null 
-        ? Icon(
-            widget.leadingIcon,
-            color: hasError 
-              ? BukeerColors.error 
-              : BukeerColors.textSecondary,
-            size: 20.0,
-          ) 
-        : null,
+      prefixIcon: widget.leadingIcon != null
+          ? Icon(
+              widget.leadingIcon,
+              color: hasError ? BukeerColors.error : BukeerColors.textSecondary,
+              size: 20.0,
+            )
+          : null,
       suffixIcon: _buildSuffixIcon(),
-      
+
       // Counter
       counterStyle: BukeerTypography.bodySmall.copyWith(
         color: BukeerColors.textTertiary,
@@ -458,13 +454,15 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
           });
         },
         icon: Icon(
-          _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          _obscureText
+              ? Icons.visibility_outlined
+              : Icons.visibility_off_outlined,
           color: BukeerColors.textSecondary,
           size: 20.0,
         ),
       );
     }
-    
+
     // Custom trailing icon
     if (widget.trailingIcon != null) {
       return IconButton(
@@ -476,7 +474,7 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
         ),
       );
     }
-    
+
     return null;
   }
 

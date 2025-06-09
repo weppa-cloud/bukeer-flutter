@@ -53,6 +53,9 @@ class AppProviders extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: appServices.account,
         ),
+        ChangeNotifierProvider.value(
+          value: appServices.pwa,
+        ),
       ],
       child: child,
     );

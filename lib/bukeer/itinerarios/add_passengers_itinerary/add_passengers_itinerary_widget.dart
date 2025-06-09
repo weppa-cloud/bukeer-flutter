@@ -1,6 +1,6 @@
 import '../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../pasajeros/modal_add_passenger/modal_add_passenger_widget.dart';
+import '../../core/widgets/modals/passenger/add/modal_add_passenger_widget.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../design_system/index.dart';
 import '../../../flutter_flow/flutter_flow_util.dart';
@@ -13,6 +13,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_passengers_itinerary_model.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'add_passengers_itinerary_model.dart';
 
 class AddPassengersItineraryWidget extends StatefulWidget {
@@ -68,7 +69,7 @@ class _AddPassengersItineraryWidgetState
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
-            backgroundColor: BukeerColors.primaryBackground,
+            backgroundColor: BukeerColors.getBackground(context),
             body: Center(
               child: SizedBox(
                 width: 50.0,
@@ -92,7 +93,7 @@ class _AddPassengersItineraryWidgetState
           },
           child: Scaffold(
             key: scaffoldKey,
-            backgroundColor: BukeerColors.primaryBackground,
+            backgroundColor: BukeerColors.getBackground(context),
             body: SafeArea(
               top: true,
               child: Column(
@@ -738,8 +739,8 @@ class _AddPassengersItineraryWidgetState
                                                                             ),
                                                                       ),
                                                                     ].divide(SizedBox(
-                                                                        width:
-                                                                            8.0)),
+                                                                        width: BukeerSpacing
+                                                                            .s)),
                                                                   ),
                                                                 ),
                                                                 InkWell(
@@ -787,8 +788,8 @@ class _AddPassengersItineraryWidgetState
                                                                             ),
                                                                       ),
                                                                     ].divide(SizedBox(
-                                                                        width:
-                                                                            8.0)),
+                                                                        width: BukeerSpacing
+                                                                            .s)),
                                                                   ),
                                                                 ),
                                                               ].divide(SizedBox(
@@ -1079,11 +1080,12 @@ class _AddPassengersItineraryWidgetState
                                                             itemCount:
                                                                 passengerItem
                                                                     .length,
-                                                            separatorBuilder:
-                                                                (_, __) =>
-                                                                    SizedBox(
-                                                                        height:
-                                                                            8.0),
+                                                            separatorBuilder: (_,
+                                                                    __) =>
+                                                                SizedBox(
+                                                                    height:
+                                                                        BukeerSpacing
+                                                                            .s),
                                                             itemBuilder: (context,
                                                                 passengerItemIndex) {
                                                               final passengerItemItem =
@@ -1129,7 +1131,7 @@ class _AddPassengersItineraryWidgetState
                                                                     ],
                                                                     borderRadius:
                                                                         BorderRadius.circular(
-                                                                            12.0),
+                                                                            BukeerSpacing.sm),
                                                                     border:
                                                                         Border
                                                                             .all(
@@ -1309,7 +1311,7 @@ class _AddPassengersItineraryWidgetState
                                                                           ],
                                                                         ),
                                                                       ].divide(SizedBox(
-                                                                              width: 16.0)),
+                                                                              width: BukeerSpacing.m)),
                                                                     ),
                                                                   ),
                                                                 ),

@@ -158,7 +158,7 @@ await accountService.setAccountId('test-account');
 
 ### Widget Files Migrated (Sample)
 - `lib/bukeer/users/main_profile_account/main_profile_account_widget.dart`
-- `lib/bukeer/itinerarios/pagos/component_add_paid/component_add_paid_widget.dart`
+- `lib/bukeer/itinerarios/pagos/payment_add/component_add_paid_widget.dart`
 - `lib/bukeer/componentes/web_nav/web_nav_widget.dart`
 - `lib/bukeer/componentes/mobile_nav/mobile_nav_widget.dart`
 

@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 // // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
-import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart';
-// import 'package:bukeer/bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_model.dart'; // Unused import
+import 'package:bukeer/bukeer/core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
+// import 'package:bukeer/bukeer/core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_model.dart'; // Unused import
 import '../test_utils/test_helpers.dart';
 
 void main() {

@@ -1,8 +1,8 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
 import '../../../../backend/supabase/supabase.dart';
-import '../dropdown_airports/dropdown_airports_widget.dart';
-import '../dropdown_products/dropdown_products_widget.dart';
+import '../../../core/widgets/forms/dropdowns/airports/dropdown_airports_widget.dart';
+import '../../../core/widgets/forms/dropdowns/products/dropdown_products_widget.dart';
 import '../../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../../flutter_flow/flutter_flow_theme.dart';
 import '../../../../flutter_flow/flutter_flow_util.dart';

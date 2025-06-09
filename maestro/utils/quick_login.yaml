@@ -1,0 +1,25 @@
+# Utilidad: Login Rápido
+# Descripción: Flow reutilizable para hacer login rápidamente en otros tests
+# Uso: - runFlow: ../utils/quick_login.yaml
+
+env:
+  EMAIL: ${TEST_EMAIL:-admin@bukeer.com}
+  PASSWORD: ${TEST_PASSWORD:-Test123!}
+---
+
+# Solo hacer login si no estamos autenticados
+- runFlow:
+    when:
+      visible: "Iniciar Sesión"
+    commands:
+      # Login rápido sin validaciones exhaustivas
+      - tapOn: "Correo"
+      - inputText: ${EMAIL}
+      - tapOn: "Contraseña"
+      - inputText: ${PASSWORD}
+      - hideKeyboard
+      - tapOn: "Ingresar"
+      - waitForAnimationToEnd
+      - waitUntilNotVisible:
+          text: "Cargando"
+          timeout: 30000

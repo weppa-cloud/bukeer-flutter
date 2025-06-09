@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'show_reservation_message_model.dart';
 import '../../../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'show_reservation_message_model.dart';
 
 class ShowReservationMessageWidget extends StatefulWidget {
@@ -60,7 +61,7 @@ class _ShowReservationMessageWidgetState
             maxHeight: MediaQuery.sizeOf(context).height * 0.7,
           ),
           decoration: BoxDecoration(
-            color: BukeerColors.secondaryBackground,
+            color: BukeerColors.getBackground(context, secondary: true),
             boxShadow: [
               BoxShadow(
                 blurRadius: 3.0,
@@ -83,7 +84,8 @@ class _ShowReservationMessageWidgetState
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 20.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: BukeerColors.secondaryBackground,
+                      color:
+                          BukeerColors.getBackground(context, secondary: true),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2.0,
@@ -129,7 +131,7 @@ class _ShowReservationMessageWidgetState
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.4,
                   decoration: BoxDecoration(
-                    color: BukeerColors.secondaryBackground,
+                    color: BukeerColors.getBackground(context, secondary: true),
                   ),
                   child: Builder(
                     builder: (context) {
@@ -240,7 +242,8 @@ class _ShowReservationMessageWidgetState
                   padding: EdgeInsets.only(bottom: BukeerSpacing.s),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: BukeerColors.secondaryBackground,
+                      color:
+                          BukeerColors.getBackground(context, secondary: true),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 1.0,
@@ -286,14 +289,15 @@ class _ShowReservationMessageWidgetState
                                     ),
                                 elevation: 0.0,
                                 borderSide: BorderSide(
-                                  color: BukeerColors.borderPrimary,
+                                  color: FlutterFlowTheme.of(context).alternate,
                                   width: 2.0,
                                 ),
                                 borderRadius:
                                     BorderRadius.circular(BukeerSpacing.s),
-                                hoverColor: BukeerColors.borderPrimary,
+                                hoverColor:
+                                    FlutterFlowTheme.of(context).alternate,
                                 hoverBorderSide: BorderSide(
-                                  color: BukeerColors.borderPrimary,
+                                  color: FlutterFlowTheme.of(context).alternate,
                                   width: 2.0,
                                 ),
                                 hoverTextColor: BukeerColors.primaryText,
