@@ -5,12 +5,9 @@ import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'package:page_transition/page_transition.dart' as pt;
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'component_itinerary_preview_hotels_model.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_itinerary_preview_hotels_model.dart';
@@ -26,9 +23,9 @@ class ComponentItineraryPreviewHotelsWidget extends StatefulWidget {
     this.media,
     this.passengers,
     this.personalizedMessage,
-  })  : this.name = name ?? 'Sin nombre',
-        this.rateName = rateName ?? 'Sin nombre',
-        this.location = location ?? 'Sin destino';
+  })  : name = name ?? 'Sin nombre',
+        rateName = rateName ?? 'Sin nombre',
+        location = location ?? 'Sin destino';
 
   final String name;
   final String rateName;
@@ -77,7 +74,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
         future: HotelsTable().querySingleRow(
           queryFn: (q) => q.eqOrNull(
             'id',
-            widget!.idEntity,
+            widget.idEntity,
           ),
         ),
         builder: (context, snapshot) {
@@ -156,7 +153,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                               12.0, 0.0, 0.0, 0.0),
                           child: Text(
                             valueOrDefault<String>(
-                              widget!.name,
+                              widget.name,
                               'Sin nombre',
                             ),
                             style: FlutterFlowTheme.of(context)
@@ -177,7 +174,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                         valueOrDefault<String>(
                           dateTimeFormat(
                             "yMMMd",
-                            widget!.date,
+                            widget.date,
                             locale: FFLocalizations.of(context).languageCode,
                           ),
                           'Fecha',
@@ -252,25 +249,23 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (widget!.media != null &&
-                                      (widget!.media)!.isNotEmpty)
+                                  if (widget.media != null &&
+                                      widget.media!.isNotEmpty)
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Expanded(
                                           child: Builder(
                                             builder: (context) {
-                                              final itemMediaProduct = widget!
-                                                      .media
-                                                      ?.map((e) => getJsonField(
+                                              final itemMediaProduct =
+                                                  widget.media!
+                                                      .map((e) => getJsonField(
                                                             e,
                                                             r'''$.image_url''',
                                                           ))
-                                                      .toList()
-                                                      ?.toList() ??
-                                                  [];
+                                                      .toList();
 
-                                              return Container(
+                                              return SizedBox(
                                                 width: double.infinity,
                                                 height: 200.0,
                                                 child: CarouselSlider.builder(
@@ -302,9 +297,14 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                                 FlutterFlowExpandedImageView(
                                                               image:
                                                                   Image.network(
-                                                                itemMediaProductItem
-                                                                        ?.toString() ??
-                                                                    'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
+                                                                (itemMediaProductItem?.toString() ??
+                                                                                '') !=
+                                                                            '' &&
+                                                                        itemMediaProductItem !=
+                                                                            null
+                                                                    ? itemMediaProductItem
+                                                                        .toString()
+                                                                    : 'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
                                                                 fit: BoxFit
                                                                     .contain,
                                                                 errorBuilder:
@@ -342,9 +342,14 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                                   .circular(
                                                                       8.0),
                                                           child: Image.network(
-                                                            itemMediaProductItem
-                                                                    ?.toString() ??
-                                                                'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
+                                                            (itemMediaProductItem?.toString() ??
+                                                                            '') !=
+                                                                        '' &&
+                                                                    itemMediaProductItem !=
+                                                                        null
+                                                                ? itemMediaProductItem
+                                                                    .toString()
+                                                                : 'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
                                                             width: 200.0,
                                                             height: 200.0,
                                                             fit: BoxFit.cover,
@@ -419,7 +424,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                         children: [
                                           Text(
                                             valueOrDefault<String>(
-                                              widget!.rateName,
+                                              widget.rateName,
                                               'Sin nombre',
                                             ),
                                             textAlign: TextAlign.start,
@@ -475,7 +480,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                                 8.0, 0.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        widget!.location,
+                                                        widget.location,
                                                         'Ubicación',
                                                       ),
                                                       style:
@@ -519,7 +524,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      widget!.passengers
+                                                      widget.passengers
                                                           ?.toString(),
                                                       '1',
                                                     ),
@@ -574,9 +579,9 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                       ),
                                             ),
                                           ),
-                                          if (widget!.personalizedMessage !=
+                                          if (widget.personalizedMessage !=
                                                   null &&
-                                              widget!.personalizedMessage != '')
+                                              widget.personalizedMessage != '')
                                             Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
@@ -590,7 +595,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
                                                 Flexible(
                                                   child: Text(
                                                     valueOrDefault<String>(
-                                                      widget!
+                                                      widget
                                                           .personalizedMessage,
                                                       'Sin mensaje',
                                                     ),

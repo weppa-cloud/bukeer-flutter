@@ -7,13 +7,9 @@ import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart'
     hide PageTransitionType;
 import 'package:page_transition/page_transition.dart' as pt;
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 import 'component_itinerary_preview_activities_model.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
 export 'component_itinerary_preview_activities_model.dart';
@@ -29,9 +25,9 @@ class ComponentItineraryPreviewActivitiesWidget extends StatefulWidget {
     this.media,
     this.passengers,
     this.personalizedMessage,
-  })  : this.name = name ?? 'Sin nombre',
-        this.rateName = rateName ?? 'Sin nombre',
-        this.location = location ?? 'Sin destino';
+  })  : name = name ?? 'Sin nombre',
+        rateName = rateName ?? 'Sin nombre',
+        location = location ?? 'Sin destino';
 
   final String name;
   final String rateName;
@@ -76,14 +72,14 @@ class _ComponentItineraryPreviewActivitiesWidgetState
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: widget!.idEntity != '615a5eda-7560-4506-abf1-67a362dbafba',
+      visible: widget.idEntity != '615a5eda-7560-4506-abf1-67a362dbafba',
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 4.0, 0.0),
         child: FutureBuilder<List<ActivitiesRow>>(
           future: ActivitiesTable().querySingleRow(
             queryFn: (q) => q.eqOrNull(
               'id',
-              widget!.idEntity,
+              widget.idEntity,
             ),
           ),
           builder: (context, snapshot) {
@@ -157,7 +153,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                 12.0, 0.0, 12.0, 0.0),
                             child: Text(
                               valueOrDefault<String>(
-                                widget!.name,
+                                widget.name,
                                 'Sin nombre',
                               ),
                               style: FlutterFlowTheme.of(context)
@@ -179,7 +175,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                           valueOrDefault<String>(
                             dateTimeFormat(
                               "yMMMd",
-                              widget!.date,
+                              widget.date,
                               locale: FFLocalizations.of(context).languageCode,
                             ),
                             'Fecha',
@@ -261,8 +257,8 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      if (widget!.media != null &&
-                                          (widget!.media)!.isNotEmpty)
+                                      if (widget.media != null &&
+                                          widget.media!.isNotEmpty)
                                         Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -270,17 +266,15 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                               child: Builder(
                                                 builder: (context) {
                                                   final itemMediaProduct =
-                                                      widget!.media
-                                                              ?.map((e) =>
-                                                                  getJsonField(
-                                                                    e,
-                                                                    r'''$.image_url''',
-                                                                  ))
-                                                              .toList()
-                                                              ?.toList() ??
-                                                          [];
+                                                      widget.media!
+                                                          .map((e) =>
+                                                              getJsonField(
+                                                                e,
+                                                                r'''$.image_url''',
+                                                              ))
+                                                          .toList();
 
-                                                  return Container(
+                                                  return SizedBox(
                                                     width: double.infinity,
                                                     height: 200.0,
                                                     child:
@@ -343,9 +337,14 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                                           8.0),
                                                               child:
                                                                   Image.network(
-                                                                itemMediaProductItem
-                                                                        ?.toString() ??
-                                                                    'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/activity-default.png',
+                                                                (itemMediaProductItem?.toString() ??
+                                                                                '') !=
+                                                                            '' &&
+                                                                        itemMediaProductItem !=
+                                                                            null
+                                                                    ? itemMediaProductItem
+                                                                        .toString()
+                                                                    : 'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/activity-default.png',
                                                                 width: 200.0,
                                                                 height: 200.0,
                                                                 fit: BoxFit
@@ -431,7 +430,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                           children: [
                                             Text(
                                               valueOrDefault<String>(
-                                                widget!.rateName,
+                                                widget.rateName,
                                                 'Sin nombre',
                                               ),
                                               textAlign: TextAlign.start,
@@ -494,7 +493,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                                   0.0),
                                                       child: Text(
                                                         valueOrDefault<String>(
-                                                          widget!.location,
+                                                          widget.location,
                                                           'Ubicación',
                                                         ),
                                                         style:
@@ -542,7 +541,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                     ),
                                                     Text(
                                                       valueOrDefault<String>(
-                                                        widget!.passengers
+                                                        widget.passengers
                                                             ?.toString(),
                                                         '1',
                                                       ),
@@ -599,9 +598,9 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                     ),
                                               ),
                                             ),
-                                            if (widget!.personalizedMessage !=
+                                            if (widget.personalizedMessage !=
                                                     null &&
-                                                widget!.personalizedMessage !=
+                                                widget.personalizedMessage !=
                                                     '')
                                               Row(
                                                 mainAxisSize: MainAxisSize.max,
@@ -616,7 +615,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                                   Flexible(
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        widget!
+                                                        widget
                                                             .personalizedMessage,
                                                         'Sin mensaje',
                                                       ),
@@ -737,9 +736,8 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                             if (containerActivitiesActivitiesRow
                                                         ?.scheduleData !=
                                                     null &&
-                                                (containerActivitiesActivitiesRow
-                                                        ?.scheduleData)!
-                                                    .isNotEmpty)
+                                                containerActivitiesActivitiesRow
+                                                    .scheduleData!.isNotEmpty)
                                               Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
