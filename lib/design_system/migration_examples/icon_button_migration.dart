@@ -5,9 +5,54 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
+// import '/flutter_flow/flutter_flow_icon_button.dart'; // Legacy import - commented for reference
 import 'package:bukeer/design_system/tokens/index.dart';
 import 'package:bukeer/design_system/components/index.dart';
+
+// Mock FlutterFlowIconButton for migration examples
+class FlutterFlowIconButton extends StatelessWidget {
+  final Color? borderColor;
+  final double? borderRadius;
+  final double? borderWidth;
+  final double buttonSize;
+  final Color? fillColor;
+  final Color? disabledColor;
+  final Color? disabledIconColor;
+  final Widget icon;
+  final bool showLoadingIndicator;
+  final void Function()? onPressed;
+
+  const FlutterFlowIconButton({
+    Key? key,
+    this.borderColor,
+    this.borderRadius,
+    this.borderWidth,
+    required this.buttonSize,
+    this.fillColor,
+    this.disabledColor,
+    this.disabledIconColor,
+    required this.icon,
+    this.showLoadingIndicator = false,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Mock implementation - just returns a placeholder
+    return Container(
+      width: buttonSize,
+      height: buttonSize,
+      decoration: BoxDecoration(
+        color: fillColor ?? Colors.transparent,
+        border: borderWidth != null && borderColor != null
+            ? Border.all(color: borderColor!, width: borderWidth!)
+            : null,
+        borderRadius: BorderRadius.circular(borderRadius ?? 0),
+      ),
+      child: Center(child: icon),
+    );
+  }
+}
 
 class IconButtonMigrationExamples extends StatelessWidget {
   @override
@@ -252,7 +297,7 @@ class IconButtonMigrationExamples extends StatelessWidget {
 /// Resumen de cambios principales:
 ///
 /// 1. **Importación**:
-///    - Antes: import '/flutter_flow/flutter_flow_icon_button.dart';
+///    - Antes: // import '/flutter_flow/flutter_flow_icon_button.dart'; // Legacy import - commented for reference
 ///
 /// 2. **Tamaños consistentes**:
 ///    - Antes: buttonSize: 32/40/48 (valores arbitrarios)
