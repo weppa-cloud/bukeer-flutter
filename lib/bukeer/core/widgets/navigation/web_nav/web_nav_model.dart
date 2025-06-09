@@ -1,12 +1,12 @@
-import '../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../backend/api_requests/api_calls.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
 import '../main_logo_small/main_logo_small_widget.dart';
 import '../../forms/dropdowns/accounts/dropdown_accounts_widget.dart';
 import '../../modals/product/details/modal_details_product_widget.dart';
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
-import '../../../../../index.dart';
+import 'package:bukeer/index.dart';
 import 'web_nav_widget.dart' show WebNavWidget;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

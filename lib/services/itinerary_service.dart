@@ -1,5 +1,5 @@
 import '../backend/api_requests/api_calls.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'base_service.dart';
 
 class ItineraryService extends BaseService {

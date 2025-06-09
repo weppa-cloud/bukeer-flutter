@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bukeer/bukeer/core/widgets/buttons/boton_crear/boton_crear_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/buttons/btn_create/btn_create_widget.dart';
 import '../test_helpers.dart';
 
 void main() {
-  group('BotonCrearWidget', () {
+  group('BtnCreateWidget', () {
     testWidgets('renders correctly', (WidgetTester tester) async {
       bool wasPressed = false;
 
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(
+          BtnCreateWidget(
             onPressed: () {
               wasPressed = true;
             },
@@ -20,7 +20,7 @@ void main() {
       );
 
       // Verificar que se renderiza
-      expect(find.byType(BotonCrearWidget), findsOneWidget);
+      expect(find.byType(BtnCreateWidget), findsOneWidget);
 
       // Verificar que contiene un FloatingActionButton
       expect(find.byType(FloatingActionButton), findsOneWidget);
@@ -36,7 +36,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(
+          BtnCreateWidget(
             onPressed: () {
               wasPressed = true;
               tapCount++;
@@ -61,7 +61,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(onPressed: () {}),
+          BtnCreateWidget(onPressed: () {}),
         ),
       );
 
@@ -79,7 +79,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(onPressed: () {}),
+          BtnCreateWidget(onPressed: () {}),
         ),
       );
 
@@ -107,7 +107,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(onPressed: () {}),
+          BtnCreateWidget(onPressed: () {}),
         ),
       );
 
@@ -122,7 +122,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(onPressed: () {}),
+          BtnCreateWidget(onPressed: () {}),
         ),
       );
 
@@ -159,7 +159,7 @@ void main() {
         MaterialApp(
           theme: customTheme,
           home: Scaffold(
-            floatingActionButton: BotonCrearWidget(onPressed: () {}),
+            floatingActionButton: BtnCreateWidget(onPressed: () {}),
           ),
         ),
       );
@@ -180,7 +180,7 @@ void main() {
         tester,
         MaterialApp(
           home: Scaffold(
-            floatingActionButton: BotonCrearWidget(onPressed: () {}),
+            floatingActionButton: BtnCreateWidget(onPressed: () {}),
           ),
         ),
       );
@@ -198,7 +198,7 @@ void main() {
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(onPressed: () {}),
+          BtnCreateWidget(onPressed: () {}),
         ),
       );
 
@@ -212,13 +212,13 @@ void main() {
 
     testWidgets('respects onPressed null state', (WidgetTester tester) async {
       // Si el widget permite onPressed null para estado deshabilitado
-      // Nota: BotonCrearWidget requiere onPressed, pero este test
+      // Nota: BtnCreateWidget requiere onPressed, pero este test
       // es para verificar el comportamiento si cambia la API
 
       await pumpWidgetAndSettle(
         tester,
         createTestableWidget(
-          BotonCrearWidget(onPressed: () {}),
+          BtnCreateWidget(onPressed: () {}),
         ),
       );
 

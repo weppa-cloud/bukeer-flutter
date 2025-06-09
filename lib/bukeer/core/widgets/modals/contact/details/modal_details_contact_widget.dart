@@ -1,21 +1,22 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
-import '../../../../../../bukeer/core/widgets/containers/activities/activities_container_widget.dart';
-import '../../../../../../bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
-import '../../../../../../bukeer/core/widgets/containers/contacts/contacts_container_widget.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/bukeer/core/widgets/containers/activities/activities_container_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/containers/contacts/contacts_container_widget.dart';
 import '../add_edit/modal_add_edit_contact_widget.dart';
-import '../../../../../../bukeer/core/widgets/containers/itineraries/itineraries_container_widget.dart';
-import '../../../../../../bukeer/core/widgets/containers/hotels/hotels_container_widget.dart';
-import '../../../../../../bukeer/core/widgets/containers/transfers/transfers_container_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/containers/itineraries/itineraries_container_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/containers/hotels/hotels_container_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/containers/transfers/transfers_container_widget.dart';
 import '../../product/add/modal_add_product_widget.dart';
 import '../../product/details/modal_details_product_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_button_tabbar.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_button_tabbar.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'dart:async';
@@ -28,11 +29,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'modal_details_contact_model.dart';
-import '../../../../../../services/app_services.dart';
-import '../../../../../../services/ui_state_service.dart';
-import '../../../../../../services/contact_service.dart';
-import '/design_system/tokens/index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/services/app_services.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/contact_service.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 export 'modal_details_contact_model.dart';
 
 class ModalDetailsContactWidget extends StatefulWidget {
@@ -583,7 +583,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                         alignment:
                                             AlignmentDirectional(0.0, 0.0),
                                         child: AnimatedContainer(
-                                          duration: UiConstants.animationDurationFast,
+                                          duration:
+                                              UiConstants.animationDurationFast,
                                           curve: Curves.easeInOut,
                                           width: 90.0,
                                           height: 90.0,
@@ -866,7 +867,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                       0.0),
                                                           child:
                                                               AnimatedContainer(
-                                                            duration: UiConstants.animationDurationFast,
+                                                            duration: UiConstants
+                                                                .animationDurationFast,
                                                             curve: Curves
                                                                 .easeInOut,
                                                             height: 32.0,
@@ -1933,7 +1935,9 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           options:
                                                               FFButtonOptions(
                                                             padding:
-                                                                EdgeInsets.all(BukeerSpacing.s),
+                                                                EdgeInsets.all(
+                                                                    BukeerSpacing
+                                                                        .s),
                                                             iconAlignment:
                                                                 IconAlignment
                                                                     .end,
@@ -2197,7 +2201,9 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           options:
                                                               FFButtonOptions(
                                                             padding:
-                                                                EdgeInsets.all(BukeerSpacing.s),
+                                                                EdgeInsets.all(
+                                                                    BukeerSpacing
+                                                                        .s),
                                                             iconAlignment:
                                                                 IconAlignment
                                                                     .end,
@@ -2467,7 +2473,9 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                           options:
                                                               FFButtonOptions(
                                                             padding:
-                                                                EdgeInsets.all(BukeerSpacing.s),
+                                                                EdgeInsets.all(
+                                                                    BukeerSpacing
+                                                                        .s),
                                                             iconAlignment:
                                                                 IconAlignment
                                                                     .end,
@@ -2943,7 +2951,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -2955,7 +2964,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -2967,7 +2977,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -2979,7 +2990,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     filled:
                                                                         true,
@@ -3062,7 +3074,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -3074,7 +3087,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -3086,7 +3100,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -3098,7 +3113,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     filled:
                                                                         true,
@@ -3181,7 +3197,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -3193,7 +3210,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -3205,7 +3223,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -3217,7 +3236,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     filled:
                                                                         true,
@@ -3300,7 +3320,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -3312,7 +3333,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -3324,7 +3346,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -3336,7 +3359,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     filled:
                                                                         true,
@@ -3419,7 +3443,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedBorder:
                                                                         OutlineInputBorder(
@@ -3431,7 +3456,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     errorBorder:
                                                                         OutlineInputBorder(
@@ -3443,7 +3469,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     focusedErrorBorder:
                                                                         OutlineInputBorder(
@@ -3455,7 +3482,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                     ),
                                                                     filled:
                                                                         true,
@@ -3788,7 +3816,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             2.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                       hoverColor:
                                                                           FlutterFlowTheme.of(context)
                                                                               .alternate,
@@ -4063,7 +4092,8 @@ class _ModalDetailsContactWidgetState extends State<ModalDetailsContactWidget>
                                                                             1.0,
                                                                       ),
                                                                       borderRadius:
-                                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                                          BorderRadius.circular(
+                                                                              BukeerSpacing.sm),
                                                                       hoverColor:
                                                                           FlutterFlowTheme.of(context)
                                                                               .accent1,

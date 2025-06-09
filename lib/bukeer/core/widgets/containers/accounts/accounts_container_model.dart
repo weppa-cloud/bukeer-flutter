@@ -1,5 +1,5 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'accounts_container_widget.dart' show AccountsContainerWidget;
 import 'package:flutter/material.dart';

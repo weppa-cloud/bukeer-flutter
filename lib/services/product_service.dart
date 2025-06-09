@@ -1,10 +1,11 @@
 import '../backend/api_requests/api_calls.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'base_service.dart';
 import 'performance_optimized_service.dart';
 import 'smart_cache_service.dart';
 
-class ProductService extends BaseService with PerformanceOptimizedService, SmartCacheable {
+class ProductService extends BaseService
+    with PerformanceOptimizedService, SmartCacheable {
   static final ProductService _instance = ProductService._internal();
   factory ProductService() => _instance;
   ProductService._internal();

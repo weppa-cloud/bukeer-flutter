@@ -1,9 +1,9 @@
 import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
-import '../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
-import '../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import '../../../index.dart';
@@ -14,7 +14,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'main_home_model.dart';
-import 'package:bukeer/design_system/tokens/index.dart';
 export 'main_home_model.dart';
 
 class MainHomeWidget extends StatefulWidget {

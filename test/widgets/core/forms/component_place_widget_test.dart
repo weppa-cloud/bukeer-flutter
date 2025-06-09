@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bukeer/bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
-import 'package:bukeer/flutter_flow/flutter_flow_place_picker.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_place_picker.dart';
 import '../test_helpers.dart';
 
 void main() {

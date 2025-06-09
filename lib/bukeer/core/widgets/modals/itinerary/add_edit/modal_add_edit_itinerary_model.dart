@@ -1,19 +1,19 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
 import '../../../forms/dropdowns/contacts/dropdown_contacts_widget.dart';
 import '../../../forms/dropdowns/travel_planner/dropdown_travel_planner_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_count_controller.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_count_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'dart:math';
 import 'dart:ui';
-import '../../../../../../custom_code/actions/index.dart' as actions;
-import '../../../../../../custom_code/widgets/index.dart' as custom_widgets;
-import '../../../../../../index.dart';
+import 'package:bukeer/custom_code/actions/index.dart' as actions;
+import 'package:bukeer/custom_code/widgets/index.dart' as custom_widgets;
+import 'package:bukeer/index.dart';
 import 'modal_add_edit_itinerary_widget.dart' show ModalAddEditItineraryWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -95,14 +95,15 @@ class ModalAddEditItineraryModel
   void initState(BuildContext context) {
     nameItineraryTextControllerValidator =
         _nameItineraryTextControllerValidator;
-    dropdownTravelPlannerModel = createModel(context, () => DropdownTravelPlannerModel());
+    dropdownTravelPlannerModel =
+        createModel(context, () => DropdownTravelPlannerModel());
   }
 
   @override
   void dispose() {
     nameItineraryFocusNode?.dispose();
     nameItineraryTextController?.dispose();
-    
+
     dropdownTravelPlannerModel.dispose();
 
     messageActivityFocusNode?.dispose();

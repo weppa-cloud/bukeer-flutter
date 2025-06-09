@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../flutter_flow/nav/nav.dart';
+import '../legacy/flutter_flow/nav/nav.dart';
 import '../services/app_services.dart';
 import '../services/error_service.dart';
 import '../services/error_analytics_service.dart';
@@ -29,16 +29,16 @@ class _ErrorAwareAppState extends State<ErrorAwareApp> {
 
   void _setupErrorHandling() {
     final errorService = appServices.error;
-    
+
     // Set up error service callbacks
     errorService.setLoginCallback(() {
       _handleLoginRequired();
     });
-    
+
     errorService.setAdminContactCallback(() {
       _handleContactAdmin();
     });
-    
+
     errorService.setErrorReportCallback((report) {
       _handleErrorReport(report);
     });
@@ -60,13 +60,13 @@ class _ErrorAwareAppState extends State<ErrorAwareApp> {
     if (mounted) {
       // Clear all user data
       appServices.reset();
-      
+
       // Navigate to login
       Navigator.of(context).pushNamedAndRemoveUntil(
         '/authLogin',
         (route) => false,
       );
-      
+
       // Show informative message
       ErrorFeedbackSystem.showErrorToast(
         context,
@@ -92,7 +92,8 @@ class _ErrorAwareAppState extends State<ErrorAwareApp> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Para obtener ayuda, puedes contactar al administrador a través de:'),
+              Text(
+                  'Para obtener ayuda, puedes contactar al administrador a través de:'),
               SizedBox(height: 16),
               ListTile(
                 leading: Icon(Icons.email),
@@ -229,7 +230,7 @@ class ErrorAwareButton extends StatelessWidget {
         onPressed!,
         context: {'description': operationName ?? 'Button action'},
       );
-      
+
       onPressed!();
     } catch (e) {
       appServices.error.handleError(
@@ -244,7 +245,8 @@ class ErrorAwareButton extends StatelessWidget {
 /// Error-aware future builder
 class ErrorAwareFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
-  final Widget Function(BuildContext context, AsyncSnapshot<T> snapshot) builder;
+  final Widget Function(BuildContext context, AsyncSnapshot<T> snapshot)
+      builder;
   final String? operationName;
   final Widget Function(BuildContext context, String error)? errorBuilder;
 
@@ -293,7 +295,8 @@ class ErrorAwareFutureBuilder<T> extends StatelessWidget {
 /// Error-aware stream builder
 class ErrorAwareStreamBuilder<T> extends StatelessWidget {
   final Stream<T>? stream;
-  final Widget Function(BuildContext context, AsyncSnapshot<T> snapshot) builder;
+  final Widget Function(BuildContext context, AsyncSnapshot<T> snapshot)
+      builder;
   final String? operationName;
 
   const ErrorAwareStreamBuilder({
@@ -369,14 +372,14 @@ extension ErrorHandlingExtensions on BuildContext {
     } catch (e) {
       final errorMessage = e.toString();
       onError?.call(errorMessage);
-      
+
       appServices.error.handleError(
         e,
         context: operationName ?? 'Async operation',
         type: ErrorType.api,
         severity: ErrorSeverity.medium,
       );
-      
+
       return null;
     }
   }

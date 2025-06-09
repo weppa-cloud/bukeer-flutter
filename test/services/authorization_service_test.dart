@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 // // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 import 'package:mockito/annotations.dart';
 
-import '../../lib/services/authorization_service.dart';
-import '../../lib/backend/supabase/supabase.dart';
+import 'package:bukeer/services/authorization_service.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
 
 // Generate mocks
 @GenerateMocks([SupaFlow])
@@ -26,11 +26,8 @@ void main() {
     group('Permission Checking', () {
       test('should check single permission correctly', () {
         // Arrange - Mock user with specific permissions using extension
-        authService._userPermissions = {
-          'itinerary:create',
-          'itinerary:read',
-          'contact:read'
-        };
+        authService.setUserPermissionsForTesting(
+            {'itinerary:create', 'itinerary:read', 'contact:read'});
 
         // Act & Assert
         expect(authService.hasPermission('itinerary:create'), isTrue);
@@ -40,11 +37,8 @@ void main() {
 
       test('should check multiple permissions correctly', () {
         // Arrange
-        authService._userPermissions = {
-          'itinerary:create',
-          'itinerary:read',
-          'contact:read'
-        };
+        authService.setUserPermissionsForTesting(
+            {'itinerary:create', 'itinerary:read', 'contact:read'});
 
         // Act & Assert
         expect(
@@ -68,14 +62,14 @@ void main() {
         final adminRole = UserRole(
           id: 1,
           name: 'admin',
-          type: 'admin',
+          type: RoleType.admin,
           permissions: ['itinerary:create'],
         );
-        authService._userRoles = [adminRole];
+        authService.setUserRolesForTesting([adminRole]);
 
         // Act & Assert
-        expect(authService.hasRole('admin'), isTrue);
-        expect(authService.hasRole('super_admin'), isFalse);
+        expect(authService.hasRole(RoleType.admin), isTrue);
+        expect(authService.hasRole(RoleType.superAdmin), isFalse);
         expect(authService.isAdmin, isTrue);
         expect(authService.isSuperAdmin, isFalse);
       });
@@ -83,22 +77,22 @@ void main() {
       test('should check multiple roles correctly', () {
         // Arrange
         final roles = [
-          UserRole(id: 1, name: 'admin', type: 'admin', permissions: []),
-          UserRole(id: 2, name: 'agent', type: 'agent', permissions: []),
+          UserRole(id: 1, name: 'admin', type: RoleType.admin, permissions: []),
+          UserRole(id: 2, name: 'agent', type: RoleType.agent, permissions: []),
         ];
-        authService._userRoles = roles;
+        authService.setUserRolesForTesting(roles);
 
         // Act & Assert
         expect(
-          authService.hasAnyRole(['admin', 'super_admin']),
+          authService.hasAnyRole([RoleType.admin, RoleType.superAdmin]),
           isTrue,
         );
         expect(
-          authService.hasAllRoles(['admin', 'agent']),
+          authService.hasAllRoles([RoleType.admin, RoleType.agent]),
           isTrue,
         );
         expect(
-          authService.hasAllRoles(['admin', 'super_admin']),
+          authService.hasAllRoles([RoleType.admin, RoleType.superAdmin]),
           isFalse,
         );
       });
@@ -124,9 +118,9 @@ void main() {
 
       test('should allow admin access to any resource', () {
         // Arrange
-        authService._userRoles = [
-          UserRole(id: 1, name: 'admin', type: 'admin', permissions: [])
-        ];
+        authService.setUserRolesForTesting([
+          UserRole(id: 1, name: 'admin', type: RoleType.admin, permissions: [])
+        ]);
 
         // Act
         final canAccess = authService.canAccessResource(
@@ -142,9 +136,9 @@ void main() {
 
       test('should deny access without proper permissions', () {
         // Arrange
-        authService._userRoles = [
-          UserRole(id: 1, name: 'agent', type: 'agent', permissions: [])
-        ];
+        authService.setUserRolesForTesting([
+          UserRole(id: 1, name: 'agent', type: RoleType.agent, permissions: [])
+        ]);
 
         // Act
         final canAccess = authService.canAccessResource(
@@ -162,14 +156,14 @@ void main() {
     group('Authorization Scenarios', () {
       test('should authorize based on role requirements', () async {
         // Arrange
-        authService._userRoles = [
-          UserRole(id: 1, name: 'admin', type: 'admin', permissions: [])
-        ];
+        authService.setUserRolesForTesting([
+          UserRole(id: 1, name: 'admin', type: RoleType.admin, permissions: [])
+        ]);
 
         // Act
         final isAuthorized = await authService.authorize(
           userId: 'user123',
-          requiredRoles: ['admin', 'super_admin'],
+          requiredRoles: [RoleType.admin, RoleType.superAdmin],
         );
 
         // Assert
@@ -178,7 +172,8 @@ void main() {
 
       test('should authorize based on permission requirements', () async {
         // Arrange
-        authService._userPermissions = {'itinerary:create', 'contact:read'};
+        authService
+            .setUserPermissionsForTesting({'itinerary:create', 'contact:read'});
 
         // Act
         final isAuthorized = await authService.authorize(
@@ -209,7 +204,7 @@ void main() {
         // Act
         final isAuthorized = await authService.authorize(
           userId: 'user123',
-          requiredRoles: ['admin'],
+          requiredRoles: [RoleType.admin],
           requiredPermissions: ['itinerary:delete'],
         );
 
@@ -221,25 +216,29 @@ void main() {
     group('Role Level Calculation', () {
       test('should calculate correct role levels', () {
         // Test Super Admin
-        authService._userRoles = [
-          UserRole(id: 1, name: 'super_admin', type: 'super_admin', permissions: [])
-        ];
+        authService.setUserRolesForTesting([
+          UserRole(
+              id: 1,
+              name: 'super_admin',
+              type: RoleType.superAdmin,
+              permissions: [])
+        ]);
         expect(authService.roleLevel, equals(3));
 
         // Test Admin
-        authService._userRoles = [
-          UserRole(id: 1, name: 'admin', type: 'admin', permissions: [])
-        ];
+        authService.setUserRolesForTesting([
+          UserRole(id: 1, name: 'admin', type: RoleType.admin, permissions: [])
+        ]);
         expect(authService.roleLevel, equals(2));
 
         // Test Agent
-        authService._userRoles = [
-          UserRole(id: 1, name: 'agent', type: 'agent', permissions: [])
-        ];
+        authService.setUserRolesForTesting([
+          UserRole(id: 1, name: 'agent', type: RoleType.agent, permissions: [])
+        ]);
         expect(authService.roleLevel, equals(1));
 
         // Test No Role
-        authService._userRoles = [];
+        authService.setUserRolesForTesting([]);
         expect(authService.roleLevel, equals(0));
       });
     });
@@ -247,10 +246,10 @@ void main() {
     group('Cache Management', () {
       test('should clear roles correctly', () {
         // Arrange
-        authService._userRoles = [
-          UserRole(id: 1, name: 'admin', type: 'admin', permissions: [])
-        ];
-        authService._userPermissions = {'test:permission'};
+        authService.setUserRolesForTesting([
+          UserRole(id: 1, name: 'admin', type: RoleType.admin, permissions: [])
+        ]);
+        authService.setUserPermissionsForTesting({'test:permission'});
 
         // Act
         authService.clearRoles();
@@ -262,17 +261,4 @@ void main() {
       });
     });
   });
-}
-
-// Extension to access private members for testing
-extension AuthorizationServiceTestExtension on AuthorizationService {
-  set _userRoles(List<UserRole> roles) {
-    userRoles.clear();
-    userRoles.addAll(roles);
-  }
-
-  set _userPermissions(Set<String> permissions) {
-    userPermissions.clear();
-    userPermissions.addAll(permissions);
-  }
 }

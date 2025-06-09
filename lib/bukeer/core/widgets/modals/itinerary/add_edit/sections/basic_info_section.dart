@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../../design_system/index.dart';
-import '../../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../../flutter_flow/flutter_flow_count_controller.dart';
-import '../../../../../../../flutter_flow/form_field_controller.dart';
-import '../../../../../../../custom_code/widgets/index.dart' as custom_widgets;
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_count_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
+import 'package:bukeer/custom_code/widgets/index.dart' as custom_widgets;
 import '../../../../forms/dropdowns/contacts/dropdown_contacts_widget.dart';
 import '../../../../forms/dropdowns/travel_planner/dropdown_travel_planner_widget.dart';
-import '../../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../../services/ui_state_service.dart';
-import '../../../../../../../services/itinerary_service.dart';
-import '../../../../../../../services/app_services.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/itinerary_service.dart';
+import 'package:bukeer/services/app_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bukeer/design_system/tokens/index.dart';
 
 class BasicInfoSection extends StatelessWidget {
   final bool isEdit;

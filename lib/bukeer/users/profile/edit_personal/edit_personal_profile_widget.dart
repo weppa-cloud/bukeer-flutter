@@ -1,11 +1,12 @@
-import '../../../../auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
-import '../../../../backend/supabase/supabase.dart';
-import '../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../design_system/index.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../flutter_flow/upload_data.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/upload_data.dart';
 import 'dart:ui';
 import '../../../../index.dart';
 import '../../../../services/app_services.dart';
@@ -14,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edit_personal_profile_model.dart';
-import '/design_system/tokens/index.dart';
 export 'edit_personal_profile_model.dart';
 
 class EditPersonalProfileWidget extends StatefulWidget {

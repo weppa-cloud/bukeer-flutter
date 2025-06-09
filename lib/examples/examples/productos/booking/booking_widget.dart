@@ -1,8 +1,9 @@
-import '../../../flutter_flow/flutter_flow_place_picker.dart';
-import '../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
-import '../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../flutter_flow/place.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_place_picker.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/place.dart';
 import 'dart:io';
 import 'dart:ui';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'booking_model.dart';
-import '../../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'booking_model.dart';
 
 class BookingWidget extends StatefulWidget {

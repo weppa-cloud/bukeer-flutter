@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 
-import '../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 
 export 'package:collection/collection.dart' show ListEquality;
 export 'package:flutter/material.dart' show Color, Colors;

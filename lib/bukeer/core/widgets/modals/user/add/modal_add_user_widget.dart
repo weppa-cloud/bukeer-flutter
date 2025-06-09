@@ -1,13 +1,14 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -17,10 +18,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'modal_add_user_model.dart';
-import '../../../../../../services/ui_state_service.dart';
-import '../../../../../../services/user_service.dart';
-import '../../../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/user_service.dart';
+import 'package:bukeer/services/app_services.dart';
 export 'modal_add_user_model.dart';
 
 class ModalAddUserWidget extends StatefulWidget {

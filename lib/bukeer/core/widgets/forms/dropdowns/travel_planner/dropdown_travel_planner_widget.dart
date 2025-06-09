@@ -1,17 +1,16 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/api_requests/api_manager.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/api_requests/api_manager.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_travel_planner_model.dart';
-import '/design_system/tokens/index.dart';
 export 'dropdown_travel_planner_model.dart';
 
 class DropdownTravelPlannerWidget extends StatefulWidget {

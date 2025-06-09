@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../auth/supabase_auth/auth_util.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'app_services.dart';
 
 /// Servicio para gestionar la carga de datos del usuario y cuenta
@@ -15,10 +15,10 @@ class UserService {
 
   // Selected user data (replacement for allDataUser)
   dynamic _selectedUser;
-  
+
   // User role ID
   String? _roleId;
-  
+
   // Agent data from API
   dynamic _agentData;
 
@@ -33,10 +33,10 @@ class UserService {
 
   // Backward compatibility getter for allDataUser pattern
   dynamic get allDataUser => _selectedUser;
-  
+
   // Role ID getter
   String? get roleId => _roleId;
-  
+
   // Agent data getter
   dynamic get agentData => _agentData;
 
@@ -51,7 +51,7 @@ class UserService {
     debugPrint(
         'UserService: accountIdFm setter called - please use AccountService directly');
   }
-  
+
   /// Set user role ID
   Future<void> setUserRole(String roleId) async {
     _roleId = roleId;

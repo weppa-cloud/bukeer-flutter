@@ -1,9 +1,9 @@
-import '../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -12,8 +12,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'payment_provider_model.dart';
-import '../../../../../design_system/index.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'payment_provider_model.dart';
 
 class PaymentProviderWidget extends StatefulWidget {
@@ -25,12 +24,10 @@ class PaymentProviderWidget extends StatefulWidget {
   final String? idItem;
 
   @override
-  State<PaymentProviderWidget> createState() =>
-      _PaymentProviderWidgetState();
+  State<PaymentProviderWidget> createState() => _PaymentProviderWidgetState();
 }
 
-class _PaymentProviderWidgetState
-    extends State<PaymentProviderWidget>
+class _PaymentProviderWidgetState extends State<PaymentProviderWidget>
     with TickerProviderStateMixin {
   late PaymentProviderModel _model;
 

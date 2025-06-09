@@ -13,49 +13,70 @@ class MigrationHelper {
     'EdgeInsets.all(20.0)': 'EdgeInsets.all(BukeerSpacing.m)',
     'EdgeInsets.all(24.0)': 'EdgeInsets.all(BukeerSpacing.l)',
     'EdgeInsets.all(32.0)': 'EdgeInsets.all(BukeerSpacing.xl)',
-    
+
     // EdgeInsetsDirectional patterns
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0)': 'EdgeInsets.only(bottom: BukeerSpacing.xs)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0)': 'EdgeInsets.only(bottom: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0)': 'EdgeInsets.only(bottom: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0)': 'EdgeInsets.only(bottom: BukeerSpacing.m)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0)': 'EdgeInsets.only(bottom: BukeerSpacing.l)',
-    
-    'EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0)': 'EdgeInsets.only(left: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0)': 'EdgeInsets.only(left: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0)': 'EdgeInsets.only(left: BukeerSpacing.m)',
-    
-    'EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0)': 'EdgeInsets.only(top: BukeerSpacing.xs)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0)': 'EdgeInsets.only(top: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0)': 'EdgeInsets.only(top: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0)': 'EdgeInsets.only(top: BukeerSpacing.m)',
-    
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 4.0, 0.0)': 'EdgeInsets.only(right: BukeerSpacing.xs)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0)': 'EdgeInsets.only(right: BukeerSpacing.s)',
-    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0)': 'EdgeInsets.only(right: BukeerSpacing.m)',
-    
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0)':
+        'EdgeInsets.only(bottom: BukeerSpacing.xs)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0)':
+        'EdgeInsets.only(bottom: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0)':
+        'EdgeInsets.only(bottom: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0)':
+        'EdgeInsets.only(bottom: BukeerSpacing.m)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0)':
+        'EdgeInsets.only(bottom: BukeerSpacing.l)',
+
+    'EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0)':
+        'EdgeInsets.only(left: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0)':
+        'EdgeInsets.only(left: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0)':
+        'EdgeInsets.only(left: BukeerSpacing.m)',
+
+    'EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0)':
+        'EdgeInsets.only(top: BukeerSpacing.xs)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0)':
+        'EdgeInsets.only(top: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0)':
+        'EdgeInsets.only(top: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0)':
+        'EdgeInsets.only(top: BukeerSpacing.m)',
+
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 4.0, 0.0)':
+        'EdgeInsets.only(right: BukeerSpacing.xs)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0)':
+        'EdgeInsets.only(right: BukeerSpacing.s)',
+    'EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0)':
+        'EdgeInsets.only(right: BukeerSpacing.m)',
+
     // EdgeInsets symmetric patterns
-    'EdgeInsets.symmetric(horizontal: 8.0)': 'EdgeInsets.symmetric(horizontal: BukeerSpacing.s)',
-    'EdgeInsets.symmetric(horizontal: 16.0)': 'EdgeInsets.symmetric(horizontal: BukeerSpacing.m)',
-    'EdgeInsets.symmetric(horizontal: 24.0)': 'EdgeInsets.symmetric(horizontal: BukeerSpacing.l)',
-    
-    'EdgeInsets.symmetric(vertical: 8.0)': 'EdgeInsets.symmetric(vertical: BukeerSpacing.s)',
-    'EdgeInsets.symmetric(vertical: 16.0)': 'EdgeInsets.symmetric(vertical: BukeerSpacing.m)',
-    'EdgeInsets.symmetric(vertical: 24.0)': 'EdgeInsets.symmetric(vertical: BukeerSpacing.l)',
-    
+    'EdgeInsets.symmetric(horizontal: 8.0)':
+        'EdgeInsets.symmetric(horizontal: BukeerSpacing.s)',
+    'EdgeInsets.symmetric(horizontal: 16.0)':
+        'EdgeInsets.symmetric(horizontal: BukeerSpacing.m)',
+    'EdgeInsets.symmetric(horizontal: 24.0)':
+        'EdgeInsets.symmetric(horizontal: BukeerSpacing.l)',
+
+    'EdgeInsets.symmetric(vertical: 8.0)':
+        'EdgeInsets.symmetric(vertical: BukeerSpacing.s)',
+    'EdgeInsets.symmetric(vertical: 16.0)':
+        'EdgeInsets.symmetric(vertical: BukeerSpacing.m)',
+    'EdgeInsets.symmetric(vertical: 24.0)':
+        'EdgeInsets.symmetric(vertical: BukeerSpacing.l)',
+
     // SizedBox patterns
     'SizedBox(width: 4.0)': 'SizedBox(width: BukeerSpacing.xs)',
     'SizedBox(width: 8.0)': 'SizedBox(width: BukeerSpacing.s)',
     'SizedBox(width: 12.0)': 'SizedBox(width: BukeerSpacing.s)',
     'SizedBox(width: 16.0)': 'SizedBox(width: BukeerSpacing.m)',
     'SizedBox(width: 24.0)': 'SizedBox(width: BukeerSpacing.l)',
-    
+
     'SizedBox(height: 4.0)': 'SizedBox(height: BukeerSpacing.xs)',
     'SizedBox(height: 8.0)': 'SizedBox(height: BukeerSpacing.s)',
     'SizedBox(height: 12.0)': 'SizedBox(height: BukeerSpacing.s)',
     'SizedBox(height: 16.0)': 'SizedBox(height: BukeerSpacing.m)',
     'SizedBox(height: 24.0)': 'SizedBox(height: BukeerSpacing.l)',
-    
+
     // BorderRadius patterns
     'BorderRadius.circular(4.0)': 'BorderRadius.circular(BukeerSpacing.xs)',
     'BorderRadius.circular(8.0)': 'BorderRadius.circular(BukeerSpacing.s)',
@@ -107,37 +128,40 @@ class MigrationHelper {
     }
 
     String content = await file.readAsString();
-    
+
     // Agregar import del design system si no existe
-    if (!content.contains("import '../../../design_system/index.dart';") && 
-        !content.contains("import '../../design_system/index.dart';") &&
-        !content.contains("import '../design_system/index.dart';") &&
-        !content.contains("import 'package:bukeer/design_system/index.dart';")) {
-      
+    if (!content.contains("import '../../../design_system/index.dart';") &&
+        !content
+            .contains("import 'package:bukeer/design_system/index.dart';")) {
       // Buscar la línea de import de FlutterFlow theme
       final lines = content.split('\n');
       int insertIndex = -1;
-      
+
       for (int i = 0; i < lines.length; i++) {
-        if (lines[i].contains("import '../../../flutter_flow/flutter_flow_theme.dart';") ||
-            lines[i].contains("import '../../flutter_flow/flutter_flow_theme.dart';") ||
-            lines[i].contains("import '../flutter_flow/flutter_flow_theme.dart';")) {
+        if (lines[i].contains("import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';") ||
+            lines[i].contains(
+                "import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';") ||
+            lines[i].contains(
+                "import '../../legacy/flutter_flow/flutter_flow_theme.dart';")) {
           insertIndex = i + 1;
           break;
         }
       }
-      
+
       if (insertIndex != -1) {
         // Determinar el path correcto basado en la ubicación del archivo
         String designSystemImport;
         if (filePath.contains('lib/bukeer/')) {
-          designSystemImport = "import '../../../design_system/index.dart';";
+          designSystemImport =
+              "import 'package:bukeer/design_system/tokens/index.dart';";
         } else if (filePath.contains('lib/components/')) {
-          designSystemImport = "import '../design_system/index.dart';";
+          designSystemImport =
+              "import 'package:bukeer/design_system/tokens/index.dart';";
         } else {
-          designSystemImport = "import 'package:bukeer/design_system/index.dart';";
+          designSystemImport =
+              "import 'package:bukeer/design_system/tokens/index.dart';";
         }
-        
+
         lines.insert(insertIndex, designSystemImport);
         content = lines.join('\n');
       }
@@ -201,7 +225,8 @@ class MigrationHelper {
   }
 
   /// Migra múltiples archivos en un directorio
-  static Future<List<MigrationResult>> migrateDirectory(String dirPath, {bool dryRun = false}) async {
+  static Future<List<MigrationResult>> migrateDirectory(String dirPath,
+      {bool dryRun = false}) async {
     final dir = Directory(dirPath);
     if (!await dir.exists()) {
       throw Exception('Directory not found: $dirPath');
@@ -219,11 +244,11 @@ class MigrationHelper {
         final report = await analyzeFile(file.path);
         if (report.hasIssues) {
           final migratedContent = await migrateFile(file.path);
-          
+
           if (!dryRun) {
             await file.writeAsString(migratedContent);
           }
-          
+
           results.add(MigrationResult(
             filePath: file.path,
             success: true,
@@ -253,9 +278,13 @@ class MigrationReport {
 
   MigrationReport(this.filePath);
 
-  bool get hasIssues => spacingIssues.isNotEmpty || colorIssues.isNotEmpty || typographyIssues.isNotEmpty;
+  bool get hasIssues =>
+      spacingIssues.isNotEmpty ||
+      colorIssues.isNotEmpty ||
+      typographyIssues.isNotEmpty;
 
-  int get totalIssues => spacingIssues.length + colorIssues.length + typographyIssues.length;
+  int get totalIssues =>
+      spacingIssues.length + colorIssues.length + typographyIssues.length;
 
   @override
   String toString() {
@@ -263,28 +292,28 @@ class MigrationReport {
     buffer.writeln('Migration Report for: $filePath');
     buffer.writeln('Has Design System Import: $hasDesignSystemImport');
     buffer.writeln('Total Issues: $totalIssues');
-    
+
     if (spacingIssues.isNotEmpty) {
       buffer.writeln('\nSpacing Issues (${spacingIssues.length}):');
       for (final issue in spacingIssues.toSet()) {
         buffer.writeln('  - $issue');
       }
     }
-    
+
     if (colorIssues.isNotEmpty) {
       buffer.writeln('\nColor Issues (${colorIssues.length}):');
       for (final issue in colorIssues.toSet()) {
         buffer.writeln('  - $issue');
       }
     }
-    
+
     if (typographyIssues.isNotEmpty) {
       buffer.writeln('\nTypography Issues (${typographyIssues.length}):');
       for (final issue in typographyIssues.toSet()) {
         buffer.writeln('  - $issue');
       }
     }
-    
+
     return buffer.toString();
   }
 }
@@ -317,14 +346,14 @@ class MigrationResult {
 // Ejemplo de uso:
 // void main() async {
 //   // Analizar un archivo
-//   final report = await MigrationHelper.analyzeFile('lib/bukeer/componentes/web_nav/web_nav_widget.dart');
+//   final report = await MigrationHelper.analyzeFile('lib/bukeer/components/web_nav/web_nav_widget.dart');
 //   print(report);
-//   
+//
 //   // Migrar un archivo
-//   final migratedContent = await MigrationHelper.migrateFile('lib/bukeer/componentes/web_nav/web_nav_widget.dart');
-//   
+//   final migratedContent = await MigrationHelper.migrateFile('lib/bukeer/components/web_nav/web_nav_widget.dart');
+//
 //   // Migrar un directorio completo (dry run)
-//   final results = await MigrationHelper.migrateDirectory('lib/bukeer/componentes', dryRun: true);
+//   final results = await MigrationHelper.migrateDirectory('lib/bukeer/components', dryRun: true);
 //   for (final result in results) {
 //     print(result);
 //   }

@@ -7,85 +7,85 @@ import 'dart:io';
 // Import mappings from old paths to new paths
 final Map<String, String> importMappings = {
   // Navigation components
-  'bukeer/componentes/web_nav/web_nav_widget.dart':
+  'bukeer/components/web_nav/web_nav_widget.dart':
       'bukeer/core/widgets/navigation/web_nav/web_nav_widget.dart',
-  'bukeer/componentes/mobile_nav/mobile_nav_widget.dart':
+  'bukeer/components/mobile_nav/mobile_nav_widget.dart':
       'bukeer/core/widgets/navigation/mobile_nav/mobile_nav_widget.dart',
-  'bukeer/componentes/main_logo_small/main_logo_small_widget.dart':
+  'bukeer/components/main_logo_small/main_logo_small_widget.dart':
       'bukeer/core/widgets/navigation/main_logo_small/main_logo_small_widget.dart',
 
   // Button components
-  'bukeer/componentes/boton_crear/boton_crear_widget.dart':
+  'bukeer/components/boton_crear/boton_crear_widget.dart':
       'bukeer/core/widgets/buttons/boton_crear/boton_crear_widget.dart',
-  'bukeer/componentes/boton_back/boton_back_widget.dart':
+  'bukeer/components/boton_back/boton_back_widget.dart':
       'bukeer/core/widgets/buttons/boton_back/boton_back_widget.dart',
-  'bukeer/componentes/boton_menu_mobile/boton_menu_mobile_widget.dart':
+  'bukeer/components/boton_menu_mobile/boton_menu_mobile_widget.dart':
       'bukeer/core/widgets/buttons/boton_menu_mobile/boton_menu_mobile_widget.dart',
 
   // Form components
-  'bukeer/componentes/search_box/search_box_widget.dart':
+  'bukeer/components/search_box/search_box_widget.dart':
       'bukeer/core/widgets/forms/search_box/search_box_widget.dart',
-  'bukeer/componentes/date_picker/component_date_widget.dart':
+  'bukeer/components/date_picker/component_date_widget.dart':
       'bukeer/core/widgets/forms/date_picker/component_date_widget.dart',
-  'bukeer/componentes/date_range_picker/component_date_range_widget.dart':
+  'bukeer/components/date_range_picker/component_date_range_widget.dart':
       'bukeer/core/widgets/forms/date_range_picker/component_date_range_widget.dart',
-  'bukeer/componentes/place_picker/component_place_widget.dart':
+  'bukeer/components/place_picker/component_place_widget.dart':
       'bukeer/core/widgets/forms/place_picker/component_place_widget.dart',
-  'bukeer/componentes/birth_date_picker/component_birth_date_widget.dart':
+  'bukeer/components/birth_date_picker/component_birth_date_widget.dart':
       'bukeer/core/widgets/forms/birth_date_picker/component_birth_date_widget.dart',
-  'bukeer/componentes/currency_selector/component_add_currency_widget.dart':
+  'bukeer/components/currency_selector/component_add_currency_widget.dart':
       'bukeer/core/widgets/forms/currency_selector/component_add_currency_widget.dart',
 
   // Container components
-  'bukeer/contactos/component_container_contacts/component_container_contacts_widget.dart':
+  'bukeer/contacts/component_container_contacts/component_container_contacts_widget.dart':
       'bukeer/core/widgets/containers/contacts/component_container_contacts_widget.dart',
-  'bukeer/contactos/component_container_accounts/component_container_accounts_widget.dart':
+  'bukeer/contacts/component_container_accounts/component_container_accounts_widget.dart':
       'bukeer/core/widgets/containers/accounts/component_container_accounts_widget.dart',
-  'bukeer/itinerarios/component_container_itineraries/component_container_itineraries_widget.dart':
+  'bukeer/itineraries/component_container_itineraries/component_container_itineraries_widget.dart':
       'bukeer/core/widgets/containers/itineraries/component_container_itineraries_widget.dart',
-  'bukeer/productos/component_container_hotels/component_container_hotels_widget.dart':
+  'bukeer/products/component_container_hotels/component_container_hotels_widget.dart':
       'bukeer/core/widgets/containers/hotels/component_container_hotels_widget.dart',
-  'bukeer/productos/component_container_transfers/component_container_transfers_widget.dart':
+  'bukeer/products/component_container_transfers/component_container_transfers_widget.dart':
       'bukeer/core/widgets/containers/transfers/component_container_transfers_widget.dart',
-  'bukeer/productos/component_container_flights/component_container_flights_widget.dart':
+  'bukeer/products/component_container_flights/component_container_flights_widget.dart':
       'bukeer/core/widgets/containers/flights/component_container_flights_widget.dart',
   'bukeer/component_container_activities/component_container_activities_widget.dart':
       'bukeer/core/widgets/containers/activities/component_container_activities_widget.dart',
 
   // Dropdown components
-  'bukeer/itinerarios/dropdown_products/dropdown_products_widget.dart':
+  'bukeer/itineraries/dropdown_products/dropdown_products_widget.dart':
       'bukeer/core/widgets/forms/dropdowns/products/dropdown_products_widget.dart',
-  'bukeer/itinerarios/dropdown_airports/dropdown_airports_widget.dart':
+  'bukeer/itineraries/dropdown_airports/dropdown_airports_widget.dart':
       'bukeer/core/widgets/forms/dropdowns/airports/dropdown_airports_widget.dart',
-  'bukeer/itinerarios/dropdown_contactos/dropdown_contactos_widget.dart':
+  'bukeer/itineraries/dropdown_contactos/dropdown_contactos_widget.dart':
       'bukeer/core/widgets/forms/dropdowns/contacts/dropdown_contactos_widget.dart',
-  'bukeer/itinerarios/dropdown_accounts/dropdown_accounts_widget.dart':
+  'bukeer/itineraries/dropdown_accounts/dropdown_accounts_widget.dart':
       'bukeer/core/widgets/forms/dropdowns/accounts/dropdown_accounts_widget.dart',
-  'bukeer/itinerarios/dropdown_travel_planner/dropdown_travel_planner_widget.dart':
+  'bukeer/itineraries/dropdown_travel_planner/dropdown_travel_planner_widget.dart':
       'bukeer/core/widgets/forms/dropdowns/travel_planner/dropdown_travel_planner_widget.dart',
 
   // Modal components
-  'bukeer/contactos/modal_add_edit_contact/modal_add_edit_contact_widget.dart':
+  'bukeer/contacts/modal_add_edit_contact/modal_add_edit_contact_widget.dart':
       'bukeer/core/widgets/modals/contact/add_edit/modal_add_edit_contact_widget.dart',
-  'bukeer/contactos/modal_details_contact/modal_details_contact_widget.dart':
+  'bukeer/contacts/modal_details_contact/modal_details_contact_widget.dart':
       'bukeer/core/widgets/modals/contact/details/modal_details_contact_widget.dart',
   'bukeer/modal_add_edit_itinerary/modal_add_edit_itinerary_widget.dart':
       'bukeer/core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart',
-  'bukeer/productos/modal_add_product/modal_add_product_widget.dart':
+  'bukeer/products/modal_add_product/modal_add_product_widget.dart':
       'bukeer/core/widgets/modals/product/add/modal_add_product_widget.dart',
-  'bukeer/productos/modal_details_product/modal_details_product_widget.dart':
+  'bukeer/products/modal_details_product/modal_details_product_widget.dart':
       'bukeer/core/widgets/modals/product/details/modal_details_product_widget.dart',
   'bukeer/users/modal_add_user/modal_add_user_widget.dart':
       'bukeer/core/widgets/modals/user/add/modal_add_user_widget.dart',
-  'bukeer/itinerarios/pasajeros/modal_add_passenger/modal_add_passenger_widget.dart':
+  'bukeer/itineraries/pasajeros/modal_add_passenger/modal_add_passenger_widget.dart':
       'bukeer/core/widgets/modals/passenger/add/modal_add_passenger_widget.dart',
 
   // Payment components
-  'bukeer/itinerarios/pagos/payment_add/component_add_paid_widget.dart':
+  'bukeer/itineraries/pagos/payment_add/component_add_paid_widget.dart':
       'bukeer/core/widgets/payments/payment_add/component_add_paid_widget.dart',
-  'bukeer/itinerarios/proveedores/payment_provider/component_provider_payments_widget.dart':
+  'bukeer/itineraries/proveedores/payment_provider/component_provider_payments_widget.dart':
       'bukeer/core/widgets/payments/payment_provider/component_provider_payments_widget.dart',
-  'bukeer/productos/edit_payment_methods/edit_payment_methods_widget.dart':
+  'bukeer/products/edit_payment_methods/edit_payment_methods_widget.dart':
       'bukeer/core/widgets/payments/edit_payment_methods/edit_payment_methods_widget.dart',
 
   // Auth components

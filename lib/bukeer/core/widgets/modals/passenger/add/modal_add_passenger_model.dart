@@ -1,13 +1,13 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
 import '../../../forms/birth_date_picker/birth_date_picker_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'modal_add_passenger_widget.dart' show ModalAddPassengerWidget;
@@ -100,8 +100,7 @@ class ModalAddPassengerModel extends FlutterFlowModel<ModalAddPassengerWidget> {
         _lastNamePassengerTextControllerValidator;
     numberIdPassengerTextControllerValidator =
         _numberIdPassengerTextControllerValidator;
-    birthDatePickerModel =
-        createModel(context, () => BirthDatePickerModel());
+    birthDatePickerModel = createModel(context, () => BirthDatePickerModel());
   }
 
   @override

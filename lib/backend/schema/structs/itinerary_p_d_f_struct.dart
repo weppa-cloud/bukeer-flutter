@@ -3,7 +3,7 @@
 import '../util/schema_util.dart';
 
 import 'index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 
 class ItineraryPDFStruct extends BaseStruct {
   ItineraryPDFStruct({

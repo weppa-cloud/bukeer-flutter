@@ -1,12 +1,11 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'flights_container_model.dart';
-import '/design_system/tokens/index.dart';
 export 'flights_container_model.dart';
 
 class FlightsContainerWidget extends StatefulWidget {
@@ -20,12 +19,10 @@ class FlightsContainerWidget extends StatefulWidget {
   final String? image;
 
   @override
-  State<FlightsContainerWidget> createState() =>
-      _FlightsContainerWidgetState();
+  State<FlightsContainerWidget> createState() => _FlightsContainerWidgetState();
 }
 
-class _FlightsContainerWidgetState
-    extends State<FlightsContainerWidget> {
+class _FlightsContainerWidgetState extends State<FlightsContainerWidget> {
   late FlightsContainerModel _model;
 
   @override

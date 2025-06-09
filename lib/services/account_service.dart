@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../backend/supabase/supabase.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../auth/supabase_auth/auth_util.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'base_service.dart';
 
 /// Service for managing account-related data
@@ -26,12 +26,14 @@ class AccountService extends BaseService {
   List<dynamic> get typesIncrease => List.unmodifiable(_typesIncrease);
   List<dynamic> get paymentMethods => List.unmodifiable(_paymentMethods);
   String? get currentAccountId => _currentAccountId;
-  
+
   // Additional getters for compatibility
   String? get accountId => _currentAccountId;
   List<dynamic>? get accountCurrency => _currency.isEmpty ? null : _currency;
-  List<dynamic>? get accountTypesIncrease => _typesIncrease.isEmpty ? null : _typesIncrease;
-  List<dynamic>? get accountPaymentMethods => _paymentMethods.isEmpty ? null : _paymentMethods;
+  List<dynamic>? get accountTypesIncrease =>
+      _typesIncrease.isEmpty ? null : _typesIncrease;
+  List<dynamic>? get accountPaymentMethods =>
+      _paymentMethods.isEmpty ? null : _paymentMethods;
 
   /// Get account ID for forms (includes dash)
   String get accountIdFm {
@@ -49,7 +51,7 @@ class AccountService extends BaseService {
     _currentAccountId = accountId;
     await loadAccountData();
   }
-  
+
   /// Set account ID (alias for setCurrentAccount for backward compatibility)
   Future<void> setAccountId(String accountId, {bool loadData = true}) async {
     _currentAccountId = accountId;
@@ -58,7 +60,7 @@ class AccountService extends BaseService {
     }
     notifyListeners();
   }
-  
+
   /// Set account ID for forms
   Future<void> setAccountIdFm(String accountIdFm) async {
     // Store the ID FM value directly for forms

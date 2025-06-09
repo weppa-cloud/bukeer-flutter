@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bukeer/services/app_services.dart';
-import 'package:bukeer/flutter_flow/flutter_flow_util.dart';
-import 'package:bukeer/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart';
 

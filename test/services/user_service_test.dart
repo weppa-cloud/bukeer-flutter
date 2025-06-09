@@ -1,23 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-// // import 'package:mockito/mockito.dart'; // Unused import // Unused import
-import 'package:mockito/annotations.dart';
-
-import '../../lib/services/user_service.dart';
-import '../../lib/backend/supabase/supabase.dart';
-import '../../lib/auth/supabase_auth/auth_util.dart';
-
-// Generate mocks
-@GenerateMocks([SupaFlow])
-import 'user_service_test.mocks.dart';
+import 'package:bukeer/services/user_service.dart';
 
 void main() {
   group('UserService Tests', () {
     late UserService userService;
-    late MockSupaFlow _mockSupaFlow;
 
     setUp(() {
       userService = UserService();
-      _mockSupaFlow = MockSupaFlow();
     });
 
     tearDown(() {
@@ -29,167 +18,127 @@ void main() {
         expect(userService.hasLoadedData, isFalse);
         expect(userService.selectedUser, isNull);
         expect(userService.agentData, isNull);
+        expect(userService.isLoading, isFalse);
+        expect(userService.roleId, isNull);
+      });
+
+      test('should have backward compatibility with allDataUser', () {
+        expect(userService.allDataUser, isNull);
+
+        // Test setter
+        final testUser = {'id': 1, 'name': 'Test'};
+        userService.allDataUser = testUser;
+        expect(userService.allDataUser, equals(testUser));
+        expect(userService.selectedUser, equals(testUser));
+      });
+    });
+
+    group('Role Management', () {
+      test('should set and check user roles', () async {
+        // Test initial state
+        expect(userService.roleId, isNull);
         expect(userService.isAdmin, isFalse);
         expect(userService.isSuperAdmin, isFalse);
-      });
 
-      test('should prevent multiple initializations', () async {
-        // This test would need mocking of SupaFlow calls
-        // For now, we'll test the logic by using reflection or testing the behavior
-        
-        // First initialization (will fail due to no auth)
-        final result1 = await userService.initializeUserData();
-        expect(result1, isFalse);
-        
-        // Second call should return the same result quickly
-        final result2 = await userService.initializeUserData();
-        expect(result2, isFalse);
-      });
-    });
-
-    group('Data Management', () {
-      test('should store selected user correctly', () {
-        final testData = [
-          {
-            'id': 'user123',
-            'name': 'John',
-            'last_name': 'Doe',
-            'email': 'john@example.com',
-            'role_id': 1,
-          }
-        ];
-
-        userService.setSelectedUser(testData);
-        
-        expect(userService.selectedUser, equals(testData));
-        expect(userService.allDataUser, equals(testData)); // backward compatibility
-      });
-
-      test('should handle getAccountInfo delegation', () {
-        // This method is now delegated to AccountService
-        final result = userService.getAccountInfo(r'$[:].test');
-        
-        expect(result, isNull); // Should return null as it's delegated
-      });
-
-      test('should clear all data correctly', () {
-        // Setup data
-        userService.setSelectedUser({'test': 'data'});
-
-        // Clear
-        userService.clearUserData();
-
-        // Verify cleared
-        expect(userService.hasLoadedData, isFalse);
-        expect(userService.selectedUser, isNull);
-        expect(userService.isLoading, isFalse);
-      });
-    });
-
-    group('Role Checking', () {
-      test('should identify admin correctly', () {
-        // Admin has role ID 1
-        userService.setUserRole('1');
-
+        // Set admin role
+        await userService.setUserRole('1');
+        expect(userService.roleId, equals('1'));
         expect(userService.isAdmin, isTrue);
         expect(userService.isSuperAdmin, isFalse);
-      });
 
-      test('should identify super admin correctly', () {
-        // Super admin has role ID 2
-        userService.setUserRole('2');
-
+        // Set super admin role
+        await userService.setUserRole('2');
+        expect(userService.roleId, equals('2'));
         expect(userService.isAdmin, isFalse);
         expect(userService.isSuperAdmin, isTrue);
       });
 
-      test('should handle agent role correctly', () {
-        // Agent has role ID 3
-        userService.setUserRole('3');
+      test('should check specific role IDs', () async {
+        // Test with no role
+        expect(userService.hasRole(1), isFalse);
+        expect(userService.hasRole(2), isFalse);
 
-        expect(userService.isAdmin, isFalse);
-        expect(userService.isSuperAdmin, isFalse);
-        expect(userService.hasRole(3), isTrue);
-      });
-
-      test('should handle no roles correctly', () {
-        // No role set
-        expect(userService.isAdmin, isFalse);
-        expect(userService.isSuperAdmin, isFalse);
+        // Set role and test
+        await userService.setUserRole('1');
+        expect(userService.hasRole(1), isTrue);
+        expect(userService.hasRole(2), isFalse);
       });
     });
 
-    group('Safe Access Methods', () {
-      test('should return null when no agent data', () {
-        expect(userService.getAgentInfo(r'$[:].name'), isNull);
-        expect(userService.getAccountInfo(r'$[:].id'), isNull);
-      });
+    group('User Data Management', () {
+      test('should set and clear selected user', () {
+        final testUser = {
+          'id': '123',
+          'name': 'Test User',
+          'email': 'test@example.com',
+        };
 
-      test('should handle getAgentInfo safely', () {
-        // Since _agentData is private, we can't set it directly in tests
-        // This test verifies the safe null handling
-        
-        expect(userService.getAgentInfo(r'$[:].invalid'), isNull);
-        expect(userService.getAgentInfo(''), isNull);
-      });
+        // Set selected user
+        userService.setSelectedUser(testUser);
+        expect(userService.selectedUser, equals(testUser));
 
-      test('should handle complex JSON paths', () {
-        // Since we can't directly set agentData, we'll test the safe null handling
-        // The actual complex path testing would require mocking the API response
-        
-        // Test that complex paths don't throw errors when data is null
-        expect(() => userService.getAgentInfo(r'$[:].user_roles_view[0].role_names'), returnsNormally);
-        expect(userService.getAgentInfo(r'$[:].user_roles_view[0].role_names'), isNull);
-        
-        expect(() => userService.getAgentInfo(r'$[:].nested.data'), returnsNormally);
-        expect(userService.getAgentInfo(r'$[:].nested.data'), isNull);
-      });
-    });
+        // Clear selected user
+        userService.clearSelectedUser();
+        expect(userService.selectedUser, isNull);
 
-    group('Error Handling', () {
-      test('should handle initialization errors gracefully', () async {
-        // Mock authentication failure
-        // This would need proper mocking of currentUserUid
-        
-        // For now, test the error handling logic
-        expect(() => userService.initializeUserData(), returnsNormally);
-      });
-
-      test('should handle malformed data gracefully', () {
-        // Test that getAgentInfo handles null data gracefully
-        expect(() => userService.getAgentInfo(r'$[:].invalid'), returnsNormally);
-        expect(userService.getAgentInfo(r'$[:].invalid'), isNull);
-      });
-    });
-
-    group('Refresh Functionality', () {
-      test('should force refresh even when data is loaded', () async {
-        // Test that refresh functionality exists and doesn't throw
-        expect(() => userService.refreshUserData(), returnsNormally);
-      });
-      
-      test('should clear user data on clearUserData call', () {
-        // Set some data first
-        userService.setSelectedUser({'test': 'data'});
-        userService.setUserRole('1');
-        
-        // Clear all data
+        // Clear all user data
+        userService.setSelectedUser(testUser);
         userService.clearUserData();
-        
-        // Verify data is cleared
         expect(userService.selectedUser, isNull);
         expect(userService.hasLoadedData, isFalse);
-        expect(userService.isLoading, isFalse);
       });
     });
-    
-    group('Integration with AccountService', () {
-      test('should delegate account operations to AccountService', () {
-        // Test that getAccountInfo returns null (delegated)
-        expect(userService.getAccountInfo(r'$[:].any_field'), isNull);
-        
-        // Test that accountIdFm returns empty string (delegated)
+
+    group('Agent Data', () {
+      test('should get agent info using JSONPath', () {
+        // Test with no agent data
+        expect(userService.getAgentInfo(r'$.name'), isNull);
+
+        // Note: We can't set agent data directly in the test
+        // as it's loaded from API. This is a limitation of the current design.
+      });
+    });
+
+    group('Account Info', () {
+      test('should have accountIdFm getter', () {
+        // This now returns empty string as it's delegated to AccountService
         expect(userService.accountIdFm, equals(''));
+      });
+
+      test('should have accountIdFm setter for backward compatibility', () {
+        // This is deprecated but should not throw
+        expect(() => userService.accountIdFm = 'test', returnsNormally);
+      });
+
+      test('should delegate getAccountInfo to AccountService', () {
+        // This method now returns null and logs a deprecation message
+        expect(userService.getAccountInfo(r'$.id'), isNull);
+      });
+    });
+
+    group('Data Loading', () {
+      test('should have initializeUserData method', () async {
+        // Without authentication, this will return false
+        final result = await userService.initializeUserData();
+        expect(result, isFalse);
+
+        // Should prevent multiple initializations
+        final result2 = await userService.initializeUserData();
+        expect(result2, isFalse);
+      });
+
+      test('should have refreshUserData method', () async {
+        // Without authentication, this will return false
+        final result = await userService.refreshUserData();
+        expect(result, isFalse);
+      });
+
+      test('should track loading state', () {
+        // Initial state
+        expect(userService.isLoading, isFalse);
+
+        // Note: We can't test actual loading state changes without mocking
+        // the API calls, which would require more complex setup
       });
     });
   });

@@ -1,19 +1,19 @@
-import '../../../../auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
-import '../../../../backend/supabase/supabase.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
 import '../../../core/widgets/forms/place_picker/place_picker_widget.dart';
 import '../../../core/widgets/navigation/web_nav/web_nav_widget.dart';
-import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../design_system/index.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../flutter_flow/form_field_controller.dart';
-import '../../../../flutter_flow/upload_data.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/upload_data.dart';
 import 'dart:math';
 import 'dart:ui';
-import '../../../../flutter_flow/custom_functions.dart' as functions;
+import 'package:bukeer/legacy/flutter_flow/custom_functions.dart' as functions;
 import '../../../../index.dart';
 import '../../../../services/ui_state_service.dart';
 import 'dart:async';
@@ -26,8 +26,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'main_profile_account_model.dart';
 import '../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 export 'main_profile_account_model.dart';
 
 class MainProfileAccountWidget extends StatefulWidget {
@@ -437,7 +436,8 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                   elevation: 2.0,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(BukeerSpacing.sm),
+                                                        BorderRadius.circular(
+                                                            BukeerSpacing.sm),
                                                   ),
                                                   child: Container(
                                                     width: MediaQuery.sizeOf(
@@ -452,7 +452,8 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                               .of(context)
                                                           .secondaryBackground,
                                                       borderRadius:
-                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                          BorderRadius.circular(
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     child: Column(
                                                       children: [
@@ -649,7 +650,9 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                             0.0),
                                                                     child:
                                                                         AnimatedContainer(
-                                                                      duration: UiConstants.animationDurationFast,
+                                                                      duration:
+                                                                          UiConstants
+                                                                              .animationDurationFast,
                                                                       curve: Curves
                                                                           .easeInOut,
                                                                       width:
@@ -1186,7 +1189,7 @@ class _MainProfileAccountWidgetState extends State<MainProfileAccountWidget>
                                                                               ),
                                                                             ),
                                                                             wrapWithModel(
-                          model: _model.placePickerModel,
+                                                                              model: _model.placePickerModel,
                                                                               updateCallback: () => safeSetState(() {}),
                                                                               child: PlacePickerWidget(
                                                                                 location: getJsonField(

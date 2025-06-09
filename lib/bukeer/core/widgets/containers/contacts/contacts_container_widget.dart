@@ -1,12 +1,11 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'contacts_container_model.dart';
-import '/design_system/tokens/index.dart';
 export 'contacts_container_model.dart';
 
 class ContactsContainerWidget extends StatefulWidget {
@@ -28,8 +27,7 @@ class ContactsContainerWidget extends StatefulWidget {
       _ContactsContainerWidgetState();
 }
 
-class _ContactsContainerWidgetState
-    extends State<ContactsContainerWidget> {
+class _ContactsContainerWidgetState extends State<ContactsContainerWidget> {
   late ContactsContainerModel _model;
 
   @override

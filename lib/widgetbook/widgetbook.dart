@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:bukeer/design_system/index.dart';
-import 'package:bukeer/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 
 // Import use cases
 import 'use_cases/buttons/bukeer_button_use_case.dart';

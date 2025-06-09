@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/pwa_service.dart';
-import '../../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
 /// Banner widget that prompts users to install the PWA
 class PWAInstallBanner extends StatelessWidget {

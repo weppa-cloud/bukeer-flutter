@@ -1,12 +1,13 @@
-import '../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../backend/supabase/supabase.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
 import '../../../core/widgets/navigation/main_logo_small/main_logo_small_widget.dart';
-import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../design_system/index.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart'
+    hide PageTransitionType;
 import 'package:page_transition/page_transition.dart' as pt;
-import '../../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import '../../../../index.dart';
@@ -17,7 +18,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'auth_login_model.dart';
 import '../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
 export 'auth_login_model.dart';
 
 class AuthLoginWidget extends StatefulWidget {

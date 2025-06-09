@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import '../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import '../../config/app_config.dart';
 import 'api_manager.dart';
 export 'api_manager.dart' show ApiCallResponse;

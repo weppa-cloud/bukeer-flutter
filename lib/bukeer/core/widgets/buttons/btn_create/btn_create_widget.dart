@@ -1,12 +1,11 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'btn_create_model.dart';
-import '/design_system/tokens/index.dart';
 export 'btn_create_model.dart';
 
 class BtnCreateWidget extends StatefulWidget {

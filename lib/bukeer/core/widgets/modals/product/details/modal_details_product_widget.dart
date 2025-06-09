@@ -1,21 +1,23 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
-import '../../../../../productos/component_add_schedule_activity/component_add_schedule_activity_widget.dart';
-import '../../../../../productos/component_preview_schedule_activity/component_preview_schedule_activity_widget.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/bukeer/products/component_add_schedule_activity/component_add_schedule_activity_widget.dart';
+import 'package:bukeer/bukeer/products/component_preview_schedule_activity/component_preview_schedule_activity_widget.dart';
 import '../add/modal_add_product_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_expanded_image_view.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart' hide PageTransitionType;
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_expanded_image_view.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart'
+    hide PageTransitionType;
 import 'package:page_transition/page_transition.dart' as pt;
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/upload_data.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/upload_data.dart';
 import 'dart:math';
 import 'dart:ui';
-import '../../../../../../custom_code/actions/index.dart' as actions;
-import '../../../../../../index.dart';
+import 'package:bukeer/custom_code/actions/index.dart' as actions;
+import 'package:bukeer/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -26,10 +28,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'modal_details_product_model.dart';
-import '../../../../../../services/ui_state_service.dart';
-import '../../../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/app_services.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 export 'modal_details_product_model.dart';
 
 class ModalDetailsProductWidget extends StatefulWidget {
@@ -563,7 +564,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                         alignment:
                                             AlignmentDirectional(0.0, 0.0),
                                         child: AnimatedContainer(
-                                          duration: UiConstants.animationDurationFast,
+                                          duration:
+                                              UiConstants.animationDurationFast,
                                           curve: Curves.easeInOut,
                                           width: 90.0,
                                           height: 90.0,
@@ -864,7 +866,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                                       0.0),
                                                           child:
                                                               AnimatedContainer(
-                                                            duration: UiConstants.animationDurationFast,
+                                                            duration: UiConstants
+                                                                .animationDurationFast,
                                                             curve: Curves
                                                                 .easeInOut,
                                                             height: 32.0,
@@ -1632,7 +1635,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                          BorderRadius.circular(
+                                                              BukeerSpacing.sm),
                                                     ),
                                                     child: Container(
                                                       width: MediaQuery.sizeOf(
@@ -2792,7 +2796,8 @@ class _ModalDetailsProductWidgetState extends State<ModalDetailsProductWidget>
                                                     width: 1.0,
                                                   ),
                                                   borderRadius:
-                                                      BorderRadius.circular(BukeerSpacing.sm),
+                                                      BorderRadius.circular(
+                                                          BukeerSpacing.sm),
                                                   hoverColor:
                                                       FlutterFlowTheme.of(
                                                               context)

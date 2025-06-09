@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../design_system/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 import '../services/error_service.dart';
 import 'error_feedback_system.dart';
 
@@ -11,7 +11,9 @@ class FormErrorHandler {
   bool _isSubmitting = false;
 
   /// Check if form has any errors
-  bool get hasErrors => _fieldErrors.values.any((error) => error != null) || _generalError != null;
+  bool get hasErrors =>
+      _fieldErrors.values.any((error) => error != null) ||
+      _generalError != null;
 
   /// Check if form is currently submitting
   bool get isSubmitting => _isSubmitting;
@@ -87,14 +89,14 @@ class FormErrorHandler {
       final errorMessage = _extractErrorMessage(e);
       setGeneralError(errorMessage);
       onError?.call(errorMessage);
-      
+
       ErrorService().handleError(
         e,
         context: context ?? 'Form submission',
         type: ErrorType.business,
         severity: ErrorSeverity.medium,
       );
-      
+
       return null;
     } finally {
       setSubmitting(false);
@@ -177,7 +179,8 @@ class _ErrorHandledFormFieldState extends State<ErrorHandledFormField> {
   @override
   Widget build(BuildContext context) {
     final fieldError = widget.errorHandler.getFieldError(widget.fieldName);
-    final hasError = fieldError != null && widget.errorHandler.isFieldTouched(widget.fieldName);
+    final hasError = fieldError != null &&
+        widget.errorHandler.isFieldTouched(widget.fieldName);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,7 +227,7 @@ class _ErrorHandledFormFieldState extends State<ErrorHandledFormField> {
               borderRadius: BorderRadius.circular(BukeerSpacing.xs),
             ),
             filled: true,
-            fillColor: hasError 
+            fillColor: hasError
                 ? BukeerColors.error.withOpacity(0.05)
                 : Colors.grey.shade50,
             contentPadding: EdgeInsets.symmetric(
@@ -235,21 +238,21 @@ class _ErrorHandledFormFieldState extends State<ErrorHandledFormField> {
           validator: (value) {
             // Mark field as touched when validation runs
             widget.errorHandler.touchField(widget.fieldName);
-            
+
             // Required field validation
             if (widget.required && (value == null || value.isEmpty)) {
               final error = '${widget.label ?? widget.fieldName} es requerido';
               widget.errorHandler.setFieldError(widget.fieldName, error);
               return error;
             }
-            
+
             // Custom validation
             if (widget.validator != null) {
               final error = widget.validator!(value);
               widget.errorHandler.setFieldError(widget.fieldName, error);
               return error;
             }
-            
+
             // Clear error if validation passes
             widget.errorHandler.clearFieldError(widget.fieldName);
             return null;
@@ -259,13 +262,13 @@ class _ErrorHandledFormFieldState extends State<ErrorHandledFormField> {
               _wasInitialized = true;
               widget.errorHandler.touchField(widget.fieldName);
             }
-            
+
             // Clear error on change
             if (widget.errorHandler.getFieldError(widget.fieldName) != null) {
               widget.errorHandler.clearFieldError(widget.fieldName);
               setState(() {}); // Rebuild to update UI
             }
-            
+
             widget.onChanged?.call(value);
           },
           onSaved: widget.onSaved,
@@ -273,7 +276,7 @@ class _ErrorHandledFormFieldState extends State<ErrorHandledFormField> {
             widget.errorHandler.touchField(widget.fieldName);
           },
         ),
-        
+
         // Error message
         if (hasError)
           ErrorFeedbackSystem.buildInlineError(
@@ -308,7 +311,8 @@ class ErrorHandledSubmitButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ErrorHandledSubmitButton> createState() => _ErrorHandledSubmitButtonState();
+  State<ErrorHandledSubmitButton> createState() =>
+      _ErrorHandledSubmitButtonState();
 }
 
 class _ErrorHandledSubmitButtonState extends State<ErrorHandledSubmitButton> {
@@ -330,9 +334,9 @@ class _ErrorHandledSubmitButtonState extends State<ErrorHandledSubmitButton> {
               setState(() {});
             },
           ),
-        
+
         SizedBox(height: BukeerSpacing.s),
-        
+
         // Submit button
         SizedBox(
           width: widget.fullWidth ? double.infinity : null,
@@ -350,7 +354,8 @@ class _ErrorHandledSubmitButtonState extends State<ErrorHandledSubmitButton> {
               ),
             ),
             child: Row(
-              mainAxisSize: widget.fullWidth ? MainAxisSize.max : MainAxisSize.min,
+              mainAxisSize:
+                  widget.fullWidth ? MainAxisSize.max : MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (isLoading)
@@ -364,11 +369,9 @@ class _ErrorHandledSubmitButtonState extends State<ErrorHandledSubmitButton> {
                   )
                 else if (widget.icon != null)
                   Icon(widget.icon!, size: 20),
-                
-                if ((isLoading && widget.loadingText != null) || 
+                if ((isLoading && widget.loadingText != null) ||
                     (!isLoading && widget.icon != null))
                   SizedBox(width: BukeerSpacing.xs),
-                
                 Text(
                   isLoading ? (widget.loadingText ?? widget.text) : widget.text,
                   style: TextStyle(

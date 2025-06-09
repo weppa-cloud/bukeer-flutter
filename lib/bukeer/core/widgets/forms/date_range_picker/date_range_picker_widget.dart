@@ -1,10 +1,9 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../custom_code/widgets/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/custom_code/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'date_range_picker_model.dart';
-import '/design_system/tokens/index.dart';
 export 'date_range_picker_model.dart';
 
 class DateRangePickerWidget extends StatefulWidget {
@@ -22,8 +21,7 @@ class DateRangePickerWidget extends StatefulWidget {
   final bool showPresets;
 
   @override
-  State<DateRangePickerWidget> createState() =>
-      _DateRangePickerWidgetState();
+  State<DateRangePickerWidget> createState() => _DateRangePickerWidgetState();
 }
 
 class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {

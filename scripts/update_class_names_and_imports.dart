@@ -250,7 +250,7 @@ export 'edit_payment_methods/edit_payment_methods_widget.dart';
   }
 
   // Update the componentes compatibility index file
-  final componentesIndexPath = '$projectRoot/lib/bukeer/componentes/index.dart';
+  final componentesIndexPath = '$projectRoot/lib/bukeer/components/index.dart';
   final componentesIndexFile = File(componentesIndexPath);
 
   if (await componentesIndexFile.exists()) {

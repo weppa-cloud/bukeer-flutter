@@ -1,18 +1,18 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
-import '../../../../../../bukeer/core/widgets/forms/birth_date_picker/birth_date_picker_widget.dart';
-import '../../../../../../bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/bukeer/core/widgets/forms/birth_date_picker/birth_date_picker_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
 import '../details/modal_details_contact_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
-import '../../../../../../flutter_flow/upload_data.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/upload_data.dart';
 import 'dart:ui';
-import '../../../../../../custom_code/widgets/index.dart' as custom_widgets;
-import '../../../../../../index.dart';
+import 'package:bukeer/custom_code/widgets/index.dart' as custom_widgets;
+import 'package:bukeer/index.dart';
 import 'modal_add_edit_contact_widget.dart' show ModalAddEditContactWidget;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -139,8 +139,7 @@ class ModalAddEditContactModel
         _numberIdContactTextControllerValidator;
     mailContactTextControllerValidator = _mailContactTextControllerValidator;
     placePickerModel = createModel(context, () => PlacePickerModel());
-    birthDatePickerModel =
-        createModel(context, () => BirthDatePickerModel());
+    birthDatePickerModel = createModel(context, () => BirthDatePickerModel());
   }
 
   @override

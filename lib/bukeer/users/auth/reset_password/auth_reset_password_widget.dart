@@ -1,9 +1,9 @@
 import '../../../core/widgets/navigation/main_logo_small/main_logo_small_widget.dart';
-import '../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../design_system/index.dart';
-import '../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import '../../../../custom_code/actions/index.dart' as actions;
@@ -14,7 +14,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'auth_reset_password_model.dart';
-import '/design_system/tokens/index.dart';
 export 'auth_reset_password_model.dart';
 
 class AuthResetPasswordWidget extends StatefulWidget {

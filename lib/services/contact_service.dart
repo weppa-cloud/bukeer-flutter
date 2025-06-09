@@ -1,5 +1,5 @@
 import '../backend/api_requests/api_calls.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'base_service.dart';
 import 'performance_optimized_service.dart';
 
@@ -28,7 +28,7 @@ class ContactService extends BaseService with PerformanceOptimizedService {
 
   // Selected contact getters (replacement for allDataContact)
   dynamic get selectedContact => _selectedContact;
-  
+
   // Backward compatibility getter for allDataContact pattern
   dynamic get allDataContact => _selectedContact;
 

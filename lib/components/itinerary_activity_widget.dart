@@ -1,8 +1,8 @@
-import '../flutter_flow/flutter_flow_animations.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../design_system/index.dart';
+import '../legacy/flutter_flow/flutter_flow_animations.dart';
+import '../legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 
-import '../flutter_flow/flutter_flow_util.dart';
+import '../legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';

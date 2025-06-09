@@ -6,7 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/design_system/components/buttons/bukeer_icon_button.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/design_system/components/index.dart';
 
 class IconButtonMigrationExamples extends StatelessWidget {
   @override
@@ -252,7 +253,6 @@ class IconButtonMigrationExamples extends StatelessWidget {
 ///
 /// 1. **Importación**:
 ///    - Antes: import '/flutter_flow/flutter_flow_icon_button.dart';
-///    - Después: import '/design_system/components/buttons/bukeer_icon_button.dart';
 ///
 /// 2. **Tamaños consistentes**:
 ///    - Antes: buttonSize: 32/40/48 (valores arbitrarios)

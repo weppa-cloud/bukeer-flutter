@@ -1,15 +1,16 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
-import '../../../../../../bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
 import '../details/modal_details_product_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -18,9 +19,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'modal_add_product_model.dart';
-import '../../../../../../services/ui_state_service.dart';
-import '../../../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/app_services.dart';
 export 'modal_add_product_model.dart';
 
 class ModalAddProductWidget extends StatefulWidget {
@@ -536,7 +536,7 @@ class _ModalAddProductWidgetState extends State<ModalAddProductWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           24.0, 5.0, 24.0, 5.0),
                                       child: wrapWithModel(
-                          model: _model.placePickerModel,
+                                        model: _model.placePickerModel,
                                         updateCallback: () =>
                                             safeSetState(() {}),
                                         child: PlacePickerWidget(

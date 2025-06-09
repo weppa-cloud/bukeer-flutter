@@ -1,8 +1,8 @@
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'dropdown_travel_planner_widget.dart' show DropdownTravelPlannerWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

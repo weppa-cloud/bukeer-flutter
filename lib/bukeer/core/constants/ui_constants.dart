@@ -13,7 +13,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 
 class UIConstants {
   // Prevent instantiation

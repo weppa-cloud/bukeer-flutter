@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
+import '../legacy/flutter_flow/flutter_flow_widgets.dart';
 import '../components/authorization_widget.dart';
 import '../services/authorization_service.dart';
 
@@ -33,9 +33,10 @@ class AuthorizationExamples extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Role-Based Authorization', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text('Role-Based Authorization',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(height: 12),
-        
+
         // Admin only section
         AdminOnlyWidget(
           child: Container(
@@ -55,9 +56,9 @@ class AuthorizationExamples extends StatelessWidget {
             child: Text('📝 Contenido estándar para usuarios regulares'),
           ),
         ),
-        
+
         SizedBox(height: 12),
-        
+
         // Super admin only section
         SuperAdminOnlyWidget(
           child: Container(
@@ -66,7 +67,8 @@ class AuthorizationExamples extends StatelessWidget {
               color: Colors.red.shade100,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text('⚡ Esta sección solo es visible para super administradores'),
+            child: Text(
+                '⚡ Esta sección solo es visible para super administradores'),
           ),
         ),
       ],
@@ -77,9 +79,10 @@ class AuthorizationExamples extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Permission-Based Authorization', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text('Permission-Based Authorization',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(height: 12),
-        
+
         // User creation permission
         AuthorizedWidget(
           requiredPermissions: [Permissions.userCreate],
@@ -93,9 +96,9 @@ class AuthorizationExamples extends StatelessWidget {
           ),
           fallback: Text('❌ No puede crear usuarios'),
         ),
-        
+
         SizedBox(height: 12),
-        
+
         // Multiple permissions required
         AuthorizedWidget(
           requiredPermissions: [
@@ -120,9 +123,10 @@ class AuthorizationExamples extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Resource-Based Authorization', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text('Resource-Based Authorization',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(height: 12),
-        
+
         // Itinerary access example
         ResourceAccessWidget(
           resourceType: 'itinerary',
@@ -197,9 +201,9 @@ class AuthorizationExamples extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Authorized Buttons', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text('Authorized Buttons',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(height: 12),
-        
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -211,7 +215,7 @@ class AuthorizationExamples extends StatelessWidget {
               tooltip: 'Eliminar elemento',
               child: Text('🗑️ Eliminar'),
             ),
-            
+
             // Create button - specific permission
             AuthorizedButton(
               onPressed: () => _showMessage('Creando...'),
@@ -219,7 +223,7 @@ class AuthorizationExamples extends StatelessWidget {
               tooltip: 'Crear nuevo itinerario',
               child: Text('➕ Crear Itinerario'),
             ),
-            
+
             // Edit button - resource based
             AuthorizedButton(
               onPressed: () => _showMessage('Editando...'),
@@ -245,13 +249,14 @@ class AuthorizationExamples extends StatelessWidget {
 class ItineraryListItemWithAuth extends StatelessWidget {
   final dynamic itinerary;
 
-  const ItineraryListItemWithAuth({Key? key, required this.itinerary}) : super(key: key);
+  const ItineraryListItemWithAuth({Key? key, required this.itinerary})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final itineraryId = itinerary['id']?.toString();
     final ownerId = itinerary['created_by']?.toString();
-    
+
     return Card(
       child: Padding(
         padding: EdgeInsets.all(16),
@@ -263,7 +268,7 @@ class ItineraryListItemWithAuth extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            
+
             // Action buttons based on permissions
             Row(
               children: [
@@ -273,9 +278,9 @@ class ItineraryListItemWithAuth extends StatelessWidget {
                   text: 'Ver',
                   options: FFButtonOptions(height: 32),
                 ),
-                
+
                 SizedBox(width: 8),
-                
+
                 // Edit button - owner or admin
                 AuthorizedButton(
                   onPressed: () => _editItinerary(itineraryId),
@@ -284,21 +289,20 @@ class ItineraryListItemWithAuth extends StatelessWidget {
                   ownerId: ownerId,
                   child: Text('Editar'),
                 ),
-                
+
                 SizedBox(width: 8),
-                
+
                 // Delete button - admin only
                 AuthorizedButton(
                   onPressed: () => _deleteItinerary(itineraryId),
                   requiredRoles: [RoleType.admin, RoleType.superAdmin],
                   child: Text('Eliminar'),
                 ),
-                
+
                 Spacer(),
-                
+
                 // User role badge
-                if (ownerId != null)
-                  UserRoleBadge(userId: ownerId),
+                if (ownerId != null) UserRoleBadge(userId: ownerId),
               ],
             ),
           ],

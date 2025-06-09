@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../../design_system/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
 
 class MessageSection extends StatelessWidget {

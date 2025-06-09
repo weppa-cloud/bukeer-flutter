@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '../../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../../services/ui_state_service.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/services/ui_state_service.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
 
 class ImageSelectionSection extends StatelessWidget {

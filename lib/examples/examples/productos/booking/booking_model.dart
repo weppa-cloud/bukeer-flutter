@@ -1,8 +1,8 @@
-import '../../../flutter_flow/flutter_flow_place_picker.dart';
-import '../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
-import '../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../flutter_flow/place.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_place_picker.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/place.dart';
 import 'dart:io';
 import 'dart:ui';
 import 'booking_widget.dart' show BookingWidget;

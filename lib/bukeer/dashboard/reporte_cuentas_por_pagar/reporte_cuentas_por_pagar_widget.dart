@@ -1,12 +1,13 @@
-import '../../../auth/supabase_auth/auth_util.dart';
+import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
-import '../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../design_system/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
-import '../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'dart:async';
@@ -19,7 +20,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'reporte_cuentas_por_pagar_model.dart';
 import '../../../services/ui_state_service.dart';
-import 'package:bukeer/design_system/tokens/index.dart';
 export 'reporte_cuentas_por_pagar_model.dart';
 
 class ReporteCuentasPorPagarWidget extends StatefulWidget {

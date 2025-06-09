@@ -450,21 +450,25 @@ void main() {
     });
 
     group('Notifier Behavior', () {
-      test('should notify listeners when non-search state changes', () {
+      test('should notify listeners when non-search state changes', () async {
         var notificationCount = 0;
         uiStateService.addListener(() {
           notificationCount++;
         });
 
         uiStateService.selectedProductType = 'hotels';
+        // Wait for batched notification (16ms + buffer)
+        await Future.delayed(Duration(milliseconds: 20));
         expect(notificationCount, equals(1));
 
         uiStateService.selectedProductId = 'product-123';
+        await Future.delayed(Duration(milliseconds: 20));
         expect(notificationCount, equals(2));
 
         // clearAll() calls multiple notify methods, so count will be higher
         final beforeClearCount = notificationCount;
         uiStateService.clearAll();
+        await Future.delayed(Duration(milliseconds: 20));
         expect(notificationCount, greaterThan(beforeClearCount));
       });
 
@@ -480,18 +484,22 @@ void main() {
         expect(notificationCount, equals(1));
       });
 
-      test('should not notify listeners when setting same value', () {
+      test('should not notify listeners when setting same value', () async {
         var notificationCount = 0;
         uiStateService.selectedProductType = 'hotels';
+        // Wait for initial notification to complete
+        await Future.delayed(Duration(milliseconds: 20));
 
         uiStateService.addListener(() {
           notificationCount++;
         });
 
         uiStateService.selectedProductType = 'hotels'; // Same value
+        await Future.delayed(Duration(milliseconds: 20));
         expect(notificationCount, equals(0));
 
         uiStateService.selectedProductType = 'activities'; // Different value
+        await Future.delayed(Duration(milliseconds: 20));
         expect(notificationCount, equals(1));
       });
     });

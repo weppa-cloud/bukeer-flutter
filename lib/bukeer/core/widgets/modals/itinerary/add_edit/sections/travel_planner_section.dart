@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../../flutter_flow/form_field_controller.dart';
-import '../../../../../../../design_system/index.dart';
-import '../../../../../../../services/app_services.dart';
-import '../../../../../../../flutter_flow/custom_functions.dart' as functions;
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/services/app_services.dart';
+import 'package:bukeer/legacy/flutter_flow/custom_functions.dart' as functions;
 
 class TravelPlannerSection extends StatelessWidget {
   final String? currencyTypeValue;

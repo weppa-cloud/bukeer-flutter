@@ -1,10 +1,10 @@
-import '../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../flutter_flow/flutter_flow_place_picker.dart';
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../flutter_flow/place.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_place_picker.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/place.dart';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
@@ -14,7 +14,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'place_picker_model.dart';
-import '/design_system/tokens/index.dart';
 export 'place_picker_model.dart';
 
 class PlacePickerWidget extends StatefulWidget {

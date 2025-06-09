@@ -1,13 +1,12 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'activities_container_model.dart';
-import '/design_system/tokens/index.dart';
 export 'activities_container_model.dart';
 
 class ActivitiesContainerWidget extends StatefulWidget {
@@ -33,8 +32,7 @@ class ActivitiesContainerWidget extends StatefulWidget {
       _ActivitiesContainerWidgetState();
 }
 
-class _ActivitiesContainerWidgetState
-    extends State<ActivitiesContainerWidget> {
+class _ActivitiesContainerWidgetState extends State<ActivitiesContainerWidget> {
   late ActivitiesContainerModel _model;
 
   @override

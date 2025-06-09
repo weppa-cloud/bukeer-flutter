@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
+import '../legacy/flutter_flow/flutter_flow_theme.dart';
 
-import '../flutter_flow/flutter_flow_widgets.dart';
+import '../legacy/flutter_flow/flutter_flow_widgets.dart';
 import '../services/error_service.dart';
 
 /// Global error display widget

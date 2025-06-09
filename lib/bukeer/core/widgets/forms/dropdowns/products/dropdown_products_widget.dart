@@ -1,13 +1,14 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../services/ui_state_service.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/services/ui_state_service.dart';
 import '../../../containers/activities/activities_container_widget.dart';
 import '../../../containers/flights/flights_container_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
 import 'dart:math';
 import 'dart:ui';
 import 'dart:async';
@@ -20,8 +21,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_products_model.dart';
-import '../../../../../../design_system/index.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 export 'dropdown_products_model.dart';
 
 class DropdownProductsWidget extends StatefulWidget {
@@ -636,8 +636,7 @@ class _DropdownProductsWidgetState extends State<DropdownProductsWidget>
                                           safeSetState(() {});
                                           context.safePop();
                                         },
-                                        child:
-                                            ActivitiesContainerWidget(
+                                        child: ActivitiesContainerWidget(
                                           key: Key(
                                               'Keyz0s_${hotelsItemIndex}_of_${_model.listViewProductsPagingController!.itemList!.length}'),
                                           name: getJsonField(

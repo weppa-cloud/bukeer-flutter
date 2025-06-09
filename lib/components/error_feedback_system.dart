@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_widgets.dart';
-import '../design_system/index.dart';
+import '../legacy/flutter_flow/flutter_flow_theme.dart';
+import '../legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
 import '../services/error_service.dart';
 import '../services/app_services.dart';
 
@@ -94,7 +94,8 @@ class ErrorFeedbackSystem {
                           child: Text(
                             'Cerrar',
                             style: TextStyle(
-                              color: (color ?? BukeerColors.error).withOpacity(0.7),
+                              color: (color ?? BukeerColors.error)
+                                  .withOpacity(0.7),
                               fontSize: 12,
                             ),
                           ),
@@ -206,7 +207,7 @@ class ErrorFeedbackSystem {
     String? actionLabel,
   }) {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    
+
     scaffoldMessenger.showSnackBar(
       SnackBar(
         content: Row(
@@ -279,9 +280,9 @@ class ErrorFeedbackSystem {
                   color: _getErrorColor(error.severity),
                 ),
               ),
-              
+
               SizedBox(height: BukeerSpacing.m),
-              
+
               // Error title
               Text(
                 _getErrorTitle(error.type),
@@ -292,9 +293,9 @@ class ErrorFeedbackSystem {
                 ),
                 textAlign: TextAlign.center,
               ),
-              
+
               SizedBox(height: BukeerSpacing.s),
-              
+
               // Error message
               Text(
                 ErrorService().getUserMessage(error),
@@ -304,9 +305,9 @@ class ErrorFeedbackSystem {
                 ),
                 textAlign: TextAlign.center,
               ),
-              
+
               SizedBox(height: BukeerSpacing.m),
-              
+
               // Actions
               Wrap(
                 spacing: BukeerSpacing.s,
@@ -343,7 +344,7 @@ class ErrorFeedbackSystem {
                     ),
                 ],
               ),
-              
+
               // Error details (expandable)
               if (showDetails) ...[
                 SizedBox(height: BukeerSpacing.l),
@@ -372,8 +373,7 @@ class ErrorFeedbackSystem {
         _buildDetailRow('Tipo', error.type.name),
         _buildDetailRow('Severidad', error.severity.name),
         _buildDetailRow('Tiempo', _formatTimestamp(error.timestamp)),
-        if (error.context != null)
-          _buildDetailRow('Contexto', error.context!),
+        if (error.context != null) _buildDetailRow('Contexto', error.context!),
         if (error.metadata.isNotEmpty) ...[
           SizedBox(height: BukeerSpacing.xs),
           Text(
@@ -384,9 +384,10 @@ class ErrorFeedbackSystem {
             ),
           ),
           SizedBox(height: BukeerSpacing.xs),
-          ...error.metadata.entries.map((entry) =>
-            _buildDetailRow(entry.key, entry.value?.toString() ?? 'null')
-          ).toList(),
+          ...error.metadata.entries
+              .map((entry) =>
+                  _buildDetailRow(entry.key, entry.value?.toString() ?? 'null'))
+              .toList(),
         ],
       ],
     );
@@ -426,29 +427,31 @@ class ErrorFeedbackSystem {
 
   static Widget _buildErrorActions(BuildContext context, AppError error) {
     final actions = ErrorService().getSuggestedActions(error);
-    
+
     if (actions.isEmpty) return SizedBox.shrink();
-    
+
     return Wrap(
       spacing: BukeerSpacing.xs,
-      children: actions.map((action) =>
-        ElevatedButton(
-          onPressed: action.action,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white.withOpacity(0.2),
-            foregroundColor: Colors.white,
-            elevation: 0,
-            padding: EdgeInsets.symmetric(
-              horizontal: BukeerSpacing.s,
-              vertical: BukeerSpacing.xs,
+      children: actions
+          .map(
+            (action) => ElevatedButton(
+              onPressed: action.action,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.2),
+                foregroundColor: Colors.white,
+                elevation: 0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: BukeerSpacing.s,
+                  vertical: BukeerSpacing.xs,
+                ),
+              ),
+              child: Text(
+                action.label,
+                style: TextStyle(fontSize: 12),
+              ),
             ),
-          ),
-          child: Text(
-            action.label,
-            style: TextStyle(fontSize: 12),
-          ),
-        ),
-      ).toList(),
+          )
+          .toList(),
     );
   }
 
@@ -528,7 +531,7 @@ class ErrorFeedbackSystem {
   static String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
     final difference = now.difference(timestamp);
-    
+
     if (difference.inMinutes < 1) {
       return 'hace un momento';
     } else if (difference.inHours < 1) {

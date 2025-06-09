@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../auth/supabase_auth/auth_util.dart';
+import '../../../auth/supabase_auth/auth_util.dart';
 import '../../services/app_services.dart';
 import '../route_definitions.dart';
 
@@ -10,10 +10,11 @@ import '../route_definitions.dart';
 class AuthGuard {
   // Store redirect location
   static String? _savedRedirectLocation;
+
   /// Check if user is authenticated and redirect if needed
   static String? check(BuildContext context, GoRouterState state) {
     final isLoggedIn = loggedIn;
-    
+
     // If not logged in, redirect to login and save current location
     if (!isLoggedIn) {
       // Save current location for redirect after login

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' show visibleForTesting;
 import '../backend/supabase/supabase.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'error_service.dart';
 
 /// Comprehensive authorization service
@@ -15,6 +16,23 @@ class AuthorizationService extends ChangeNotifier {
   List<UserRole> _userRoles = [];
   Set<String> _userPermissions = {};
   DateTime? _lastRoleCheck;
+
+  // Test helpers - only for testing purposes
+  @visibleForTesting
+  void setUserRolesForTesting(List<UserRole> roles) {
+    _userRoles = roles;
+    _userPermissions.clear();
+    for (final role in roles) {
+      _userPermissions.addAll(role.permissions);
+    }
+    notifyListeners();
+  }
+
+  @visibleForTesting
+  void setUserPermissionsForTesting(Set<String> permissions) {
+    _userPermissions = permissions;
+    notifyListeners();
+  }
 
   // Cache duration for roles (5 minutes)
   Duration get _roleCacheDuration => const Duration(minutes: 5);

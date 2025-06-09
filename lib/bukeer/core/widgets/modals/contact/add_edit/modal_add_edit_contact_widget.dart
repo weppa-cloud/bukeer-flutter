@@ -1,28 +1,27 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
-import '../../../../../../bukeer/core/widgets/forms/birth_date_picker/birth_date_picker_widget.dart';
-import '../../../../../../bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
+import 'package:bukeer/bukeer/core/widgets/forms/birth_date_picker/birth_date_picker_widget.dart';
+import 'package:bukeer/bukeer/core/widgets/forms/place_picker/place_picker_widget.dart';
 import '../details/modal_details_contact_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_drop_down.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
-import '../../../../../../flutter_flow/form_field_controller.dart';
-import '../../../../../../flutter_flow/upload_data.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/form_field_controller.dart';
+import 'package:bukeer/legacy/flutter_flow/upload_data.dart';
 import 'dart:ui';
-import '../../../../../../custom_code/widgets/index.dart' as custom_widgets;
-import '../../../../../../index.dart';
+import 'package:bukeer/custom_code/widgets/index.dart' as custom_widgets;
+import 'package:bukeer/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'modal_add_edit_contact_model.dart';
-import '../../../../../../services/ui_state_service.dart';
-import '../../../../../../services/contact_service.dart';
-import '../../../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/contact_service.dart';
+import 'package:bukeer/services/app_services.dart';
 export 'modal_add_edit_contact_model.dart';
 
 class ModalAddEditContactWidget extends StatefulWidget {
@@ -1363,7 +1362,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                         width: 260.0,
                                         decoration: BoxDecoration(),
                                         child: wrapWithModel(
-                          model: _model.placePickerModel,
+                                          model: _model.placePickerModel,
                                           updateCallback: () =>
                                               safeSetState(() {}),
                                           child: PlacePickerWidget(
@@ -1385,7 +1384,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                               (_model.switchIsProviderValue ==
                                                   false),
                                           child: wrapWithModel(
-                          model: _model.birthDatePickerModel,
+                                            model: _model.birthDatePickerModel,
                                             updateCallback: () =>
                                                 safeSetState(() {}),
                                             child: BirthDatePickerWidget(
@@ -1621,16 +1620,16 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                       .text,
                                               isProvider:
                                                   _model.switchIsProviderValue,
-                                              birthDate: (_model
-                                                              .switchIsCompanyValue ==
-                                                          true) ||
-                                                      (_model.switchIsProviderValue ==
-                                                          true)
-                                                  ? '0001-01-01'
-                                                  : _model
-                                                      .birthDatePickerModel
-                                                      .datePicked
-                                                      ?.toString(),
+                                              birthDate:
+                                                  (_model.switchIsCompanyValue ==
+                                                              true) ||
+                                                          (_model.switchIsProviderValue ==
+                                                              true)
+                                                      ? '0001-01-01'
+                                                      : _model
+                                                          .birthDatePickerModel
+                                                          .datePicked
+                                                          ?.toString(),
                                               location:
                                                   (_model.responseInsertLocation
                                                               ?.jsonBody ??
@@ -2164,8 +2163,7 @@ class _ModalAddEditContactWidgetState extends State<ModalAddEditContactWidget> {
                                                     .birthDatePickerModel
                                                     .datePicked !=
                                                 null) {
-                                              return _model
-                                                  .birthDatePickerModel
+                                              return _model.birthDatePickerModel
                                                   .datePicked
                                                   ?.toString();
                                             } else {

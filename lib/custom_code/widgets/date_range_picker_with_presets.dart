@@ -1,12 +1,12 @@
 // Automatic FlutterFlow imports
-import '../../flutter_flow/flutter_flow_theme.dart';
-import '../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import '../../design_system/index.dart';
-import '../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 
 class DateRangePickerWithPresets extends StatefulWidget {
   const DateRangePickerWithPresets({

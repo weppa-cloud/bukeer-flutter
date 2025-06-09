@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../tokens/index.dart';
-import '../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 
 /// Unified navigation component for the Bukeer application
 /// Replaces both web_nav and mobile_nav with consistent behavior
-/// 
+///
 /// Features:
 /// - Responsive navigation (drawer on mobile/tablet, sidebar on desktop)
 /// - Consistent navigation data source
@@ -14,22 +14,22 @@ import '../../../flutter_flow/flutter_flow_util.dart';
 class BukeerNavigation extends StatelessWidget {
   /// Current route path for highlighting active navigation item
   final String currentRoute;
-  
+
   /// User information for profile display
   final Map<String, dynamic>? userInfo;
-  
+
   /// Navigation items to display
   final List<BukeerNavItem> navigationItems;
-  
+
   /// Callback when navigation item is selected
   final Function(String route)? onNavigate;
-  
+
   /// Callback for logout action
   final VoidCallback? onLogout;
-  
+
   /// Custom header widget (optional)
   final Widget? header;
-  
+
   /// Custom footer widget (optional)
   final Widget? footer;
 
@@ -49,7 +49,7 @@ class BukeerNavigation extends StatelessWidget {
     // On mobile/tablet, return drawer content
     if (BukeerBreakpoints.shouldUseDrawer(context)) {
       return _buildDrawerNavigation(context);
-    } 
+    }
     // On desktop, return persistent navigation
     else {
       return _buildSidebarNavigation(context);
@@ -90,17 +90,18 @@ class BukeerNavigation extends StatelessWidget {
       children: [
         // Header section
         _buildHeader(context),
-        
+
         // Navigation items
         Expanded(
           child: ListView(
             padding: BukeerSpacing.vertical8,
             children: [
-              ...navigationItems.map((item) => _buildNavigationItem(context, item)),
+              ...navigationItems
+                  .map((item) => _buildNavigationItem(context, item)),
             ],
           ),
         ),
-        
+
         // Footer section
         _buildFooter(context),
       ],
@@ -127,7 +128,7 @@ class BukeerNavigation extends StatelessWidget {
         children: [
           // Logo
           _buildLogo(),
-          
+
           if (userInfo != null) ...[
             SizedBox(height: BukeerSpacing.lg),
             _buildUserProfile(context),
@@ -173,23 +174,22 @@ class BukeerNavigation extends StatelessWidget {
   Widget _buildUserProfile(BuildContext context) {
     final userName = _getUserName();
     final userRole = _getUserRole();
-    
+
     return Row(
       children: [
         // User avatar
         CircleAvatar(
           radius: 20.0,
           backgroundColor: BukeerColors.primaryLight,
-          backgroundImage: _getUserAvatar() != null 
-            ? NetworkImage(_getUserAvatar()!) 
-            : null,
-          child: _getUserAvatar() == null 
-            ? Icon(
-                Icons.person,
-                color: BukeerColors.primary,
-                size: 20.0,
-              )
-            : null,
+          backgroundImage:
+              _getUserAvatar() != null ? NetworkImage(_getUserAvatar()!) : null,
+          child: _getUserAvatar() == null
+              ? Icon(
+                  Icons.person,
+                  color: BukeerColors.primary,
+                  size: 20.0,
+                )
+              : null,
         ),
         SizedBox(width: BukeerSpacing.sm),
         Expanded(
@@ -271,11 +271,13 @@ class BukeerNavigation extends StatelessWidget {
   /// Build individual navigation item
   Widget _buildNavigationItem(BuildContext context, BukeerNavItem item) {
     final isActive = _isItemActive(item.route);
-    
+
     return Container(
       margin: BukeerSpacing.fromSTEB(8.0, 2.0, 8.0, 2.0),
       child: Material(
-        color: isActive ? BukeerColors.primaryLight.withOpacity(0.1) : Colors.transparent,
+        color: isActive
+            ? BukeerColors.primaryLight.withOpacity(0.1)
+            : Colors.transparent,
         borderRadius: BukeerBorderRadius.mediumRadius,
         child: ListTile(
           leading: Icon(
@@ -285,9 +287,9 @@ class BukeerNavigation extends StatelessWidget {
           ),
           title: Text(
             item.title,
-            style: isActive 
-              ? BukeerTypography.navItemActive
-              : BukeerTypography.navItem,
+            style: isActive
+                ? BukeerTypography.navItemActive
+                : BukeerTypography.navItem,
           ),
           trailing: item.badge != null ? _buildBadge(item.badge!) : null,
           contentPadding: BukeerSpacing.fromSTEB(12.0, 4.0, 12.0, 4.0),
@@ -327,7 +329,7 @@ class BukeerNavigation extends StatelessWidget {
     if (BukeerBreakpoints.shouldUseDrawer(context)) {
       Navigator.of(context).pop();
     }
-    
+
     // Navigate to route
     if (onNavigate != null) {
       onNavigate!(item.route);
@@ -341,28 +343,28 @@ class BukeerNavigation extends StatelessWidget {
   bool _isItemActive(String route) {
     // Exact match
     if (currentRoute == route) return true;
-    
+
     // Partial match for nested routes
     if (route != '/' && currentRoute.startsWith(route)) return true;
-    
+
     return false;
   }
 
   /// Get user name from userInfo
   String _getUserName() {
     if (userInfo == null) return 'Usuario';
-    
+
     final firstName = userInfo!['name']?.toString() ?? '';
     final lastName = userInfo!['last_name']?.toString() ?? '';
     final fullName = '$firstName $lastName'.trim();
-    
+
     return fullName.isNotEmpty ? fullName : 'Usuario';
   }
 
   /// Get user role from userInfo
   String _getUserRole() {
     if (userInfo == null) return '';
-    
+
     final roleId = userInfo!['role_id'];
     switch (roleId) {
       case 1:
@@ -387,16 +389,16 @@ class BukeerNavigation extends StatelessWidget {
 class BukeerNavItem {
   /// Navigation item title
   final String title;
-  
+
   /// Navigation item icon
   final IconData icon;
-  
+
   /// Navigation route
   final String route;
-  
+
   /// Optional badge text (for notifications, etc.)
   final String? badge;
-  
+
   /// Required user roles to see this item
   final List<int>? requiredRoles;
 

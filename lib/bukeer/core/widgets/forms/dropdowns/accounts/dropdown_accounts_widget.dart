@@ -1,17 +1,18 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
-import '../../../../../../backend/supabase/supabase.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
+import 'package:bukeer/backend/supabase/supabase.dart';
 import '../../../containers/accounts/accounts_container_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../services/user_service.dart';
-import '../../../../../../services/app_services.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/services/user_service.dart';
+import 'package:bukeer/services/app_services.dart';
 import 'dart:math';
 import 'dart:ui';
-import '../../../../../../index.dart';
+import 'package:bukeer/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -19,7 +20,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_accounts_model.dart';
-import '/design_system/tokens/index.dart';
 export 'dropdown_accounts_model.dart';
 
 class DropdownAccountsWidget extends StatefulWidget {
@@ -463,8 +463,7 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
 
                                                 safeSetState(() {});
                                               },
-                                              child:
-                                                  AccountsContainerWidget(
+                                              child: AccountsContainerWidget(
                                                 key: Key(
                                                     'Keylo1_${accountsItemIndex}_of_${accountsItem.length}'),
                                                 name: getJsonField(

@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 // // import 'package:mockito/mockito.dart'; // Unused import // Unused import
 
-import 'package:bukeer/bukeer/itinerarios/main_itineraries/main_itineraries_widget.dart';
-import 'package:bukeer/bukeer/itinerarios/itinerary_details/itinerary_details_widget.dart';
+import 'package:bukeer/bukeer/itineraries/main_itineraries/main_itineraries_widget.dart';
+import 'package:bukeer/bukeer/itineraries/itinerary_details/itinerary_details_widget.dart';
 import 'package:bukeer/bukeer/core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
-import 'package:bukeer/bukeer/contactos/main_contacts/main_contacts_widget.dart';
-import 'package:bukeer/bukeer/productos/main_products/main_products_widget.dart';
+import 'package:bukeer/bukeer/contacts/main_contacts/main_contacts_widget.dart';
+import 'package:bukeer/bukeer/products/main_products/main_products_widget.dart';
 import '../test_utils/test_helpers.dart';
 import '../mocks/supabase_mocks.dart';
 

@@ -1,14 +1,13 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../services/ui_state_service.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/services/ui_state_service.dart';
 import 'dart:ui';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'search_box_model.dart';
-import '/design_system/tokens/index.dart';
 export 'search_box_model.dart';
 
 class SearchBoxWidget extends StatefulWidget {

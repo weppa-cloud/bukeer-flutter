@@ -1,17 +1,18 @@
-import '../../../../../../auth/supabase_auth/auth_util.dart';
-import '../../../../../../backend/api_requests/api_calls.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/backend/api_requests/api_calls.dart';
 import '../../../buttons/btn_create/btn_create_widget.dart';
 import '../../place_picker/place_picker_widget.dart';
 import '../../../containers/contacts/contacts_container_widget.dart';
-import '../../../../../../flutter_flow/flutter_flow_animations.dart';
-import '../../../../../../flutter_flow/flutter_flow_autocomplete_options_list.dart';
-import '../../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../../design_system/index.dart';
-import '../../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/components/index.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
-import '../../../../../../custom_code/widgets/index.dart' as custom_widgets;
+import 'package:bukeer/custom_code/widgets/index.dart' as custom_widgets;
 import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'dropdown_contacts_model.dart';
-import '../../../../../../services/ui_state_service.dart';
-import '../../../../../../services/app_services.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/services/ui_state_service.dart';
+import 'package:bukeer/services/app_services.dart';
 export 'dropdown_contacts_model.dart';
 
 class DropdownContactsWidget extends StatefulWidget {
@@ -35,8 +35,7 @@ class DropdownContactsWidget extends StatefulWidget {
   final bool isProvider;
 
   @override
-  State<DropdownContactsWidget> createState() =>
-      _DropdownContactsWidgetState();
+  State<DropdownContactsWidget> createState() => _DropdownContactsWidgetState();
 }
 
 class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
@@ -1060,7 +1059,8 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                                                         width: 2.0,
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                          BorderRadius.circular(
+                                                              BukeerSpacing.sm),
                                                       hoverColor:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1404,7 +1404,8 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                                                         width: 1.0,
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.circular(BukeerSpacing.sm),
+                                                          BorderRadius.circular(
+                                                              BukeerSpacing.sm),
                                                       hoverColor:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1510,8 +1511,7 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                                               safeSetState(() {});
                                               context.safePop();
                                             },
-                                            child:
-                                                ContactsContainerWidget(
+                                            child: ContactsContainerWidget(
                                               key: Key(
                                                   'Key4kl_${contactItemIndex}_of_${_model.listViewContactsPagingController!.itemList!.length}'),
                                               name: getJsonField(

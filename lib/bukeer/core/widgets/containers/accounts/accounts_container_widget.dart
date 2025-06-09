@@ -1,12 +1,11 @@
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'accounts_container_model.dart';
-import '/design_system/tokens/index.dart';
 export 'accounts_container_model.dart';
 
 class AccountsContainerWidget extends StatefulWidget {
@@ -22,8 +21,7 @@ class AccountsContainerWidget extends StatefulWidget {
       _AccountsContainerWidgetState();
 }
 
-class _AccountsContainerWidgetState
-    extends State<AccountsContainerWidget> {
+class _AccountsContainerWidgetState extends State<AccountsContainerWidget> {
   late AccountsContainerModel _model;
 
   @override

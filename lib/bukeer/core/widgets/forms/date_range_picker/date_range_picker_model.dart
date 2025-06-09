@@ -1,9 +1,8 @@
-import '../../../../../flutter_flow/flutter_flow_model.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_model.dart';
 import 'date_range_picker_widget.dart' show DateRangePickerWidget;
 import 'package:flutter/material.dart';
 
-class DateRangePickerModel
-    extends FlutterFlowModel<DateRangePickerWidget> {
+class DateRangePickerModel extends FlutterFlowModel<DateRangePickerWidget> {
   ///  State fields for this component.
 
   DateTime? startDate;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
+import '../legacy/flutter_flow/flutter_flow_theme.dart';
 
 import '../services/authorization_service.dart';
-import '../auth/supabase_auth/auth_util.dart';
+import '../../auth/supabase_auth/auth_util.dart';
 
 /// Widget that conditionally shows/hides content based on user permissions
 class AuthorizedWidget extends StatelessWidget {

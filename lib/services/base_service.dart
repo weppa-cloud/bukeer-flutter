@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/supabase/supabase.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
 import 'error_service.dart';
 import 'memory_manager.dart';
 

@@ -1,11 +1,11 @@
-import '../../../../../auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
 import '../main_logo_small/main_logo_small_widget.dart';
-import '../../../../../flutter_flow/flutter_flow_theme.dart';
-import '../../../../../design_system/index.dart';
-import '../../../../../flutter_flow/flutter_flow_util.dart';
-import '../../../../../services/ui_state_service.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/services/ui_state_service.dart';
 import 'dart:ui';
-import '../../../../../index.dart';
+import 'package:bukeer/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -13,11 +13,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'web_nav_model.dart';
-import '../../../../../services/user_service.dart';
-import '../../../../../services/authorization_service.dart';
-import '../../../../../services/app_services.dart';
-import '../../../../../navigation/route_definitions.dart';
-import '/design_system/tokens/index.dart';
+import 'package:bukeer/services/user_service.dart';
+import 'package:bukeer/services/authorization_service.dart';
+import 'package:bukeer/services/app_services.dart';
+import 'package:bukeer/navigation/route_definitions.dart';
 export 'web_nav_model.dart';
 
 class WebNavWidget extends StatefulWidget {
