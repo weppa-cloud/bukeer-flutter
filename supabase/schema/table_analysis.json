@@ -1,0 +1,1311 @@
+[
+  {
+    "table": "accounts",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "982d2662-1026-4b26-a58a-476c0d258843"
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-01-30T19:36:15.760867+00:00"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Test 2"
+      },
+      "status": {
+        "type": "nullable",
+        "sample": null
+      },
+      "id_fm": {
+        "type": "integer",
+        "sample": 4
+      },
+      "logo_image": {
+        "type": "nullable",
+        "sample": null
+      },
+      "type_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "number_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "phone": {
+        "type": "text",
+        "sample": "+57313730357"
+      },
+      "phone2": {
+        "type": "nullable",
+        "sample": null
+      },
+      "mail": {
+        "type": "nullable",
+        "sample": null
+      },
+      "location": {
+        "type": "nullable",
+        "sample": null
+      },
+      "website": {
+        "type": "nullable",
+        "sample": null
+      },
+      "cancellation_policy": {
+        "type": "nullable",
+        "sample": null
+      },
+      "privacy_policy": {
+        "type": "nullable",
+        "sample": null
+      },
+      "terms_conditions": {
+        "type": "nullable",
+        "sample": null
+      },
+      "currency": {
+        "type": "array",
+        "sample": []
+      },
+      "types_increase": {
+        "type": "array",
+        "sample": []
+      },
+      "payment_methods": {
+        "type": "array",
+        "sample": []
+      }
+    },
+    "rowCount": 14
+  },
+  {
+    "table": "contacts",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "43a42db8-107b-432e-8f91-8ff1a9de0843"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Edna"
+      },
+      "last_name": {
+        "type": "text",
+        "sample": ""
+      },
+      "email": {
+        "type": "text",
+        "sample": "lopmos_14@hotmail.com"
+      },
+      "phone": {
+        "type": "text",
+        "sample": "lopmos_14@hotmail.com"
+      },
+      "managed_by_user_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "additional_info": {
+        "type": "nullable",
+        "sample": null
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-04-21T01:00:50.748931+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-04-21T01:00:50.748931+00:00"
+      },
+      "nationality": {
+        "type": "text",
+        "sample": ""
+      },
+      "type_id": {
+        "type": "text",
+        "sample": ""
+      },
+      "number_id": {
+        "type": "text",
+        "sample": ""
+      },
+      "id_itinerary": {
+        "type": "nullable",
+        "sample": null
+      },
+      "birth_date": {
+        "type": "date",
+        "sample": "0001-01-01"
+      },
+      "id_fm": {
+        "type": "nullable",
+        "sample": null
+      },
+      "user_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "user_rol": {
+        "type": "nullable",
+        "sample": null
+      },
+      "website": {
+        "type": "nullable",
+        "sample": null
+      },
+      "id_related_contact": {
+        "type": "nullable",
+        "sample": null
+      },
+      "is_company": {
+        "type": "boolean",
+        "sample": false
+      },
+      "is_provider": {
+        "type": "boolean",
+        "sample": false
+      },
+      "phone2": {
+        "type": "text",
+        "sample": ""
+      },
+      "user_image": {
+        "type": "text",
+        "sample": ""
+      },
+      "is_client": {
+        "type": "boolean",
+        "sample": true
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "location": {
+        "type": "uuid",
+        "sample": "28fefb19-1b85-4519-aaf3-8686dcec4191"
+      },
+      "position": {
+        "type": "nullable",
+        "sample": null
+      },
+      "notify": {
+        "type": "nullable",
+        "sample": null
+      }
+    },
+    "rowCount": 758
+  },
+  {
+    "table": "itineraries",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "210d2ad1-e02f-47c9-8771-b11f2de102bc"
+      },
+      "id_created_by": {
+        "type": "uuid",
+        "sample": "ce334832-a7b9-4a4a-a981-3f9b90ba3e89"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Itinerario para Dianeth"
+      },
+      "start_date": {
+        "type": "date",
+        "sample": "2025-05-24"
+      },
+      "end_date": {
+        "type": "date",
+        "sample": "2025-05-24"
+      },
+      "status": {
+        "type": "text",
+        "sample": "Presupuesto"
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-05-24T03:25:24.390191+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-05-24T03:25:24.390191+00:00"
+      },
+      "id_contact": {
+        "type": "uuid",
+        "sample": "1ed9d9b4-59dc-4aac-8a12-4908a4696593"
+      },
+      "passenger_count": {
+        "type": "integer",
+        "sample": 1
+      },
+      "currency_type": {
+        "type": "text",
+        "sample": "COP"
+      },
+      "valid_until": {
+        "type": "date",
+        "sample": "2025-05-24"
+      },
+      "request_type": {
+        "type": "text",
+        "sample": "Standar"
+      },
+      "total_amount": {
+        "type": "integer",
+        "sample": 0
+      },
+      "total_markup": {
+        "type": "integer",
+        "sample": 0
+      },
+      "total_cost": {
+        "type": "integer",
+        "sample": 0
+      },
+      "agent": {
+        "type": "nullable",
+        "sample": null
+      },
+      "total_provider_payment": {
+        "type": "integer",
+        "sample": 0
+      },
+      "id_fm": {
+        "type": "text",
+        "sample": "1-5935"
+      },
+      "language": {
+        "type": "text",
+        "sample": "Español"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "total_hotels": {
+        "type": "integer",
+        "sample": 0
+      },
+      "total_flights": {
+        "type": "integer",
+        "sample": 0
+      },
+      "total_activities": {
+        "type": "integer",
+        "sample": 0
+      },
+      "total_transfer": {
+        "type": "integer",
+        "sample": 0
+      },
+      "paid": {
+        "type": "integer",
+        "sample": 0
+      },
+      "pending_paid": {
+        "type": "integer",
+        "sample": 0
+      },
+      "currency": {
+        "type": "array",
+        "sample": [
+          {
+            "name": "Moneda base",
+            "rate": 1,
+            "type": "base"
+          },
+          {
+            "name": "COP",
+            "rate": 1,
+            "type": "opt"
+          },
+          {
+            "name": "USD",
+            "rate": 0.0002654533678068773,
+            "type": "opt"
+          },
+          {
+            "name": "EUR",
+            "rate": 0.0002312587878339377,
+            "type": "opt"
+          },
+          {
+            "name": "MXN",
+            "rate": 0.005131836889696298,
+            "type": "opt"
+          }
+        ]
+      },
+      "itinerary_visibility": {
+        "type": "boolean",
+        "sample": true
+      },
+      "rates_visibility": {
+        "type": "boolean",
+        "sample": false
+      },
+      "types_increase": {
+        "type": "nullable",
+        "sample": null
+      },
+      "total_amount_rate": {
+        "type": "integer",
+        "sample": 0
+      },
+      "personalized_message": {
+        "type": "text",
+        "sample": ""
+      },
+      "main_image": {
+        "type": "text",
+        "sample": ""
+      },
+      "confirmation_date": {
+        "type": "nullable",
+        "sample": null
+      }
+    },
+    "rowCount": 887
+  },
+  {
+    "table": "itinerary_items",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "b341df5b-e1a1-4fe1-a557-3018428eac8a"
+      },
+      "id_itinerary": {
+        "type": "uuid",
+        "sample": "91b1cda0-4c00-4be1-abb8-1c7d5f34f374"
+      },
+      "start_time": {
+        "type": "nullable",
+        "sample": null
+      },
+      "end_time": {
+        "type": "nullable",
+        "sample": null
+      },
+      "day_number": {
+        "type": "nullable",
+        "sample": null
+      },
+      "order": {
+        "type": "nullable",
+        "sample": null
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-05-31T01:47:17.009439+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-05-31T01:47:17.009439+00:00"
+      },
+      "unit_cost": {
+        "type": "integer",
+        "sample": 372384
+      },
+      "quantity": {
+        "type": "integer",
+        "sample": 1
+      },
+      "total_cost": {
+        "type": "integer",
+        "sample": 372384
+      },
+      "date": {
+        "type": "date",
+        "sample": "2025-06-22"
+      },
+      "destination": {
+        "type": "text",
+        "sample": "Colombia"
+      },
+      "product_name": {
+        "type": "text",
+        "sample": "Fee bancario"
+      },
+      "rate_name": {
+        "type": "text",
+        "sample": "Tarjeta de crédito"
+      },
+      "product_type": {
+        "type": "text",
+        "sample": "Servicios"
+      },
+      "hotel_nights": {
+        "type": "nullable",
+        "sample": null
+      },
+      "profit_percentage": {
+        "type": "integer",
+        "sample": 0
+      },
+      "profit": {
+        "type": "nullable",
+        "sample": null
+      },
+      "total_price": {
+        "type": "integer",
+        "sample": 372384
+      },
+      "flight_departure": {
+        "type": "text",
+        "sample": ""
+      },
+      "flight_arrival": {
+        "type": "text",
+        "sample": ""
+      },
+      "departure_time": {
+        "type": "text",
+        "sample": ""
+      },
+      "arrival_time": {
+        "type": "text",
+        "sample": ""
+      },
+      "flight_number": {
+        "type": "nullable",
+        "sample": null
+      },
+      "airline": {
+        "type": "nullable",
+        "sample": null
+      },
+      "unit_price": {
+        "type": "nullable",
+        "sample": null
+      },
+      "id_product": {
+        "type": "uuid",
+        "sample": "615a5eda-7560-4506-abf1-67a362dbafba"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "paid_cost": {
+        "type": "integer",
+        "sample": 0
+      },
+      "pending_paid_cost": {
+        "type": "integer",
+        "sample": 372384
+      },
+      "reservation_status": {
+        "type": "boolean",
+        "sample": false
+      },
+      "personalized_message": {
+        "type": "text",
+        "sample": ""
+      },
+      "reservation_messages": {
+        "type": "nullable",
+        "sample": null
+      }
+    },
+    "rowCount": 7813
+  },
+  {
+    "table": "hotels",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "00000000-0000-4000-8001-00000000009b"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Casabella"
+      },
+      "star_rating": {
+        "type": "nullable",
+        "sample": null
+      },
+      "description": {
+        "type": "nullable",
+        "sample": null
+      },
+      "check_in_time": {
+        "type": "nullable",
+        "sample": null
+      },
+      "check_out_time": {
+        "type": "nullable",
+        "sample": null
+      },
+      "region_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-01-29T21:22:15.898754+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-01-29T21:22:15.898754+00:00"
+      },
+      "provider_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "booking_type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "metadata": {
+        "type": "nullable",
+        "sample": null
+      },
+      "description_short": {
+        "type": "nullable",
+        "sample": null
+      },
+      "inclutions": {
+        "type": "nullable",
+        "sample": null
+      },
+      "exclutions": {
+        "type": "text",
+        "sample": "- Gastos no especificados\n- servicios complementarios "
+      },
+      "recomendations": {
+        "type": "nullable",
+        "sample": null
+      },
+      "instructions": {
+        "type": "nullable",
+        "sample": null
+      },
+      "id_contact": {
+        "type": "uuid",
+        "sample": "0000008f-0000-0000-0000-00000000008f"
+      },
+      "main_image": {
+        "type": "nullable",
+        "sample": null
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "location": {
+        "type": "nullable",
+        "sample": null
+      },
+      "social_image": {
+        "type": "nullable",
+        "sample": null
+      },
+      "pdf_image": {
+        "type": "nullable",
+        "sample": null
+      }
+    },
+    "rowCount": 321
+  },
+  {
+    "table": "hotel_rates",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "91d278bf-0334-4838-a37f-aec442334df8"
+      },
+      "hotel_id": {
+        "type": "uuid",
+        "sample": "935c159f-54a8-44a2-bf1d-7ac3b1c2a5dd"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Tarifa habitación doble x noche"
+      },
+      "capacity": {
+        "type": "nullable",
+        "sample": null
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-04-02T20:19:37.01065+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-04-02T20:19:37.01065+00:00"
+      },
+      "unit_cost": {
+        "type": "integer",
+        "sample": 680000
+      },
+      "profit": {
+        "type": "integer",
+        "sample": 20
+      },
+      "price": {
+        "type": "integer",
+        "sample": 816000
+      },
+      "currency": {
+        "type": "nullable",
+        "sample": null
+      },
+      "description": {
+        "type": "nullable",
+        "sample": null
+      },
+      "is_active": {
+        "type": "boolean",
+        "sample": true
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      }
+    },
+    "rowCount": 569
+  },
+  {
+    "table": "activities",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "db7a4117-8b2c-407c-b9ae-a18987576976"
+      },
+      "name": {
+        "type": "text",
+        "sample": "TEST"
+      },
+      "description": {
+        "type": "text",
+        "sample": "TEST"
+      },
+      "type": {
+        "type": "text",
+        "sample": ""
+      },
+      "booking_type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "duration_minutes": {
+        "type": "nullable",
+        "sample": null
+      },
+      "metadata": {
+        "type": "nullable",
+        "sample": null
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-01-31T04:16:14.358323+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-01-31T04:16:14.358323+00:00"
+      },
+      "description_short": {
+        "type": "nullable",
+        "sample": null
+      },
+      "inclutions": {
+        "type": "text",
+        "sample": "TEST"
+      },
+      "exclutions": {
+        "type": "text",
+        "sample": "TEST"
+      },
+      "recomendations": {
+        "type": "text",
+        "sample": "TEST"
+      },
+      "instructions": {
+        "type": "text",
+        "sample": "TEST"
+      },
+      "id_contact": {
+        "type": "uuid",
+        "sample": "d8f53782-5e7c-4d56-9f08-eafba989f819"
+      },
+      "experience_type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "main_image": {
+        "type": "nullable",
+        "sample": null
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "location": {
+        "type": "uuid",
+        "sample": "2e2a40fc-83da-48d4-aa5d-1a4f417f3ff1"
+      },
+      "schedule_data": {
+        "type": "nullable",
+        "sample": null
+      },
+      "social_image": {
+        "type": "nullable",
+        "sample": null
+      }
+    },
+    "rowCount": 594
+  },
+  {
+    "table": "activities_rates",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "ee85138d-0d87-4176-b2a6-07f3123aed4f"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Tarifa adulto "
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-04-03T14:43:02.529167+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-04-03T14:43:02.529167+00:00"
+      },
+      "unit_cost": {
+        "type": "integer",
+        "sample": 66000
+      },
+      "profit": {
+        "type": "integer",
+        "sample": 20
+      },
+      "price": {
+        "type": "integer",
+        "sample": 79200
+      },
+      "id_product": {
+        "type": "uuid",
+        "sample": "401d996f-e4c0-4288-95d4-8477f97d3bdd"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      }
+    },
+    "rowCount": 1680
+  },
+  {
+    "table": "transfers",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "a2b07fa1-1ba3-4047-8cdc-8514c7e864b8"
+      },
+      "type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "from_location": {
+        "type": "nullable",
+        "sample": null
+      },
+      "to_location": {
+        "type": "nullable",
+        "sample": null
+      },
+      "departure_time": {
+        "type": "nullable",
+        "sample": null
+      },
+      "arrival_time": {
+        "type": "nullable",
+        "sample": null
+      },
+      "estimated_price": {
+        "type": "nullable",
+        "sample": null
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-03-26T23:10:10.050579+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-03-26T23:10:10.050579+00:00"
+      },
+      "provider_id": {
+        "type": "nullable",
+        "sample": null
+      },
+      "name": {
+        "type": "text",
+        "sample": "Traslados diurnos aeropuerto - hotel o viceversa (tipo sprinter 8-12 pax)"
+      },
+      "description": {
+        "type": "text",
+        "sample": "Transporte en vans  tipo Sprinter  para 8 - 12  personas. "
+      },
+      "booking_type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "duration_minutes": {
+        "type": "nullable",
+        "sample": null
+      },
+      "metadata": {
+        "type": "nullable",
+        "sample": null
+      },
+      "description_short": {
+        "type": "text",
+        "sample": "Transporte en vans  tipo Sprinter  para 8 - 12  personas. "
+      },
+      "inclutions": {
+        "type": "text",
+        "sample": "N/A"
+      },
+      "exclutions": {
+        "type": "text",
+        "sample": "N/A"
+      },
+      "recomendations": {
+        "type": "text",
+        "sample": "N/A"
+      },
+      "instructions": {
+        "type": "text",
+        "sample": "N/A"
+      },
+      "id_contact": {
+        "type": "uuid",
+        "sample": "68d127c6-086d-40b5-a915-8e424ab1cb02"
+      },
+      "experience_type": {
+        "type": "nullable",
+        "sample": null
+      },
+      "main_image": {
+        "type": "text",
+        "sample": "https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/9fc24733-b127-4184-aa22-12f03b98927a/products/transfers/1743031679588000_1.jpeg"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "location": {
+        "type": "uuid",
+        "sample": "273013e6-7df8-4310-b9eb-6e9c23f9dc94"
+      }
+    },
+    "rowCount": 101
+  },
+  {
+    "table": "transfer_rates",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "78347e5f-da6e-4990-883a-e5109b4087b1"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Costo por trayecto "
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-04-08T13:41:41.016887+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2025-04-08T13:41:41.016887+00:00"
+      },
+      "unit_cost": {
+        "type": "integer",
+        "sample": 260000
+      },
+      "profit": {
+        "type": "integer",
+        "sample": 20
+      },
+      "price": {
+        "type": "integer",
+        "sample": 312000
+      },
+      "id_transfer": {
+        "type": "uuid",
+        "sample": "e691c038-5bea-4407-b912-b93bec93b6f1"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      }
+    },
+    "rowCount": 548
+  },
+  {
+    "table": "flights",
+    "columns": {},
+    "rowCount": 0
+  },
+  {
+    "table": "airlines",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "03341c5a-814e-4d9a-8478-1e7c251728e8"
+      },
+      "duffel_id": {
+        "type": "text",
+        "sample": "arl_00009VME7DAch01WpssCbd"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Air India"
+      },
+      "iata_code": {
+        "type": "text",
+        "sample": "AI"
+      },
+      "conditions_of_carriage_url": {
+        "type": "text",
+        "sample": "https://www.airindia.in/terms-conditions.htm"
+      },
+      "logo_symbol_url": {
+        "type": "text",
+        "sample": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/AI.svg"
+      },
+      "logo_lockup_url": {
+        "type": "text",
+        "sample": "https://assets.duffel.com/img/airlines/for-light-background/full-color-lockup/AI.svg"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2024-12-18T11:25:59.175924+00:00"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "feature": {
+        "type": "nullable",
+        "sample": null
+      },
+      "logo_png": {
+        "type": "text",
+        "sample": "https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/logos_airlines/AI.png"
+      }
+    },
+    "rowCount": 45
+  },
+  {
+    "table": "airports",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "428a3f88-f0fc-4c55-b07a-914fd0e0d53f"
+      },
+      "duffel_id": {
+        "type": "text",
+        "sample": "arp_agj_jp"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Aguni Airport"
+      },
+      "icao_code": {
+        "type": "text",
+        "sample": "RORA"
+      },
+      "iata_code": {
+        "type": "text",
+        "sample": "AGJ"
+      },
+      "iata_country_code": {
+        "type": "text",
+        "sample": "JP"
+      },
+      "iata_city_code": {
+        "type": "text",
+        "sample": "AGJ"
+      },
+      "city_name": {
+        "type": "text",
+        "sample": "Aguni"
+      },
+      "longitude": {
+        "type": "numeric",
+        "sample": 127.24013
+      },
+      "latitude": {
+        "type": "numeric",
+        "sample": 26.592664
+      },
+      "time_zone": {
+        "type": "text",
+        "sample": "Asia/Tokyo"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2024-12-18T12:03:03.891611+00:00"
+      }
+    },
+    "rowCount": 9026
+  },
+  {
+    "table": "passenger",
+    "columns": {
+      "id": {
+        "type": "integer",
+        "sample": 72
+      },
+      "name": {
+        "type": "text",
+        "sample": "WILSON"
+      },
+      "last_name": {
+        "type": "text",
+        "sample": "DE ARCO"
+      },
+      "type_id": {
+        "type": "text",
+        "sample": "Cédula de ciudadanía"
+      },
+      "number_id": {
+        "type": "text",
+        "sample": "72165472"
+      },
+      "nationality": {
+        "type": "text",
+        "sample": "Colombiana"
+      },
+      "birth_date": {
+        "type": "date",
+        "sample": "1970-05-29"
+      },
+      "itinerary_id": {
+        "type": "uuid",
+        "sample": "65816121-6fac-4a2e-86ed-5f0f173c7869"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      }
+    },
+    "rowCount": 474
+  },
+  {
+    "table": "transactions",
+    "columns": {
+      "id": {
+        "type": "integer",
+        "sample": 261
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-03-26T17:13:07.210767+00:00"
+      },
+      "id_itinerary": {
+        "type": "uuid",
+        "sample": "71a379ba-5685-4d93-805c-2796cf93ad09"
+      },
+      "date": {
+        "type": "date",
+        "sample": "2025-03-26"
+      },
+      "value": {
+        "type": "integer",
+        "sample": 45000
+      },
+      "payment_method": {
+        "type": "text",
+        "sample": "ScotiaBank Colpatria"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "type": {
+        "type": "text",
+        "sample": "egreso"
+      },
+      "voucher_url": {
+        "type": "text",
+        "sample": "https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/9fc24733-b127-4184-aa22-12f03b98927a/vouchers/1743009184074000.png"
+      },
+      "id_item_itinerary": {
+        "type": "uuid",
+        "sample": "fd8d29ad-ed0c-4387-a3ff-87baa9daa2ee"
+      },
+      "reference": {
+        "type": "nullable",
+        "sample": null
+      }
+    },
+    "rowCount": 542
+  },
+  {
+    "table": "notes",
+    "columns": {},
+    "rowCount": 0
+  },
+  {
+    "table": "images",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "26817132-8eb3-4019-8ae1-f935bae5a0bc"
+      },
+      "entity_id": {
+        "type": "uuid",
+        "sample": "5798cd5c-447b-44fb-8f73-895f4f008142"
+      },
+      "url": {
+        "type": "text",
+        "sample": "https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/9fc24733-b127-4184-aa22-12f03b98927a/products/hotels/1735575134774000_0.jpg"
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2024-12-30T16:12:40.155937+00:00"
+      },
+      "updated_at": {
+        "type": "timestamp",
+        "sample": "2024-12-30T16:12:40.155937+00:00"
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      }
+    },
+    "rowCount": 3279
+  },
+  {
+    "table": "user_contact_info",
+    "columns": {},
+    "rowCount": 0
+  },
+  {
+    "table": "user_roles",
+    "columns": {
+      "id": {
+        "type": "integer",
+        "sample": 61
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2025-04-16T00:51:20.485558+00:00"
+      },
+      "user_id": {
+        "type": "uuid",
+        "sample": "a0324f31-c565-4697-8f71-afd7e668f65e"
+      },
+      "role_id": {
+        "type": "integer",
+        "sample": 2
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "497f6d82-0932-4e57-b76c-5b7845ea7c13"
+      }
+    },
+    "rowCount": 40
+  },
+  {
+    "table": "roles",
+    "columns": {
+      "id": {
+        "type": "integer",
+        "sample": 1
+      },
+      "created_at": {
+        "type": "timestamp",
+        "sample": "2024-10-11T04:46:49.321599+00:00"
+      },
+      "role_name": {
+        "type": "text",
+        "sample": "super_admin"
+      }
+    },
+    "rowCount": 4
+  },
+  {
+    "table": "locations",
+    "columns": {
+      "id": {
+        "type": "uuid",
+        "sample": "d0469bbe-ff9b-4bc4-bfcf-c4893cd3ab4e"
+      },
+      "latlng": {
+        "type": "text",
+        "sample": "LatLng(lat: -9.189967, lng: -75.015152)"
+      },
+      "name": {
+        "type": "text",
+        "sample": "Perú"
+      },
+      "address": {
+        "type": "text",
+        "sample": "Perú"
+      },
+      "city": {
+        "type": "text",
+        "sample": ""
+      },
+      "state": {
+        "type": "text",
+        "sample": ""
+      },
+      "country": {
+        "type": "text",
+        "sample": "PE"
+      },
+      "zip_code": {
+        "type": "text",
+        "sample": ""
+      },
+      "account_id": {
+        "type": "uuid",
+        "sample": "9fc24733-b127-4184-aa22-12f03b98927a"
+      },
+      "type_entity": {
+        "type": "text",
+        "sample": "contacts"
+      }
+    },
+    "rowCount": 1479
+  },
+  {
+    "table": "regions",
+    "columns": {},
+    "rowCount": 0
+  },
+  {
+    "table": "nationalities",
+    "columns": {
+      "id": {
+        "type": "integer",
+        "sample": 1
+      },
+      "name": {
+        "type": "text",
+        "sample": "Afgana"
+      }
+    },
+    "rowCount": 180
+  },
+  {
+    "table": "points_of_interest",
+    "columns": {},
+    "rowCount": 0
+  }
+]

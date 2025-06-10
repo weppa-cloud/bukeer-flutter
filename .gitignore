@@ -48,6 +48,17 @@ web/config.js
 config.js
 
 # Maestro E2E Testing
+maestro/.maestro/
+maestro/screenshots/
+maestro/.env.maestro
+
+# Playwright E2E Testing
+test-results/
+playwright-report/
+playwright/.cache/
+.env.playwright
+screenshots/
+e2e/screenshots/
 .maestro/
 maestro/.maestro/
 maestro/screenshots/
@@ -174,4 +185,4 @@ windows/flutter/generated_plugin_registrant.h
 
 # Linux específico
 linux/flutter/generated_plugin_registrant.cc
-linux/flutter/generated_plugin_registrant.h
+linux/flutter/generated_plugin_registrant.hsupabase/.env

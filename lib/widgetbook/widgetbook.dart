@@ -7,6 +7,15 @@ import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'use_cases/buttons/bukeer_button_use_case.dart';
 import 'use_cases/buttons/bukeer_icon_button_use_case.dart';
 import 'use_cases/forms/bukeer_text_field_use_case.dart';
+import 'use_cases/forms/search_box_use_case.dart';
+import 'use_cases/forms/date_range_picker_use_case.dart';
+import 'use_cases/forms/place_picker_use_case.dart';
+import 'use_cases/forms/currency_selector_use_case.dart';
+import 'use_cases/modals/bukeer_modal_use_case.dart';
+import 'use_cases/modals/modal_add_edit_contact_use_case.dart';
+import 'use_cases/modals/modal_add_edit_itinerary_use_case.dart';
+import 'use_cases/navigation/web_nav_use_case.dart';
+import 'use_cases/navigation/mobile_nav_use_case.dart';
 
 class WidgetbookApp extends StatelessWidget {
   @override
@@ -57,6 +66,25 @@ class WidgetbookApp extends StatelessWidget {
                   name: 'BukeerTextField',
                   useCases: getBukeerTextFieldUseCases(),
                 ),
+                getSearchBoxUseCases(),
+                getDateRangePickerUseCases(),
+                getPlacePickerUseCases(),
+                getCurrencySelectorUseCases(),
+              ],
+            ),
+            WidgetbookFolder(
+              name: 'Modals',
+              children: [
+                getBukeerModalUseCases(),
+                getModalAddEditContactUseCases(),
+                getModalAddEditItineraryUseCases(),
+              ],
+            ),
+            WidgetbookFolder(
+              name: 'Navigation',
+              children: [
+                getWebNavUseCases(),
+                getMobileNavUseCases(),
               ],
             ),
           ],

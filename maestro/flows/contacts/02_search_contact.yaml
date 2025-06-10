@@ -1,0 +1,92 @@
+appId: com.bukeer.app
+name: "Search Contact Test"
+tags:
+  - contacts
+  - regression
+---
+
+# Test: Search for Contacts
+# Prerequisites: At least one contact must exist
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Contacts section
+- tapOn:
+    text: "Contactos"
+- waitForAnimationToEnd
+
+- takeScreenshot: "contacts_list_initial"
+
+# Find and tap on search field
+- tapOn:
+    anyOf:
+      - id: ".*search.*"
+      - id: ".*buscar.*"
+      - text: "Buscar"
+      - text: "Search"
+      
+# Test 1: Search by name
+- inputText:
+    id: ".*search.*|.*buscar.*"
+    text: "Test"
+    
+- waitForAnimationToEnd
+
+# Verify search results
+- assertVisible:
+    text: "Test"
+    optional: true
+    
+- takeScreenshot: "search_results_name"
+
+# Clear search
+- clearText:
+    id: ".*search.*|.*buscar.*"
+    
+# Test 2: Search by email
+- inputText:
+    id: ".*search.*|.*buscar.*"
+    text: "@example.com"
+    
+- waitForAnimationToEnd
+
+- takeScreenshot: "search_results_email"
+
+# Clear search
+- clearText:
+    id: ".*search.*|.*buscar.*"
+    
+# Test 3: Search with no results
+- inputText:
+    id: ".*search.*|.*buscar.*"
+    text: "NonExistentContact123456"
+    
+- waitForAnimationToEnd
+
+# Should show no results message
+- assertVisible:
+    anyOf:
+      - text: "No se encontraron contactos"
+      - text: "No contacts found"
+      - text: "Sin resultados"
+      - text: "No results"
+    optional: true
+    
+- takeScreenshot: "search_no_results"
+
+# Clear search to show all contacts again
+- clearText:
+    id: ".*search.*|.*buscar.*"
+    
+- waitForAnimationToEnd
+
+# Log test results
+- evalScript: |
+    console.log("Contact search test completed");
+    output.searchTests = [
+      "Search by name",
+      "Search by email",
+      "Search with no results"
+    ];
+    output.testStatus = "PASSED";

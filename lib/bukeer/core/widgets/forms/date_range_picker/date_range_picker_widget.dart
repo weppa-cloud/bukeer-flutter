@@ -3,6 +3,7 @@ import 'package:bukeer/design_system/tokens/index.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import 'package:bukeer/custom_code/widgets/index.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'date_range_picker_model.dart';
 export 'date_range_picker_model.dart';
 
@@ -38,12 +39,24 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     super.initState();
     _model = createModel(context, () => DateRangePickerModel());
 
+    // Initialize date formatting for locale
+    _initializeDateFormatting();
+
     // Initialize with provided dates or default to last 30 days
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     _model.startDate =
         widget.initialStartDate ?? today.subtract(Duration(days: 29));
     _model.endDate = widget.initialEndDate ?? today;
+  }
+
+  void _initializeDateFormatting() async {
+    try {
+      await initializeDateFormatting('es');
+      await initializeDateFormatting('en');
+    } catch (e) {
+      // Ignore initialization errors in Widgetbook
+    }
   }
 
   @override
@@ -121,10 +134,28 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     }
 
     final presetName = _detectPresetName(_model.startDate!, _model.endDate!);
-    final startText = dateTimeFormat('d MMM', _model.startDate!,
-        locale: FFLocalizations.of(context).languageCode);
-    final endText = dateTimeFormat('d MMM y', _model.endDate!,
-        locale: FFLocalizations.of(context).languageCode);
+
+    // Simple date formatting for Widgetbook compatibility
+    String startText;
+    String endText;
+
+    try {
+      // Try to use the full formatting first
+      String? locale;
+      try {
+        locale = FFLocalizations.of(context).languageCode;
+      } catch (e) {
+        locale = 'es';
+      }
+
+      startText = dateTimeFormat('d MMM', _model.startDate!, locale: locale);
+      endText = dateTimeFormat('d MMM y', _model.endDate!, locale: locale);
+    } catch (e) {
+      // Fallback to simple formatting if locale formatting fails
+      startText = '${_model.startDate!.day}/${_model.startDate!.month}';
+      endText =
+          '${_model.endDate!.day}/${_model.endDate!.month}/${_model.endDate!.year}';
+    }
 
     return '$presetName  $startText - $endText';
   }

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "function_update_location_by_type",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_cuentas_por_cobrar",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_create_itinerary",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_update_activity_rate",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_cuentas_por_pagar",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_get_itinerary_details",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "get_products_paginated_test",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_get_airports",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_get_user_by_email",
+    "exists": true,
+    "status": 200
+  },
+  {
+    "name": "function_get_products_from_views",
+    "exists": true,
+    "status": 200
+  }
+]

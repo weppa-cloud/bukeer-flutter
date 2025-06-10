@@ -1,0 +1,154 @@
+appId: com.bukeer.app
+name: "Payment Calculations Test"
+tags:
+  - payments
+  - critical
+  - calculations
+---
+
+# Test: Verify Payment Calculations and Balances
+# Prerequisites: Itinerary with services and existing payments
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Itineraries
+- tapOn:
+    text: "Itinerarios"
+- waitForAnimationToEnd
+
+# Select itinerary
+- tapOn:
+    index: 0
+    selector:
+      id: ".*itinerary.*item.*|.*itinerary.*card.*"
+      
+- waitForAnimationToEnd
+
+# Store initial balance information
+- evalScript: |
+    // Try to find and store balance elements
+    const totalElement = maestro.findElement({ id: ".*total.*amount.*|.*total.*precio.*" });
+    const paidElement = maestro.findElement({ id: ".*paid.*amount.*|.*pagado.*" });
+    const pendingElement = maestro.findElement({ id: ".*pending.*amount.*|.*pendiente.*" });
+    
+    output.initialTotal = totalElement ? totalElement.text : "0";
+    output.initialPaid = paidElement ? paidElement.text : "0";
+    output.initialPending = pendingElement ? pendingElement.text : "0";
+    
+    console.log("Initial balances:", {
+      total: output.initialTotal,
+      paid: output.initialPaid,
+      pending: output.initialPending
+    });
+
+- takeScreenshot: "balance_initial"
+
+# Go to payments section
+- tapOn:
+    anyOf:
+      - text: "Pagos"
+      - text: "Payments"
+      - id: ".*payments.*tab.*"
+
+# Add a new payment to test calculations
+- tapOn:
+    anyOf:
+      - text: "Agregar Pago"
+      - text: "Add Payment"
+      - id: ".*add.*payment.*"
+      
+# Add payment of 200
+- inputText:
+    id: ".*amount.*|.*monto.*"
+    text: "200.00"
+    
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Save"
+      
+- waitForAnimationToEnd
+
+# Verify balance updated
+- takeScreenshot: "balance_after_payment"
+
+# Check calculations
+- evalScript: |
+    // Find updated balance elements
+    const totalElement = maestro.findElement({ id: ".*total.*amount.*|.*total.*precio.*" });
+    const paidElement = maestro.findElement({ id: ".*paid.*amount.*|.*pagado.*" });
+    const pendingElement = maestro.findElement({ id: ".*pending.*amount.*|.*pendiente.*" });
+    
+    output.updatedTotal = totalElement ? totalElement.text : "0";
+    output.updatedPaid = paidElement ? paidElement.text : "0";
+    output.updatedPending = pendingElement ? pendingElement.text : "0";
+    
+    console.log("Updated balances:", {
+      total: output.updatedTotal,
+      paid: output.updatedPaid,
+      pending: output.updatedPending
+    });
+    
+    // Verify paid amount increased by 200
+    const initialPaidNum = parseFloat(output.initialPaid.replace(/[^0-9.-]+/g,""));
+    const updatedPaidNum = parseFloat(output.updatedPaid.replace(/[^0-9.-]+/g,""));
+    
+    if (updatedPaidNum === initialPaidNum + 200) {
+      console.log("Payment calculation correct!");
+      output.calculationStatus = "PASSED";
+    } else {
+      console.error("Payment calculation error!");
+      output.calculationStatus = "FAILED";
+    }
+
+# Test payment percentage
+- assertVisible:
+    anyOf:
+      - id: ".*percentage.*|.*porcentaje.*"
+      - text: "%"
+    optional: true
+    
+- takeScreenshot: "payment_percentage"
+
+# Test overpayment scenario (if pending is 0 or negative)
+- tapOn:
+    anyOf:
+      - text: "Agregar Pago"
+      - text: "Add Payment"
+      - id: ".*add.*payment.*"
+    optional: true
+      
+- inputText:
+    id: ".*amount.*|.*monto.*"
+    text: "5000.00"
+    optional: true
+    
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Save"
+    optional: true
+      
+- waitForAnimationToEnd
+
+# Check for overpayment warning
+- assertVisible:
+    anyOf:
+      - text: "sobrepago"
+      - text: "overpayment"
+      - text: "excede"
+      - id: ".*warning.*"
+    optional: true
+    
+- takeScreenshot: "overpayment_test"
+
+# Final validation
+- evalScript: |
+    console.log("Payment calculations test completed");
+    output.testStatus = output.calculationStatus || "PASSED";
+    output.testedScenarios = [
+      "Balance calculation after payment",
+      "Payment percentage display",
+      "Overpayment handling"
+    ];

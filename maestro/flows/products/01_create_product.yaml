@@ -1,0 +1,103 @@
+appId: com.bukeer.app
+name: "Create Product Test"
+tags:
+  - products
+  - smoke
+env:
+  PRODUCT_NAME: "${PRODUCT_NAME:-Test Product ${timestamp}}"
+  PRODUCT_PRICE: "${PRODUCT_PRICE:-100.00}"
+---
+
+# Test: Create a New Product
+# Prerequisites: User must be logged in
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Products section
+- tapOn:
+    text: "Productos"
+- waitForAnimationToEnd
+
+# Tap on create/add product button
+- tapOn:
+    anyOf:
+      - text: "Crear Producto"
+      - text: "Agregar Producto"
+      - text: "Nuevo Producto"
+      - id: ".*add.*product.*"
+      - id: ".*create.*product.*"
+
+- takeScreenshot: "product_form_empty"
+
+# Fill in product details
+- inputText:
+    id: ".*name.*|.*nombre.*"
+    text: "${PRODUCT_NAME}"
+    
+- inputText:
+    id: ".*description.*|.*descripcion.*"
+    text: "This is a test product created by Maestro automation"
+    
+- inputText:
+    id: ".*price.*|.*precio.*"
+    text: "${PRODUCT_PRICE}"
+    
+# Select product type (if dropdown exists)
+- tapOn:
+    id: ".*type.*|.*tipo.*"
+    optional: true
+    
+- tapOn:
+    text: "Hotel"
+    optional: true
+    
+# Add location (if field exists)
+- tapOn:
+    id: ".*location.*|.*ubicacion.*"
+    optional: true
+    
+- inputText:
+    id: ".*location.*|.*ubicacion.*"
+    text: "Test Location"
+    optional: true
+    
+# Add capacity (if field exists)
+- inputText:
+    id: ".*capacity.*|.*capacidad.*"
+    text: "10"
+    optional: true
+    
+- takeScreenshot: "product_form_filled"
+
+# Save the product
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Crear"
+      - text: "Save"
+      - id: ".*save.*"
+      - id: ".*submit.*"
+      
+- waitForAnimationToEnd
+
+# Verify success
+- assertVisible:
+    anyOf:
+      - text: "Producto creado exitosamente"
+      - text: "Product created successfully"
+      - text: "${PRODUCT_NAME}"
+      - id: ".*success.*"
+      
+- takeScreenshot: "product_created_success"
+
+# Verify product appears in list
+- assertVisible:
+    text: "${PRODUCT_NAME}"
+    
+# Log test results
+- evalScript: |
+    console.log("Product creation test completed");
+    output.productName = "${PRODUCT_NAME}";
+    output.productPrice = "${PRODUCT_PRICE}";
+    output.testStatus = "PASSED";

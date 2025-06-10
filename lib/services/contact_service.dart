@@ -248,6 +248,14 @@ class ContactService extends BaseService with PerformanceOptimizedService {
     return getContactByEmail(email) != null;
   }
 
+  // ============= MOCK METHODS FOR TESTING =============
+  // These methods are for Widgetbook and testing only
+
+  /// Set mock selected contact data for testing
+  void setAllDataContact(Map<String, dynamic> data) {
+    _selectedContact = data;
+  }
+
   // Get contacts by account
   List<dynamic> getContactsByAccount(int accountId) {
     return _contacts.where((contact) {

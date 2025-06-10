@@ -6,25 +6,74 @@ class AppConfig {
   // Static cache for configuration values
   static Map<String, dynamic>? _configCache;
 
-  // Development fallback values
-  static const Map<String, dynamic> _fallbackConfig = {
-    'supabaseUrl': 'https://wzlxbpicdcdvxvdcvgas.supabase.co',
-    'supabaseAnonKey':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU0NjQyODAsImV4cCI6MjA0MTA0MDI4MH0.dSh-yGzemDC7DL_rf7fwgWlMoEKv1SlBCxd8ElFs_d8',
-    'apiBaseUrl': 'https://wzlxbpicdcdvxvdcvgas.supabase.co/rest/v1',
-    'googleMapsApiKey': 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
-    'environment': 'development',
-    'features': {
-      'enableAnalytics': false,
-      'enableDebugLogs': true,
-      'enableOfflineMode': false,
-    },
-    'settings': {
-      'sessionTimeout': 3600000,
-      'maxRetries': 3,
-      'requestTimeout': 30000,
-    },
-  };
+  // Development fallback values - now with environment support
+  static Map<String, dynamic> get _fallbackConfig {
+    final env =
+        const String.fromEnvironment('ENVIRONMENT', defaultValue: 'production');
+
+    switch (env) {
+      case 'local':
+        return {
+          'supabaseUrl': 'http://localhost:54321',
+          'supabaseAnonKey':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvY2FsaG9zdCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQxNzY5MjAwLCJleHAiOjE5NTczNDUyMDB9.f3EqIb9rQHNr5H4M-lOuVBBLVmfAUlHV1xYB1VlLmEo',
+          'apiBaseUrl': 'http://localhost:54321/rest/v1',
+          'googleMapsApiKey': 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
+          'environment': 'local',
+          'features': {
+            'enableAnalytics': false,
+            'enableDebugLogs': true,
+            'enableOfflineMode': false,
+          },
+          'settings': {
+            'sessionTimeout': 3600000,
+            'maxRetries': 3,
+            'requestTimeout': 30000,
+          },
+        };
+
+      case 'staging':
+        return {
+          'supabaseUrl': 'https://wrgkiastpqituocblopg.supabase.co',
+          'supabaseAnonKey':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyZ2tpYXN0cHFpdHVvY2Jsb3BnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk1MDg2NzAsImV4cCI6MjA2NTA4NDY3MH0.a-hvVJGE0UqggMJPuxB6VLFpBDFP5RlUDHhtjr5B_K4',
+          'apiBaseUrl': 'https://wrgkiastpqituocblopg.supabase.co/rest/v1',
+          'googleMapsApiKey': 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
+          'environment': 'staging',
+          'features': {
+            'enableAnalytics': false,
+            'enableDebugLogs': true,
+            'enableOfflineMode': false,
+          },
+          'settings': {
+            'sessionTimeout': 3600000,
+            'maxRetries': 3,
+            'requestTimeout': 30000,
+          },
+        };
+
+      case 'production':
+      default:
+        return {
+          'supabaseUrl': 'https://wzlxbpicdcdvxvdcvgas.supabase.co',
+          'supabaseAnonKey':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU0NjQyODAsImV4cCI6MjA0MTA0MDI4MH0.dSh-yGzemDC7DL_rf7fwgWlMoEKv1SlBCxd8ElFs_d8',
+          'apiBaseUrl': 'https://wzlxbpicdcdvxvdcvgas.supabase.co/rest/v1',
+          'googleMapsApiKey': 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
+          'environment': 'production',
+          'features': {
+            'enableAnalytics': false,
+            'enableDebugLogs': true,
+            'enableOfflineMode': false,
+          },
+          'settings': {
+            'sessionTimeout': 3600000,
+            'maxRetries': 3,
+            'requestTimeout': 30000,
+          },
+        };
+    }
+  }
 
   /// Initialize configuration from JavaScript runtime config
   static void initialize() {
@@ -193,6 +242,8 @@ class AppConfig {
   static bool get isStaging => environment == 'staging';
 
   static bool get isDevelopment => environment == 'development';
+
+  static bool get isLocal => environment == 'local';
 
   // Feature flags
   static bool get enableAnalytics =>

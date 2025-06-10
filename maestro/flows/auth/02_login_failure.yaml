@@ -1,0 +1,117 @@
+appId: com.bukeer.app
+name: "Login Failure Test"
+tags:
+  - auth
+  - negative-test
+---
+
+# Test: Login with Invalid Credentials
+# This test verifies proper error handling for failed login attempts
+
+- runFlow: ../../utils/quick_login.yaml
+  env:
+    EMAIL: "invalid@email.com"
+    PASSWORD: "wrongpassword"
+  continueOnFailure: true
+
+# Verify we're still on login page
+- assertVisible: 
+    text: "Ingresa a tu cuenta"
+    
+# Check for error message (adjust based on actual error text)
+- assertVisible:
+    anyOf:
+      - text: "Invalid login credentials"
+      - text: "Credenciales inválidas"
+      - text: "Usuario o contraseña incorrectos"
+      - id: ".*error.*"
+      - id: ".*snackbar.*"
+
+- takeScreenshot: "login_error_message"
+
+# Test: Login with Empty Email
+- clearText:
+    id: ".*email.*|.*Email.*"
+    
+- clearText:
+    id: ".*password.*|.*Password.*"
+    
+- tapOn:
+    text: "Ingresar"
+    
+# Should show email required error
+- assertVisible:
+    anyOf:
+      - text: "Email es requerido"
+      - text: "Please enter your email"
+      - text: "Campo requerido"
+      
+- takeScreenshot: "empty_email_error"
+
+# Test: Login with Invalid Email Format
+- inputText:
+    id: ".*email.*|.*Email.*"
+    text: "notanemail"
+    
+- inputText:
+    id: ".*password.*|.*Password.*"
+    text: "somepassword"
+    
+- tapOn:
+    text: "Ingresar"
+    
+# Should show invalid email format error
+- assertVisible:
+    anyOf:
+      - text: "Email inválido"
+      - text: "Please enter a valid email"
+      - text: "Formato de email incorrecto"
+      
+- takeScreenshot: "invalid_email_format_error"
+
+# Test: Login with Empty Password
+- clearText:
+    id: ".*email.*|.*Email.*"
+    
+- inputText:
+    id: ".*email.*|.*Email.*"
+    text: "valid@email.com"
+    
+- clearText:
+    id: ".*password.*|.*Password.*"
+    
+- tapOn:
+    text: "Ingresar"
+    
+# Should show password required error
+- assertVisible:
+    anyOf:
+      - text: "Contraseña es requerida"
+      - text: "Please enter your password"
+      - text: "Campo requerido"
+      
+- takeScreenshot: "empty_password_error"
+
+# Test: Verify Password Toggle (if exists)
+- inputText:
+    id: ".*password.*|.*Password.*"
+    text: "testpassword"
+
+# Try to find and tap password visibility toggle
+- tapOn:
+    id: ".*visibility.*|.*eye.*"
+    optional: true
+    
+- takeScreenshot: "password_visibility_toggle"
+
+# Log test completion
+- evalScript: |
+    console.log("Login failure tests completed successfully");
+    output.testStatus = "PASSED";
+    output.testedScenarios = [
+      "Invalid credentials",
+      "Empty email",
+      "Invalid email format", 
+      "Empty password",
+      "Password visibility toggle"
+    ];

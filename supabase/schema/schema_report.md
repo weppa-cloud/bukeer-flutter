@@ -1,0 +1,136 @@
+# Supabase Schema Report
+
+Generated: 2025-06-09T15:49:37.896Z
+
+## Tables
+
+- images
+- airports_view
+- contacts
+- nationalities
+- view_hotels_wp_sync
+- itinerary_items
+- transfer_rates
+- locations
+- transactions
+- activities_view
+- flights
+- user_contact_info
+- transfers_view
+- airports
+- accounts
+- airlines
+- user_roles_view
+- user_roles
+- points_of_interest
+- user_contact_info_admin
+- transfers
+- passenger
+- hotel_rates
+- notes
+- regions
+- hotels
+- roles
+- view_activities_wp_sync
+- activities
+- itineraries
+- hotels_view
+- activities_rates
+- rpc/function_update_location_by_type
+- rpc/function_cuentas_por_cobrar
+- rpc/function_create_itinerary
+- rpc/function_update_activity_rate
+- rpc/function_cuentas_por_pagar
+- rpc/function_get_itinerary_details
+- rpc/get_products_paginated_test
+- rpc/function_get_airports
+- rpc/function_get_user_by_email
+- rpc/function_get_products_from_views
+- rpc/function_copy_itinerary_item
+- rpc/function_get_user_roles_for_authenticated_user
+- rpc/function_add_activity
+- rpc/get_data_by_id_products
+- rpc/function_test_products
+- rpc/function_get_itinerary_id_by_id_fm
+- rpc/function_get_products_by_type_location_search
+- rpc/function_validate_delete_product
+- rpc/function_get_agenda_by_date
+- rpc/function_get_products_by_type_search
+- rpc/function_get_passengers_itinerary
+- rpc/function_get_agent_data
+- rpc/sync_duffel_airlines
+- rpc/function_update_activity
+- rpc/sync_duffel_airports
+- rpc/update_account_currency
+- rpc/request_openai_extraction_edge
+- rpc/function_search_products
+- rpc/get_hotels_paginated
+- rpc/function_delete_record
+- rpc/get_bukeer_data_for_wp_sync
+- rpc/function_get_contact_with_location
+- rpc/hotel_pdf_generation
+- rpc/function_get_locations_products
+- rpc/function_add_edit_product_rates
+- rpc/function_all_items_itinerary
+- rpc/filter_contacts
+- rpc/get_image_urls_by_entity
+- rpc/function_add_rate_activity
+- rpc/function_insert_location
+- rpc/function_get_itineraries_with_id
+- rpc/function_get_airlines
+- rpc/function_get_products_itinerary_items
+- rpc/function_count_passengers_by_itinerary
+- rpc/function_get_contacts_related
+- rpc/function_duplicate_itinerary
+- rpc/function_validate_delete_contact
+- rpc/function_get_agenda
+- rpc/function_get_accounts_info_by_user_id_and_exclude_account
+- rpc/function_add_activity_test
+- rpc/normalize_phone_colombia_only
+- rpc/function_test_productstres
+- rpc/function_update_hotel_descriptions_batch
+- rpc/function_get_contacts_search
+- rpc/function_get_accounts_with_location
+- rpc/function_get_itineraries_with_contact_names_search
+- rpc/function_get_itineraries_with_contact_names
+- rpc/get_products
+- rpc/function_get_images_and_main_image
+- rpc/function_get_products_paginated
+- rpc/function_get_provider_payments
+- rpc/function_reporte_ventas
+- rpc/function_get_products_from_tables
+- rpc/get_locations_by_product
+- rpc/function_client_itinerary
+- rpc/function_get_product_rates
+- rpc/get_activities_with_location
+
+## RPC Functions
+
+### Available Functions
+
+- function_get_products_from_views
+- function_get_itineraries_with_contact_names
+- function_cuentas_por_cobrar
+- function_cuentas_por_pagar
+- function_reporte_ventas
+- function_get_agenda
+- function_get_user_roles_for_authenticated_user
+
+### Missing Functions
+
+- function_get_contacts_search
+- function_get_contacts_related
+- function_validate_delete_contact
+- function_get_products
+- function_get_products_paginated
+- function_search_products
+- function_get_product_rates
+- function_add_edit_product_rates
+- function_create_itinerary
+- function_duplicate_itinerary
+- function_get_itinerary_details
+- function_all_items_itinerary
+- function_get_passengers_itinerary
+- function_get_provider_payments
+- function_get_locations_products
+- request_openai_extraction_edge

@@ -18,6 +18,7 @@ class ItineraryServicesSection extends StatefulWidget {
   final VoidCallback? onAddHotel;
   final VoidCallback? onAddActivity;
   final VoidCallback? onAddTransfer;
+  final bool showAsOriginalDesign;
 
   const ItineraryServicesSection({
     Key? key,
@@ -27,6 +28,7 @@ class ItineraryServicesSection extends StatefulWidget {
     this.onAddHotel,
     this.onAddActivity,
     this.onAddTransfer,
+    this.showAsOriginalDesign = false,
   }) : super(key: key);
 
   @override
@@ -293,6 +295,115 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.showAsOriginalDesign) {
+      return _buildModernDesign();
+    }
+
+    // Original design with tabs and financial information
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Title
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
+          child: Text(
+            'SERVICIOS',
+            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  fontFamily: 'Readex Pro',
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  fontSize: 14,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ),
+
+        // Tab Bar with original style
+        Container(
+          height: 80,
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).primaryBackground,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: FlutterFlowTheme.of(context).alternate,
+              width: 1,
+            ),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            isScrollable: false,
+            labelColor: FlutterFlowTheme.of(context).primary,
+            unselectedLabelColor: FlutterFlowTheme.of(context).secondaryText,
+            labelStyle: FlutterFlowTheme.of(context).titleMedium.override(
+                  fontFamily: 'Readex Pro',
+                  fontSize: 12,
+                  letterSpacing: 0,
+                ),
+            unselectedLabelStyle:
+                FlutterFlowTheme.of(context).titleMedium.override(
+                      fontFamily: 'Readex Pro',
+                      fontSize: 12,
+                      letterSpacing: 0,
+                    ),
+            indicatorColor: FlutterFlowTheme.of(context).primary,
+            tabs: [
+              Tab(
+                text: 'Vuelos',
+                icon: FaIcon(
+                  FontAwesomeIcons.plane,
+                  size: 20,
+                ),
+              ),
+              Tab(
+                text: 'Hoteles',
+                icon: FaIcon(
+                  FontAwesomeIcons.bed,
+                  size: 20,
+                ),
+              ),
+              Tab(
+                text: 'Actividades',
+                icon: FaIcon(
+                  FontAwesomeIcons.mapMarkerAlt,
+                  size: 20,
+                ),
+              ),
+              Tab(
+                text: 'Transfer',
+                icon: FaIcon(
+                  FontAwesomeIcons.car,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(height: 16),
+
+        // Totals summary
+        _buildTotalsSummary(),
+
+        SizedBox(height: 16),
+
+        // Tab content with original card design
+        Container(
+          height: 500,
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildServiceTabOriginal('flight', widget.onAddFlight),
+              _buildServiceTabOriginal('hotel', widget.onAddHotel),
+              _buildServiceTabOriginal('activity', widget.onAddActivity),
+              _buildServiceTabOriginal('transfer', widget.onAddTransfer),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildModernDesign() {
     return Container(
       width: double.infinity,
       constraints: BoxConstraints(maxHeight: 600),
@@ -550,6 +661,553 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
         return 'Traslado';
       default:
         return 'Servicio';
+    }
+  }
+
+  Widget _buildTotalsSummary() {
+    // Calculate totals for each service type
+    double flightsTotal = 0;
+    double hotelsTotal = 0;
+    double activitiesTotal = 0;
+    double transfersTotal = 0;
+
+    for (var item in widget.itineraryItems) {
+      final type = getJsonField(item, r'$.type')?.toString();
+      final total = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
+
+      switch (type) {
+        case 'flight':
+          flightsTotal += total;
+          break;
+        case 'hotel':
+          hotelsTotal += total;
+          break;
+        case 'activity':
+          activitiesTotal += total;
+          break;
+        case 'transfer':
+          transfersTotal += total;
+          break;
+      }
+    }
+
+    final grandTotal =
+        flightsTotal + hotelsTotal + activitiesTotal + transfersTotal;
+
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: FlutterFlowTheme.of(context).alternate,
+          width: 1,
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Resumen de Totales',
+                style: FlutterFlowTheme.of(context).titleSmall.override(
+                      fontFamily: 'Readex Pro',
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0,
+                    ),
+              ),
+              Text(
+                '\$${grandTotal.toStringAsFixed(2)}',
+                style: FlutterFlowTheme.of(context).headlineSmall.override(
+                      fontFamily: 'Outfit',
+                      color: FlutterFlowTheme.of(context).primary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0,
+                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildTotalItem('Vuelos', flightsTotal, Colors.blue),
+              _buildTotalItem('Hoteles', hotelsTotal, Colors.green),
+              _buildTotalItem('Actividades', activitiesTotal, Colors.orange),
+              _buildTotalItem('Traslados', transfersTotal, Colors.purple),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTotalItem(String label, double amount, Color color) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: FlutterFlowTheme.of(context).bodySmall.override(
+                fontFamily: 'Readex Pro',
+                color: FlutterFlowTheme.of(context).secondaryText,
+                fontSize: 12,
+                letterSpacing: 0,
+              ),
+        ),
+        SizedBox(height: 4),
+        Text(
+          '\$${amount.toStringAsFixed(2)}',
+          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                fontFamily: 'Readex Pro',
+                color: color,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildServiceTabOriginal(
+      String serviceType, VoidCallback? onAddPressed) {
+    final items = widget.itineraryItems
+        .where(
+            (item) => getJsonField(item, r'$.type')?.toString() == serviceType)
+        .toList();
+
+    return Column(
+      children: [
+        // Add button
+        if (onAddPressed != null)
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: FFButtonWidget(
+              onPressed: onAddPressed,
+              text: 'Agregar ${_getServiceTypeName(serviceType)}',
+              icon: Icon(Icons.add, size: 20),
+              options: FFButtonOptions(
+                width: double.infinity,
+                height: 48,
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                color: FlutterFlowTheme.of(context).primary,
+                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                      fontSize: 16,
+                      letterSpacing: 0,
+                    ),
+                elevation: 3,
+                borderSide: BorderSide(
+                  color: Colors.transparent,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+
+        // Service items list
+        Expanded(
+          child: items.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        _getServiceIcon(serviceType),
+                        size: 64,
+                        color: FlutterFlowTheme.of(context)
+                            .secondaryText
+                            .withOpacity(0.3),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'No hay ${_getServiceTypeName(serviceType).toLowerCase()}s agregados',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              letterSpacing: 0,
+                            ),
+                      ),
+                    ],
+                  ),
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return _buildServiceCard(items[index], serviceType);
+                  },
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildServiceCard(dynamic item, String serviceType) {
+    // Get common fields
+    final netRate = getJsonField(item, r'$.net_rate')?.toDouble() ?? 0;
+    final markupPercent =
+        getJsonField(item, r'$.markup_percent')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
+    final quantity = getJsonField(item, r'$.quantity')?.toInt() ??
+        getJsonField(item, r'$.passengers')?.toInt() ??
+        getJsonField(item, r'$.total_passengers')?.toInt() ??
+        1;
+
+    // Get service-specific info
+    String title = '';
+    String subtitle = '';
+    String location = '';
+    String date = '';
+    String? imageUrl;
+
+    switch (serviceType) {
+      case 'flight':
+        final flightInfo = getJsonField(item, r'$.flights');
+        title =
+            '${getJsonField(flightInfo, r'$.origin')} - ${getJsonField(flightInfo, r'$.destination')}';
+        subtitle =
+            getJsonField(flightInfo, r'$.flight_number')?.toString() ?? '';
+        date = getJsonField(item, r'$.departure_date')?.toString() ?? '';
+        imageUrl = getJsonField(flightInfo, r'$.airline_logo')?.toString();
+        break;
+      case 'hotel':
+        final hotelInfo = getJsonField(item, r'$.hotels');
+        title = getJsonField(hotelInfo, r'$.name')?.toString() ?? 'Hotel';
+        subtitle = getJsonField(item, r'$.room_type')?.toString() ?? '';
+        location = getJsonField(hotelInfo, r'$.address')?.toString() ?? '';
+        date = getJsonField(item, r'$.check_in')?.toString() ?? '';
+        final images = getJsonField(hotelInfo, r'$.images') as List<dynamic>?;
+        imageUrl = images?.isNotEmpty == true ? images!.first.toString() : null;
+        break;
+      case 'activity':
+        final activityInfo = getJsonField(item, r'$.activities');
+        title =
+            getJsonField(activityInfo, r'$.name')?.toString() ?? 'Actividad';
+        subtitle = getJsonField(item, r'$.rate_name')?.toString() ?? '';
+        location = getJsonField(activityInfo, r'$.location')?.toString() ?? '';
+        date = getJsonField(item, r'$.date')?.toString() ?? '';
+        final images =
+            getJsonField(activityInfo, r'$.images') as List<dynamic>?;
+        imageUrl = images?.isNotEmpty == true ? images!.first.toString() : null;
+        break;
+      case 'transfer':
+        final transferInfo = getJsonField(item, r'$.transfers');
+        title = getJsonField(transferInfo, r'$.name')?.toString() ?? 'Traslado';
+        subtitle = getJsonField(item, r'$.pickup_location')?.toString() ?? '';
+        date = getJsonField(item, r'$.date')?.toString() ?? '';
+        imageUrl = getJsonField(transferInfo, r'$.image')?.toString();
+        break;
+    }
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).secondaryBackground,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 4,
+            color: Color(0x1A000000),
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Service info row
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: [
+                // Image
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).primaryBackground,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: imageUrl != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            imageUrl,
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Icon(
+                              _getServiceIcon(serviceType),
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 30,
+                            ),
+                          ),
+                        )
+                      : Icon(
+                          _getServiceIcon(serviceType),
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          size: 30,
+                        ),
+                ),
+                SizedBox(width: 12),
+                // Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: FlutterFlowTheme.of(context).bodyLarge.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0,
+                            ),
+                      ),
+                      if (subtitle.isNotEmpty) ...[
+                        SizedBox(height: 4),
+                        Text(
+                          subtitle,
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Readex Pro',
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 14,
+                                letterSpacing: 0,
+                              ),
+                        ),
+                      ],
+                      if (location.isNotEmpty) ...[
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 16,
+                            ),
+                            SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                location,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodySmall
+                                    .override(
+                                      fontFamily: 'Readex Pro',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      fontSize: 12,
+                                      letterSpacing: 0,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      if (date.isNotEmpty) ...[
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_today,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 16,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              _formatDate(date),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                // Actions
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        // TODO: Edit action
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        color: FlutterFlowTheme.of(context).primary,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    InkWell(
+                      onTap: () {
+                        // TODO: Delete action
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        color: FlutterFlowTheme.of(context).error,
+                        size: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          // Financial info
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).primaryBackground,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tarifa Neta',
+                      style: FlutterFlowTheme.of(context).bodySmall.override(
+                            fontFamily: 'Readex Pro',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 12,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                    Text(
+                      '\$${netRate.toStringAsFixed(2)}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Readex Pro',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Margen',
+                      style: FlutterFlowTheme.of(context).bodySmall.override(
+                            fontFamily: 'Readex Pro',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 12,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                    Text(
+                      '${markupPercent.toStringAsFixed(0)}%',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Readex Pro',
+                            color: FlutterFlowTheme.of(context).success,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Cantidad',
+                      style: FlutterFlowTheme.of(context).bodySmall.override(
+                            fontFamily: 'Readex Pro',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 12,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                    Text(
+                      quantity.toString(),
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Readex Pro',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Total',
+                      style: FlutterFlowTheme.of(context).bodySmall.override(
+                            fontFamily: 'Readex Pro',
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            fontSize: 12,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                    Text(
+                      '\$${totalPrice.toStringAsFixed(2)}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Readex Pro',
+                            color: FlutterFlowTheme.of(context).primary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0,
+                          ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _getServiceIcon(String serviceType) {
+    switch (serviceType) {
+      case 'flight':
+        return Icons.flight;
+      case 'hotel':
+        return Icons.hotel;
+      case 'activity':
+        return Icons.local_activity;
+      case 'transfer':
+        return Icons.directions_car;
+      default:
+        return Icons.room_service;
+    }
+  }
+
+  String _formatDate(String dateString) {
+    if (dateString.isEmpty) return '';
+    try {
+      final date = DateTime.parse(dateString);
+      return '${date.day}/${date.month}/${date.year}';
+    } catch (e) {
+      return dateString;
     }
   }
 }

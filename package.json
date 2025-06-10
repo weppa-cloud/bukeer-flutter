@@ -1,0 +1,66 @@
+{
+  "name": "bukeer-flutter",
+  "version": "1.0.0",
+  "description": "Bukeer Flutter App - Travel Management Platform",
+  "scripts": {
+    "maestro:install": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
+    "maestro:test": "cd maestro && maestro test flows/",
+    "maestro:test:smoke": "cd maestro && maestro test --tags=smoke flows/",
+    "maestro:test:regression": "cd maestro && maestro test --tags=regression flows/",
+    "maestro:test:critical": "cd maestro && maestro test --tags=critical flows/",
+    "maestro:test:auth": "cd maestro && maestro test flows/auth/",
+    "maestro:test:products": "cd maestro && maestro test flows/products/",
+    "maestro:test:contacts": "cd maestro && maestro test flows/contacts/",
+    "maestro:test:itineraries": "cd maestro && maestro test flows/itineraries/",
+    "maestro:test:single": "cd maestro && maestro test",
+    "maestro:studio": "cd maestro && maestro studio",
+    "maestro:cloud": "cd maestro && maestro cloud",
+    "maestro:record": "cd maestro && maestro record flows/",
+    "maestro:test:video": "cd maestro && maestro test --video flows/",
+    "maestro:test:video:all": "cd maestro && maestro test --video --video-quality=high flows/",
+    "maestro:hierarchy": "cd maestro && maestro hierarchy",
+    "maestro:setup": "cp maestro/.env.maestro.example maestro/.env.maestro && echo 'Please edit maestro/.env.maestro with your test credentials'",
+    "maestro:clean": "rm -rf maestro/screenshots maestro/test-results maestro/.maestro",
+    "test:e2e": "npm run maestro:test:smoke",
+    "test:e2e:all": "npm run maestro:test",
+    "pretest:e2e": "flutter build ios --debug --simulator && flutter build web",
+    "widgetbook": "flutter run -t lib/widgetbook/main.dart -d chrome",
+    "widgetbook:web": "flutter run -t lib/widgetbook/main.dart -d chrome --web-renderer html",
+    "widgetbook:macos": "flutter run -t lib/widgetbook/main.dart -d macos",
+    "widgetbook:ios": "flutter run -t lib/widgetbook/main.dart -d iphone",
+    "widgetbook:android": "flutter run -t lib/widgetbook/main.dart -d android",
+    "widgetbook:build": "flutter build web -t lib/widgetbook/main.dart --output=build/widgetbook",
+    "widgetbook:build:release": "flutter build web -t lib/widgetbook/main.dart --release --output=build/widgetbook",
+    "widgetbook:serve": "cd build/widgetbook && python3 -m http.server 8000",
+    "widgetbook:clean": "rm -rf build/widgetbook",
+    "pw:test": "playwright test",
+    "pw:test:ui": "playwright test --ui",
+    "pw:test:debug": "playwright test --debug",
+    "pw:test:headed": "playwright test --headed",
+    "pw:test:chrome": "playwright test --project=chromium",
+    "pw:test:mobile": "playwright test --project='Mobile Chrome' --project='iPhone 13'",
+    "pw:test:flutter": "playwright test e2e/tests/auth-flutter.spec.ts --project=chromium",
+    "pw:report": "playwright show-report",
+    "pw:codegen": "playwright codegen http://localhost:8080",
+    "pw:install": "playwright install"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bukeer/bukeer-flutter.git"
+  },
+  "keywords": [
+    "flutter",
+    "bukeer",
+    "travel",
+    "maestro",
+    "e2e-testing"
+  ],
+  "author": "Bukeer Team",
+  "license": "MIT"
+}

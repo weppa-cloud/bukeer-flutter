@@ -231,4 +231,31 @@ class UserService {
   set allDataUser(dynamic value) {
     _selectedUser = value;
   }
+
+  // ============= MOCK METHODS FOR TESTING =============
+  // These methods are for Widgetbook and testing only
+
+  /// Set mock agent info for testing
+  void setAgentInfo(Map<String, dynamic> data) {
+    _agentData = data;
+  }
+
+  /// Set mock admin status for testing
+  void setIsAdmin(bool value) {
+    if (value) {
+      _roleId = '1'; // Admin role ID
+    }
+  }
+
+  /// Set mock super admin status for testing
+  void setIsSuperAdmin(bool value) {
+    if (value) {
+      _roleId = '2'; // Super admin role ID
+    }
+  }
+
+  /// Set mock loaded data status for testing
+  void setHasLoadedData(bool value) {
+    _hasLoadedData = value;
+  }
 }

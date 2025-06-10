@@ -1,0 +1,123 @@
+appId: com.bukeer.app
+name: "Add Payment Test"
+tags:
+  - payments
+  - critical
+env:
+  PAYMENT_AMOUNT: "${PAYMENT_AMOUNT:-500.00}"
+  PAYMENT_METHOD: "${PAYMENT_METHOD:-Efectivo}"
+---
+
+# Test: Add Payment to Itinerary
+# Prerequisites: User logged in and at least one itinerary exists
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Itineraries
+- tapOn:
+    text: "Itinerarios"
+- waitForAnimationToEnd
+
+# Select first itinerary
+- tapOn:
+    index: 0
+    selector:
+      id: ".*itinerary.*item.*|.*itinerary.*card.*"
+      
+- waitForAnimationToEnd
+
+# Go to payments section
+- tapOn:
+    anyOf:
+      - text: "Pagos"
+      - text: "Payments"
+      - text: "Transacciones"
+      - id: ".*payments.*tab.*"
+      
+- takeScreenshot: "payments_section_initial"
+
+# Add new payment
+- tapOn:
+    anyOf:
+      - text: "Agregar Pago"
+      - text: "Add Payment"
+      - text: "Nuevo Pago"
+      - id: ".*add.*payment.*"
+      - id: ".*fab.*"
+      
+- takeScreenshot: "payment_form_empty"
+
+# Fill payment details
+- inputText:
+    id: ".*amount.*|.*monto.*|.*cantidad.*"
+    text: "${PAYMENT_AMOUNT}"
+    
+# Select payment method
+- tapOn:
+    id: ".*method.*|.*metodo.*|.*tipo.*"
+    optional: true
+    
+- tapOn:
+    text: "${PAYMENT_METHOD}"
+    optional: true
+    
+# Add payment date (if not auto-filled)
+- tapOn:
+    id: ".*date.*|.*fecha.*"
+    optional: true
+    
+- tapOn:
+    text: "OK"
+    optional: true
+    
+# Add reference number
+- inputText:
+    id: ".*reference.*|.*referencia.*|.*numero.*"
+    text: "REF-${timestamp}"
+    optional: true
+    
+# Add notes
+- inputText:
+    id: ".*notes.*|.*notas.*|.*observaciones.*"
+    text: "Payment added by Maestro automation test"
+    optional: true
+    
+- takeScreenshot: "payment_form_filled"
+
+# Save payment
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Save"
+      - text: "Agregar"
+      - id: ".*save.*"
+      - id: ".*submit.*"
+      
+- waitForAnimationToEnd
+
+# Verify success
+- assertVisible:
+    anyOf:
+      - text: "Pago agregado"
+      - text: "Payment added"
+      - text: "${PAYMENT_AMOUNT}"
+      - id: ".*success.*"
+      
+- takeScreenshot: "payment_added_success"
+
+# Verify payment in list
+- assertVisible:
+    text: "${PAYMENT_AMOUNT}"
+    
+# Verify payment method
+- assertVisible:
+    text: "${PAYMENT_METHOD}"
+    
+# Check updated balance
+- evalScript: |
+    console.log("Payment test completed");
+    output.paymentAmount = "${PAYMENT_AMOUNT}";
+    output.paymentMethod = "${PAYMENT_METHOD}";
+    output.reference = "REF-${timestamp}";
+    output.testStatus = "PASSED";

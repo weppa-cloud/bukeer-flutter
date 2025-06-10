@@ -349,6 +349,14 @@ class ProductService extends BaseService
     final now = DateTime.now();
     _searchCache.removeWhere((key, entry) => entry.isExpired);
   }
+
+  // ============= MOCK METHODS FOR TESTING =============
+  // These methods are for Widgetbook and testing only
+
+  /// Set mock selected hotel data for testing
+  void setAllDataHotel(Map<String, dynamic> data) {
+    _selectedHotel = data;
+  }
 }
 
 // Cache entry with TTL support

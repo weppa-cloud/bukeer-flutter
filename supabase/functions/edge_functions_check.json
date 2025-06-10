@@ -1,0 +1,187 @@
+{
+  "results": [
+    {
+      "name": "request_openai_extraction_edge",
+      "url": "https://wzlxbpicdcdvxvdcvgas.supabase.co/functions/v1/request_openai_extraction_edge",
+      "exists": false,
+      "status": 404,
+      "headers": {
+        "date": "Mon, 09 Jun 2025 15:53:54 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "cf-ray": "94d1cdeecfd516ac-BOG",
+        "cf-cache-status": "DYNAMIC",
+        "access-control-allow-origin": "*",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "access-control-allow-headers": "authorization, x-client-info, apikey",
+        "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+        "x-sb-edge-region": "us-east-1",
+        "x-served-by": "supabase-edge-runtime",
+        "set-cookie": [
+          "__cf_bm=COB2KNyLR17SpB2.biA8rjkDmXKCMH9P4EEG3drRVfI-1749484434-1.0.1.1-0UwfSyQAI6PknCLLIvRIolJXBP5KNyNfaBLPgW2ajcce6LqS3k1y8yQNDOPHAUy6m2e5XE6hUdo3MdhpMVowOFlGlGPSIOHt7_3lG514olw; path=/; expires=Mon, 09-Jun-25 16:23:54 GMT; domain=.supabase.co; HttpOnly; Secure"
+        ],
+        "server": "cloudflare",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    },
+    {
+      "name": "hotel_pdf_generation",
+      "url": "https://wzlxbpicdcdvxvdcvgas.supabase.co/functions/v1/hotel_pdf_generation",
+      "exists": false,
+      "status": 404,
+      "headers": {
+        "date": "Mon, 09 Jun 2025 15:53:54 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "cf-ray": "94d1cdf0ca4916ac-BOG",
+        "cf-cache-status": "DYNAMIC",
+        "access-control-allow-origin": "*",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "access-control-allow-headers": "authorization, x-client-info, apikey",
+        "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+        "x-sb-edge-region": "us-east-1",
+        "x-served-by": "supabase-edge-runtime",
+        "set-cookie": [
+          "__cf_bm=PXdkWvpCA6QrzT8UCtRyUp6nrS965XQPp5Qxsvy31UE-1749484434-1.0.1.1-HgxUNUfX0w8bM9aquYPAD2ujrk4BjgqTBTRjp58WRNehJHYu1kKTGzAwsw_BnNEEGNiNrLGePph9ZCmye2bwXo5Pji0Y_ia22kCssLDHG8U; path=/; expires=Mon, 09-Jun-25 16:23:54 GMT; domain=.supabase.co; HttpOnly; Secure"
+        ],
+        "server": "cloudflare",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    },
+    {
+      "name": "sync_duffel_airlines",
+      "url": "https://wzlxbpicdcdvxvdcvgas.supabase.co/functions/v1/sync_duffel_airlines",
+      "exists": false,
+      "status": 404,
+      "headers": {
+        "date": "Mon, 09 Jun 2025 15:53:54 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "cf-ray": "94d1cdf1cb9016ac-BOG",
+        "cf-cache-status": "DYNAMIC",
+        "access-control-allow-origin": "*",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "access-control-allow-headers": "authorization, x-client-info, apikey",
+        "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+        "x-sb-edge-region": "us-east-1",
+        "x-served-by": "supabase-edge-runtime",
+        "set-cookie": [
+          "__cf_bm=Uv9uyO7zTkHIQ7fPymh1WYEAbOuiDxf3RqYeRv.HS4I-1749484434-1.0.1.1-i9ed5YREHJh0DVJWhmwtg7CEro6XHPvIXzDVupiMaF5z35iPuvBKHYDGcNXgiPB5CBSNXdLjWhlyqWeTPJRkmv8Qd7Fg43idXeZYxipkp5U; path=/; expires=Mon, 09-Jun-25 16:23:54 GMT; domain=.supabase.co; HttpOnly; Secure"
+        ],
+        "server": "cloudflare",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    },
+    {
+      "name": "sync_duffel_airports",
+      "url": "https://wzlxbpicdcdvxvdcvgas.supabase.co/functions/v1/sync_duffel_airports",
+      "exists": false,
+      "status": 404,
+      "headers": {
+        "date": "Mon, 09 Jun 2025 15:53:54 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "cf-ray": "94d1cdf41e6316ac-BOG",
+        "cf-cache-status": "DYNAMIC",
+        "access-control-allow-origin": "*",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "access-control-allow-headers": "authorization, x-client-info, apikey",
+        "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+        "x-sb-edge-region": "us-east-1",
+        "x-served-by": "supabase-edge-runtime",
+        "set-cookie": [
+          "__cf_bm=KwRNduZ_N8Dn53FQiGztLp.dtE6TY5k7aCf2h398fBA-1749484434-1.0.1.1-Wgt.oDYXq.qJ39n_1lv3aUkPa6lkay5gCFcFu_acLV92yuPB9sI_4ecLbrgpoOECGuyTMGEegOO3OqaVqKF9acmOvpdAYX889gw0.BF4ONM; path=/; expires=Mon, 09-Jun-25 16:23:54 GMT; domain=.supabase.co; HttpOnly; Secure"
+        ],
+        "server": "cloudflare",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    },
+    {
+      "name": "get_bukeer_data_for_wp_sync",
+      "url": "https://wzlxbpicdcdvxvdcvgas.supabase.co/functions/v1/get_bukeer_data_for_wp_sync",
+      "exists": false,
+      "status": 404,
+      "headers": {
+        "date": "Mon, 09 Jun 2025 15:53:54 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "cf-ray": "94d1cdf51fc216ac-BOG",
+        "cf-cache-status": "DYNAMIC",
+        "access-control-allow-origin": "*",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "access-control-allow-headers": "authorization, x-client-info, apikey",
+        "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+        "x-sb-edge-region": "us-east-1",
+        "x-served-by": "supabase-edge-runtime",
+        "set-cookie": [
+          "__cf_bm=5EWF4c2B7oR_.GIFa4vETsenttf6zkVLRWSBJB0z8io-1749484434-1.0.1.1-Ksgw3KZD4VibC2Rhm9ogb7UEoqipDugseXteiiOkp6791UZOS8xvGqwv.W7MHpnjefdZWrLgKRya3yrhpMr.zpqSJWstCaA9k43qZ8oWoc0; path=/; expires=Mon, 09-Jun-25 16:23:54 GMT; domain=.supabase.co; HttpOnly; Secure"
+        ],
+        "server": "cloudflare",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    },
+    {
+      "name": "normalize_phone_colombia_only",
+      "url": "https://wzlxbpicdcdvxvdcvgas.supabase.co/functions/v1/normalize_phone_colombia_only",
+      "exists": false,
+      "status": 404,
+      "headers": {
+        "date": "Mon, 09 Jun 2025 15:53:55 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "cf-ray": "94d1cdf6292816ac-BOG",
+        "cf-cache-status": "DYNAMIC",
+        "access-control-allow-origin": "*",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "vary": "Accept-Encoding",
+        "access-control-allow-headers": "authorization, x-client-info, apikey",
+        "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+        "x-sb-edge-region": "us-east-1",
+        "x-served-by": "supabase-edge-runtime",
+        "set-cookie": [
+          "__cf_bm=WMzlSP9e_1VXCjCVCMp5EUd.RrlB6vF05wnuwFOoP6g-1749484435-1.0.1.1-6Ai6t9WQJt9O.E.S14yQlX5cchgkJ.emrUBdwlJWNM8TAM8kdfaHjCFo4sefAu9JbdcfUFSK1mfopt_F8WS5wa0nal8hyMsJenUV1bWTVSM; path=/; expires=Mon, 09-Jun-25 16:23:55 GMT; domain=.supabase.co; HttpOnly; Secure"
+        ],
+        "server": "cloudflare",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    }
+  ],
+  "openAITest": {
+    "name": "request_openai_extraction_edge",
+    "method": "POST",
+    "status": 404,
+    "response": "{\"code\":\"NOT_FOUND\",\"message\":\"Requested function was not found\"}",
+    "headers": {
+      "date": "Mon, 09 Jun 2025 15:53:56 GMT",
+      "content-type": "application/json",
+      "transfer-encoding": "chunked",
+      "connection": "keep-alive",
+      "cf-ray": "94d1cdfc891416ac-BOG",
+      "cf-cache-status": "DYNAMIC",
+      "access-control-allow-origin": "*",
+      "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+      "vary": "Accept-Encoding",
+      "access-control-allow-headers": "authorization, x-client-info, apikey",
+      "sb-project-ref": "wzlxbpicdcdvxvdcvgas",
+      "x-sb-edge-region": "us-east-1",
+      "x-served-by": "supabase-edge-runtime",
+      "set-cookie": [
+        "__cf_bm=NgS0Bbz2F4T9JKU16.uxCWpGbaCpA7p5iBUbU16pCOo-1749484436-1.0.1.1-rRN4yQjd4kWikNalmsCZ7ofu1_c7ZmyU9u_9rLz6BC71pj0bD8kTZ7t42vWND0gFthc_IDA.FREnzIsCbeFSEnZXNqAtE04_ubKZDT3fmbg; path=/; expires=Mon, 09-Jun-25 16:23:56 GMT; domain=.supabase.co; HttpOnly; Secure"
+      ],
+      "server": "cloudflare",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    }
+  },
+  "timestamp": "2025-06-09T15:53:55.908Z"
+}

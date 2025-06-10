@@ -1,0 +1,280 @@
+appId: com.bukeer.app
+name: "Complete Itinerary Flow E2E"
+tags:
+  - e2e
+  - critical
+  - smoke
+env:
+  ITINERARY_NAME: "E2E Test Trip ${timestamp}"
+  PASSENGER_NAME: "John Doe"
+  PASSENGER_EMAIL: "john.doe@test.com"
+  HOTEL_NIGHTS: "3"
+  ACTIVITY_NAME: "City Tour"
+  PAYMENT_AMOUNT: "500.00"
+---
+
+# Test: Complete End-to-End Itinerary Flow
+# This test covers the entire user journey from creating an itinerary
+# to adding services, passengers, and processing payments
+
+# Step 1: Login
+- runFlow: ../../utils/quick_login.yaml
+
+- takeScreenshot: "e2e_01_after_login"
+
+# Step 2: Create New Itinerary
+- tapOn:
+    text: "Itinerarios"
+- waitForAnimationToEnd
+
+- tapOn:
+    anyOf:
+      - text: "Crear Itinerario"
+      - text: "Nuevo Itinerario"
+      - id: ".*create.*itinerary.*"
+      - id: ".*fab.*"
+
+# Fill itinerary details
+- inputText:
+    id: ".*name.*|.*nombre.*"
+    text: "${ITINERARY_NAME}"
+    
+- inputText:
+    id: ".*description.*|.*descripcion.*"
+    text: "E2E automated test itinerary"
+    optional: true
+
+# Set dates
+- tapOn:
+    id: ".*start.*date.*|.*fecha.*inicio.*"
+    
+- tapOn:
+    text: "15"
+    
+- tapOn:
+    text: "OK"
+    
+- tapOn:
+    id: ".*end.*date.*|.*fecha.*fin.*"
+    
+- tapOn:
+    text: "18"
+    
+- tapOn:
+    text: "OK"
+
+- takeScreenshot: "e2e_02_itinerary_form"
+
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Crear"
+      - text: "Save"
+      
+- waitForAnimationToEnd
+
+# Step 3: Add Passenger
+- tapOn:
+    anyOf:
+      - text: "Pasajeros"
+      - text: "Passengers"
+      - id: ".*passengers.*tab.*"
+      
+- tapOn:
+    anyOf:
+      - text: "Agregar Pasajero"
+      - text: "Add Passenger"
+      - id: ".*add.*passenger.*"
+      
+- inputText:
+    id: ".*name.*|.*nombre.*"
+    text: "${PASSENGER_NAME}"
+    
+- inputText:
+    id: ".*email.*|.*correo.*"
+    text: "${PASSENGER_EMAIL}"
+    
+- inputText:
+    id: ".*phone.*|.*telefono.*"
+    text: "+1234567890"
+    optional: true
+    
+- tapOn:
+    id: ".*nationality.*|.*nacionalidad.*"
+    optional: true
+    
+- tapOn:
+    text: "United States"
+    optional: true
+
+- takeScreenshot: "e2e_03_passenger_form"
+
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Save"
+      
+- waitForAnimationToEnd
+
+# Step 4: Add Hotel Service
+- tapOn:
+    anyOf:
+      - text: "Servicios"
+      - text: "Services"
+      - id: ".*services.*tab.*"
+      
+- tapOn:
+    anyOf:
+      - text: "Agregar Servicio"
+      - text: "Add Service"
+      - text: "Hotel"
+      - id: ".*add.*service.*"
+      
+- tapOn:
+    text: "Hotel"
+    optional: true
+    
+# Select a hotel from list
+- tapOn:
+    index: 0
+    selector:
+      id: ".*hotel.*item.*|.*hotel.*card.*"
+      
+- inputText:
+    id: ".*nights.*|.*noches.*"
+    text: "${HOTEL_NIGHTS}"
+    optional: true
+    
+- tapOn:
+    anyOf:
+      - text: "Agregar"
+      - text: "Add"
+      - text: "Seleccionar"
+      
+- waitForAnimationToEnd
+
+- takeScreenshot: "e2e_04_hotel_added"
+
+# Step 5: Add Activity Service
+- tapOn:
+    anyOf:
+      - text: "Agregar Servicio"
+      - text: "Add Service"
+      - id: ".*add.*service.*"
+      
+- tapOn:
+    text: "Actividad"
+    optional: true
+    
+# Search for activity
+- inputText:
+    id: ".*search.*|.*buscar.*"
+    text: "${ACTIVITY_NAME}"
+    optional: true
+    
+- tapOn:
+    index: 0
+    selector:
+      id: ".*activity.*item.*|.*activity.*card.*"
+      
+- inputText:
+    id: ".*quantity.*|.*cantidad.*"
+    text: "2"
+    optional: true
+    
+- tapOn:
+    anyOf:
+      - text: "Agregar"
+      - text: "Add"
+      
+- waitForAnimationToEnd
+
+- takeScreenshot: "e2e_05_services_complete"
+
+# Step 6: Review Total Cost
+- evalScript: |
+    const totalElement = maestro.findElement({ id: ".*total.*amount.*|.*total.*precio.*" });
+    output.totalCost = totalElement ? totalElement.text : "unknown";
+    console.log("Total itinerary cost:", output.totalCost);
+
+# Step 7: Add Payment
+- tapOn:
+    anyOf:
+      - text: "Pagos"
+      - text: "Payments"
+      - id: ".*payments.*tab.*"
+      
+- tapOn:
+    anyOf:
+      - text: "Agregar Pago"
+      - text: "Add Payment"
+      - id: ".*add.*payment.*"
+      
+- inputText:
+    id: ".*amount.*|.*monto.*"
+    text: "${PAYMENT_AMOUNT}"
+    
+- tapOn:
+    id: ".*method.*|.*metodo.*"
+    optional: true
+    
+- tapOn:
+    text: "Tarjeta"
+    optional: true
+    
+- inputText:
+    id: ".*reference.*|.*referencia.*"
+    text: "E2E-TEST-${timestamp}"
+    optional: true
+
+- takeScreenshot: "e2e_06_payment_form"
+
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Save"
+      
+- waitForAnimationToEnd
+
+# Step 8: Generate PDF (Optional)
+- tapOn:
+    anyOf:
+      - text: "Generar PDF"
+      - text: "Generate PDF"
+      - text: "Descargar"
+      - id: ".*pdf.*|.*download.*"
+    optional: true
+    
+- waitForAnimationToEnd
+
+- takeScreenshot: "e2e_07_final_state"
+
+# Step 9: Verify Complete Flow
+- evalScript: |
+    console.log("E2E Test Completed Successfully!");
+    console.log("Created itinerary:", "${ITINERARY_NAME}");
+    console.log("Added passenger:", "${PASSENGER_NAME}");
+    console.log("Added services: Hotel + Activity");
+    console.log("Payment processed:", "${PAYMENT_AMOUNT}");
+    console.log("Total cost:", output.totalCost);
+    
+    output.testStatus = "PASSED";
+    output.summary = {
+      itinerary: "${ITINERARY_NAME}",
+      passenger: "${PASSENGER_NAME}",
+      services: ["Hotel", "Activity"],
+      payment: "${PAYMENT_AMOUNT}",
+      totalCost: output.totalCost
+    };
+
+# Optional: Navigate back to verify in list
+- tapOn:
+    anyOf:
+      - id: ".*back.*"
+      - text: "Itinerarios"
+    optional: true
+    
+- assertVisible:
+    text: "${ITINERARY_NAME}"
+    
+- takeScreenshot: "e2e_08_itinerary_in_list"

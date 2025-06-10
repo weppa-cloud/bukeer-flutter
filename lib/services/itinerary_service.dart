@@ -265,4 +265,12 @@ class ItineraryService extends BaseService {
     _selectedPassenger = null;
     notifyListeners();
   }
+
+  // ============= MOCK METHODS FOR TESTING =============
+  // These methods are for Widgetbook and testing only
+
+  /// Set mock selected itinerary data for testing
+  void setAllDataItinerary(Map<String, dynamic> data) {
+    _selectedItinerary = data;
+  }
 }

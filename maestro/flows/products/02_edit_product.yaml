@@ -1,0 +1,94 @@
+appId: com.bukeer.app  
+name: "Edit Product Test"
+tags:
+  - products
+  - regression
+---
+
+# Test: Edit an Existing Product
+# Prerequisites: At least one product must exist
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Products section
+- tapOn:
+    text: "Productos"
+- waitForAnimationToEnd
+
+# Select first product in the list
+- tapOn:
+    index: 0
+    selector:
+      id: ".*product.*item.*|.*product.*card.*"
+      
+- waitForAnimationToEnd
+
+# Tap edit button
+- tapOn:
+    anyOf:
+      - text: "Editar"
+      - text: "Edit"
+      - id: ".*edit.*"
+      - id: ".*modify.*"
+      
+- takeScreenshot: "product_edit_form"
+
+# Update product name
+- clearText:
+    id: ".*name.*|.*nombre.*"
+    
+- inputText:
+    id: ".*name.*|.*nombre.*"
+    text: "Updated Product ${timestamp}"
+    
+# Update price
+- clearText:
+    id: ".*price.*|.*precio.*"
+    
+- inputText:
+    id: ".*price.*|.*precio.*"
+    text: "150.00"
+    
+# Update description
+- clearText:
+    id: ".*description.*|.*descripcion.*"
+    
+- inputText:
+    id: ".*description.*|.*descripcion.*"
+    text: "This product has been updated by Maestro automation"
+    
+- takeScreenshot: "product_edit_form_updated"
+
+# Save changes
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Actualizar"
+      - text: "Save"
+      - text: "Update"
+      - id: ".*save.*"
+      - id: ".*update.*"
+      
+- waitForAnimationToEnd
+
+# Verify success message
+- assertVisible:
+    anyOf:
+      - text: "Producto actualizado"
+      - text: "Product updated"
+      - text: "Cambios guardados"
+      - id: ".*success.*"
+      
+- takeScreenshot: "product_updated_success"
+
+# Verify updated name appears
+- assertVisible:
+    text: "Updated Product"
+    
+# Log test results  
+- evalScript: |
+    console.log("Product edit test completed");
+    output.updatedName = "Updated Product";
+    output.updatedPrice = "150.00";
+    output.testStatus = "PASSED";

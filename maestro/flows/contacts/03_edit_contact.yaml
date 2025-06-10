@@ -1,0 +1,107 @@
+appId: com.bukeer.app
+name: "Edit Contact Test"
+tags:
+  - contacts
+  - regression
+---
+
+# Test: Edit an Existing Contact
+# Prerequisites: At least one contact must exist
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Contacts section
+- tapOn:
+    text: "Contactos"
+- waitForAnimationToEnd
+
+# Select first contact in the list
+- tapOn:
+    index: 0
+    selector:
+      id: ".*contact.*item.*|.*contact.*card.*|.*contact.*tile.*"
+      
+- waitForAnimationToEnd
+
+- takeScreenshot: "contact_details_view"
+
+# Tap edit button
+- tapOn:
+    anyOf:
+      - text: "Editar"
+      - text: "Edit"
+      - id: ".*edit.*"
+      - id: ".*modify.*"
+      
+- takeScreenshot: "contact_edit_form"
+
+# Update contact name
+- clearText:
+    id: ".*name.*|.*nombre.*"
+    
+- inputText:
+    id: ".*name.*|.*nombre.*"
+    text: "Updated Contact ${timestamp}"
+    
+# Update email
+- clearText:
+    id: ".*email.*|.*correo.*"
+    
+- inputText:
+    id: ".*email.*|.*correo.*"
+    text: "updated${timestamp}@example.com"
+    
+# Update phone
+- clearText:
+    id: ".*phone.*|.*telefono.*|.*celular.*"
+    
+- inputText:
+    id: ".*phone.*|.*telefono.*|.*celular.*"
+    text: "+9876543210"
+    
+# Update notes
+- clearText:
+    id: ".*notes.*|.*notas.*"
+    optional: true
+    
+- inputText:
+    id: ".*notes.*|.*notas.*"
+    text: "Contact updated by Maestro automation on ${timestamp}"
+    optional: true
+    
+- takeScreenshot: "contact_edit_form_updated"
+
+# Save changes
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Actualizar"
+      - text: "Save"
+      - text: "Update"
+      - id: ".*save.*"
+      - id: ".*update.*"
+      
+- waitForAnimationToEnd
+
+# Verify success message
+- assertVisible:
+    anyOf:
+      - text: "Contacto actualizado"
+      - text: "Contact updated"
+      - text: "Cambios guardados"
+      - id: ".*success.*"
+      
+- takeScreenshot: "contact_updated_success"
+
+# Verify updated name appears
+- assertVisible:
+    text: "Updated Contact"
+    
+# Log test results
+- evalScript: |
+    console.log("Contact edit test completed");
+    output.updatedName = "Updated Contact";
+    output.updatedEmail = "updated@example.com";
+    output.updatedPhone = "+9876543210";
+    output.testStatus = "PASSED";

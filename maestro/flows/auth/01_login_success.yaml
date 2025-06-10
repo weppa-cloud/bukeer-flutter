@@ -1,13 +1,12 @@
+appId: com.bukeer.app
+name: "Login Success Test"
+env:
+  EMAIL: ${TEST_EMAIL}
+  PASSWORD: ${TEST_PASSWORD}
+---
 # Test: Login Exitoso
 # Descripción: Verifica que un usuario puede hacer login con credenciales válidas
 # Prioridad: CRÍTICA
-# Tiempo estimado: 10-15 segundos
-
-appId: com.bukeer.app  # Cambiar según tu bundle ID
-env:
-  EMAIL: ${TEST_EMAIL:-admin@bukeer.com}
-  PASSWORD: ${TEST_PASSWORD:-Test123!}
----
 
 # 1. Lanzar aplicación en estado limpio
 - launchApp:

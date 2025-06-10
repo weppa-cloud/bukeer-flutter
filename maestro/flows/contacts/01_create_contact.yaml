@@ -1,0 +1,102 @@
+appId: com.bukeer.app
+name: "Create Contact Test"
+tags:
+  - contacts
+  - smoke
+env:
+  CONTACT_NAME: "${TEST_CONTACT_NAME:-Test Contact ${timestamp}}"
+  CONTACT_EMAIL: "${TEST_CONTACT_EMAIL:-test${timestamp}@example.com}"
+  CONTACT_PHONE: "${TEST_CONTACT_PHONE:-+1234567890}"
+---
+
+# Test: Create a New Contact
+# Prerequisites: User must be logged in
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Contacts section
+- tapOn:
+    text: "Contactos"
+- waitForAnimationToEnd
+
+# Tap on create/add contact button
+- tapOn:
+    anyOf:
+      - text: "Crear Contacto"
+      - text: "Agregar Contacto"
+      - text: "Nuevo Contacto"
+      - id: ".*add.*contact.*"
+      - id: ".*create.*contact.*"
+      - id: ".*fab.*"
+
+- takeScreenshot: "contact_form_empty"
+
+# Fill in contact details
+- inputText:
+    id: ".*name.*|.*nombre.*"
+    text: "${CONTACT_NAME}"
+    
+- inputText:
+    id: ".*email.*|.*correo.*"
+    text: "${CONTACT_EMAIL}"
+    
+- inputText:
+    id: ".*phone.*|.*telefono.*|.*celular.*"
+    text: "${CONTACT_PHONE}"
+    
+# Add company/organization (if field exists)
+- inputText:
+    id: ".*company.*|.*empresa.*|.*organization.*"
+    text: "Test Company"
+    optional: true
+    
+# Add notes (if field exists)
+- inputText:
+    id: ".*notes.*|.*notas.*|.*comments.*"
+    text: "This is a test contact created by Maestro automation"
+    optional: true
+    
+# Select contact type (if dropdown exists)
+- tapOn:
+    id: ".*type.*|.*tipo.*"
+    optional: true
+    
+- tapOn:
+    text: "Cliente"
+    optional: true
+    
+- takeScreenshot: "contact_form_filled"
+
+# Save the contact
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Crear"
+      - text: "Save"
+      - id: ".*save.*"
+      - id: ".*submit.*"
+      
+- waitForAnimationToEnd
+
+# Verify success
+- assertVisible:
+    anyOf:
+      - text: "Contacto creado exitosamente"
+      - text: "Contact created successfully"
+      - text: "${CONTACT_NAME}"
+      - id: ".*success.*"
+      
+- takeScreenshot: "contact_created_success"
+
+# Verify contact appears in list
+- assertVisible:
+    text: "${CONTACT_NAME}"
+    
+# Log test results
+- evalScript: |
+    console.log("Contact creation test completed");
+    output.contactName = "${CONTACT_NAME}";
+    output.contactEmail = "${CONTACT_EMAIL}";
+    output.contactPhone = "${CONTACT_PHONE}";
+    output.testStatus = "PASSED";

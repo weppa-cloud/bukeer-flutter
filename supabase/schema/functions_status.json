@@ -1,0 +1,140 @@
+[
+  {
+    "name": "function_get_contacts_search",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_contacts_search without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_contacts_search without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_contacts_related",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_contacts_related without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_contacts_related without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_validate_delete_contact",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_validate_delete_contact without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_validate_delete_contact without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_products",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_products without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":\"Perhaps you meant to call the function public.function_test_products\",\"message\":\"Could not find the function public.function_get_products without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_products_paginated",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_products_paginated without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_products_paginated without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_products_from_views",
+    "status": 400,
+    "exists": true,
+    "error": "{\"code\":\"P0001\",\"details\":null,\"hint\":null,\"message\":\"Invalid type: <NULL>. Expected values: activities, hotels, transfers.\"}"
+  },
+  {
+    "name": "function_search_products",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_search_products without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_search_products without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_product_rates",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_product_rates without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_product_rates without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_add_edit_product_rates",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_add_edit_product_rates without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_add_edit_product_rates without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_create_itinerary",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_create_itinerary without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_create_itinerary without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_duplicate_itinerary",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_duplicate_itinerary without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_duplicate_itinerary without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_itineraries_with_contact_names",
+    "status": 400,
+    "exists": true,
+    "error": "{\"code\":\"42804\",\"details\":\"Returned type date does not match expected type timestamp with time zone in column 12.\",\"hint\":null,\"message\":\"structure of query does not match function result type\"}"
+  },
+  {
+    "name": "function_get_itinerary_details",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_itinerary_details without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_itinerary_details without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_all_items_itinerary",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_all_items_itinerary without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_all_items_itinerary without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_passengers_itinerary",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_passengers_itinerary without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_passengers_itinerary without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_cuentas_por_cobrar",
+    "status": 200,
+    "exists": true,
+    "error": null
+  },
+  {
+    "name": "function_cuentas_por_pagar",
+    "status": 200,
+    "exists": true,
+    "error": null
+  },
+  {
+    "name": "function_reporte_ventas",
+    "status": 200,
+    "exists": true,
+    "error": null
+  },
+  {
+    "name": "function_get_provider_payments",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_provider_payments without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_provider_payments without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_agenda",
+    "status": 200,
+    "exists": true,
+    "error": null
+  },
+  {
+    "name": "function_get_locations_products",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.function_get_locations_products without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.function_get_locations_products without parameters in the schema cache\"}"
+  },
+  {
+    "name": "function_get_user_roles_for_authenticated_user",
+    "status": 200,
+    "exists": true,
+    "error": null
+  },
+  {
+    "name": "request_openai_extraction_edge",
+    "status": 404,
+    "exists": false,
+    "error": "{\"code\":\"PGRST202\",\"details\":\"Searched for the function public.request_openai_extraction_edge without parameters or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.\",\"hint\":null,\"message\":\"Could not find the function public.request_openai_extraction_edge without parameters in the schema cache\"}"
+  }
+]

@@ -1,0 +1,124 @@
+appId: com.bukeer.app
+name: "Edit Payment Test"
+tags:
+  - payments
+  - regression
+---
+
+# Test: Edit Existing Payment
+# Prerequisites: At least one payment exists in an itinerary
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Itineraries
+- tapOn:
+    text: "Itinerarios"
+- waitForAnimationToEnd
+
+# Select itinerary with payments
+- tapOn:
+    index: 0
+    selector:
+      id: ".*itinerary.*item.*|.*itinerary.*card.*"
+      
+- waitForAnimationToEnd
+
+# Go to payments section
+- tapOn:
+    anyOf:
+      - text: "Pagos"
+      - text: "Payments"
+      - text: "Transacciones"
+      - id: ".*payments.*tab.*"
+      
+- waitForAnimationToEnd
+
+# Select first payment
+- tapOn:
+    index: 0
+    selector:
+      id: ".*payment.*item.*|.*payment.*row.*|.*transaction.*item.*"
+      
+- takeScreenshot: "payment_details_before_edit"
+
+# Tap edit button
+- tapOn:
+    anyOf:
+      - text: "Editar"
+      - text: "Edit"
+      - id: ".*edit.*"
+      
+- takeScreenshot: "payment_edit_form"
+
+# Update amount
+- clearText:
+    id: ".*amount.*|.*monto.*|.*cantidad.*"
+    
+- inputText:
+    id: ".*amount.*|.*monto.*|.*cantidad.*"
+    text: "750.00"
+    
+# Update payment method if possible
+- tapOn:
+    id: ".*method.*|.*metodo.*"
+    optional: true
+    
+- tapOn:
+    text: "Tarjeta"
+    optional: true
+    
+# Update reference
+- clearText:
+    id: ".*reference.*|.*referencia.*"
+    optional: true
+    
+- inputText:
+    id: ".*reference.*|.*referencia.*"
+    text: "REF-UPDATED-${timestamp}"
+    optional: true
+    
+# Update notes
+- clearText:
+    id: ".*notes.*|.*notas.*"
+    optional: true
+    
+- inputText:
+    id: ".*notes.*|.*notas.*"
+    text: "Payment updated by Maestro automation"
+    optional: true
+    
+- takeScreenshot: "payment_edit_form_updated"
+
+# Save changes
+- tapOn:
+    anyOf:
+      - text: "Guardar"
+      - text: "Save"
+      - text: "Actualizar"
+      - text: "Update"
+      - id: ".*save.*"
+      - id: ".*update.*"
+      
+- waitForAnimationToEnd
+
+# Verify success
+- assertVisible:
+    anyOf:
+      - text: "Pago actualizado"
+      - text: "Payment updated"
+      - text: "Cambios guardados"
+      - id: ".*success.*"
+      
+- takeScreenshot: "payment_updated_success"
+
+# Verify updated amount
+- assertVisible:
+    text: "750.00"
+    
+# Log results
+- evalScript: |
+    console.log("Payment edit test completed");
+    output.updatedAmount = "750.00";
+    output.updatedReference = "REF-UPDATED";
+    output.testStatus = "PASSED";

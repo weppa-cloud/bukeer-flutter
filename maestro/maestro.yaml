@@ -1,0 +1,141 @@
+# Maestro Configuration File
+# Global settings for all Maestro tests
+
+# App Configuration
+appId: com.bukeer.app
+name: "Bukeer Test Suite"
+
+# Global Test Settings
+testSettings:
+  # Default timeout for all commands (in milliseconds)
+  defaultTimeout: 30000
+  
+  # Retry configuration
+  retryPolicy:
+    maxRetries: 2
+    retryDelay: 1000
+    
+  # Screenshot settings
+  screenshots:
+    enabled: true
+    onError: true
+    quality: 80
+    
+  # Video recording settings
+  video:
+    enabled: true
+    quality: "high"
+    format: "mp4"
+    saveOnSuccess: false  # Solo guardar videos cuando fallan
+    saveOnFailure: true
+    
+  # Network conditions (for testing different scenarios)
+  network:
+    preset: "wifi" # Options: wifi, 4g, 3g, edge, offline
+    
+# Environment Variables (can be overridden by .env.maestro)
+env:
+  BASE_URL: "${TEST_BASE_URL:-http://localhost:3000}"
+  DEFAULT_TIMEOUT: "${TEST_TIMEOUT:-30000}"
+  ENABLE_SCREENSHOTS: "${ENABLE_SCREENSHOTS:-true}"
+  ENABLE_VIDEO: "${ENABLE_VIDEO_RECORDING:-false}"
+  
+# Test Tags Configuration
+tags:
+  # Define test groups for selective execution
+  smoke:
+    - auth
+    - navigation
+  regression:
+    - auth
+    - navigation
+    - itineraries
+    - products
+    - contacts
+  critical:
+    - auth
+    - itineraries
+    
+# Device Configuration
+devices:
+  # Define device profiles for cross-platform testing
+  mobile:
+    platform: "iOS"
+    osVersion: "17.0"
+    device: "iPhone 15"
+  tablet:
+    platform: "iOS" 
+    osVersion: "17.0"
+    device: "iPad Pro"
+  web:
+    platform: "Web"
+    browser: "Chrome"
+    
+# Hooks (scripts to run before/after tests)
+hooks:
+  beforeAll: |
+    console.log("Starting Bukeer Test Suite");
+    console.log("Environment:", maestro.env.BASE_URL);
+    
+  afterAll: |
+    console.log("Test Suite Completed");
+    console.log("Total tests run:", maestro.testCount);
+    
+  beforeEach: |
+    console.log("Starting test:", maestro.currentTest);
+    
+  afterEach: |
+    console.log("Test completed:", maestro.currentTest);
+    if (maestro.testFailed) {
+      console.error("Test failed with error:", maestro.error);
+    }
+    
+# Custom Commands (reusable actions)
+commands:
+  # Login helper
+  login:
+    - inputText:
+        id: ".*email.*"
+        text: "${email}"
+    - inputText:
+        id: ".*password.*"
+        text: "${password}"
+    - tapOn:
+        text: "Ingresar"
+    - waitForAnimationToEnd
+    
+  # Logout helper
+  logout:
+    - tapOn:
+        text: "Perfil"
+    - tapOn:
+        text: "Cerrar sesión"
+    - tapOn:
+        text: "Confirmar"
+        
+  # Navigate to section
+  navigateTo:
+    - tapOn:
+        text: "${section}"
+    - waitForAnimationToEnd
+    
+# Reporting Configuration
+reporting:
+  # JUnit XML output
+  junit:
+    enabled: true
+    outputPath: "./test-results/junit.xml"
+    
+  # HTML Report
+  html:
+    enabled: true
+    outputPath: "./test-results/report.html"
+    includeScreenshots: true
+    includeVideos: false
+    
+  # Slack integration (optional)
+  slack:
+    enabled: false
+    webhook: "${SLACK_WEBHOOK_URL}"
+    channel: "#qa-automation"
+    notifyOn: ["failure", "success"]

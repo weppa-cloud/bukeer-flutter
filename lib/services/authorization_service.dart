@@ -220,6 +220,47 @@ class AuthorizationService extends ChangeNotifier {
     clearRoles();
   }
 
+  // ============= MOCK METHODS FOR TESTING =============
+  // These methods are for Widgetbook and testing only
+
+  /// Set mock role for testing
+  void setMockRole(RoleType roleType) {
+    _userRoles.clear();
+    _userPermissions.clear();
+
+    switch (roleType) {
+      case RoleType.superAdmin:
+        _userRoles.add(UserRole(
+          id: 2,
+          name: 'super_admin',
+          type: RoleType.superAdmin,
+          permissions: ['*'],
+        ));
+        break;
+      case RoleType.admin:
+        _userRoles.add(UserRole(
+          id: 1,
+          name: 'admin',
+          type: RoleType.admin,
+          permissions: _adminPermissions.values.expand((p) => p).toList(),
+        ));
+        break;
+      case RoleType.agent:
+        _userRoles.add(UserRole(
+          id: 3,
+          name: 'agent',
+          type: RoleType.agent,
+          permissions: _agentPermissions.values.expand((p) => p).toList(),
+        ));
+        break;
+      case RoleType.guest:
+        // No roles for guest
+        break;
+    }
+
+    notifyListeners();
+  }
+
   /// Private helper methods
   bool _checkRoleBasedAccess(String resourceType, String action) {
     // Super admin can do everything

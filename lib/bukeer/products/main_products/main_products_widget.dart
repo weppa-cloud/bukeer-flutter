@@ -495,49 +495,32 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                       MainAxisSize
                                                                           .max,
                                                                   children: [
-                                                                    Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children:
-                                                                          [
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              12.0,
-                                                                              12.0,
-                                                                              12.0,
-                                                                              12.0),
-                                                                          child:
-                                                                              Icon(
-                                                                            Icons.search,
-                                                                            color:
-                                                                                BukeerColors.secondaryText,
-                                                                            size:
-                                                                                30.0,
-                                                                          ),
-                                                                        ),
-                                                                        Flexible(
-                                                                          child:
-                                                                              wrapWithModel(
-                                                                            model:
-                                                                                _model.searchBoxModel,
-                                                                            updateCallback: () =>
-                                                                                safeSetState(() {}),
-                                                                            child:
-                                                                                SearchBoxWidget(
-                                                                              hintText: 'Buscar productos',
-                                                                              onSearchChanged: (searchText) async {
-                                                                                context.read<UiStateService>().searchQuery = searchText;
-                                                                                safeSetState(() {});
-                                                                                await Future.delayed(const Duration(milliseconds: 1000));
-                                                                                safeSetState(() => _model.listViewPagingController?.refresh());
-                                                                                await _model.waitForOnePageForListView();
-                                                                              },
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ].divide(SizedBox(
-                                                                              width: BukeerSpacing.s)),
+                                                                    wrapWithModel(
+                                                                      model: _model
+                                                                          .searchBoxModel,
+                                                                      updateCallback:
+                                                                          () =>
+                                                                              safeSetState(() {}),
+                                                                      child:
+                                                                          SearchBoxWidget(
+                                                                        hintText:
+                                                                            'Buscar productos',
+                                                                        onSearchChanged:
+                                                                            (searchText) async {
+                                                                          context
+                                                                              .read<UiStateService>()
+                                                                              .searchQuery = searchText;
+                                                                          safeSetState(
+                                                                              () {});
+                                                                          await Future.delayed(
+                                                                              const Duration(milliseconds: 1000));
+                                                                          safeSetState(() => _model
+                                                                              .listViewPagingController
+                                                                              ?.refresh());
+                                                                          await _model
+                                                                              .waitForOnePageForListView();
+                                                                        },
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),

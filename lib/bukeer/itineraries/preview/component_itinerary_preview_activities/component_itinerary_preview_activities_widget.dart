@@ -736,7 +736,7 @@ class _ComponentItineraryPreviewActivitiesWidgetState
                                             if (containerActivitiesActivitiesRow
                                                         ?.scheduleData !=
                                                     null &&
-                                                containerActivitiesActivitiesRow
+                                                containerActivitiesActivitiesRow!
                                                     .scheduleData!.isNotEmpty)
                                               Padding(
                                                 padding: EdgeInsetsDirectional

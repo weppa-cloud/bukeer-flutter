@@ -1,0 +1,37 @@
+appId: com.bukeer.app
+name: "Test Login Staging"
+---
+
+# Abrir la app en el navegador
+- openLink: http://localhost:59931
+
+# Esperar que cargue
+- waitForAnimationToEnd
+
+# Buscar el campo de email
+- tapOn:
+    id: ".*email.*"
+    
+- inputText: "admin@staging.com"
+
+# Buscar el campo de password
+- tapOn:
+    id: ".*password.*"
+    
+- inputText: "password123"
+
+# Hacer tap en el botón de login
+- tapOn:
+    text: "Ingresar"
+    
+# Esperar respuesta
+- waitForAnimationToEnd
+
+# Verificar que estamos logueados
+- assertVisible:
+    anyOf:
+      - text: "Dashboard"
+      - text: "Itinerarios"
+      - text: "Inicio"
+      
+- takeScreenshot: "login_success_staging"

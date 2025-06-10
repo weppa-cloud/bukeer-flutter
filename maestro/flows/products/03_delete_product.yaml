@@ -1,0 +1,88 @@
+appId: com.bukeer.app
+name: "Delete Product Test"
+tags:
+  - products
+  - regression
+---
+
+# Test: Delete a Product
+# Prerequisites: At least one product must exist
+
+# Login first
+- runFlow: ../../utils/quick_login.yaml
+
+# Navigate to Products section
+- tapOn:
+    text: "Productos"
+- waitForAnimationToEnd
+
+# Store initial product count
+- evalScript: |
+    const productItems = maestro.findElements({ id: ".*product.*item.*" });
+    output.initialCount = productItems.length;
+    console.log("Initial product count:", output.initialCount);
+
+# Select first product in the list
+- tapOn:
+    index: 0
+    selector:
+      id: ".*product.*item.*|.*product.*card.*"
+      
+- waitForAnimationToEnd
+
+- takeScreenshot: "product_details_before_delete"
+
+# Tap delete button
+- tapOn:
+    anyOf:
+      - text: "Eliminar"
+      - text: "Delete"
+      - text: "Borrar"
+      - id: ".*delete.*"
+      - id: ".*remove.*"
+      
+# Handle confirmation dialog
+- assertVisible:
+    anyOf:
+      - text: "¿Estás seguro?"
+      - text: "Are you sure?"
+      - text: "Confirmar eliminación"
+      - text: "Confirm deletion"
+      
+- takeScreenshot: "delete_confirmation_dialog"
+
+# Confirm deletion
+- tapOn:
+    anyOf:
+      - text: "Confirmar"
+      - text: "Sí"
+      - text: "Yes"
+      - text: "Eliminar"
+      - text: "Delete"
+      - id: ".*confirm.*"
+      
+- waitForAnimationToEnd
+
+# Verify success message
+- assertVisible:
+    anyOf:
+      - text: "Producto eliminado"
+      - text: "Product deleted"
+      - text: "Eliminado exitosamente"
+      - id: ".*success.*"
+      
+- takeScreenshot: "product_deleted_success"
+
+# Verify product count decreased
+- evalScript: |
+    const productItems = maestro.findElements({ id: ".*product.*item.*" });
+    output.finalCount = productItems.length;
+    console.log("Final product count:", output.finalCount);
+    
+    if (output.initialCount && output.finalCount < output.initialCount) {
+      console.log("Product successfully deleted");
+      output.testStatus = "PASSED";
+    } else {
+      console.error("Product count did not decrease");
+      output.testStatus = "FAILED";
+    }

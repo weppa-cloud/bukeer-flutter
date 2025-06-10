@@ -8,12 +8,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Header section for itinerary details
 /// Contains title, status, basic info and action buttons
-class ItineraryHeaderSection extends StatelessWidget {
+class ItineraryHeaderSection extends StatefulWidget {
   final dynamic itineraryData;
   final VoidCallback? onEditPressed;
   final VoidCallback? onDeletePressed;
   final VoidCallback? onPreviewPressed;
   final VoidCallback? onPdfPressed;
+  final Function(bool)? onStatusChanged;
 
   const ItineraryHeaderSection({
     Key? key,
@@ -22,28 +23,69 @@ class ItineraryHeaderSection extends StatelessWidget {
     this.onDeletePressed,
     this.onPreviewPressed,
     this.onPdfPressed,
+    this.onStatusChanged,
   }) : super(key: key);
+
+  @override
+  State<ItineraryHeaderSection> createState() => _ItineraryHeaderSectionState();
+}
+
+class _ItineraryHeaderSectionState extends State<ItineraryHeaderSection> {
+  late bool isConfirmed;
+
+  @override
+  void initState() {
+    super.initState();
+    final status =
+        getJsonField(widget.itineraryData, r'$[:].status')?.toString() ??
+            'draft';
+    isConfirmed = status.toLowerCase() == 'confirmed';
+  }
 
   @override
   Widget build(BuildContext context) {
     final itineraryName =
-        getJsonField(itineraryData, r'$[:].itinerary_name')?.toString() ??
+        getJsonField(widget.itineraryData, r'$[:].itinerary_name')
+                ?.toString() ??
             'Sin nombre';
     final clientName =
-        getJsonField(itineraryData, r'$[:].client_name')?.toString() ??
+        getJsonField(widget.itineraryData, r'$[:].client_name')?.toString() ??
             'Sin cliente';
     final startDate =
-        getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
+        getJsonField(widget.itineraryData, r'$[:].start_date')?.toString() ??
+            '';
     final endDate =
-        getJsonField(itineraryData, r'$[:].end_date')?.toString() ?? '';
+        getJsonField(widget.itineraryData, r'$[:].end_date')?.toString() ?? '';
     final status =
-        getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'draft';
+        getJsonField(widget.itineraryData, r'$[:].status')?.toString() ??
+            'draft';
+
+    // Travel planner info
+    final travelPlannerName =
+        getJsonField(widget.itineraryData, r'$[:].travel_planner_name')
+                ?.toString() ??
+            'Sin asignar';
+    final travelPlannerAvatar =
+        getJsonField(widget.itineraryData, r'$[:].travel_planner_avatar')
+                ?.toString() ??
+            '';
+
+    // Totals
+    final totalNet =
+        getJsonField(widget.itineraryData, r'$[:].total_net')?.toString() ??
+            '0';
+    final totalMargin =
+        getJsonField(widget.itineraryData, r'$[:].total_margin')?.toString() ??
+            '0';
+    final totalPrice =
+        getJsonField(widget.itineraryData, r'$[:].total_price')?.toString() ??
+            '0';
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(BukeerSpacing.sm),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
@@ -53,160 +95,349 @@ class ItineraryHeaderSection extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(BukeerSpacing.l),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title and Status Row
+            // Back button and title row
+            Row(
+              children: [
+                InkWell(
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    context.safePop();
+                  },
+                  child: Icon(
+                    Icons.arrow_back_rounded,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 24,
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    itineraryName,
+                    style: FlutterFlowTheme.of(context).headlineMedium.override(
+                          fontFamily: 'Outfit',
+                          color: FlutterFlowTheme.of(context).primaryText,
+                          fontSize: 24,
+                          letterSpacing: 0,
+                        ),
+                  ),
+                ),
+                // Confirm button with switch
+                Container(
+                  decoration: BoxDecoration(
+                    color: isConfirmed
+                        ? FlutterFlowTheme.of(context).success
+                        : FlutterFlowTheme.of(context).secondaryBackground,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: isConfirmed
+                          ? FlutterFlowTheme.of(context).success
+                          : FlutterFlowTheme.of(context).alternate,
+                      width: 2,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          isConfirmed ? 'Confirmado' : 'Presupuesto',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Readex Pro',
+                                color: isConfirmed
+                                    ? Colors.white
+                                    : FlutterFlowTheme.of(context).primaryText,
+                                letterSpacing: 0,
+                              ),
+                        ),
+                        SizedBox(width: 8),
+                        Switch.adaptive(
+                          value: isConfirmed,
+                          onChanged: (newValue) {
+                            setState(() {
+                              isConfirmed = newValue;
+                            });
+                            widget.onStatusChanged?.call(newValue);
+                          },
+                          activeColor: Colors.white,
+                          activeTrackColor: Color(0xFF4CAF50),
+                          inactiveTrackColor:
+                              FlutterFlowTheme.of(context).alternate,
+                          inactiveThumbColor:
+                              FlutterFlowTheme.of(context).secondaryText,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 16),
+
+            // Client and status row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        itineraryName,
-                        style: FlutterFlowTheme.of(context)
-                            .headlineMedium
-                            .override(
-                              fontFamily: 'Outfit',
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
+                Text(
+                  'Cliente: $clientName',
+                  style: FlutterFlowTheme.of(context).bodyLarge.override(
+                        fontFamily: 'Readex Pro',
+                        color: FlutterFlowTheme.of(context).secondaryText,
+                        fontSize: 16,
+                        letterSpacing: 0,
                       ),
-                      SizedBox(height: BukeerSpacing.s),
-                      Text(
-                        'Cliente: $clientName',
-                        style: FlutterFlowTheme.of(context).bodyLarge.override(
-                              fontFamily: 'Readex Pro',
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              fontSize: 16,
-                            ),
-                      ),
-                    ],
-                  ),
                 ),
                 _buildStatusChip(context, status),
               ],
             ),
 
-            SizedBox(height: BukeerSpacing.m),
+            SizedBox(height: 16),
 
-            // Dates Row
+            // Action buttons row
+            Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      BukeerIconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 20,
+                        ),
+                        onPressed: widget.onEditPressed,
+                        size: BukeerIconButtonSize.small,
+                        variant: BukeerIconButtonVariant.outlined,
+                      ),
+                      SizedBox(width: 8),
+                      BukeerIconButton(
+                        icon: Icon(
+                          Icons.content_copy,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          // TODO: Implement duplicate functionality
+                        },
+                        size: BukeerIconButtonSize.small,
+                        variant: BukeerIconButtonVariant.outlined,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            Divider(
+              height: 32,
+              thickness: 1,
+              color: FlutterFlowTheme.of(context).alternate,
+            ),
+
+            // Travel planner info
+            Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color:
+                        FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: travelPlannerAvatar.isNotEmpty
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: Image.network(
+                            travelPlannerAvatar,
+                            width: 48,
+                            height: 48,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Icon(
+                              Icons.person,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 24,
+                            ),
+                          ),
+                        )
+                      : Icon(
+                          Icons.person,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 24,
+                        ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Travel Planner',
+                        style: FlutterFlowTheme.of(context).bodySmall.override(
+                              fontFamily: 'Readex Pro',
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontSize: 12,
+                              letterSpacing: 0,
+                            ),
+                      ),
+                      Text(
+                        travelPlannerName,
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 16),
+
+            // Dates row
             Row(
               children: [
                 Icon(
                   Icons.calendar_today,
-                  color: FlutterFlowTheme.of(context).primary,
+                  color: FlutterFlowTheme.of(context).secondaryText,
                   size: 20,
                 ),
-                SizedBox(width: BukeerSpacing.s),
+                SizedBox(width: 8),
                 Text(
                   '${_formatDate(startDate)} - ${_formatDate(endDate)}',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Readex Pro',
                         color: FlutterFlowTheme.of(context).primaryText,
                         fontSize: 14,
+                        letterSpacing: 0,
                       ),
                 ),
               ],
             ),
 
-            SizedBox(height: BukeerSpacing.l),
+            SizedBox(height: 20),
 
-            // Action Buttons
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                FFButtonWidget(
-                  onPressed: onEditPressed,
-                  text: 'Editar',
-                  icon: Icon(
-                    Icons.edit,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 36,
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
-                    color: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Readex Pro',
-                          color: Colors.white,
-                          fontSize: 14,
+            // Totals section
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color(0x0D4B39EF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Total Neto',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                            Text(
+                              '\$$totalNet',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .override(
+                                    fontFamily: 'Outfit',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                          ],
                         ),
-                    elevation: 2,
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                  ),
-                ),
-                FFButtonWidget(
-                  onPressed: onPreviewPressed,
-                  text: 'Preview',
-                  icon: Icon(
-                    Icons.visibility,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 36,
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Readex Pro',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 14,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Margen',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                            Text(
+                              '$totalMargin%',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .override(
+                                    fontFamily: 'Outfit',
+                                    color: FlutterFlowTheme.of(context).success,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                          ],
                         ),
-                    elevation: 1,
-                    borderSide: BorderSide(
-                      color: FlutterFlowTheme.of(context).alternate,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                  ),
-                ),
-                FFButtonWidget(
-                  onPressed: onPdfPressed,
-                  text: 'PDF',
-                  icon: Icon(
-                    Icons.picture_as_pdf,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 36,
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
-                    color: FlutterFlowTheme.of(context).error,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Readex Pro',
-                          color: Colors.white,
-                          fontSize: 14,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Total',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                            Text(
+                              '\$$totalPrice',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .override(
+                                    fontFamily: 'Outfit',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0,
+                                  ),
+                            ),
+                          ],
                         ),
-                    elevation: 2,
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(BukeerSpacing.s),
-                  ),
+                  ],
                 ),
-                BukeerIconButton(
-                  icon: FaIcon(
-                    FontAwesomeIcons.trash,
-                    color: FlutterFlowTheme.of(context).error,
-                    size: 16,
-                  ),
-                  onPressed: onDeletePressed,
-                  size: BukeerIconButtonSize.small,
-                  variant: BukeerIconButtonVariant.danger,
-                ),
-              ],
+              ),
             ),
           ],
         ),
