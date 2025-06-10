@@ -26,7 +26,7 @@ import 'itinerary_details_model.dart';
 
 export 'itinerary_details_model.dart';
 
-/// ItineraryDetailsWidget - Using Bukeer Design System with Dark Mode Support
+/// ItineraryDetailsWidget - Matching exact HTML design
 class ItineraryDetailsWidget extends StatefulWidget {
   const ItineraryDetailsWidget({
     super.key,
@@ -194,7 +194,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   padding: EdgeInsets.only(top: 4, right: 16),
                   child: Icon(
                     Icons.arrow_back,
-                    color: FlutterFlowTheme.of(context).secondaryText,
+                    color: Color(0xFF4B5563),
                     size: 28,
                   ),
                 ),
@@ -205,10 +205,12 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   children: [
                     Text(
                       '$itineraryName ✈️',
-                      style: FlutterFlowTheme.of(context).headlineMedium.override(
-                        fontFamily: 'Outfit',
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
+                        color: Color(0xFF111827),
+                        height: 1.3,
+                        fontFamily: 'Inter',
                       ),
                     ),
                     SizedBox(height: 8),
@@ -252,20 +254,21 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).alternate.withOpacity(0.2),
+        color: Color(0xFFF3F4F6),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: FlutterFlowTheme.of(context).secondaryText),
+          Icon(icon, size: 16, color: Color(0xFF4B5563)),
           SizedBox(width: 6),
           Text(
             text,
-            style: FlutterFlowTheme.of(context).bodySmall.override(
-              fontFamily: 'Readex Pro',
+            style: TextStyle(
               fontSize: 13,
+              color: Color(0xFF6B7280),
               fontWeight: FontWeight.w500,
+              fontFamily: 'Inter',
             ),
           ),
         ],
@@ -279,20 +282,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive 
-              ? FlutterFlowTheme.of(context).primary 
-              : FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
+          color: isActive ? Color(0xFF4F46E5) : Color(0xFFE5E7EB),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           text,
-          style: FlutterFlowTheme.of(context).bodySmall.override(
-            fontFamily: 'Readex Pro',
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: isActive 
-                ? Colors.white 
-                : FlutterFlowTheme.of(context).primaryText,
+            color: isActive ? Colors.white : Color(0xFF4B5563),
+            fontFamily: 'Inter',
           ),
         ),
       ),
@@ -305,11 +304,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
-          border: Border.all(color: FlutterFlowTheme.of(context).alternate),
+          color: Colors.white,
+          border: Border.all(color: Color(0xFFD1D5DB)),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, size: 20, color: FlutterFlowTheme.of(context).secondaryText),
+        child: Icon(icon, size: 20, color: Color(0xFF4B5563)),
       ),
     );
   }
@@ -326,13 +325,18 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Color(0x1A000000),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 6,
             offset: Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 4,
+            offset: Offset(0, 1),
           ),
         ],
       ),
@@ -347,7 +351,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                 height: 48,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: FlutterFlowTheme.of(context).primary, width: 2),
+                  border: Border.all(color: Color(0xFF4F46E5), width: 2),
                   image: DecorationImage(
                     image: NetworkImage('https://avatar.iran.liara.run/public'),
                     fit: BoxFit.cover,
@@ -360,15 +364,20 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                 children: [
                   Text(
                     travelPlannerName,
-                    style: FlutterFlowTheme.of(context).bodyLarge.override(
-                      fontFamily: 'Outfit',
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
+                      color: Color(0xFF1F2937),
+                      fontFamily: 'Inter',
                     ),
                   ),
                   Text(
                     'Travel Planner',
-                    style: FlutterFlowTheme.of(context).bodySmall,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF6B7280),
+                      fontFamily: 'Inter',
+                    ),
                   ),
                 ],
               ),
@@ -378,7 +387,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+              color: Color(0xFFEEF2FF),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
@@ -386,27 +395,29 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
               children: [
                 Text(
                   'Total \$${_formatCurrency(totalPrice)} COP',
-                  style: FlutterFlowTheme.of(context).headlineSmall.override(
-                    fontFamily: 'Outfit',
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: FlutterFlowTheme.of(context).primary,
+                    color: Color(0xFF4F46E5),
+                    fontFamily: 'Inter',
                   ),
                 ),
                 SizedBox(height: 6),
                 Text(
                   'Valor por persona \$${_formatCurrency(pricePerPerson)} COP',
-                  style: FlutterFlowTheme.of(context).bodySmall.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primary,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF4338CA),
+                    fontFamily: 'Inter',
                   ),
                 ),
                 SizedBox(height: 2),
                 Text(
                   'Margen \$${_formatCurrency(margin)} COP',
-                  style: FlutterFlowTheme.of(context).bodySmall.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primary,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF4338CA),
+                    fontFamily: 'Inter',
                   ),
                 ),
               ],
@@ -420,23 +431,23 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildTabs() {
     return Container(
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: FlutterFlowTheme.of(context).alternate)),
+        border: Border(bottom: BorderSide(color: Color(0xFFD1D5DB))),
       ),
       child: TabBar(
         controller: _mainTabController,
-        indicatorColor: FlutterFlowTheme.of(context).primary,
+        indicatorColor: Color(0xFF4F46E5),
         indicatorWeight: 3,
-        labelColor: FlutterFlowTheme.of(context).primary,
-        unselectedLabelColor: FlutterFlowTheme.of(context).secondaryText,
-        labelStyle: FlutterFlowTheme.of(context).titleSmall.override(
-          fontFamily: 'Readex Pro',
+        labelColor: Color(0xFF4F46E5),
+        unselectedLabelColor: Color(0xFF6B7280),
+        labelStyle: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w600,
+          fontFamily: 'Inter',
         ),
-        unselectedLabelStyle: FlutterFlowTheme.of(context).titleSmall.override(
-          fontFamily: 'Readex Pro',
+        unselectedLabelStyle: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w500,
+          fontFamily: 'Inter',
         ),
         tabs: [
           Tab(
@@ -525,14 +536,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: isActive 
-              ? FlutterFlowTheme.of(context).primary 
-              : FlutterFlowTheme.of(context).secondaryBackground,
-          border: Border.all(
-              color: isActive 
-                  ? FlutterFlowTheme.of(context).primary 
-                  : FlutterFlowTheme.of(context).alternate
-          ),
+          color: isActive ? Color(0xFF4F46E5) : Colors.white,
+          border: Border.all(color: isActive ? Color(0xFF4F46E5) : Color(0xFFD1D5DB)),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -540,20 +545,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             Icon(
               icon,
               size: 20,
-              color: isActive 
-                  ? Colors.white 
-                  : FlutterFlowTheme.of(context).secondaryText,
+              color: isActive ? Colors.white : Color(0xFF4B5563),
             ),
             SizedBox(width: 8),
             Text(
               label,
-              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                fontFamily: 'Readex Pro',
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isActive 
-                    ? Colors.white 
-                    : FlutterFlowTheme.of(context).secondaryText,
+                color: isActive ? Colors.white : Color(0xFF4B5563),
+                fontFamily: 'Inter',
               ),
             ),
           ],
@@ -610,10 +611,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           margin: EdgeInsets.only(bottom: 20),
           child: Text(
             'Total vuelos \$${_formatCurrency(totalFlights)}',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              fontFamily: 'Outfit',
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: Color(0xFF1F2937),
             ),
           ),
         ),
@@ -660,12 +661,12 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
               ),
-              border: Border.all(color: FlutterFlowTheme.of(context).alternate),
+              border: Border.all(color: Color(0xFFE5E7EB)),
             ),
             child: Column(
               children: [
@@ -680,17 +681,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).tertiary.withOpacity(0.2),
+                            color: Color(0xFFE8F6FF),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Center(
                             child: Text(
-                              airline.substring(0, 1),
-                              style: FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Outfit',
+                              'J',
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: FlutterFlowTheme.of(context).tertiary,
+                                color: Color(0xFF2196F3),
                               ),
                             ),
                           ),
@@ -701,10 +701,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                           children: [
                             Text(
                               airline,
-                              style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                fontFamily: 'Readex Pro',
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
+                                color: Color(0xFF1F2937),
                               ),
                             ),
                             SizedBox(height: 2),
@@ -712,14 +712,20 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                               children: [
                                 Text(
                                   _formatDate(date),
-                                  style: FlutterFlowTheme.of(context).bodySmall,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Color(0xFF6B7280),
+                                  ),
                                 ),
                                 SizedBox(width: 12),
-                                Icon(Icons.person_outline, size: 16, color: FlutterFlowTheme.of(context).secondaryText),
+                                Icon(Icons.person_outline, size: 16, color: Color(0xFF6B7280)),
                                 SizedBox(width: 4),
                                 Text(
                                   passengers.toString(),
-                                  style: FlutterFlowTheme.of(context).bodySmall,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Color(0xFF6B7280),
+                                  ),
                                 ),
                               ],
                             ),
@@ -735,22 +741,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                           children: [
                             Text(
                               departureTime,
-                              style: FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Outfit',
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
+                                color: Color(0xFF1F2937),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Icon(Icons.arrow_forward, size: 16, color: FlutterFlowTheme.of(context).secondaryText),
+                              child: Icon(Icons.arrow_forward, size: 16, color: Color(0xFF9CA3AF)),
                             ),
                             Text(
                               arrivalTime,
-                              style: FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Outfit',
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
+                                color: Color(0xFF1F2937),
                               ),
                             ),
                           ],
@@ -758,7 +764,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                         SizedBox(height: 4),
                         Text(
                           '$origin --- $destination',
-                          style: FlutterFlowTheme.of(context).bodySmall,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Color(0xFF6B7280),
+                          ),
                         ),
                       ],
                     ),
@@ -771,15 +780,15 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).primaryBackground,
+              color: Color(0xFFF8F9FA),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(8),
                 bottomRight: Radius.circular(8),
               ),
               border: Border(
-                left: BorderSide(color: FlutterFlowTheme.of(context).alternate),
-                right: BorderSide(color: FlutterFlowTheme.of(context).alternate),
-                bottom: BorderSide(color: FlutterFlowTheme.of(context).alternate),
+                left: BorderSide(color: Color(0xFFE5E7EB)),
+                right: BorderSide(color: Color(0xFFE5E7EB)),
+                bottom: BorderSide(color: Color(0xFFE5E7EB)),
               ),
             ),
             child: Row(
@@ -790,38 +799,46 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   children: [
                     Text(
                       'Tarifa neta \$${_formatCurrency(netRate)}',
-                      style: FlutterFlowTheme.of(context).bodySmall,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF6B7280),
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 12),
                       width: 1,
                       height: 16,
-                      color: FlutterFlowTheme.of(context).alternate,
+                      color: Color(0xFFE5E7EB),
                     ),
                     Text(
                       'Markup ${markupPercent.toStringAsFixed(0)}%',
-                      style: FlutterFlowTheme.of(context).bodySmall,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF6B7280),
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 12),
                       width: 1,
                       height: 16,
-                      color: FlutterFlowTheme.of(context).alternate,
+                      color: Color(0xFFE5E7EB),
                     ),
                     Text(
                       'Valor \$${_formatCurrency(totalPrice)}',
-                      style: FlutterFlowTheme.of(context).bodySmall,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF6B7280),
+                      ),
                     ),
                   ],
                 ),
                 // Total
                 Text(
                   'Total \$${_formatCurrency(totalPrice * passengers)}',
-                  style: FlutterFlowTheme.of(context).titleSmall.override(
-                    fontFamily: 'Outfit',
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: FlutterFlowTheme.of(context).primary,
+                    color: Color(0xFF5046E5),
                   ),
                 ),
               ],
@@ -867,9 +884,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.visibility, size: 64, color: FlutterFlowTheme.of(context).secondaryText),
+            Icon(Icons.visibility, size: 64, color: Color(0xFF6B7280)),
             SizedBox(height: 16),
-            Text('Vista previa del itinerario', style: FlutterFlowTheme.of(context).titleMedium),
+            Text('Vista previa del itinerario', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
             SizedBox(height: 24),
             FFButtonWidget(
               onPressed: _handlePreviewItinerary,
@@ -877,10 +894,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
               options: FFButtonOptions(
                 height: 44,
                 padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                color: FlutterFlowTheme.of(context).primary,
-                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                  fontFamily: 'Readex Pro',
+                color: Color(0xFF4F46E5),
+                textStyle: TextStyle(
                   color: Colors.white,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
                 borderRadius: BorderRadius.circular(8),
@@ -909,7 +926,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildLoadingState() {
     return Center(
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(FlutterFlowTheme.of(context).primary),
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4F46E5)),
       ),
     );
   }
@@ -919,11 +936,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, color: FlutterFlowTheme.of(context).error, size: 64),
+          Icon(Icons.error_outline, color: Colors.red, size: 64),
           SizedBox(height: 16),
-          Text('Error al cargar el itinerario', style: FlutterFlowTheme.of(context).titleMedium),
+          Text('Error al cargar el itinerario', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           SizedBox(height: 8),
-          Text(error, style: FlutterFlowTheme.of(context).bodyMedium),
+          Text(error, style: TextStyle(color: Color(0xFF6B7280))),
         ],
       ),
     );
@@ -934,9 +951,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search_off, color: FlutterFlowTheme.of(context).secondaryText, size: 64),
+          Icon(Icons.search_off, color: Color(0xFF6B7280), size: 64),
           SizedBox(height: 16),
-          Text('Itinerario no encontrado', style: FlutterFlowTheme.of(context).titleMedium),
+          Text('Itinerario no encontrado', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
         ],
       ),
     );
