@@ -215,11 +215,11 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            width: 500,
-            height: 400,
+            width: 800,
+            height: 600,
             child: DateRangePickerWithPresets(
-              width: 500,
-              height: 400,
+              width: 800,
+              height: 600,
               initialStartDate: _model.startDate,
               initialEndDate: _model.endDate,
               onDateRangeChanged: (startDate, endDate) {
@@ -232,8 +232,6 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 if (widget.onDateRangeChanged != null) {
                   widget.onDateRangeChanged!(startDate, endDate);
                 }
-
-                Navigator.of(context).pop();
               },
             ),
           ),

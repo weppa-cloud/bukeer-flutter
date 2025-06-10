@@ -496,37 +496,35 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildServicesContent(List<dynamic> itineraryItems) {
-    return Padding(
-      padding: EdgeInsets.all(24),
-      child: Column(
-        children: [
-          // Service buttons
-          Row(
+    return Column(
+      children: [
+        SizedBox(height: 24),
+        // Service buttons
+        Row(
+          children: [
+            _buildServiceButton(Icons.flight, 'Vuelos', _servicesTabController.index == 0, () => _servicesTabController.animateTo(0)),
+            SizedBox(width: 12),
+            _buildServiceButton(Icons.hotel, 'Hoteles', _servicesTabController.index == 1, () => _servicesTabController.animateTo(1)),
+            SizedBox(width: 12),
+            _buildServiceButton(Icons.local_activity, 'Actividades', _servicesTabController.index == 2, () => _servicesTabController.animateTo(2)),
+            SizedBox(width: 12),
+            _buildServiceButton(Icons.transfer_within_a_station, 'Transfer', _servicesTabController.index == 3, () => _servicesTabController.animateTo(3)),
+          ],
+        ),
+        SizedBox(height: 24),
+        // Service content
+        Expanded(
+          child: TabBarView(
+            controller: _servicesTabController,
             children: [
-              _buildServiceButton(Icons.flight, 'Vuelos', _servicesTabController.index == 0, () => _servicesTabController.animateTo(0)),
-              SizedBox(width: 12),
-              _buildServiceButton(Icons.hotel, 'Hoteles', _servicesTabController.index == 1, () => _servicesTabController.animateTo(1)),
-              SizedBox(width: 12),
-              _buildServiceButton(Icons.local_activity, 'Actividades', _servicesTabController.index == 2, () => _servicesTabController.animateTo(2)),
-              SizedBox(width: 12),
-              _buildServiceButton(Icons.transfer_within_a_station, 'Transfer', _servicesTabController.index == 3, () => _servicesTabController.animateTo(3)),
+              _buildFlightsTab(itineraryItems),
+              _buildHotelsTab(itineraryItems),
+              _buildActivitiesTab(itineraryItems),
+              _buildTransfersTab(itineraryItems),
             ],
           ),
-          SizedBox(height: 24),
-          // Service content
-          Expanded(
-            child: TabBarView(
-              controller: _servicesTabController,
-              children: [
-                _buildFlightsTab(itineraryItems),
-                _buildHotelsTab(itineraryItems),
-                _buildActivitiesTab(itineraryItems),
-                _buildTransfersTab(itineraryItems),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -603,29 +601,49 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     
     final totalFlights = flights.fold<double>(0, (sum, item) => sum + (getJsonField(item, r'$.total_price')?.toDouble() ?? (item['total_price'] as double? ?? 0)));
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Container(
-          margin: EdgeInsets.only(bottom: 20),
-          child: Text(
-            'Total vuelos \$${_formatCurrency(totalFlights)}',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF1F2937),
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 4,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: Text(
+              'Total vuelos \$${_formatCurrency(totalFlights)}',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF1F2937),
+                fontFamily: 'Inter',
+              ),
             ),
           ),
-        ),
-        // Flights list
-        Expanded(
-          child: ListView.builder(
-            itemCount: flights.length,
-            itemBuilder: (context, index) => _buildFlightCard(flights[index]),
+          // Flights list
+          Expanded(
+            child: ListView.builder(
+              itemCount: flights.length,
+              itemBuilder: (context, index) => _buildFlightCard(flights[index]),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -655,190 +673,244 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     
     return Container(
       margin: EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Color(0xFFF8F9FA),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Color(0xFFE5E7EB)),
+      ),
       child: Column(
         children: [
-          // Main flight card
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-              border: Border.all(color: Color(0xFFE5E7EB)),
-            ),
-            child: Column(
-              children: [
-                // Top row with airline and time
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Airline info
-                    Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFE8F6FF),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'J',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF2196F3),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              airline,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937),
-                              ),
-                            ),
-                            SizedBox(height: 2),
-                            Row(
-                              children: [
-                                Text(
-                                  _formatDate(date),
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Color(0xFF6B7280),
-                                  ),
-                                ),
-                                SizedBox(width: 12),
-                                Icon(Icons.person_outline, size: 16, color: Color(0xFF6B7280)),
-                                SizedBox(width: 4),
-                                Text(
-                                  passengers.toString(),
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Color(0xFF6B7280),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+          // Flight info row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Left side - airline and date info
+              Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    margin: EdgeInsets.only(right: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    // Time info
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              departureTime,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Icon(Icons.arrow_forward, size: 16, color: Color(0xFF9CA3AF)),
-                            ),
-                            Text(
-                              arrivalTime,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1F2937),
-                              ),
-                            ),
-                          ],
+                    child: Center(
+                      child: Text(
+                        airline.substring(0, 1),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF4F46E5),
                         ),
-                        SizedBox(height: 4),
-                        Text(
-                          '$origin --- $destination',
+                      ),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        airline,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1F2937),
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Text(
+                            _formatDate(date),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF6B7280),
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Icon(Icons.person, size: 16, color: Color(0xFF9CA3AF)),
+                          SizedBox(width: 2),
+                          Text(
+                            passengers.toString(),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF6B7280),
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              // Right side - time and route
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        departureTime,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1F2937),
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        child: Icon(Icons.arrow_forward, size: 14, color: Color(0xFF9CA3AF)),
+                      ),
+                      Text(
+                        arrivalTime,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1F2937),
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Text(
+                        origin,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF6B7280),
+                          letterSpacing: 0.5,
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          '---',
                           style: TextStyle(
                             fontSize: 13,
-                            color: Color(0xFF6B7280),
+                            color: Color(0xFF9CA3AF).withOpacity(0.5),
+                            fontFamily: 'Inter',
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                      ),
+                      Text(
+                        destination,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF6B7280),
+                          letterSpacing: 0.5,
+                          fontFamily: 'Inter',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
-          // Bottom price section
+          // Financial details
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            margin: EdgeInsets.only(top: 16),
+            padding: EdgeInsets.only(top: 16),
             decoration: BoxDecoration(
-              color: Color(0xFFF8F9FA),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-              border: Border(
-                left: BorderSide(color: Color(0xFFE5E7EB)),
-                right: BorderSide(color: Color(0xFFE5E7EB)),
-                bottom: BorderSide(color: Color(0xFFE5E7EB)),
-              ),
+              border: Border(top: BorderSide(color: Color(0xFFE5E7EB))),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Price details
+                // Left side - pricing details
                 Row(
                   children: [
                     Text(
-                      'Tarifa neta \$${_formatCurrency(netRate)}',
+                      'Tarifa neta ',
                       style: TextStyle(
                         fontSize: 13,
                         color: Color(0xFF6B7280),
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    Text(
+                      '\$${_formatCurrency(netRate)}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF1F2937),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Inter',
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      width: 1,
-                      height: 16,
-                      color: Color(0xFFE5E7EB),
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        '|',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFFD3D4D6),
+                          fontFamily: 'Inter',
+                        ),
+                      ),
                     ),
                     Text(
-                      'Markup ${markupPercent.toStringAsFixed(0)}%',
+                      'Markup ',
                       style: TextStyle(
                         fontSize: 13,
                         color: Color(0xFF6B7280),
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    Text(
+                      '${markupPercent.toStringAsFixed(0)}%',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF1F2937),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Inter',
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      width: 1,
-                      height: 16,
-                      color: Color(0xFFE5E7EB),
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        '|',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFFD3D4D6),
+                          fontFamily: 'Inter',
+                        ),
+                      ),
                     ),
                     Text(
-                      'Valor \$${_formatCurrency(totalPrice)}',
+                      'Valor ',
                       style: TextStyle(
                         fontSize: 13,
                         color: Color(0xFF6B7280),
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    Text(
+                      '\$${_formatCurrency(totalPrice)}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF1F2937),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Inter',
                       ),
                     ),
                   ],
                 ),
-                // Total
+                // Right side - total
                 Text(
                   'Total \$${_formatCurrency(totalPrice * passengers)}',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF5046E5),
+                    color: Color(0xFF4F46E5),
+                    fontFamily: 'Inter',
                   ),
                 ),
               ],
@@ -851,26 +923,80 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   // Other tabs implementations (similar structure)
   Widget _buildHotelsTab(List<dynamic> items) {
-    return Center(
-      child: Text('Hoteles - Por implementar'),
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text('Hoteles - Por implementar'),
+      ),
     );
   }
 
   Widget _buildActivitiesTab(List<dynamic> items) {
-    return Center(
-      child: Text('Actividades - Por implementar'),
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text('Actividades - Por implementar'),
+      ),
     );
   }
 
   Widget _buildTransfersTab(List<dynamic> items) {
-    return Center(
-      child: Text('Transfers - Por implementar'),
+    return Container(
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text('Transfers - Por implementar'),
+      ),
     );
   }
 
   Widget _buildPaymentsContent(List<dynamic> transactions, dynamic itineraryData) {
-    return Padding(
+    return Container(
+      margin: EdgeInsets.only(top: 24),
       padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
       child: Center(
         child: Text('Sección de Pagos - Por implementar'),
       ),
@@ -878,8 +1004,20 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildPreviewContent() {
-    return Padding(
+    return Container(
+      margin: EdgeInsets.only(top: 24),
       padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -910,8 +1048,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildPassengersContent(List<dynamic> passengers) {
-    return Padding(
-      padding: EdgeInsets.all(24),
+    return Container(
+      margin: EdgeInsets.only(top: 24),
       child: ItineraryPassengersSection(
         itineraryId: widget.id!,
         passengers: passengers,
