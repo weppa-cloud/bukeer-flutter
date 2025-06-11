@@ -1,44 +1,20 @@
-import 'package:bukeer/auth/supabase_auth/auth_util.dart';
-import '../../../../backend/api_requests/api_calls.dart';
-import 'package:bukeer/backend/supabase/supabase.dart';
-import 'package:bukeer/design_system/tokens/index.dart';
-import 'package:bukeer/design_system/components/index.dart';
-import '../../../core/widgets/forms/dropdowns/airports/dropdown_airports_widget.dart';
-import '../../../core/widgets/forms/dropdowns/products/dropdown_products_widget.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
-import 'dart:ui';
-import '../../../../custom_code/actions/index.dart' as actions;
-import '../../../../custom_code/widgets/index.dart' as custom_widgets;
-import 'package:bukeer/legacy/flutter_flow/custom_functions.dart' as functions;
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
-import 'add_flights_model.dart';
-import '../../../../services/ui_state_service.dart';
-import '../../../../services/product_service.dart';
-import '../../../../services/contact_service.dart';
-import '../../../../services/app_services.dart';
-export 'add_flights_model.dart';
+import 'package:intl/intl.dart';
+import '/legacy/flutter_flow/flutter_flow_theme.dart';
+import '/legacy/flutter_flow/flutter_flow_widgets.dart';
+import '/legacy/flutter_flow/flutter_flow_util.dart';
+import '/backend/supabase/supabase.dart';
+import '/design_system/index.dart';
 
 class AddFlightsWidget extends StatefulWidget {
   const AddFlightsWidget({
-    super.key,
-    bool? isEdit,
-    this.itineraryId,
-  }) : this.isEdit = isEdit ?? false;
+    Key? key,
+    required this.itineraryId,
+    this.isEdit = false,
+  }) : super(key: key);
 
-  final bool isEdit;
   final String? itineraryId;
+  final bool isEdit;
 
   static String routeName = 'add_flights';
   static String routePath = 'addFlights';
@@ -47,2962 +23,1724 @@ class AddFlightsWidget extends StatefulWidget {
   State<AddFlightsWidget> createState() => _AddFlightsWidgetState();
 }
 
-class _AddFlightsWidgetState extends State<AddFlightsWidget>
-    with TickerProviderStateMixin {
-  late AddFlightsModel _model;
+class _AddFlightsWidgetState extends State<AddFlightsWidget> {
+  final _formKey = GlobalKey<FormState>();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Form controllers
+  final _searchProviderController = TextEditingController();
+  final _searchAirlineController = TextEditingController();
+  final _searchOriginController = TextEditingController();
+  final _searchDestinationController = TextEditingController();
+  final _flightNumberController = TextEditingController();
+  final _originController = TextEditingController();
+  final _destinationController = TextEditingController();
+  final _departureTimeController = TextEditingController();
+  final _arrivalTimeController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _quantityController = TextEditingController(text: '1');
+  final _unitCostController = TextEditingController();
+  final _markupController = TextEditingController();
+  final _unitPriceController = TextEditingController();
+  final _notesController = TextEditingController();
 
-  final animationsMap = <String, AnimationInfo>{};
+  // Selected values
+  dynamic _selectedProvider;
+  dynamic _selectedAirline;
+  DateTime _selectedDate = DateTime.now();
+
+  // Lists
+  List<dynamic> _providers = [];
+  List<dynamic> _filteredProviders = [];
+  List<dynamic> _airlines = [];
+  List<dynamic> _filteredAirlines = [];
+  List<dynamic> _airports = [];
+  List<dynamic> _filteredOriginAirports = [];
+  List<dynamic> _filteredDestinationAirports = [];
+  dynamic _selectedOriginAirport;
+  dynamic _selectedDestinationAirport;
+  bool _isLoading = false;
+
+  // Calculated values
+  double _total = 0.0;
+  bool _isCalculating = false;
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => AddFlightsModel());
+    _loadProviders();
+    _loadAirlines();
+    _loadAirports();
 
-    _model.quantityTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataFlight,
-              r'''$.quantity''',
-            ).toString().toString()
-          : getJsonField(
-              context.read<ContactService>().allDataContact,
-              r'''$[:].passenger_count''',
-            ).toString().toString(),
-      '1',
-    ));
-    _model.quantityFocusNode ??= FocusNode();
-
-    _model.departureTimeTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataFlight,
-              r'''$.departure_time''',
-            ).toString().toString()
-          : '',
-      '00:00:00',
-    ));
-    _model.departureTimeFocusNode ??= FocusNode();
-
-    _model.arrivalTimeTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataFlight,
-              r'''$.arrival_time''',
-            ).toString().toString()
-          : '',
-      '00:00:00',
-    ));
-    _model.arrivalTimeFocusNode ??= FocusNode();
-
-    _model.unitCostTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataFlight,
-              r'''$.unit_cost''',
-            ).toString().toString()
-          : _model.unitCost.toString(),
-      'Costo',
-    ));
-    _model.unitCostFocusNode ??= FocusNode();
-
-    _model.markupTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataFlight,
-              r'''$.profit_percentage''',
-            ).toString().toString()
-          : _model.profitActivities.toString(),
-      'Margen',
-    ));
-    _model.markupFocusNode ??= FocusNode();
-
-    _model.totalCostTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? functions.calculateTotalFunction(_model.unitCostTextController.text,
-              _model.markupTextController.text)
-          : _model.totalCost.toString(),
-      'Total',
-    ));
-    _model.totalCostFocusNode ??= FocusNode();
-
-    _model.messageActivityTextController ??= TextEditingController(text: () {
-      if (widget!.isEdit == false) {
-        return '';
-      } else if ('${getJsonField(
-                context.read<ProductService>().allDataFlight,
-                r'''$.personalized_message''',
-              ).toString().toString()}' !=
-              null &&
-          '${getJsonField(
-                context.read<ProductService>().allDataFlight,
-                r'''$.personalized_message''',
-              ).toString().toString()}' !=
-              '') {
-        return getJsonField(
-          context.read<ProductService>().allDataFlight,
-          r'''$.personalized_message''',
-        ).toString().toString();
-      } else {
-        return '';
-      }
-    }());
-    _model.messageActivityFocusNode ??= FocusNode();
-
-    animationsMap.addAll({
-      'containerOnPageLoadAnimation1': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          VisibilityEffect(duration: 300.ms),
-          MoveEffect(
-            curve: Curves.bounceOut,
-            delay: 300.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 300.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation2': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation3': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation4': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-    });
-    setupAnimations(
-      animationsMap.values.where((anim) =>
-          anim.trigger == AnimationTrigger.onActionTrigger ||
-          !anim.applyInitialState),
-      this,
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+    // Add listeners for calculations
+    _unitCostController.addListener(_calculateFromCostAndMarkup);
+    _markupController.addListener(_calculateFromCostAndMarkup);
+    _unitPriceController.addListener(_calculateFromCostAndPrice);
+    _quantityController.addListener(_updateTotal);
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
+    _searchProviderController.dispose();
+    _searchAirlineController.dispose();
+    _searchOriginController.dispose();
+    _searchDestinationController.dispose();
+    _flightNumberController.dispose();
+    _originController.dispose();
+    _destinationController.dispose();
+    _departureTimeController.dispose();
+    _arrivalTimeController.dispose();
+    _dateController.dispose();
+    _quantityController.dispose();
+    _unitCostController.dispose();
+    _markupController.dispose();
+    _unitPriceController.dispose();
+    _notesController.dispose();
     super.dispose();
+  }
+
+  void _calculateFromCostAndMarkup() {
+    if (_isCalculating) return;
+
+    final cost = double.tryParse(_unitCostController.text) ?? 0;
+    final markup = double.tryParse(_markupController.text) ?? 0;
+
+    if (cost > 0) {
+      _isCalculating = true;
+      final price = cost * (1 + markup / 100);
+      _unitPriceController.text = price.toStringAsFixed(2);
+      _isCalculating = false;
+    }
+    _updateTotal();
+  }
+
+  void _calculateFromCostAndPrice() {
+    if (_isCalculating) return;
+
+    final cost = double.tryParse(_unitCostController.text) ?? 0;
+    final price = double.tryParse(_unitPriceController.text) ?? 0;
+
+    if (cost > 0 && price > 0 && price >= cost) {
+      _isCalculating = true;
+      final markup = ((price - cost) / cost) * 100;
+      _markupController.text = markup.toStringAsFixed(2);
+      _isCalculating = false;
+    } else if (cost > 0 && price > 0 && price < cost) {
+      _isCalculating = true;
+      // Negative markup (loss)
+      final markup = ((price - cost) / cost) * 100;
+      _markupController.text = markup.toStringAsFixed(2);
+      _isCalculating = false;
+    }
+    _updateTotal();
+  }
+
+  void _updateTotal() {
+    final quantity = int.tryParse(_quantityController.text) ?? 0;
+    final unitPrice = double.tryParse(_unitPriceController.text) ?? 0;
+
+    setState(() {
+      _total = quantity * unitPrice;
+    });
+  }
+
+  Future<void> _loadProviders() async {
+    setState(() => _isLoading = true);
+
+    try {
+      // Load flight providers
+      final providers = await SupaFlow.client
+          .from('contacts')
+          .select('*')
+          .eq('is_provider', true)
+          .eq('is_flight_provider', true)
+          .order('name');
+
+      setState(() {
+        _providers = providers;
+        _filteredProviders = providers;
+        _isLoading = false;
+      });
+
+      // Debug: Check provider data structure
+      if (providers.isNotEmpty) {
+        print('📋 First provider fields: ${providers.first.keys.toList()}');
+        print('📋 First provider data: ${providers.first}');
+      }
+    } catch (e) {
+      print('Error loading providers: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _loadAirlines() async {
+    try {
+      final airlines = await AirlinesTable().queryRows(
+        queryFn: (q) => q.order('name'),
+      );
+
+      setState(() {
+        _airlines = airlines.map((row) => row.data).toList();
+        _filteredAirlines = _airlines;
+      });
+    } catch (e) {
+      print('Error loading airlines: $e');
+    }
+  }
+
+  Future<void> _loadAirports() async {
+    try {
+      // First, let's check if there's a limit being applied
+      print('🔍 Loading ALL airports without any limit...');
+
+      // Use direct Supabase client to ensure NO LIMIT
+      final allAirports =
+          await SupaFlow.client.from('airports').select('*').order('city_name');
+
+      print('✈️ Loaded ${allAirports.length} airports from database');
+
+      // Debug: Check if Madrid is in the loaded data
+      final madridAirports = allAirports
+          .where((a) =>
+              a['iata_code']?.toString()?.toUpperCase() == 'MAD' ||
+              a['city_name']?.toString()?.toLowerCase()?.contains('madrid') ==
+                  true)
+          .toList();
+
+      if (madridAirports.isNotEmpty) {
+        print('✅ Madrid found in loaded data:');
+        for (var madrid in madridAirports) {
+          print(
+              '   - ${madrid['iata_code']} | ${madrid['city_name']} | ${madrid['name']}');
+        }
+      } else {
+        print('❌ Madrid NOT found in loaded data!');
+      }
+
+      // Debug: Show total count by country
+      final countryCounts = <String, int>{};
+      for (var airport in allAirports) {
+        final country = airport['iata_country_code']?.toString() ?? 'Unknown';
+        countryCounts[country] = (countryCounts[country] ?? 0) + 1;
+      }
+      print(
+          '📊 Airports by country: ${countryCounts.entries.take(10).toList()}');
+
+      setState(() {
+        _airports = List<Map<String, dynamic>>.from(allAirports);
+
+        // Initially show Colombian airports
+        _filteredOriginAirports = _airports
+            .where((airport) => airport['iata_country_code'] == 'CO')
+            .toList();
+        _filteredDestinationAirports = _airports
+            .where((airport) => airport['iata_country_code'] == 'CO')
+            .toList();
+
+        print('🌍 Total airports available for search: ${_airports.length}');
+      });
+    } catch (e) {
+      print('❌ Error loading airports: $e');
+      print('Stack trace: ${StackTrace.current}');
+    }
+  }
+
+  Future<void> _addFlightToItinerary() async {
+    if (!_formKey.currentState!.validate()) return;
+    if (_selectedProvider == null || _selectedAirline == null) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Calculate pricing
+      final quantity = int.tryParse(_quantityController.text) ?? 1;
+      final unitCost = double.tryParse(_unitCostController.text) ?? 0;
+      final unitPrice = double.tryParse(_unitPriceController.text) ?? 0;
+      final totalCost = unitCost * quantity;
+      final totalPrice = unitPrice * quantity;
+      final profit = totalPrice - totalCost;
+      final profitPercentage = totalCost > 0 ? (profit / totalCost) * 100 : 0;
+
+      // Add to itinerary
+      await ItineraryItemsTable().insert({
+        'id_itinerary': widget.itineraryId,
+        'id_product': _selectedProvider['id'], // Provider ID as product
+        'product_type': 'Vuelos',
+        'product_name':
+            '${_selectedAirline['name']} - ${_flightNumberController.text}',
+        'rate_name': 'Tarifa manual',
+        'date': _selectedDate.toIso8601String(),
+        'flight_departure': _originController.text,
+        'flight_arrival': _destinationController.text,
+        'departure_time': _departureTimeController.text,
+        'arrival_time': _arrivalTimeController.text,
+        'flight_number': _flightNumberController.text,
+        'airline': _selectedAirline['name'],
+        'quantity': quantity,
+        'unit_cost': unitCost,
+        'unit_price': unitPrice,
+        'total_cost': totalCost,
+        'total_price': totalPrice,
+        'profit': profit,
+        'profit_percentage': profitPercentage,
+        'personalized_message': _notesController.text,
+        'reservation_status': false,
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Vuelo agregado exitosamente'),
+          backgroundColor: BukeerColors.success,
+        ),
+      );
+
+      // Close modal
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      print('Error adding flight: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al agregar el vuelo'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Widget _buildSearchableList({
+    required String title,
+    required List<dynamic> items,
+    required dynamic selectedItem,
+    required Function(dynamic) onItemSelected,
+    required String searchHint,
+    required TextEditingController searchController,
+    required Function(String) onSearchChanged,
+    required String Function(dynamic) getItemTitle,
+    String Function(dynamic)? getItemSubtitle,
+    IconData itemIcon = Icons.business,
+    bool isAirline = false,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: BukeerTypography.titleMedium.copyWith(
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? BukeerColors.textPrimaryDark
+                : BukeerColors.textPrimary,
+          ),
+        ),
+        SizedBox(height: BukeerSpacing.m),
+
+        // Show selected item if exists
+        if (selectedItem != null)
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.m),
+            margin: EdgeInsets.only(bottom: BukeerSpacing.m),
+            decoration: BoxDecoration(
+              color: BukeerColors.primary.withOpacity(0.1),
+              border: Border.all(
+                color: BukeerColors.primary,
+                width: BukeerBorders.widthMedium,
+              ),
+              borderRadius: BukeerBorders.radiusMedium,
+            ),
+            child: Row(
+              children: [
+                _buildItemAvatar(selectedItem, itemIcon, isAirline),
+                SizedBox(width: BukeerSpacing.s),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        getItemTitle(selectedItem),
+                        style: BukeerTypography.bodyLarge.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                      if (getItemSubtitle != null &&
+                          getItemSubtitle(selectedItem).isNotEmpty) ...[
+                        SizedBox(height: BukeerSpacing.xs),
+                        Text(
+                          getItemSubtitle(selectedItem),
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit, size: 16),
+                  onPressed: () {
+                    setState(() {
+                      if (isAirline) {
+                        _selectedAirline = null;
+                      } else {
+                        _selectedProvider = null;
+                      }
+                    });
+                  },
+                  padding: EdgeInsets.all(BukeerSpacing.xs),
+                  constraints: BoxConstraints(),
+                  iconSize: 16,
+                ),
+              ],
+            ),
+          )
+        else ...[
+          // Search field
+          BukeerTextField(
+            controller: searchController,
+            hintText: searchHint,
+            leadingIcon: Icons.search,
+            onChanged: onSearchChanged,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+
+          // Items list
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                width: BukeerBorders.widthThin,
+              ),
+              borderRadius: BukeerBorders.radiusMedium,
+            ),
+            child: ListView.builder(
+              itemCount: items.length > 3 ? 3 : items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                final isSelected = selectedItem?['id'] == item['id'];
+
+                return ListTile(
+                  selected: isSelected,
+                  selectedTileColor: BukeerColors.primary.withOpacity(0.1),
+                  leading: _buildItemAvatar(item, itemIcon, isAirline),
+                  title: Text(
+                    getItemTitle(item),
+                    style: BukeerTypography.bodyLarge.copyWith(
+                      fontWeight: isSelected ? FontWeight.w600 : null,
+                      color: isSelected
+                          ? BukeerColors.primary
+                          : isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                    ),
+                  ),
+                  subtitle: getItemSubtitle != null
+                      ? Text(
+                          getItemSubtitle(item),
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        )
+                      : null,
+                  onTap: () => onItemSelected(item),
+                );
+              },
+            ),
+          ),
+
+          // Show "more results" indicator if there are more than 3 items
+          if (items.length > 3)
+            Padding(
+              padding: EdgeInsets.only(top: BukeerSpacing.xs),
+              child: Text(
+                'y ${items.length - 3} más...',
+                style: BukeerTypography.bodySmall.copyWith(
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+        ],
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // context.watch<FFAppState>(); // Migrated to modern services
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: BukeerColors.getBackground(context),
-        body: SafeArea(
-          top: true,
-          child: Align(
-            alignment: AlignmentDirectional(0.0, 0.0),
-            child: Padding(
-              padding: EdgeInsets.all(BukeerSpacing.s),
-              child: Material(
-                color: Colors.transparent,
-                elevation: 2.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16.0),
-                    bottomRight: Radius.circular(16.0),
-                    topLeft: Radius.circular(16.0),
-                    topRight: Radius.circular(16.0),
-                  ),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.9,
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      child: Column(
+        children: [
+          // Header
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.l),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
                 ),
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: 600.0,
-                    maxHeight: 700.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: BukeerColors.getBackground(context, secondary: true),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 12.0,
-                        color: Color(0x1E000000),
-                        offset: Offset(
-                          0.0,
-                          5.0,
-                        ),
-                      )
-                    ],
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(16.0),
-                      bottomRight: Radius.circular(16.0),
-                      topLeft: Radius.circular(16.0),
-                      topRight: Radius.circular(16.0),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.flight,
+                      color: BukeerColors.primary,
+                      size: 28,
                     ),
-                  ),
-                  alignment: AlignmentDirectional(0.0, 0.0),
-                  child: Padding(
-                    padding: EdgeInsets.all(BukeerSpacing.m),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                    SizedBox(width: BukeerSpacing.s),
+                    Text(
+                      widget.isEdit ? 'Editar Vuelo' : 'Agregar Vuelo',
+                      style: BukeerTypography.headlineSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+                BukeerIconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(false),
+                  variant: BukeerIconButtonVariant.ghost,
+                ),
+              ],
+            ),
+          ),
+
+          // Form
+          Expanded(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Form(
+                    key: _formKey,
+                    child: ListView(
+                      padding: EdgeInsets.all(BukeerSpacing.l),
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 4.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // Provider selector
+                        _buildSearchableList(
+                          title: 'Seleccionar Proveedor de Vuelos',
+                          items: _filteredProviders,
+                          selectedItem: _selectedProvider,
+                          onItemSelected: (provider) {
+                            setState(() => _selectedProvider = provider);
+                          },
+                          searchHint: 'Buscar proveedor...',
+                          searchController: _searchProviderController,
+                          onSearchChanged: (value) {
+                            setState(() {
+                              _filteredProviders = _providers.where((provider) {
+                                final name =
+                                    provider['name']?.toLowerCase() ?? '';
+                                final searchLower = value.toLowerCase();
+                                return name.contains(searchLower);
+                              }).toList();
+                            });
+                          },
+                          getItemTitle: (provider) => provider['name'] ?? '',
+                          getItemSubtitle: (provider) =>
+                              provider['email'] ?? '',
+                        ),
+
+                        if (_selectedProvider != null) ...[
+                          SizedBox(height: BukeerSpacing.xl),
+
+                          // Airline selector
+                          _buildSearchableList(
+                            title: 'Seleccionar Aerolínea',
+                            items: _filteredAirlines,
+                            selectedItem: _selectedAirline,
+                            onItemSelected: (airline) {
+                              setState(() => _selectedAirline = airline);
+                            },
+                            searchHint: 'Buscar aerolínea...',
+                            searchController: _searchAirlineController,
+                            onSearchChanged: (value) {
+                              setState(() {
+                                _filteredAirlines = _airlines.where((airline) {
+                                  final name =
+                                      airline['name']?.toLowerCase() ?? '';
+                                  final code =
+                                      airline['iata_code']?.toLowerCase() ?? '';
+                                  final searchLower = value.toLowerCase();
+                                  return name.contains(searchLower) ||
+                                      code.contains(searchLower);
+                                }).toList();
+                              });
+                            },
+                            getItemTitle: (airline) => airline['name'] ?? '',
+                            getItemSubtitle: (airline) =>
+                                'Código: ${airline['iata_code'] ?? 'N/A'}',
+                            itemIcon: Icons.airlines,
+                            isAirline: true,
+                          ),
+                        ],
+
+                        if (_selectedAirline != null) ...[
+                          SizedBox(height: BukeerSpacing.xl),
+
+                          // Flight details
+                          Text(
+                            'Detalles del Vuelo',
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? BukeerColors.textPrimaryDark
+                                  : BukeerColors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Flight number
+                          BukeerTextField(
+                            controller: _flightNumberController,
+                            label: 'Número de Vuelo',
+                            hintText: 'Ej: AA1234',
+                            required: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Número de vuelo requerido';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Origin and destination
+                          Row(
                             children: [
-                              Flexible(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Icon(
-                                      Icons.flight,
-                                      color: BukeerColors.primary,
-                                      size: 28.0,
-                                    ),
-                                    if (widget!.isEdit == true)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 2.0, 0.0),
-                                        child: Text(
-                                          'Editar',
-                                          style: FlutterFlowTheme.of(context)
-                                              .headlineMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .headlineMediumIsCustom,
-                                              ),
-                                        ),
-                                      ),
-                                    if (widget!.isEdit == false)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 2.0, 0.0),
-                                        child: Text(
-                                          'Agregar vuelo',
-                                          style: FlutterFlowTheme.of(context)
-                                              .headlineMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .headlineMediumIsCustom,
-                                              ),
-                                        ),
-                                      ),
-                                  ].divide(SizedBox(width: BukeerSpacing.s)),
+                              Expanded(
+                                child: _buildAirportSearchableList(
+                                  title: 'Origen',
+                                  items: _filteredOriginAirports,
+                                  selectedItem: _selectedOriginAirport,
+                                  searchController: _searchOriginController,
+                                  onItemSelected: (airport) {
+                                    setState(() {
+                                      _selectedOriginAirport = airport;
+                                      _originController.text =
+                                          '${airport['city_name']} - ${airport['name']} (${airport['iata_code']})';
+                                      _searchOriginController.clear();
+                                    });
+                                  },
+                                  onSearchChanged: (value) {
+                                    setState(() {
+                                      if (value.isEmpty) {
+                                        // Show only Colombian airports when search is empty
+                                        _filteredOriginAirports = _airports
+                                            .where((airport) =>
+                                                airport['iata_country_code'] ==
+                                                'CO')
+                                            .toList();
+                                      } else {
+                                        // Search in ALL airports when user types
+                                        _filteredOriginAirports = _airports
+                                            .where((airport) {
+                                              final name = airport['name']
+                                                      ?.toLowerCase() ??
+                                                  '';
+                                              final cityName =
+                                                  airport['city_name']
+                                                          ?.toLowerCase() ??
+                                                      '';
+                                              final iataCode =
+                                                  airport['iata_code']
+                                                          ?.toLowerCase() ??
+                                                      '';
+                                              final searchLower =
+                                                  value.toLowerCase();
+                                              return name
+                                                      .contains(searchLower) ||
+                                                  cityName
+                                                      .contains(searchLower) ||
+                                                  iataCode
+                                                      .contains(searchLower);
+                                            })
+                                            .take(50)
+                                            .toList(); // Limit to 50 results for performance
+                                      }
+                                    });
+                                  },
+                                  icon: Icons.flight_takeoff,
                                 ),
                               ),
-                              if (widget!.isEdit)
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 5.0, 5.0, 0.0),
-                                  child: BukeerIconButton(
-                                    size: BukeerIconButtonSize.small,
-                                    variant: BukeerIconButtonVariant.outlined,
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.trashAlt,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () async {
-                                      var confirmDialogResponse =
-                                          await showDialog<bool>(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Mensaje'),
-                                                    content: Text(
-                                                        '¿Está seguro que desea borrar este ítem?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                false),
-                                                        child: Text('Cancelar'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                true),
-                                                        child:
-                                                            Text('Confirmar'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ) ??
-                                              false;
-                                      if (confirmDialogResponse) {
-                                        _model.responseFlightDeleted =
-                                            await ItineraryItemsTable().delete(
-                                          matchingRows: (rows) => rows.eqOrNull(
-                                            'id',
-                                            getJsonField(
-                                              context
-                                                  .read<ProductService>()
-                                                  .allDataFlight,
-                                              r'''$.id''',
-                                            ).toString(),
-                                          ),
-                                          returnRows: true,
-                                        );
-                                        Navigator.pop(context);
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                child: _buildAirportSearchableList(
+                                  title: 'Destino',
+                                  items: _filteredDestinationAirports,
+                                  selectedItem: _selectedDestinationAirport,
+                                  searchController:
+                                      _searchDestinationController,
+                                  onItemSelected: (airport) {
+                                    setState(() {
+                                      _selectedDestinationAirport = airport;
+                                      _destinationController.text =
+                                          '${airport['city_name']} - ${airport['name']} (${airport['iata_code']})';
+                                      _searchDestinationController.clear();
+                                    });
+                                  },
+                                  onSearchChanged: (value) {
+                                    setState(() {
+                                      if (value.isEmpty) {
+                                        // Show only Colombian airports when search is empty
+                                        _filteredDestinationAirports = _airports
+                                            .where((airport) =>
+                                                airport['iata_country_code'] ==
+                                                'CO')
+                                            .toList();
+                                      } else {
+                                        // Search in ALL airports when user types
+                                        _filteredDestinationAirports = _airports
+                                            .where((airport) {
+                                              final name = airport['name']
+                                                      ?.toLowerCase() ??
+                                                  '';
+                                              final cityName =
+                                                  airport['city_name']
+                                                          ?.toLowerCase() ??
+                                                      '';
+                                              final iataCode =
+                                                  airport['iata_code']
+                                                          ?.toLowerCase() ??
+                                                      '';
+                                              final searchLower =
+                                                  value.toLowerCase();
+                                              return name
+                                                      .contains(searchLower) ||
+                                                  cityName
+                                                      .contains(searchLower) ||
+                                                  iataCode
+                                                      .contains(searchLower);
+                                            })
+                                            .take(50)
+                                            .toList(); // Limit to 50 results for performance
                                       }
-
-                                      safeSetState(() {});
-                                    },
-                                  ),
+                                    });
+                                  },
+                                  icon: Icons.flight_land,
                                 ),
-                              if (widget!.isEdit)
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      5.0, 5.0, 0.0, 0.0),
-                                  child: BukeerIconButton(
-                                    size: BukeerIconButtonSize.small,
-                                    variant: BukeerIconButtonVariant.outlined,
-                                    icon: Icon(
-                                      Icons.content_copy,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () async {
-                                      var confirmDialogResponse =
-                                          await showDialog<bool>(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Mensaje'),
-                                                    content: Text(
-                                                        '¿Estas seguro que vas a realizar una copia de este itinerario y sus items?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                false),
-                                                        child: Text('Cancel'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                true),
-                                                        child: Text('Confirm'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ) ??
-                                              false;
-                                      if (confirmDialogResponse) {
-                                        _model.apiResponseDuplicateItemActivity =
-                                            await DuplicateItineraryItemCall
-                                                .call(
-                                          originalId: getJsonField(
-                                            context
-                                                .read<ProductService>()
-                                                .allDataFlight,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          authToken: currentJwtToken,
-                                        );
-
-                                        if ((_model
-                                                .apiResponseDuplicateItemActivity
-                                                ?.succeeded ??
-                                            true)) {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Vuelo duplicado con éxito.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Hubo un error al duplicar el item.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      }
-
-                                      safeSetState(() {});
-                                    },
-                                  ),
-                                ),
+                              ),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 24.0, 0.0, 24.0),
-                                  child: Wrap(
-                                    spacing: 8.0,
-                                    runSpacing: 12.0,
-                                    alignment: WrapAlignment.center,
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.start,
-                                    direction: Axis.horizontal,
-                                    runAlignment: WrapAlignment.start,
-                                    verticalDirection: VerticalDirection.down,
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          await showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            backgroundColor: Colors.transparent,
-                                            enableDrag: false,
-                                            context: context,
-                                            builder: (context) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  FocusScope.of(context)
-                                                      .unfocus();
-                                                  FocusManager
-                                                      .instance.primaryFocus
-                                                      ?.unfocus();
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                      MediaQuery.viewInsetsOf(
-                                                          context),
-                                                  child: DropdownProductsWidget(
-                                                    productType: 'flights',
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ).then(
-                                              (value) => safeSetState(() {}));
-                                        },
-                                        child: AnimatedContainer(
-                                          duration: Duration(milliseconds: 100),
-                                          curve: Curves.easeInOut,
-                                          constraints: BoxConstraints(
-                                            maxWidth: 505.0,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 3.0,
-                                                color: BukeerColors.overlay,
-                                                offset: Offset(
-                                                  0.0,
-                                                  1.0,
-                                                ),
-                                              )
-                                            ],
-                                            borderRadius: BorderRadius.circular(
-                                                BukeerSpacing.s),
-                                            border: Border.all(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.all(BukeerSpacing.s),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Container(
-                                                  width: 44.0,
-                                                  height: 44.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .accent1,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                    shape: BoxShape.rectangle,
-                                                    border: Border.all(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      width: 2.0,
-                                                    ),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                        BukeerSpacing.xs),
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      child: Image.network(
-                                                        widget!.isEdit == true
-                                                            ? (getJsonField(
-                                                                      context
-                                                                          .read<
-                                                                              ProductService>()
-                                                                          .selectedFlight,
-                                                                      r'''$.logo_symbol_url''',
-                                                                    ) !=
-                                                                    null
-                                                                ? getJsonField(
-                                                                    context
-                                                                        .read<
-                                                                            ProductService>()
-                                                                        .selectedFlight,
-                                                                    r'''$.logo_symbol_url''',
-                                                                  ).toString()
-                                                                : getJsonField(
-                                                                    context
-                                                                        .read<
-                                                                            ProductService>()
-                                                                        .allDataFlight,
-                                                                    r'''$.logo_symbol_url''',
-                                                                  ).toString())
-                                                            : getJsonField(
-                                                                context
-                                                                    .read<
-                                                                        ProductService>()
-                                                                    .selectedFlight,
-                                                                r'''$.logo_symbol_url''',
-                                                              ).toString(),
-                                                        width: 60.0,
-                                                        height: 60.0,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            widget!.isEdit ==
-                                                                    true
-                                                                ? (getJsonField(
-                                                                          context
-                                                                              .read<ProductService>()
-                                                                              .selectedFlight,
-                                                                          r'''$.name''',
-                                                                        ) !=
-                                                                        null
-                                                                    ? getJsonField(
-                                                                        context
-                                                                            .read<ProductService>()
-                                                                            .selectedFlight,
-                                                                        r'''$.name''',
-                                                                      )
-                                                                        .toString()
-                                                                    : getJsonField(
-                                                                        context
-                                                                            .read<ProductService>()
-                                                                            .allDataFlight,
-                                                                        r'''$.product_name''',
-                                                                      )
-                                                                        .toString())
-                                                                : valueOrDefault<
-                                                                    String>(
-                                                                    getJsonField(
-                                                                      context
-                                                                          .read<
-                                                                              ProductService>()
-                                                                          .selectedFlight,
-                                                                      r'''$.name''',
-                                                                    )?.toString(),
-                                                                    'Seleccionar',
-                                                                  ),
-                                                            'Seleccionar',
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLargeFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyLargeIsCustom,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          'Aerolínea',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMediumIsCustom,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Card(
-                                                  clipBehavior: Clip
-                                                      .antiAliasWithSaveLayer,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryBackground,
-                                                  elevation: 1.0,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            40.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                        BukeerSpacing.xs),
-                                                    child: Icon(
-                                                      Icons
-                                                          .chevron_right_rounded,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryText,
-                                                      size: 24.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ).animateOnPageLoad(animationsMap[
-                                          'containerOnPageLoadAnimation2']!),
-                                      Container(
-                                        width: 245.0,
-                                        decoration: BoxDecoration(),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  1.0,
-                                          height: 70.0,
-                                          child: custom_widgets
-                                              .CustomDatePickerWidget(
-                                            width: MediaQuery.sizeOf(context)
-                                                    .width *
-                                                1.0,
-                                            height: 70.0,
-                                            initialStartDate: widget!.isEdit
-                                                ? getJsonField(
-                                                    context
-                                                        .read<ProductService>()
-                                                        .allDataFlight,
-                                                    r'''$.date''',
-                                                  ).toString()
-                                                : getJsonField(
-                                                    context
-                                                        .read<ContactService>()
-                                                        .allDataContact,
-                                                    r'''$[:].start_date''',
-                                                  ).toString(),
-                                            labelText: 'Fecha',
-                                            isRangePicker: false,
-                                            onRangeSelected: (startDateStr,
-                                                endDateStr) async {},
-                                            onDateSelected: (date) async {
-                                              _model.initialStartDate = date;
-                                              safeSetState(() {});
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 90.0,
-                                        child: TextFormField(
-                                          controller:
-                                              _model.quantityTextController,
-                                          focusNode: _model.quantityFocusNode,
-                                          onChanged: (_) =>
-                                              EasyDebounce.debounce(
-                                            '_model.quantityTextController',
-                                            Duration(milliseconds: 2000),
-                                            () async {
-                                              _model.totalCost =
-                                                  valueOrDefault<double>(
-                                                double.parse(_model
-                                                        .quantityTextController
-                                                        .text) *
-                                                    double.parse(_model
-                                                        .totalCostTextController
-                                                        .text),
-                                                0.0,
-                                              );
-                                              safeSetState(() {});
-                                            },
-                                          ),
-                                          autofocus: false,
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            labelText: 'Cantidad',
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .override(
-                                                      fontFamily:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMediumFamily,
-                                                      letterSpacing: 0.0,
-                                                      useGoogleFonts:
-                                                          !FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMediumIsCustom,
-                                                    ),
-                                            hintStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .override(
-                                                      fontFamily:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMediumFamily,
-                                                      letterSpacing: 0.0,
-                                                      useGoogleFonts:
-                                                          !FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMediumIsCustom,
-                                                    ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      BukeerSpacing.s),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      BukeerSpacing.s),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      BukeerSpacing.s),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      BukeerSpacing.s),
-                                            ),
-                                            filled: true,
-                                            fillColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryBackground,
-                                            contentPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    20.0, 24.0, 20.0, 24.0),
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMediumIsCustom,
-                                              ),
-                                          cursorColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          validator: _model
-                                              .quantityTextControllerValidator
-                                              .asValidator(context),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Flexible(
-                                            flex: 4,
-                                            child: InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              onTap: () async {
-                                                await showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  enableDrag: false,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        FocusScope.of(context)
-                                                            .unfocus();
-                                                        FocusManager.instance
-                                                            .primaryFocus
-                                                            ?.unfocus();
-                                                      },
-                                                      child: Padding(
-                                                        padding: MediaQuery
-                                                            .viewInsetsOf(
-                                                                context),
-                                                        child:
-                                                            DropdownAirportsWidget(
-                                                          type: 'departure',
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ).then((value) =>
-                                                    safeSetState(() {}));
-                                              },
-                                              child: AnimatedContainer(
-                                                duration:
-                                                    Duration(milliseconds: 100),
-                                                curve: Curves.easeInOut,
-                                                constraints: BoxConstraints(
-                                                  maxWidth: 770.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          BukeerSpacing.sm),
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .alternate,
-                                                    width: 1.0,
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(
-                                                      BukeerSpacing.s),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  widget!.isEdit ==
-                                                                          true
-                                                                      ? (context.read<UiStateService>().departureState != null &&
-                                                                              context.read<UiStateService>().departureState !=
-                                                                                  ''
-                                                                          ? context
-                                                                              .read<
-                                                                                  UiStateService>()
-                                                                              .departureState
-                                                                          : getJsonField(
-                                                                              context.read<ProductService>().allDataFlight,
-                                                                              r'''$.flight_departure''',
-                                                                            )
-                                                                              .toString())
-                                                                      : context
-                                                                          .read<
-                                                                              UiStateService>()
-                                                                          .departureState,
-                                                                  'Seleccionar',
-                                                                ).maybeHandleOverflow(
-                                                                  maxChars: 20,
-                                                                  replacement:
-                                                                      '…',
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyLargeFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .bodyLargeIsCustom,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                'Salida',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .labelMediumFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .labelMediumIsCustom,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Card(
-                                                        clipBehavior: Clip
-                                                            .antiAliasWithSaveLayer,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        elevation: 1.0,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      40.0),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  BukeerSpacing
-                                                                      .xs),
-                                                          child: Icon(
-                                                            Icons
-                                                                .chevron_right_rounded,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryText,
-                                                            size: 24.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ).animateOnPageLoad(animationsMap[
-                                                'containerOnPageLoadAnimation3']!),
-                                          ),
-                                          Flexible(
-                                            flex: 2,
-                                            child: Container(
-                                              width: 122.0,
-                                              child: TextFormField(
-                                                controller: _model
-                                                    .departureTimeTextController,
-                                                focusNode: _model
-                                                    .departureTimeFocusNode,
-                                                autofocus: false,
-                                                obscureText: false,
-                                                decoration: InputDecoration(
-                                                  labelText: 'hora de salida ',
-                                                  labelStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  hintStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumIsCustom,
-                                                          ),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  errorBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  focusedErrorBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  filled: true,
-                                                  fillColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  contentPadding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(20.0, 24.0,
-                                                              20.0, 24.0),
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMediumIsCustom,
-                                                        ),
-                                                maxLength: 8,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                validator: _model
-                                                    .departureTimeTextControllerValidator
-                                                    .asValidator(context),
-                                                inputFormatters: [
-                                                  _model.departureTimeMask
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ].divide(
-                                            SizedBox(width: BukeerSpacing.s)),
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Flexible(
-                                            flex: 4,
-                                            child: InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              onTap: () async {
-                                                await showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  enableDrag: false,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        FocusScope.of(context)
-                                                            .unfocus();
-                                                        FocusManager.instance
-                                                            .primaryFocus
-                                                            ?.unfocus();
-                                                      },
-                                                      child: Padding(
-                                                        padding: MediaQuery
-                                                            .viewInsetsOf(
-                                                                context),
-                                                        child:
-                                                            DropdownAirportsWidget(
-                                                          type: 'arrival',
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ).then((value) =>
-                                                    safeSetState(() {}));
-                                              },
-                                              child: AnimatedContainer(
-                                                duration:
-                                                    Duration(milliseconds: 100),
-                                                curve: Curves.easeInOut,
-                                                constraints: BoxConstraints(
-                                                  maxWidth: 770.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      blurRadius: 3.0,
-                                                      color:
-                                                          BukeerColors.overlay,
-                                                      offset: Offset(
-                                                        0.0,
-                                                        1.0,
-                                                      ),
-                                                    )
-                                                  ],
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          BukeerSpacing.sm),
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .alternate,
-                                                    width: 1.0,
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(
-                                                      BukeerSpacing.s),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  widget!.isEdit ==
-                                                                          true
-                                                                      ? (context.read<UiStateService>().arrivalState != null &&
-                                                                              context.read<UiStateService>().arrivalState !=
-                                                                                  ''
-                                                                          ? context
-                                                                              .read<
-                                                                                  UiStateService>()
-                                                                              .arrivalState
-                                                                          : getJsonField(
-                                                                              context.read<ProductService>().allDataFlight,
-                                                                              r'''$.flight_arrival''',
-                                                                            )
-                                                                              .toString())
-                                                                      : context
-                                                                          .read<
-                                                                              UiStateService>()
-                                                                          .arrivalState,
-                                                                  'Seleccionar',
-                                                                ).maybeHandleOverflow(
-                                                                  maxChars: 20,
-                                                                  replacement:
-                                                                      '…',
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyLargeFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .bodyLargeIsCustom,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                'Destino',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .labelMediumFamily,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      useGoogleFonts:
-                                                                          !FlutterFlowTheme.of(context)
-                                                                              .labelMediumIsCustom,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Card(
-                                                        clipBehavior: Clip
-                                                            .antiAliasWithSaveLayer,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        elevation: 1.0,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      40.0),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  BukeerSpacing
-                                                                      .xs),
-                                                          child: Icon(
-                                                            Icons
-                                                                .chevron_right_rounded,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryText,
-                                                            size: 24.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ).animateOnPageLoad(animationsMap[
-                                                'containerOnPageLoadAnimation4']!),
-                                          ),
-                                          Flexible(
-                                            flex: 2,
-                                            child: Container(
-                                              width: 120.0,
-                                              child: TextFormField(
-                                                controller: _model
-                                                    .arrivalTimeTextController,
-                                                focusNode:
-                                                    _model.arrivalTimeFocusNode,
-                                                autofocus: false,
-                                                obscureText: false,
-                                                decoration: InputDecoration(
-                                                  labelText: 'hora de llegada ',
-                                                  labelStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumIsCustom,
-                                                          ),
-                                                  hintStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumIsCustom,
-                                                          ),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  errorBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  focusedErrorBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            BukeerSpacing.sm),
-                                                  ),
-                                                  filled: true,
-                                                  fillColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  contentPadding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(20.0, 24.0,
-                                                              20.0, 24.0),
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMediumIsCustom,
-                                                        ),
-                                                maxLength: 8,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                cursorColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                validator: _model
-                                                    .arrivalTimeTextControllerValidator
-                                                    .asValidator(context),
-                                                inputFormatters: [
-                                                  _model.arrivalTimeMask
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ].divide(
-                                            SizedBox(width: BukeerSpacing.s)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Date and quantity FIRST
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 0.0, 8.0, 0.0),
-                                      child: AnimatedContainer(
-                                        duration: Duration(milliseconds: 100),
-                                        curve: Curves.easeInOut,
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
+                                    Text(
+                                      'Fecha del Vuelo',
+                                      style:
+                                          BukeerTypography.titleSmall.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? BukeerColors.textPrimaryDark
+                                            : BukeerColors.textPrimary,
+                                      ),
+                                    ),
+                                    SizedBox(height: BukeerSpacing.s),
+                                    InkWell(
+                                      onTap: () async {
+                                        final date = await showDatePicker(
+                                          context: context,
+                                          initialDate: _selectedDate,
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now()
+                                              .add(Duration(days: 730)),
+                                        );
+                                        if (date != null) {
+                                          setState(() => _selectedDate = date);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.m),
                                         decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 3.0,
-                                              color: BukeerColors.overlay,
-                                              offset: Offset(
-                                                0.0,
-                                                1.0,
-                                              ),
-                                            )
-                                          ],
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
                                           border: Border.all(
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            width: 1.0,
+                                            color: isDark
+                                                ? BukeerColors.dividerDark
+                                                : BukeerColors.divider,
+                                            width: BukeerBorders.widthThin,
                                           ),
+                                          borderRadius:
+                                              BukeerBorders.radiusMedium,
                                         ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 24.0, 0.0, 24.0),
-                                          child: Wrap(
-                                            spacing: 8.0,
-                                            runSpacing: 8.0,
-                                            alignment: WrapAlignment.center,
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.start,
-                                            direction: Axis.horizontal,
-                                            runAlignment: WrapAlignment.start,
-                                            verticalDirection:
-                                                VerticalDirection.down,
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Container(
-                                                width: 190.0,
-                                                child: TextFormField(
-                                                  controller: _model
-                                                      .unitCostTextController,
-                                                  focusNode:
-                                                      _model.unitCostFocusNode,
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    '_model.unitCostTextController',
-                                                    Duration(
-                                                        milliseconds: 2000),
-                                                    () async {
-                                                      _model.responseTotal =
-                                                          await actions
-                                                              .calculateTotal(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text,
-                                                      );
-                                                      safeSetState(() {
-                                                        _model.totalCostTextController
-                                                                ?.text =
-                                                            _model
-                                                                .responseTotal!;
-                                                      });
-                                                      _model.totalCost =
-                                                          double.parse(_model
-                                                              .totalCostTextController
-                                                              .text);
-                                                      safeSetState(() {});
-
-                                                      safeSetState(() {});
-                                                    },
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Tarifa neta',
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20.0,
-                                                                24.0,
-                                                                20.0,
-                                                                24.0),
-                                                  ),
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary,
-                                                  validator: _model
-                                                      .unitCostTextControllerValidator
-                                                      .asValidator(context),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            '^[0-9]*([\\\\.][0-9]{0,2})?\$'))
-                                                  ],
-                                                ),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.calendar_today,
+                                              size: 20,
+                                              color: isDark
+                                                  ? BukeerColors
+                                                      .textSecondaryDark
+                                                  : BukeerColors.textSecondary,
+                                            ),
+                                            SizedBox(width: BukeerSpacing.s),
+                                            Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_selectedDate),
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
                                               ),
-                                              Container(
-                                                width: 100.0,
-                                                child: TextFormField(
-                                                  controller: _model
-                                                      .markupTextController,
-                                                  focusNode:
-                                                      _model.markupFocusNode,
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    '_model.markupTextController',
-                                                    Duration(
-                                                        milliseconds: 2000),
-                                                    () async {
-                                                      _model.responseTotal2 =
-                                                          await actions
-                                                              .calculateTotal(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text,
-                                                      );
-                                                      safeSetState(() {
-                                                        _model.totalCostTextController
-                                                                ?.text =
-                                                            _model
-                                                                .responseTotal2!;
-                                                      });
-                                                      _model.totalCost =
-                                                          valueOrDefault<
-                                                              double>(
-                                                        double.parse(_model
-                                                                .quantityTextController
-                                                                .text) *
-                                                            double.parse(_model
-                                                                .totalCostTextController
-                                                                .text),
-                                                        0.0,
-                                                      );
-                                                      safeSetState(() {});
-
-                                                      safeSetState(() {});
-                                                    },
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Markup %',
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20.0,
-                                                                24.0,
-                                                                20.0,
-                                                                24.0),
-                                                  ),
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary,
-                                                  validator: _model
-                                                      .markupTextControllerValidator
-                                                      .asValidator(context),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            '^[0-9]*([\\\\.][0-9]*)?\$'))
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 190.0,
-                                                child: TextFormField(
-                                                  controller: _model
-                                                      .totalCostTextController,
-                                                  focusNode:
-                                                      _model.totalCostFocusNode,
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    '_model.totalCostTextController',
-                                                    Duration(
-                                                        milliseconds: 2000),
-                                                    () async {
-                                                      _model.responseProfit2 =
-                                                          await actions
-                                                              .calculateProfit(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .totalCostTextController
-                                                            .text,
-                                                      );
-                                                      safeSetState(() {
-                                                        _model.markupTextController
-                                                                ?.text =
-                                                            _model
-                                                                .responseProfit2!;
-                                                      });
-                                                      _model.totalCost = double
-                                                              .parse(_model
-                                                                  .totalCostTextController
-                                                                  .text) *
-                                                          int.parse(_model
-                                                              .quantityTextController
-                                                              .text);
-                                                      safeSetState(() {});
-
-                                                      safeSetState(() {});
-                                                    },
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Valor  Total',
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20.0,
-                                                                24.0,
-                                                                20.0,
-                                                                24.0),
-                                                  ),
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary,
-                                                  validator: _model
-                                                      .totalCostTextControllerValidator
-                                                      .asValidator(context),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            '^[0-9]*([\\\\.][0-9]{0,2})?\$'))
-                                                  ],
-                                                ),
-                                              ),
-                                              Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        'Total',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .headlineSmall
-                                                                .override(
-                                                                  fontFamily: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .headlineSmallFamily,
-                                                                  fontSize:
-                                                                      BukeerTypography
-                                                                          .headlineSmallSize,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  useGoogleFonts:
-                                                                      !FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .headlineSmallIsCustom,
-                                                                ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          '\$',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLargeFamily,
-                                                                fontSize: 21.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyLargeIsCustom,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        valueOrDefault<String>(
-                                                          formatNumber(
-                                                            valueOrDefault<
-                                                                    double>(
-                                                                  double.tryParse(
-                                                                      _model
-                                                                          .totalCostTextController
-                                                                          .text),
-                                                                  0.0,
-                                                                ) *
-                                                                valueOrDefault<
-                                                                    int>(
-                                                                  int.tryParse(_model
-                                                                      .quantityTextController
-                                                                      .text),
-                                                                  0,
-                                                                ),
-                                                            formatType:
-                                                                FormatType
-                                                                    .decimal,
-                                                            decimalType:
-                                                                DecimalType
-                                                                    .commaDecimal,
-                                                          ),
-                                                          '0',
-                                                        ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyLarge
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLargeFamily,
-                                                              fontSize: 21.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLargeIsCustom,
-                                                            ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      24.0, 5.0, 24.0, 5.0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      controller:
-                                          _model.messageActivityTextController,
-                                      focusNode:
-                                          _model.messageActivityFocusNode,
-                                      autofocus: false,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        labelText: 'Mensaje destacado',
-                                        labelStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .labelMediumIsCustom,
-                                            ),
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .labelMediumIsCustom,
-                                            ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        filled: true,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                20.0, 24.0, 20.0, 24.0),
+                              ),
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Cantidad de Pasajeros',
+                                      style:
+                                          BukeerTypography.titleSmall.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? BukeerColors.textPrimaryDark
+                                            : BukeerColors.textPrimary,
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMediumFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .bodyMediumIsCustom,
-                                          ),
-                                      maxLines: null,
-                                      minLines: 3,
-                                      cursorColor: BukeerColors.primary,
-                                      validator: _model
-                                          .messageActivityTextControllerValidator
-                                          .asValidator(context),
                                     ),
+                                    SizedBox(height: BukeerSpacing.s),
+                                    BukeerTextField(
+                                      controller: _quantityController,
+                                      type: BukeerTextFieldType.number,
+                                      required: true,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Requerido';
+                                        }
+                                        if (int.tryParse(value) == null ||
+                                            int.parse(value) < 1) {
+                                          return 'Cantidad inválida';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Times
+                          Row(
+                            children: [
+                              Expanded(
+                                child: BukeerTextField(
+                                  controller: _departureTimeController,
+                                  label: 'Hora de Salida',
+                                  hintText: '14:30',
+                                  required: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Requerido';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                child: BukeerTextField(
+                                  controller: _arrivalTimeController,
+                                  label: 'Hora de Llegada',
+                                  hintText: '16:45',
+                                  required: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Requerido';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: BukeerSpacing.xl),
+
+                          // Pricing section
+                          Text(
+                            'Precios y Tarifas',
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? BukeerColors.textPrimaryDark
+                                  : BukeerColors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Visual Calculator Section
+                          Container(
+                            padding: EdgeInsets.all(BukeerSpacing.m),
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? BukeerColors.backgroundDarkSecondary
+                                      .withOpacity(0.7)
+                                  : BukeerColors.surfaceSecondary
+                                      .withOpacity(0.5),
+                              borderRadius: BukeerBorders.radiusMedium,
+                              border: Border.all(
+                                color: isDark
+                                    ? BukeerColors.borderPrimaryDark
+                                    : BukeerColors.divider,
+                                width: BukeerBorders.widthThin,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                // Cost, Markup, and Price
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          BukeerTextField(
+                                            controller: _unitCostController,
+                                            label: 'Costo Unitario',
+                                            hintText: '0.00',
+                                            type: BukeerTextFieldType.decimal,
+                                            required: true,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Costo requerido';
+                                              }
+                                              if (double.tryParse(value) ==
+                                                  null) {
+                                                return 'Valor inválido';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                          SizedBox(height: BukeerSpacing.xs),
+                                          Text(
+                                            'Base',
+                                            style: BukeerTypography.labelSmall
+                                                .copyWith(
+                                              color: isDark
+                                                  ? BukeerColors.textPrimaryDark
+                                                      .withOpacity(0.7)
+                                                  : BukeerColors.textSecondary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: BukeerSpacing.s),
+                                      child: Column(
+                                        children: [
+                                          Icon(Icons.add,
+                                              size: 24,
+                                              color: BukeerColors.primary),
+                                          SizedBox(height: BukeerSpacing.xs),
+                                          Text('+',
+                                              style:
+                                                  BukeerTypography.titleMedium),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          BukeerTextField(
+                                            controller: _markupController,
+                                            label: 'Markup (%)',
+                                            hintText: '0',
+                                            type: BukeerTextFieldType.decimal,
+                                          ),
+                                          SizedBox(height: BukeerSpacing.xs),
+                                          Text(
+                                            'Ganancia',
+                                            style: BukeerTypography.labelSmall
+                                                .copyWith(
+                                              color: isDark
+                                                  ? BukeerColors.textPrimaryDark
+                                                      .withOpacity(0.7)
+                                                  : BukeerColors.textSecondary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: BukeerSpacing.s),
+                                      child: Column(
+                                        children: [
+                                          Icon(Icons.arrow_forward,
+                                              size: 24,
+                                              color: BukeerColors.primary),
+                                          SizedBox(height: BukeerSpacing.xs),
+                                          Text('=',
+                                              style:
+                                                  BukeerTypography.titleMedium),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          BukeerTextField(
+                                            controller: _unitPriceController,
+                                            label: 'Tarifa Unitaria',
+                                            hintText: '0.00',
+                                            type: BukeerTextFieldType.decimal,
+                                            required: true,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Tarifa requerida';
+                                              }
+                                              if (double.tryParse(value) ==
+                                                  null) {
+                                                return 'Valor inválido';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                          SizedBox(height: BukeerSpacing.xs),
+                                          Text(
+                                            'Final',
+                                            style: BukeerTypography.labelSmall
+                                                .copyWith(
+                                              color: isDark
+                                                  ? BukeerColors.textPrimaryDark
+                                                      .withOpacity(0.7)
+                                                  : BukeerColors.textSecondary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // Visual formula
+                                SizedBox(height: BukeerSpacing.m),
+                                Container(
+                                  padding: EdgeInsets.all(BukeerSpacing.s),
+                                  decoration: BoxDecoration(
+                                    color: isDark
+                                        ? BukeerColors.backgroundDark
+                                        : BukeerColors.backgroundPrimary,
+                                    borderRadius: BukeerBorders.radiusSmall,
+                                    border: Border.all(
+                                      color: isDark
+                                          ? BukeerColors.borderPrimaryDark
+                                              .withOpacity(0.5)
+                                          : BukeerColors.borderPrimary
+                                              .withOpacity(0.5),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      // Unit price formula
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '\$${(double.tryParse(_unitCostController.text) ?? 0).toStringAsFixed(2)}',
+                                            style: BukeerTypography.bodyMedium
+                                                .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: isDark
+                                                  ? BukeerColors.textPrimaryDark
+                                                  : BukeerColors.textPrimary,
+                                            ),
+                                          ),
+                                          Text(' + ',
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
+                                              )),
+                                          Text(
+                                            '${(double.tryParse(_markupController.text) ?? 0).toStringAsFixed(2)}%',
+                                            style: BukeerTypography.bodyMedium
+                                                .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: isDark
+                                                  ? BukeerColors.successLight
+                                                  : BukeerColors.success,
+                                            ),
+                                          ),
+                                          Text(' = ',
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
+                                              )),
+                                          Text(
+                                            '\$${(double.tryParse(_unitPriceController.text) ?? 0).toStringAsFixed(2)}',
+                                            style: BukeerTypography.bodyMedium
+                                                .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: isDark
+                                                  ? BukeerColors.primaryLight
+                                                  : BukeerColors.primary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: BukeerSpacing.xs),
+                                      Divider(height: 1),
+                                      SizedBox(height: BukeerSpacing.xs),
+                                      // Total formula
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '\$${(double.tryParse(_unitPriceController.text) ?? 0).toStringAsFixed(2)}',
+                                            style: BukeerTypography.bodyMedium
+                                                .copyWith(
+                                              color: isDark
+                                                  ? BukeerColors.primaryLight
+                                                  : BukeerColors.primary,
+                                            ),
+                                          ),
+                                          Text(' × ',
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
+                                              )),
+                                          Text(
+                                            '${_quantityController.text} pax',
+                                            style: BukeerTypography.bodyMedium
+                                                .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: isDark
+                                                  ? BukeerColors.textPrimaryDark
+                                                  : BukeerColors.textPrimary,
+                                            ),
+                                          ),
+                                          Text(' = ',
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
+                                              )),
+                                          Text(
+                                            '\$${_total.toStringAsFixed(2)}',
+                                            style: BukeerTypography.bodyLarge
+                                                .copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: isDark
+                                                  ? BukeerColors.primaryLight
+                                                  : BukeerColors.primary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 8.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.05),
-                                child: FFButtonWidget(
-                                  onPressed: () async {
-                                    context
-                                        .read<UiStateService>()
-                                        .itemsProducts = null;
-                                    context
-                                        .read<ProductService>()
-                                        .allDataFlight = null;
-                                    context
-                                        .read<UiStateService>()
-                                        .departureState = '';
-                                    context
-                                        .read<UiStateService>()
-                                        .arrivalState = '';
-                                    safeSetState(() {});
-                                    Navigator.pop(context);
-                                  },
-                                  text: 'Cancelar',
-                                  options: FFButtonOptions(
-                                    height: 44.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily,
-                                          letterSpacing: 0.0,
-                                          useGoogleFonts:
-                                              !FlutterFlowTheme.of(context)
-                                                  .bodyMediumIsCustom,
-                                        ),
-                                    elevation: 0.0,
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    hoverBorderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 2.0,
-                                    ),
-                                    hoverTextColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    hoverElevation: 3.0,
-                                  ),
-                                ),
-                              ),
-                              if (widget!.isEdit == false)
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.05),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      if ((_model.unitCostTextController.text !=
-                                                  null &&
-                                              _model.unitCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.markupTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.markupTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.totalCostTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.totalCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.quantityTextController.text !=
-                                                  null &&
-                                              _model.quantityTextController
-                                                      .text !=
-                                                  '')) {
-                                        _model.apiResponseAddItineraryItemFlights =
-                                            await AddItineraryItemsFlightsCall
-                                                .call(
-                                          quantity: int.tryParse(_model
-                                              .quantityTextController.text),
-                                          authToken: currentJwtToken,
-                                          idProduct: getJsonField(
-                                            context
-                                                .read<UiStateService>()
-                                                .itemsProducts,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          productType: 'Vuelos',
-                                          profitPercentage: double.tryParse(
-                                              _model.markupTextController.text),
-                                          unitCost: double.tryParse(_model
-                                              .unitCostTextController.text),
-                                          date: _model.initialStartDate !=
-                                                      null &&
-                                                  _model.initialStartDate != ''
-                                              ? _model.initialStartDate
-                                              : getJsonField(
-                                                  context
-                                                      .read<ContactService>()
-                                                      .allDataContact,
-                                                  r'''$[:].start_date''',
-                                                ).toString(),
-                                          idItinerary: widget!.itineraryId,
-                                          totalPrice: valueOrDefault<double>(
-                                            double.parse(
-                                                    functions.calculateTotalFunction(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text)) *
-                                                int.parse(_model
-                                                    .quantityTextController
-                                                    .text),
-                                            0.0,
-                                          ),
-                                          flightDeparture: context
-                                              .read<UiStateService>()
-                                              .departureState,
-                                          flightArrival: context
-                                              .read<UiStateService>()
-                                              .arrivalState,
-                                          departureTime: _model
-                                              .departureTimeTextController.text,
-                                          arrivalTime: _model
-                                              .arrivalTimeTextController.text,
-                                          airline: getJsonField(
-                                            context
-                                                .read<UiStateService>()
-                                                .itemsProducts,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          productName: getJsonField(
-                                            context
-                                                .read<UiStateService>()
-                                                .itemsProducts,
-                                            r'''$.name''',
-                                          ).toString(),
-                                          accountId:
-                                              appServices.account.accountId!,
-                                          personalizedMessage:
-                                              (String personalizedMessage) {
-                                            return personalizedMessage
-                                                .replaceAll('\n', '\\n');
-                                          }(_model.messageActivityTextController
-                                                  .text),
-                                        );
 
-                                        if ((_model
-                                                .apiResponseAddItineraryItemFlights
-                                                ?.succeeded ??
-                                            true)) {
-                                          context
-                                              .read<UiStateService>()
-                                              .itemsProducts = null;
-                                          context
-                                              .read<ProductService>()
-                                              .allDataFlight = null;
-                                          context
-                                              .read<UiStateService>()
-                                              .departureState = '';
-                                          context
-                                              .read<UiStateService>()
-                                              .arrivalState = '';
-                                          safeSetState(() {});
-                                          _model.totalCost = 0.0;
-                                          _model.unitCost = 0.0;
-                                          _model.profitActivities = 0.0;
-                                          _model.itemsActivitiesRates = null;
-                                          safeSetState(() {});
-                                          context.safePop();
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Todos los campos son requeridos'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: Text('Mensaje'),
-                                              content: Text(
-                                                  'Todos los campos son obligatorios.'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: Text('Ok'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
+                          SizedBox(height: BukeerSpacing.m),
 
-                                      safeSetState(() {});
-                                    },
-                                    text: 'Agregar',
-                                    options: FFButtonOptions(
-                                      height: 44.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: BukeerColors.primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmallFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .titleSmallIsCustom,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                          BukeerSpacing.s),
-                                      hoverColor: BukeerColors.primaryAccent,
-                                      hoverBorderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        width: 1.0,
-                                      ),
-                                      hoverTextColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                      hoverElevation: 0.0,
-                                    ),
-                                  ),
-                                ),
-                              if (widget!.isEdit == true)
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.05),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      if ((_model.unitCostTextController.text !=
-                                                  null &&
-                                              _model.unitCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.markupTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.markupTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.totalCostTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.totalCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.quantityTextController.text !=
-                                                  null &&
-                                              _model.quantityTextController
-                                                      .text !=
-                                                  '')) {
-                                        _model.apiResponseEditItineraryItemFlights =
-                                            await UpdateItineraryItemsFlightsCall
-                                                .call(
-                                          authToken: currentJwtToken,
-                                          unitCost: double.tryParse(_model
-                                              .unitCostTextController.text),
-                                          id: getJsonField(
-                                            context
-                                                .read<ProductService>()
-                                                .allDataFlight,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          quantity: int.tryParse(_model
-                                              .quantityTextController.text),
-                                          date: _model.initialStartDate !=
-                                                      null &&
-                                                  _model.initialStartDate != ''
-                                              ? _model.initialStartDate
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataFlight,
-                                                  r'''$.date''',
-                                                ).toString(),
-                                          profitPercentage: double.tryParse(
-                                              _model.markupTextController.text),
-                                          idProduct: context
-                                                      .read<ProductService>()
-                                                      .selectedFlight !=
-                                                  null
-                                              ? getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .selectedFlight,
-                                                  r'''$.id''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataFlight,
-                                                  r'''$.id_product''',
-                                                ).toString(),
-                                          totalPrice: valueOrDefault<double>(
-                                            double.parse(
-                                                    functions.calculateTotalFunction(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text)) *
-                                                int.parse(_model
-                                                    .quantityTextController
-                                                    .text),
-                                            0.0,
-                                          ),
-                                          airline: context
-                                                      .read<UiStateService>()
-                                                      .itemsProducts !=
-                                                  null
-                                              ? getJsonField(
-                                                  context
-                                                      .read<UiStateService>()
-                                                      .itemsProducts,
-                                                  r'''$.id''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataFlight,
-                                                  r'''$.airline''',
-                                                ).toString(),
-                                          flightDeparture: context
-                                                          .read<
-                                                              UiStateService>()
-                                                          .departureState !=
-                                                      null &&
-                                                  context
-                                                          .read<
-                                                              UiStateService>()
-                                                          .departureState !=
-                                                      ''
-                                              ? context
-                                                  .read<UiStateService>()
-                                                  .departureState
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataFlight,
-                                                  r'''$.flight_departure''',
-                                                ).toString(),
-                                          flightArrival: context
-                                                          .read<
-                                                              UiStateService>()
-                                                          .arrivalState !=
-                                                      null &&
-                                                  context
-                                                          .read<
-                                                              UiStateService>()
-                                                          .arrivalState !=
-                                                      ''
-                                              ? context
-                                                  .read<UiStateService>()
-                                                  .arrivalState
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataFlight,
-                                                  r'''$.flight_arrival''',
-                                                ).toString(),
-                                          departureTime: _model
-                                              .departureTimeTextController.text,
-                                          arrivalTime: _model
-                                              .arrivalTimeTextController.text,
-                                          productType: 'Vuelos',
-                                          productName: context
-                                                      .read<ProductService>()
-                                                      .selectedFlight !=
-                                                  null
-                                              ? getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .selectedFlight,
-                                                  r'''$.name''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataFlight,
-                                                  r'''$.product_name''',
-                                                ).toString(),
-                                          personalizedMessage:
-                                              (String personalizedMessage) {
-                                            return personalizedMessage
-                                                .replaceAll('\n', '\\n');
-                                          }(_model.messageActivityTextController
-                                                  .text),
-                                        );
-
-                                        if ((_model
-                                                .apiResponseEditItineraryItemFlights
-                                                ?.succeeded ??
-                                            true)) {
-                                          context
-                                              .read<UiStateService>()
-                                              .itemsProducts = null;
-                                          context
-                                              .read<ProductService>()
-                                              .allDataFlight = null;
-                                          context
-                                              .read<UiStateService>()
-                                              .departureState = '';
-                                          context
-                                              .read<UiStateService>()
-                                              .arrivalState = '';
-                                          safeSetState(() {});
-                                          _model.totalCost = 0.0;
-                                          _model.unitCost = 0.0;
-                                          _model.profitActivities = 0.0;
-                                          _model.itemsActivitiesRates = null;
-                                          safeSetState(() {});
-                                          context.safePop();
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Ocurrio un error inesperado.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: Text('Mensaje'),
-                                              content: Text(
-                                                  'Todos los campos son obligatorios.'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: Text('Ok'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
-
-                                      safeSetState(() {});
-                                    },
-                                    text: 'Guardar',
-                                    options: FFButtonOptions(
-                                      height: 44.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: BukeerColors.primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmallFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .titleSmallIsCustom,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                          BukeerSpacing.s),
-                                      hoverColor: BukeerColors.primaryAccent,
-                                      hoverBorderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        width: 1.0,
-                                      ),
-                                      hoverTextColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                      hoverElevation: 0.0,
-                                    ),
-                                  ),
-                                ),
-                            ],
+                          // Notes
+                          BukeerTextField(
+                            controller: _notesController,
+                            label: 'Notas',
+                            hintText: 'Información adicional del vuelo...',
+                            maxLines: 3,
                           ),
-                        ),
-                      ].divide(SizedBox(height: BukeerSpacing.s)),
+
+                          // Total display box - ALWAYS VISIBLE
+                          SizedBox(height: BukeerSpacing.xl),
+                          Container(
+                            padding: EdgeInsets.all(BukeerSpacing.l),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  BukeerColors.primary.withOpacity(0.1),
+                                  BukeerColors.primary.withOpacity(0.05),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BukeerBorders.radiusMedium,
+                              border: Border.all(
+                                color: BukeerColors.primary,
+                                width: BukeerBorders.widthMedium,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'VALOR TOTAL DEL VUELO',
+                                      style:
+                                          BukeerTypography.titleSmall.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? BukeerColors.textPrimaryDark
+                                                .withOpacity(0.9)
+                                            : BukeerColors.textSecondary,
+                                        letterSpacing: 1.2,
+                                      ),
+                                    ),
+                                    SizedBox(height: BukeerSpacing.xs),
+                                    Text(
+                                      '\$${_total.toStringAsFixed(2)}',
+                                      style: BukeerTypography.displaySmall
+                                          .copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        color: isDark
+                                            ? BukeerColors.primaryLight
+                                            : BukeerColors.primary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.flight,
+                                  size: 48,
+                                  color: BukeerColors.primary.withOpacity(0.3),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Summary details
+                          SizedBox(height: BukeerSpacing.m),
+                          Container(
+                            padding: EdgeInsets.all(BukeerSpacing.l),
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? BukeerColors.surfaceSecondaryDark
+                                  : BukeerColors.surfaceSecondary,
+                              borderRadius: BukeerBorders.radiusMedium,
+                              border: Border.all(
+                                color: isDark
+                                    ? BukeerColors.dividerDark
+                                    : BukeerColors.divider,
+                                width: BukeerBorders.widthThin,
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Resumen del Vuelo',
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: isDark
+                                        ? BukeerColors.textPrimaryDark
+                                        : BukeerColors.textPrimary,
+                                  ),
+                                ),
+                                SizedBox(height: BukeerSpacing.m),
+                                // Flight details
+                                if (_selectedAirline != null &&
+                                    _flightNumberController
+                                        .text.isNotEmpty) ...[
+                                  Row(
+                                    children: [
+                                      Icon(Icons.airlines,
+                                          size: 16,
+                                          color: BukeerColors.textSecondary),
+                                      SizedBox(width: BukeerSpacing.xs),
+                                      Text(
+                                        '${_selectedAirline['name']} - ${_flightNumberController.text}',
+                                        style: BukeerTypography.bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: BukeerSpacing.s),
+                                ],
+                                if (_originController.text.isNotEmpty &&
+                                    _destinationController.text.isNotEmpty) ...[
+                                  Row(
+                                    children: [
+                                      Icon(Icons.route,
+                                          size: 16,
+                                          color: BukeerColors.textSecondary),
+                                      SizedBox(width: BukeerSpacing.xs),
+                                      Expanded(
+                                        child: Text(
+                                          '${_originController.text} → ${_destinationController.text}',
+                                          style: BukeerTypography.bodyMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: BukeerSpacing.s),
+                                ],
+                                if (_selectedDate != null) ...[
+                                  Row(
+                                    children: [
+                                      Icon(Icons.calendar_today,
+                                          size: 16,
+                                          color: BukeerColors.textSecondary),
+                                      SizedBox(width: BukeerSpacing.xs),
+                                      Text(
+                                        DateFormat('dd/MM/yyyy')
+                                            .format(_selectedDate),
+                                        style: BukeerTypography.bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: BukeerSpacing.m),
+                                ],
+                                Divider(
+                                    color: isDark
+                                        ? BukeerColors.dividerDark
+                                        : BukeerColors.divider),
+                                SizedBox(height: BukeerSpacing.m),
+                                // Pricing details
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Costo unitario:',
+                                        style: BukeerTypography.bodyMedium),
+                                    Text(
+                                      '\$${(double.tryParse(_unitCostController.text) ?? 0).toStringAsFixed(2)}',
+                                      style: BukeerTypography.bodyMedium
+                                          .copyWith(
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: BukeerSpacing.xs),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Markup:',
+                                        style: BukeerTypography.bodyMedium),
+                                    Text(
+                                      '${(double.tryParse(_markupController.text) ?? 0).toStringAsFixed(2)}%',
+                                      style: BukeerTypography.bodyMedium
+                                          .copyWith(
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: BukeerSpacing.xs),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Tarifa unitaria:',
+                                        style: BukeerTypography.bodyMedium),
+                                    Text(
+                                      '\$${(double.tryParse(_unitPriceController.text) ?? 0).toStringAsFixed(2)}',
+                                      style: BukeerTypography.bodyMedium
+                                          .copyWith(
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: BukeerSpacing.xs),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Cantidad:',
+                                        style: BukeerTypography.bodyMedium),
+                                    Text(
+                                      _quantityController.text,
+                                      style: BukeerTypography.bodyMedium
+                                          .copyWith(
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                    color: isDark
+                                        ? BukeerColors.dividerDark
+                                        : BukeerColors.divider),
+                                SizedBox(height: BukeerSpacing.s),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Total:',
+                                      style:
+                                          BukeerTypography.titleLarge.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? BukeerColors.textPrimaryDark
+                                            : BukeerColors.textPrimary,
+                                      ),
+                                    ),
+                                    Text(
+                                      '\$${_total.toStringAsFixed(2)}',
+                                      style: BukeerTypography.headlineSmall
+                                          .copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: BukeerColors.primary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
+          ),
+
+          // Footer
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.l),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
                 ),
-              ).animateOnPageLoad(
-                  animationsMap['containerOnPageLoadAnimation1']!),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                BukeerButton(
+                  text: 'Cancelar',
+                  onPressed: () => Navigator.of(context).pop(false),
+                  variant: BukeerButtonVariant.secondary,
+                ),
+                SizedBox(width: BukeerSpacing.m),
+                BukeerButton(
+                  text: widget.isEdit ? 'Guardar' : 'Agregar',
+                  onPressed:
+                      (_selectedProvider != null && _selectedAirline != null)
+                          ? _addFlightToItinerary
+                          : null,
+                  variant: BukeerButtonVariant.primary,
+                  icon: widget.isEdit ? Icons.save : Icons.add,
+                ),
+              ],
             ),
           ),
-        ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildItemAvatar(dynamic item, IconData defaultIcon, bool isAirline) {
+    if (isAirline) {
+      // For airlines, try to show airline logo
+      final logoUrl = item['logo_png'];
+      if (logoUrl != null && logoUrl.toString().isNotEmpty) {
+        return CircleAvatar(
+          backgroundColor: Colors.white,
+          child: ClipOval(
+            child: Image.network(
+              logoUrl,
+              width: 30,
+              height: 30,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return Icon(
+                  Icons.airlines,
+                  color: BukeerColors.primary,
+                  size: 20,
+                );
+              },
+            ),
+          ),
+        );
+      }
+    } else {
+      // For providers, try to show contact image - the field is 'user_image'
+      final imageUrl = item['user_image'];
+      if (imageUrl != null && imageUrl.toString().isNotEmpty) {
+        return CircleAvatar(
+          backgroundImage: NetworkImage(imageUrl),
+          onBackgroundImageError: (exception, stackTrace) {
+            // Will fall back to default icon
+          },
+          child: null,
+        );
+      }
+    }
+
+    // Default fallback icon
+    return CircleAvatar(
+      backgroundColor: BukeerColors.primary.withOpacity(0.1),
+      child: Icon(
+        defaultIcon,
+        color: BukeerColors.primary,
+        size: 20,
+      ),
+    );
+  }
+
+  Widget _buildAirportSearchableList({
+    required String title,
+    required List<dynamic> items,
+    required dynamic selectedItem,
+    required Function(dynamic) onItemSelected,
+    required TextEditingController searchController,
+    required Function(String) onSearchChanged,
+    required IconData icon,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: BukeerTypography.titleSmall.copyWith(
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? BukeerColors.textPrimaryDark
+                : BukeerColors.textPrimary,
+          ),
+        ),
+        SizedBox(height: BukeerSpacing.s),
+
+        // Show selected airport if exists
+        if (selectedItem != null)
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.m),
+            margin: EdgeInsets.only(bottom: BukeerSpacing.s),
+            decoration: BoxDecoration(
+              color: BukeerColors.primary.withOpacity(0.1),
+              border: Border.all(
+                color: BukeerColors.primary,
+                width: BukeerBorders.widthMedium,
+              ),
+              borderRadius: BukeerBorders.radiusMedium,
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  icon,
+                  color: BukeerColors.primary,
+                  size: 16,
+                ),
+                SizedBox(width: BukeerSpacing.xs),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${selectedItem['city_name'] ?? ''} (${selectedItem['iata_code'] ?? ''})',
+                        style: BukeerTypography.bodyMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        selectedItem['name'] ?? '',
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: isDark
+                              ? BukeerColors.textSecondaryDark
+                              : BukeerColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.close, size: 16),
+                  onPressed: () {
+                    setState(() {
+                      if (icon == Icons.flight_takeoff) {
+                        _selectedOriginAirport = null;
+                        _originController.clear();
+                      } else {
+                        _selectedDestinationAirport = null;
+                        _destinationController.clear();
+                      }
+                    });
+                  },
+                  padding: EdgeInsets.all(BukeerSpacing.xs),
+                  constraints: BoxConstraints(),
+                  iconSize: 16,
+                ),
+              ],
+            ),
+          )
+        else ...[
+          // Search field
+          BukeerTextField(
+            controller: searchController,
+            hintText: 'Buscar aeropuerto...',
+            leadingIcon: Icons.search,
+            onChanged: onSearchChanged,
+          ),
+          SizedBox(height: BukeerSpacing.s),
+
+          // Airports list
+          Container(
+            height: 140,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                width: BukeerBorders.widthThin,
+              ),
+              borderRadius: BukeerBorders.radiusSmall,
+            ),
+            child: items.isEmpty
+                ? Center(
+                    child: Text(
+                      searchController.text.isEmpty
+                          ? 'Escribe para buscar aeropuertos'
+                          : 'No se encontraron aeropuertos para "${searchController.text}"',
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: items.length > 3 ? 3 : items.length,
+                    itemBuilder: (context, index) {
+                      final airport = items[index];
+                      final isInternational =
+                          airport['iata_country_code'] != 'CO';
+
+                      return ListTile(
+                        dense: true,
+                        leading: Icon(
+                          isInternational ? Icons.public : Icons.flight,
+                          color: isInternational
+                              ? BukeerColors.info
+                              : BukeerColors.primary,
+                          size: 20,
+                        ),
+                        title: Text(
+                          '${airport['city_name'] ?? 'Sin ciudad'} (${airport['iata_code'] ?? 'N/A'})',
+                          style: BukeerTypography.bodyMedium.copyWith(
+                            color: isDark
+                                ? BukeerColors.textPrimaryDark
+                                : BukeerColors.textPrimary,
+                          ),
+                        ),
+                        subtitle: Text(
+                          airport['name'] ?? 'Sin nombre',
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: isInternational
+                            ? Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: BukeerSpacing.xs,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: BukeerColors.info.withOpacity(0.1),
+                                  borderRadius: BukeerBorders.radiusSmall,
+                                ),
+                                child: Text(
+                                  'Internacional',
+                                  style: BukeerTypography.labelSmall.copyWith(
+                                    color: BukeerColors.info,
+                                  ),
+                                ),
+                              )
+                            : null,
+                        onTap: () => onItemSelected(airport),
+                      );
+                    },
+                  ),
+          ),
+
+          // Show "more results" indicator if there are more than 3 items
+          if (items.length > 3)
+            Padding(
+              padding: EdgeInsets.only(top: BukeerSpacing.xs),
+              child: Text(
+                'y ${items.length - 3} aeropuertos más...',
+                style: BukeerTypography.bodySmall.copyWith(
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+        ],
+      ],
     );
   }
 }

@@ -18,6 +18,8 @@ import '../servicios/add_activities/add_activities_widget.dart';
 import '../servicios/add_transfer/add_transfer_widget.dart';
 import '../../core/widgets/modals/passenger/add/modal_add_passenger_widget.dart';
 import '../../core/widgets/payments/payment_add/payment_add_widget.dart';
+import '../proveedores/reservation_message/reservation_message_widget.dart';
+import '../proveedores/show_reservation_message/show_reservation_message_widget.dart';
 import '../main_itineraries/main_itineraries_widget.dart';
 import 'itinerary_details_model.dart';
 
@@ -52,7 +54,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   int _selectedMainTab = 0;
   int _selectedServiceTab = 2; // Services/Activities by default
-  bool _isHotelsExpanded = true;
+  bool _isServicesExpanded = true;
 
   // Helper to get complete itinerary data
   Map<String, dynamic>? get _completeData => _itineraryId != null
@@ -156,6 +158,18 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       )
           ? SidebarDrawer(currentRoute: ItineraryDetailsWidget.routeName)
           : null,
+      floatingActionButton:
+          _mainTabController.index == 0 // Only show FAB on Items tab
+              ? FloatingActionButton.extended(
+                  onPressed: () => _showAddServiceMenu(),
+                  backgroundColor: BukeerColors.primary,
+                  icon: Icon(Icons.add, color: Colors.white),
+                  label: Text(
+                    'Agregar servicio',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : null,
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -545,41 +559,57 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section header with total
-        InkWell(
-          onTap: () {
-            setState(() {
-              _isHotelsExpanded = !_isHotelsExpanded;
-            });
-          },
-          borderRadius: BukeerBorders.radiusSmall,
-          child: Padding(
-            padding: EdgeInsets.all(BukeerSpacing.s),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total ${_getServiceLabel(_selectedServiceTab)} ${_formatCurrency(totalAmount)}',
-                  style: BukeerTypography.titleMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: isDark
-                        ? BukeerColors.textPrimaryDark
-                        : BukeerColors.textPrimary,
+        // Section header with total and add button
+        Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    _isServicesExpanded = !_isServicesExpanded;
+                  });
+                },
+                borderRadius: BukeerBorders.radiusSmall,
+                child: Padding(
+                  padding: EdgeInsets.all(BukeerSpacing.s),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Total ${_getServiceLabel(_selectedServiceTab)} ${_formatCurrency(totalAmount)}',
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                      SizedBox(width: BukeerSpacing.s),
+                      Icon(
+                        _isServicesExpanded
+                            ? Icons.expand_less
+                            : Icons.expand_more,
+                        size: 22,
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ],
                   ),
                 ),
-                Icon(
-                  _isHotelsExpanded ? Icons.expand_less : Icons.expand_more,
-                  size: 22,
-                  color: isDark
-                      ? BukeerColors.textSecondaryDark
-                      : BukeerColors.textSecondary,
-                ),
-              ],
+              ),
             ),
-          ),
+            SizedBox(width: BukeerSpacing.m),
+            BukeerButton(
+              text: 'Agregar',
+              onPressed: () => _handleAddService(selectedType),
+              variant: BukeerButtonVariant.primary,
+              size: BukeerButtonSize.small,
+              icon: Icons.add,
+            ),
+          ],
         ),
 
-        if (_isHotelsExpanded) ...[
+        if (_isServicesExpanded) ...[
           SizedBox(height: BukeerSpacing.m),
           Expanded(
             child: filteredItems.isEmpty
@@ -836,6 +866,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     final name = getJsonField(item, r'$.product_name')?.toString() ?? 'Hotel';
     final rateName = getJsonField(item, r'$.rate_name')?.toString() ?? '';
+    final providerName =
+        getJsonField(item, r'$.provider_name')?.toString() ?? '';
     final destination = getJsonField(item, r'$.destination')?.toString() ?? '';
     final date = getJsonField(item, r'$.date')?.toString() ?? '';
     final nights = getJsonField(item, r'$.hotel_nights')?.toInt() ?? 1;
@@ -955,6 +987,30 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                               ),
                             ),
                           ],
+                          // Provider info
+                          if (providerName.isNotEmpty) ...[
+                            SizedBox(height: BukeerSpacing.xs),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.business,
+                                  size: 14,
+                                  color: isDark
+                                      ? BukeerColors.textSecondaryDark
+                                      : BukeerColors.textSecondary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  providerName,
+                                  style: BukeerTypography.bodySmall.copyWith(
+                                    color: isDark
+                                        ? BukeerColors.textSecondaryDark
+                                        : BukeerColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -988,7 +1044,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   spacing: BukeerSpacing.m,
                   runSpacing: BukeerSpacing.s,
                   children: [
-                    _buildHotelMetaItem(Icons.location_on, destination),
+                    if (destination.isNotEmpty)
+                      _buildHotelMetaItem(Icons.location_on, destination),
                     _buildHotelMetaItem(Icons.calendar_today,
                         '${_formatDate(date)} - ${_formatDate(checkOut.toString())}'),
                     _buildHotelMetaItem(Icons.nights_stay, '$nights noches'),
@@ -1127,6 +1184,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final name =
         getJsonField(item, r'$.product_name')?.toString() ?? 'Actividad';
     final rateName = getJsonField(item, r'$.rate_name')?.toString() ?? '';
+    final providerName =
+        getJsonField(item, r'$.provider_name')?.toString() ?? '';
     final destination = getJsonField(item, r'$.destination')?.toString() ?? '';
     final date = getJsonField(item, r'$.date')?.toString() ?? '';
     final startTime = getJsonField(item, r'$.start_time')?.toString() ?? '';
@@ -1243,6 +1302,30 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                               ),
                             ),
                           ],
+                          // Provider info
+                          if (providerName.isNotEmpty) ...[
+                            SizedBox(height: BukeerSpacing.xs),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.business,
+                                  size: 14,
+                                  color: isDark
+                                      ? BukeerColors.textSecondaryDark
+                                      : BukeerColors.textSecondary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  providerName,
+                                  style: BukeerTypography.bodySmall.copyWith(
+                                    color: isDark
+                                        ? BukeerColors.textSecondaryDark
+                                        : BukeerColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -1276,7 +1359,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   spacing: BukeerSpacing.m,
                   runSpacing: BukeerSpacing.s,
                   children: [
-                    _buildHotelMetaItem(Icons.location_on, destination),
+                    if (destination.isNotEmpty)
+                      _buildHotelMetaItem(Icons.location_on, destination),
                     _buildHotelMetaItem(
                         Icons.calendar_today, _formatDate(date)),
                     if (startTime.isNotEmpty)
@@ -3209,6 +3293,14 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final totalCost = provider['totalCost'] ?? 0.0;
     final items = provider['items'] as List<dynamic>? ?? [];
 
+    // Check if all items are confirmed
+    final confirmedItems = items
+        .where((item) => getJsonField(item, r'$.reservation_status') == true)
+        .length;
+    final isFullyConfirmed = confirmedItems == items.length && items.isNotEmpty;
+    final isPartiallyConfirmed =
+        confirmedItems > 0 && confirmedItems < items.length;
+
     // Calculate total paid to this provider
     double totalPaidToProvider = 0;
     // In a real implementation, we'd query transactions for this provider
@@ -3247,7 +3339,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     }
 
     return Container(
-      padding: EdgeInsets.all(BukeerSpacing.l),
+      padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
             ? BukeerColors.surfaceSecondaryDark
@@ -3291,13 +3383,84 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                             : BukeerColors.textPrimary,
                       ),
                     ),
-                    Text(
-                      '$itemCount ${itemCount > 1 ? "servicios" : "servicio"} • $typeLabel',
-                      style: BukeerTypography.bodySmall.copyWith(
-                        color: isDark
-                            ? BukeerColors.textSecondaryDark
-                            : BukeerColors.textSecondary,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          '$itemCount ${itemCount > 1 ? "servicios" : "servicio"} • $typeLabel',
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                        if (isFullyConfirmed) ...[
+                          SizedBox(width: BukeerSpacing.s),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: BukeerSpacing.s,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: BukeerColors.success.withOpacity(0.1),
+                              borderRadius: BukeerBorders.radiusSmall,
+                              border: Border.all(
+                                color: BukeerColors.success.withOpacity(0.3),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 12,
+                                  color: BukeerColors.success,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Confirmado',
+                                  style: BukeerTypography.labelSmall.copyWith(
+                                    color: BukeerColors.success,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ] else if (isPartiallyConfirmed) ...[
+                          SizedBox(width: BukeerSpacing.s),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: BukeerSpacing.s,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: BukeerColors.warning.withOpacity(0.1),
+                              borderRadius: BukeerBorders.radiusSmall,
+                              border: Border.all(
+                                color: BukeerColors.warning.withOpacity(0.3),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.schedule,
+                                  size: 12,
+                                  color: BukeerColors.warning,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Parcial ($confirmedItems/$itemCount)',
+                                  style: BukeerTypography.labelSmall.copyWith(
+                                    color: BukeerColors.warning,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ],
                 ),
@@ -3307,8 +3470,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
           // Financial info
           Container(
-            margin: EdgeInsets.only(top: BukeerSpacing.m),
-            padding: EdgeInsets.only(top: BukeerSpacing.m),
+            margin: EdgeInsets.only(top: BukeerSpacing.s),
+            padding: EdgeInsets.only(top: BukeerSpacing.s),
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
@@ -3389,14 +3552,77 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             ),
           ),
 
-          // Action button
-          SizedBox(height: BukeerSpacing.m),
-          BukeerButton(
-            text: 'Registrar pago',
-            onPressed: () => _handleAddProviderPayment(provider),
-            variant: BukeerButtonVariant.secondary,
-            size: BukeerButtonSize.small,
-            icon: Icons.payment,
+          // Action buttons - Optimized single row layout
+          SizedBox(height: BukeerSpacing.s),
+          Row(
+            children: [
+              // Primary action - Confirm reservation
+              Expanded(
+                flex: 2,
+                child: BukeerButton(
+                  text: isFullyConfirmed
+                      ? 'Confirmado'
+                      : isPartiallyConfirmed
+                          ? 'Confirmar'
+                          : 'Confirmar',
+                  onPressed: isFullyConfirmed
+                      ? null
+                      : () => _handleConfirmProviderReservation(provider),
+                  variant: isFullyConfirmed
+                      ? BukeerButtonVariant.secondary
+                      : BukeerButtonVariant.primary,
+                  size: BukeerButtonSize.small,
+                  icon: isFullyConfirmed
+                      ? Icons.check_circle
+                      : Icons.check_circle,
+                ),
+              ),
+              SizedBox(width: BukeerSpacing.xs),
+
+              // Secondary actions - Compact buttons with tooltips
+              Expanded(
+                child: Tooltip(
+                  message: 'Enviar mensaje',
+                  child: BukeerButton(
+                    text: '',
+                    onPressed: () => _handleSendProviderMessage(provider),
+                    variant: BukeerButtonVariant.secondary,
+                    size: BukeerButtonSize.small,
+                    icon: Icons.message,
+                  ),
+                ),
+              ),
+              SizedBox(width: BukeerSpacing.xs),
+
+              Expanded(
+                child: Tooltip(
+                  message: 'Registrar pago',
+                  child: BukeerButton(
+                    text: '',
+                    onPressed: () => _handleAddProviderPayment(provider),
+                    variant: BukeerButtonVariant.secondary,
+                    size: BukeerButtonSize.small,
+                    icon: Icons.payment,
+                  ),
+                ),
+              ),
+
+              if (_hasReservationMessages(provider)) ...[
+                SizedBox(width: BukeerSpacing.xs),
+                Expanded(
+                  child: Tooltip(
+                    message: 'Ver mensajes',
+                    child: BukeerButton(
+                      text: '',
+                      onPressed: () => _handleViewProviderMessages(provider),
+                      variant: BukeerButtonVariant.secondary,
+                      size: BukeerButtonSize.small,
+                      icon: Icons.history,
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),
@@ -3515,89 +3741,131 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   // Action handlers
-  void _handleAddService(String serviceType) async {
-    switch (serviceType) {
-      case 'flight':
-        await showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          enableDrag: false,
-          context: context,
-          builder: (context) {
-            return GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Padding(
-                padding: MediaQuery.viewInsetsOf(context),
-                child: AddFlightsWidget(
-                  itineraryId: _itineraryId,
-                ),
-              ),
-            );
-          },
-        );
-        break;
-      case 'hotel':
-        await showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          enableDrag: false,
-          context: context,
-          builder: (context) {
-            return GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Padding(
-                padding: MediaQuery.viewInsetsOf(context),
-                child: AddHotelWidget(
-                  itineraryId: _itineraryId,
-                ),
-              ),
-            );
-          },
-        );
-        break;
-      case 'activity':
-        await showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          enableDrag: false,
-          context: context,
-          builder: (context) {
-            return GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Padding(
-                padding: MediaQuery.viewInsetsOf(context),
-                child: AddActivitiesWidget(
-                  itineraryId: _itineraryId,
-                ),
-              ),
-            );
-          },
-        );
-        break;
-      case 'transfer':
-        await showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          enableDrag: false,
-          context: context,
-          builder: (context) {
-            return GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Padding(
-                padding: MediaQuery.viewInsetsOf(context),
-                child: AddTransferWidget(
-                  itineraryId: _itineraryId,
-                ),
-              ),
-            );
-          },
-        );
-        break;
-    }
+  void _showAddServiceMenu() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Refresh items after adding
-    if (_itineraryId != null) {
-      await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: isDark
+              ? BukeerColors.surfacePrimaryDark
+              : BukeerColors.surfacePrimary,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+        ),
+        padding: EdgeInsets.all(BukeerSpacing.l),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Agregar servicio',
+              style: BukeerTypography.headlineSmall.copyWith(
+                fontWeight: FontWeight.w600,
+                color: isDark
+                    ? BukeerColors.textPrimaryDark
+                    : BukeerColors.textPrimary,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.l),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildServiceOption(Icons.flight, 'Vuelo', 'vuelos'),
+                _buildServiceOption(Icons.hotel, 'Hotel', 'hoteles'),
+                _buildServiceOption(
+                    Icons.local_activity, 'Actividad', 'servicios'),
+                _buildServiceOption(
+                    Icons.directions_car, 'Traslado', 'transporte'),
+              ],
+            ),
+            SizedBox(height: BukeerSpacing.l),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildServiceOption(IconData icon, String label, String serviceType) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context); // Close menu
+        _handleAddService(serviceType);
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: EdgeInsets.all(BukeerSpacing.m),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(BukeerSpacing.m),
+              decoration: BoxDecoration(
+                color: BukeerColors.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                size: 32,
+                color: BukeerColors.primary,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.s),
+            Text(
+              label,
+              style: BukeerTypography.bodyMedium.copyWith(
+                color: isDark
+                    ? BukeerColors.textPrimaryDark
+                    : BukeerColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _handleAddService(String serviceType) async {
+    final result = await showModalBottomSheet<bool>(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: MediaQuery.viewInsetsOf(context),
+            child: switch (serviceType) {
+              'vuelos' => AddFlightsWidget(
+                  isEdit: false,
+                  itineraryId: _itineraryId,
+                ),
+              'hoteles' => AddHotelWidget(
+                  isEdit: false,
+                  itineraryId: _itineraryId,
+                ),
+              'servicios' => AddActivitiesWidget(
+                  itineraryId: _itineraryId,
+                ),
+              'transporte' => AddTransferWidget(
+                  isEdit: false,
+                  itineraryId: _itineraryId,
+                ),
+              _ => Container(),
+            },
+          ),
+        );
+      },
+    );
+
+    // Refresh items after adding if result is true (item was added)
+    if (result == true && _itineraryId != null) {
+      await appServices.itinerary.loadItineraryDetailsOptimized(_itineraryId!);
       setState(() {});
     }
   }
@@ -3630,8 +3898,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       },
     );
 
-    // Refresh page after adding payment
-    setState(() {});
+    // Reload itinerary data after adding payment
+    if (_itineraryId != null) {
+      await appServices.itinerary.loadItineraryDetailsOptimized(_itineraryId!);
+      setState(() {});
+    }
   }
 
   void _handleAddProviderPayment(Map<String, dynamic> provider) async {
@@ -3668,8 +3939,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       },
     );
 
-    // Refresh page after adding payment
-    setState(() {});
+    // Reload itinerary data after adding payment
+    if (_itineraryId != null) {
+      await appServices.itinerary.loadItineraryDetailsOptimized(_itineraryId!);
+      setState(() {});
+    }
   }
 
   // Visibility toggle handler
@@ -3801,5 +4075,267 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       size: 40,
       color: isDark ? BukeerColors.textTertiaryDark : BukeerColors.textTertiary,
     );
+  }
+
+  // Provider message methods
+  void _handleSendProviderMessage(Map<String, dynamic> provider) {
+    final items = provider['items'] as List<dynamic>? ?? [];
+    if (items.isEmpty) return;
+
+    final firstItem = items.first;
+
+    // Extract provider info from item
+    final providerName = provider['name'] ?? 'Proveedor';
+    final productName =
+        getJsonField(firstItem, r'$.product_name')?.toString() ?? '';
+    final productType = provider['type'] ?? '';
+
+    // Calculate passenger count from first item or use itinerary total
+    final passengers =
+        getJsonField(firstItem, r'$.passengers')?.toString() ?? '1';
+
+    // Get provider email - this would need to come from contacts table in real implementation
+    String providerEmail = 'proveedor@example.com'; // Placeholder
+
+    // In real implementation, you'd query the contacts table based on provider info
+    // For now, we'll use a placeholder email
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: ReservationMessageWidget(
+            idItinerary: _itineraryId,
+            agentName: currentUserDisplayName,
+            agentEmail: currentUserEmail,
+            emailProvider: providerEmail,
+            nameProvider: providerName,
+            passengers: passengers,
+            fecha: DateTime.now().toIso8601String(),
+            producto: '$productType - $productName',
+            tarifa: _formatCurrency(provider['totalCost'] ?? 0.0),
+            cantidad: int.tryParse(passengers) ?? 1,
+            idItemProduct: getJsonField(firstItem, r'$.id')?.toString(),
+            idFm: _itineraryId,
+            tipoEmal: 'reservation',
+          ),
+        ),
+      ),
+    ).then((value) => safeSetState(() {}));
+  }
+
+  void _handleViewProviderMessages(Map<String, dynamic> provider) {
+    final items = provider['items'] as List<dynamic>? ?? [];
+    if (items.isEmpty) return;
+
+    // Extract messages from all items of this provider
+    List<dynamic> allMessages = [];
+    for (var item in items) {
+      final messages = getJsonField(item, r'$.reservation_messages');
+      if (messages != null) {
+        if (messages is List) {
+          allMessages.addAll(messages);
+        } else if (messages is Map) {
+          allMessages.add(messages);
+        }
+      }
+    }
+
+    if (allMessages.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('No hay mensajes enviados a este proveedor'),
+        ),
+      );
+      return;
+    }
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Padding(
+          padding: MediaQuery.viewInsetsOf(context),
+          child: ShowReservationMessageWidget(
+            messages: allMessages,
+          ),
+        ),
+      ),
+    );
+  }
+
+  bool _hasReservationMessages(Map<String, dynamic> provider) {
+    final items = provider['items'] as List<dynamic>? ?? [];
+
+    for (var item in items) {
+      final messages = getJsonField(item, r'$.reservation_messages');
+      if (messages != null) {
+        if (messages is List && messages.isNotEmpty) {
+          return true;
+        } else if (messages is Map) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  void _handleConfirmProviderReservation(Map<String, dynamic> provider) {
+    final items = provider['items'] as List<dynamic>? ?? [];
+    if (items.isEmpty) return;
+
+    final providerName = provider['name'] ?? 'Proveedor';
+    final itemCount = provider['itemCount'] ?? 0;
+
+    // Show confirmation dialog
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.check_circle, color: BukeerColors.success),
+            SizedBox(width: BukeerSpacing.s),
+            Text('Confirmar Reserva'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '¿Confirmar la reserva con $providerName?',
+              style: BukeerTypography.bodyMedium,
+            ),
+            SizedBox(height: BukeerSpacing.s),
+            Text(
+              'Se marcará como confirmada la reserva de $itemCount ${itemCount > 1 ? "servicios" : "servicio"}.',
+              style: BukeerTypography.bodySmall.copyWith(
+                color: BukeerColors.textSecondary,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.m),
+            Container(
+              padding: EdgeInsets.all(BukeerSpacing.s),
+              decoration: BoxDecoration(
+                color: BukeerColors.warning.withOpacity(0.1),
+                borderRadius: BukeerBorders.radiusSmall,
+                border: Border.all(
+                  color: BukeerColors.warning.withOpacity(0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info,
+                    size: 16,
+                    color: BukeerColors.warning,
+                  ),
+                  SizedBox(width: BukeerSpacing.s),
+                  Expanded(
+                    child: Text(
+                      'Esta acción actualizará el estado de todos los servicios de este proveedor.',
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: BukeerColors.warning,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await _confirmProviderReservation(provider);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: BukeerColors.success,
+            ),
+            child: Text(
+              'Confirmar',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _confirmProviderReservation(
+      Map<String, dynamic> provider) async {
+    try {
+      final items = provider['items'] as List<dynamic>? ?? [];
+      final providerName = provider['name'] ?? 'Proveedor';
+
+      // Update reservation status for all items of this provider
+      for (var item in items) {
+        final itemId = getJsonField(item, r'$.id')?.toString();
+        if (itemId != null) {
+          // Update the reservation_status to true in the database
+          await ItineraryItemsTable().update(
+            data: {
+              'reservation_status': true,
+              'updated_at': DateTime.now().toIso8601String(),
+            },
+            matchingRows: (rows) => rows.eqOrNull('id', itemId),
+          );
+        }
+      }
+
+      // Show success message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: BukeerSpacing.s),
+                Text('Reserva confirmada con $providerName'),
+              ],
+            ),
+            backgroundColor: BukeerColors.success,
+            duration: Duration(seconds: 3),
+          ),
+        );
+
+        // Refresh the itinerary data
+        if (_itineraryId != null) {
+          await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+          setState(() {});
+        }
+      }
+    } catch (e) {
+      // Show error message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error, color: Colors.white),
+                SizedBox(width: BukeerSpacing.s),
+                Text('Error al confirmar reserva: $e'),
+              ],
+            ),
+            backgroundColor: BukeerColors.error,
+            duration: Duration(seconds: 4),
+          ),
+        );
+      }
+    }
   }
 }

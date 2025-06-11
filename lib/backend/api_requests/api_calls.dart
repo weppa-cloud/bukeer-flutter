@@ -830,6 +830,150 @@ class GetLocationsByProductCall {
   }
 }
 
+// Nueva API call mejorada para búsqueda de ubicaciones
+class SearchLocationsImprovedCall {
+  static Future<ApiCallResponse> call({
+    String? searchTerm = '',
+    String? productType = '',
+    String? countryCode = '',
+    int? limit = 20,
+    String? authToken = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "p_search_term": "${searchTerm}",
+  "p_product_type": "${productType}",
+  "p_country_code": "${countryCode}",
+  "p_limit": ${limit}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'searchLocationsImproved',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_search_locations_improved',
+      callType: ApiCallType.POST,
+      headers: {
+        'apikey': AppConfig.supabaseAnonKey,
+        'Authorization': 'Bearer ${authToken}',
+        'Content-Type': 'application/json',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List? locations(dynamic response) => getJsonField(
+        response,
+        r'$',
+        true,
+      ) as List?;
+
+  static List<String>? ids(dynamic response) => (getJsonField(
+        response,
+        r'$[:].id',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+
+  static List<String>? names(dynamic response) => (getJsonField(
+        response,
+        r'$[:].name',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+
+  static List<String>? fullNames(dynamic response) => (getJsonField(
+        response,
+        r'$[:].full_name',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+
+  static List<int>? productCounts(dynamic response) => (getJsonField(
+        response,
+        r'$[:].product_count',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+}
+
+// Nueva API call para obtener ciudades por país
+class GetCitiesByCountryCall {
+  static Future<ApiCallResponse> call({
+    String? countryCode = '',
+    String? productType = 'hotels',
+    String? authToken = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "p_country_code": "${countryCode}",
+  "p_product_type": "${productType}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'getCitiesByCountry',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_cities_by_country',
+      callType: ApiCallType.POST,
+      headers: {
+        'apikey': AppConfig.supabaseAnonKey,
+        'Authorization': 'Bearer ${authToken}',
+        'Content-Type': 'application/json',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List? cities(dynamic response) => getJsonField(
+        response,
+        r'$',
+        true,
+      ) as List?;
+
+  static List<String>? cityNames(dynamic response) => (getJsonField(
+        response,
+        r'$[:].city',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+
+  static List<int>? productCounts(dynamic response) => (getJsonField(
+        response,
+        r'$[:].product_count',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+}
+
 class AddActivityCall {
   static Future<ApiCallResponse> call({
     String? name = '',

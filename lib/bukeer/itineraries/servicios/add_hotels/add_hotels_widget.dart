@@ -6,32 +6,26 @@ import '/legacy/flutter_flow/flutter_flow_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/design_system/index.dart';
 
-class AddHotelWidget extends StatefulWidget {
-  const AddHotelWidget({
+class AddHotelsWidget extends StatefulWidget {
+  const AddHotelsWidget({
     Key? key,
     required this.itineraryId,
-    this.isEdit = false,
   }) : super(key: key);
 
   final String? itineraryId;
-  final bool isEdit;
-
-  static String routeName = 'add_hotel';
-  static String routePath = 'addHotel';
 
   @override
-  State<AddHotelWidget> createState() => _AddHotelWidgetState();
+  State<AddHotelsWidget> createState() => _AddHotelsWidgetState();
 }
 
-class _AddHotelWidgetState extends State<AddHotelWidget> {
+class _AddHotelsWidgetState extends State<AddHotelsWidget> {
   final _formKey = GlobalKey<FormState>();
 
   // Form controllers
   final _searchController = TextEditingController();
-  final _checkInDateController = TextEditingController();
-  final _checkOutDateController = TextEditingController();
-  final _nightsController = TextEditingController();
-  final _quantityController = TextEditingController(text: '1');
+  final _checkInController = TextEditingController();
+  final _checkOutController = TextEditingController();
+  final _roomsController = TextEditingController(text: '1');
 
   // Selected values
   dynamic _selectedHotel;
@@ -41,7 +35,6 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
 
   // Lists
   List<dynamic> _hotels = [];
-  List<dynamic> _filteredHotels = [];
   List<dynamic> _rates = [];
   bool _isLoading = false;
 
@@ -49,37 +42,27 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
   void initState() {
     super.initState();
     _loadHotels();
-    _updateNights();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _checkInDateController.dispose();
-    _checkOutDateController.dispose();
-    _nightsController.dispose();
-    _quantityController.dispose();
+    _checkInController.dispose();
+    _checkOutController.dispose();
+    _roomsController.dispose();
     super.dispose();
-  }
-
-  void _updateNights() {
-    final nights = _checkOutDate.difference(_checkInDate).inDays;
-    _nightsController.text = nights.toString();
   }
 
   Future<void> _loadHotels() async {
     setState(() => _isLoading = true);
 
     try {
-      // Load hotels with provider information
-      final hotels = await SupaFlow.client
-          .from('hotels')
-          .select('*, contacts!hotels_id_contact_fkey(id, name)')
-          .order('name');
+      final hotels = await HotelsTable().queryRows(
+        queryFn: (q) => q.order('name'),
+      );
 
       setState(() {
         _hotels = hotels;
-        _filteredHotels = hotels;
         _isLoading = false;
       });
     } catch (e) {
@@ -105,6 +88,10 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
     }
   }
 
+  int _calculateNights() {
+    return _checkOutDate.difference(_checkInDate).inDays;
+  }
+
   Future<void> _addHotelToItinerary() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedHotel == null || _selectedRate == null) return;
@@ -113,26 +100,26 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
 
     try {
       // Calculate pricing
-      final quantity = int.tryParse(_quantityController.text) ?? 1;
-      final nights = int.tryParse(_nightsController.text) ?? 1;
+      final rooms = int.tryParse(_roomsController.text) ?? 1;
+      final nights = _calculateNights();
       final unitCost = _selectedRate.cost ?? 0.0;
       final unitPrice = _selectedRate.price ?? 0.0;
-      final totalCost = unitCost * quantity * nights;
-      final totalPrice = unitPrice * quantity * nights;
+      final totalCost = unitCost * rooms * nights;
+      final totalPrice = unitPrice * rooms * nights;
       final profit = totalPrice - totalCost;
       final profitPercentage = totalCost > 0 ? (profit / totalCost) * 100 : 0;
 
       // Add to itinerary
       await ItineraryItemsTable().insert({
         'id_itinerary': widget.itineraryId,
-        'id_product': _selectedHotel['id'],
+        'id_product': _selectedHotel.id,
         'product_type': 'Hoteles',
-        'product_name': _selectedHotel['name'],
+        'product_name': _selectedHotel.name,
         'rate_name': _selectedRate.name,
         'date': _checkInDate.toIso8601String(),
-        'destination': _selectedHotel['location'] ?? '',
+        'destination': _selectedHotel.location ?? '',
+        'quantity': rooms,
         'hotel_nights': nights,
-        'quantity': quantity,
         'unit_cost': unitCost,
         'unit_price': unitPrice,
         'total_cost': totalCost,
@@ -197,28 +184,18 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.hotel,
-                      color: BukeerColors.primary,
-                      size: 28,
-                    ),
-                    SizedBox(width: BukeerSpacing.s),
-                    Text(
-                      widget.isEdit ? 'Editar Hotel' : 'Agregar Hotel',
-                      style: BukeerTypography.headlineSmall.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? BukeerColors.textPrimaryDark
-                            : BukeerColors.textPrimary,
-                      ),
-                    ),
-                  ],
+                Text(
+                  'Agregar Hotel',
+                  style: BukeerTypography.headlineSmall.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: isDark
+                        ? BukeerColors.textPrimaryDark
+                        : BukeerColors.textPrimary,
+                  ),
                 ),
                 BukeerIconButton(
                   icon: Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(false),
+                  onPressed: () => Navigator.of(context).pop(),
                   variant: BukeerIconButtonVariant.ghost,
                 ),
               ],
@@ -250,18 +227,8 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                         BukeerTextField(
                           controller: _searchController,
                           hintText: 'Buscar hotel...',
-                          leadingIcon: Icons.search,
                           onChanged: (value) {
-                            setState(() {
-                              _filteredHotels = _hotels.where((hotel) {
-                                final name = hotel['name']?.toLowerCase() ?? '';
-                                final location =
-                                    hotel['location']?.toLowerCase() ?? '';
-                                final searchLower = value.toLowerCase();
-                                return name.contains(searchLower) ||
-                                    location.contains(searchLower);
-                              }).toList();
-                            });
+                            // TODO: Implement search filter
                           },
                         ),
                         SizedBox(height: BukeerSpacing.m),
@@ -279,27 +246,17 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                             borderRadius: BukeerBorders.radiusMedium,
                           ),
                           child: ListView.builder(
-                            itemCount: _filteredHotels.length,
+                            itemCount: _hotels.length,
                             itemBuilder: (context, index) {
-                              final hotel = _filteredHotels[index];
-                              final isSelected =
-                                  _selectedHotel?['id'] == hotel['id'];
+                              final hotel = _hotels[index];
+                              final isSelected = _selectedHotel?.id == hotel.id;
 
                               return ListTile(
                                 selected: isSelected,
                                 selectedTileColor:
                                     BukeerColors.primary.withOpacity(0.1),
-                                leading: CircleAvatar(
-                                  backgroundColor:
-                                      BukeerColors.primary.withOpacity(0.1),
-                                  child: Icon(
-                                    Icons.hotel,
-                                    color: BukeerColors.primary,
-                                    size: 20,
-                                  ),
-                                ),
                                 title: Text(
-                                  hotel['name'] ?? '',
+                                  hotel.name ?? '',
                                   style: BukeerTypography.bodyLarge.copyWith(
                                     fontWeight:
                                         isSelected ? FontWeight.w600 : null,
@@ -310,53 +267,34 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                             : BukeerColors.textPrimary,
                                   ),
                                 ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (hotel['location'] != null &&
-                                        hotel['location'].toString().isNotEmpty)
-                                      Text(
-                                        hotel['location'],
-                                        style:
-                                            BukeerTypography.bodySmall.copyWith(
-                                          color: isDark
-                                              ? BukeerColors.textSecondaryDark
-                                              : BukeerColors.textSecondary,
-                                        ),
-                                      ),
-                                    if (hotel['contacts'] != null &&
-                                        hotel['contacts']['name'] != null)
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.business,
-                                            size: 12,
-                                            color: isDark
-                                                ? BukeerColors.textSecondaryDark
-                                                : BukeerColors.textSecondary,
-                                          ),
-                                          SizedBox(width: BukeerSpacing.xs),
-                                          Text(
-                                            hotel['contacts']['name'],
-                                            style: BukeerTypography.bodySmall
-                                                .copyWith(
-                                              color: isDark
-                                                  ? BukeerColors
-                                                      .textSecondaryDark
-                                                  : BukeerColors.textSecondary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                  ],
+                                subtitle: Text(
+                                  hotel.location ?? '',
+                                  style: BukeerTypography.bodySmall.copyWith(
+                                    color: isDark
+                                        ? BukeerColors.textSecondaryDark
+                                        : BukeerColors.textSecondary,
+                                  ),
                                 ),
+                                trailing: hotel.stars != null
+                                    ? Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: List.generate(
+                                          hotel.stars ?? 0,
+                                          (index) => Icon(
+                                            Icons.star,
+                                            size: 16,
+                                            color: BukeerColors.warning,
+                                          ),
+                                        ),
+                                      )
+                                    : null,
                                 onTap: () {
                                   setState(() {
                                     _selectedHotel = hotel;
                                     _selectedRate = null;
                                     _rates = [];
                                   });
-                                  _loadRates(hotel['id']);
+                                  _loadRates(hotel.id);
                                 },
                               );
                             },
@@ -442,11 +380,11 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                                           .textPrimary,
                                                 ),
                                               ),
-                                              if (rate.description != null) ...[
+                                              if (rate.incluido != null) ...[
                                                 SizedBox(
                                                     height: BukeerSpacing.xs),
                                                 Text(
-                                                  rate.description!,
+                                                  rate.incluido!,
                                                   style: BukeerTypography
                                                       .bodySmall
                                                       .copyWith(
@@ -461,31 +399,13 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                             ],
                                           ),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              '\$${rate.price?.toStringAsFixed(2) ?? '0.00'}',
-                                              style: BukeerTypography
-                                                  .titleMedium
-                                                  .copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                color: BukeerColors.primary,
-                                              ),
-                                            ),
-                                            Text(
-                                              'por noche',
-                                              style: BukeerTypography.bodySmall
-                                                  .copyWith(
-                                                color: isDark
-                                                    ? BukeerColors
-                                                        .textSecondaryDark
-                                                    : BukeerColors
-                                                        .textSecondary,
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          '\$${rate.price?.toStringAsFixed(2) ?? '0.00'}/noche',
+                                          style: BukeerTypography.titleMedium
+                                              .copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: BukeerColors.primary,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -496,18 +416,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
 
                           SizedBox(height: BukeerSpacing.xl),
 
-                          // Dates
-                          Text(
-                            'Fechas de Estadía',
-                            style: BukeerTypography.titleMedium.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: isDark
-                                  ? BukeerColors.textPrimaryDark
-                                  : BukeerColors.textPrimary,
-                            ),
-                          ),
-                          SizedBox(height: BukeerSpacing.m),
-
+                          // Check-in and Check-out dates
                           Row(
                             children: [
                               Expanded(
@@ -543,7 +452,6 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                               _checkOutDate = _checkInDate
                                                   .add(Duration(days: 1));
                                             }
-                                            _updateNights();
                                           });
                                         }
                                       },
@@ -616,10 +524,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                               .add(Duration(days: 730)),
                                         );
                                         if (date != null) {
-                                          setState(() {
-                                            _checkOutDate = date;
-                                            _updateNights();
-                                          });
+                                          setState(() => _checkOutDate = date);
                                         }
                                       },
                                       child: Container(
@@ -669,7 +574,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
 
                           SizedBox(height: BukeerSpacing.m),
 
-                          // Nights and quantity
+                          // Nights and rooms
                           Row(
                             children: [
                               Expanded(
@@ -687,11 +592,27 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                       ),
                                     ),
                                     SizedBox(height: BukeerSpacing.s),
-                                    BukeerTextField(
-                                      controller: _nightsController,
-                                      type: BukeerTextFieldType.number,
-                                      readOnly: true,
-                                      enabled: false,
+                                    Container(
+                                      padding: EdgeInsets.all(BukeerSpacing.m),
+                                      decoration: BoxDecoration(
+                                        color: isDark
+                                            ? BukeerColors.surfaceSecondaryDark
+                                            : BukeerColors.surfaceSecondary,
+                                        borderRadius:
+                                            BukeerBorders.radiusMedium,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '${_calculateNights()}',
+                                          style: BukeerTypography.titleMedium
+                                              .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: isDark
+                                                ? BukeerColors.textPrimaryDark
+                                                : BukeerColors.textPrimary,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -713,9 +634,7 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
                                     ),
                                     SizedBox(height: BukeerSpacing.s),
                                     BukeerTextField(
-                                      controller: _quantityController,
-                                      type: BukeerTextFieldType.number,
-                                      required: true,
+                                      controller: _roomsController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Requerido';
@@ -755,17 +674,17 @@ class _AddHotelWidgetState extends State<AddHotelWidget> {
               children: [
                 BukeerButton(
                   text: 'Cancelar',
-                  onPressed: () => Navigator.of(context).pop(false),
+                  onPressed: () => Navigator.of(context).pop(),
                   variant: BukeerButtonVariant.secondary,
                 ),
                 SizedBox(width: BukeerSpacing.m),
                 BukeerButton(
-                  text: widget.isEdit ? 'Guardar' : 'Agregar',
+                  text: 'Agregar',
                   onPressed: _selectedHotel != null && _selectedRate != null
                       ? _addHotelToItinerary
                       : null,
                   variant: BukeerButtonVariant.primary,
-                  icon: widget.isEdit ? Icons.save : Icons.add,
+                  icon: Icons.add,
                 ),
               ],
             ),

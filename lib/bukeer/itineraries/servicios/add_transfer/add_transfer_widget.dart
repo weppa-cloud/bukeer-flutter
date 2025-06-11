@@ -1,42 +1,20 @@
-import 'package:bukeer/auth/supabase_auth/auth_util.dart';
-import '../../../../backend/api_requests/api_calls.dart';
-import 'package:bukeer/backend/supabase/supabase.dart';
-import '../../../core/widgets/forms/dropdowns/products/dropdown_products_widget.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
-import 'package:bukeer/design_system/components/index.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
-import 'dart:ui';
-import '../../../../custom_code/actions/index.dart' as actions;
-import '../../../../custom_code/widgets/index.dart' as custom_widgets;
-import 'package:bukeer/legacy/flutter_flow/custom_functions.dart' as functions;
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'add_transfer_model.dart';
-import 'package:bukeer/design_system/tokens/index.dart';
-import '../../../../services/ui_state_service.dart';
-import '../../../../services/product_service.dart';
-import '../../../../services/contact_service.dart';
-import '../../../../services/app_services.dart';
-export 'add_transfer_model.dart';
+import 'package:intl/intl.dart';
+import '/legacy/flutter_flow/flutter_flow_theme.dart';
+import '/legacy/flutter_flow/flutter_flow_widgets.dart';
+import '/legacy/flutter_flow/flutter_flow_util.dart';
+import '/backend/supabase/supabase.dart';
+import '/design_system/index.dart';
 
 class AddTransferWidget extends StatefulWidget {
   const AddTransferWidget({
-    super.key,
-    bool? isEdit,
-    this.itineraryId,
-  }) : this.isEdit = isEdit ?? false;
+    Key? key,
+    required this.itineraryId,
+    this.isEdit = false,
+  }) : super(key: key);
 
-  final bool isEdit;
   final String? itineraryId;
+  final bool isEdit;
 
   static String routeName = 'add_transfer';
   static String routePath = 'addTransfer';
@@ -45,2831 +23,763 @@ class AddTransferWidget extends StatefulWidget {
   State<AddTransferWidget> createState() => _AddTransferWidgetState();
 }
 
-class _AddTransferWidgetState extends State<AddTransferWidget>
-    with TickerProviderStateMixin {
-  late AddTransferModel _model;
+class _AddTransferWidgetState extends State<AddTransferWidget> {
+  final _formKey = GlobalKey<FormState>();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Form controllers
+  final _searchController = TextEditingController();
+  final _pickupController = TextEditingController();
+  final _dropoffController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _timeController = TextEditingController();
+  final _quantityController = TextEditingController(text: '1');
 
-  final animationsMap = <String, AnimationInfo>{};
+  // Selected values
+  dynamic _selectedTransfer;
+  dynamic _selectedRate;
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  // Lists
+  List<dynamic> _transfers = [];
+  List<dynamic> _filteredTransfers = [];
+  List<dynamic> _rates = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => AddTransferModel());
-
-    _model.quantityTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataTransfer,
-              r'''$.quantity''',
-            ).toString().toString()
-          : '1',
-      '1',
-    ));
-    _model.quantityFocusNode ??= FocusNode();
-
-    _model.unitCostTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataTransfer,
-              r'''$.unit_cost''',
-            ).toString().toString()
-          : _model.unitCost.toString(),
-      'Costo',
-    ));
-    _model.unitCostFocusNode ??= FocusNode();
-
-    _model.markupTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? getJsonField(
-              context.read<ProductService>().allDataTransfer,
-              r'''$.profit_percentage''',
-            ).toString().toString()
-          : _model.profitActivities.toString(),
-      'Margen',
-    ));
-    _model.markupFocusNode ??= FocusNode();
-
-    _model.totalCostTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      widget!.isEdit == true
-          ? functions.calculateTotalFunction(_model.unitCostTextController.text,
-              _model.markupTextController.text)
-          : _model.totalCost.toString(),
-      'Total',
-    ));
-    _model.totalCostFocusNode ??= FocusNode();
-
-    _model.messageActivityTextController ??= TextEditingController(text: () {
-      if (widget!.isEdit == false) {
-        return '';
-      } else if ('${getJsonField(
-                context.read<ProductService>().allDataTransfer,
-                r'''$.personalized_message''',
-              ).toString().toString()}' !=
-              null &&
-          '${getJsonField(
-                context.read<ProductService>().allDataTransfer,
-                r'''$.personalized_message''',
-              ).toString().toString()}' !=
-              '') {
-        return getJsonField(
-          context.read<ProductService>().allDataTransfer,
-          r'''$.personalized_message''',
-        ).toString().toString();
-      } else {
-        return '';
-      }
-    }());
-    _model.messageActivityFocusNode ??= FocusNode();
-
-    animationsMap.addAll({
-      'containerOnPageLoadAnimation1': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          VisibilityEffect(duration: 300.ms),
-          MoveEffect(
-            curve: Curves.bounceOut,
-            delay: 300.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 300.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation2': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation3': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-    });
-    setupAnimations(
-      animationsMap.values.where((anim) =>
-          anim.trigger == AnimationTrigger.onActionTrigger ||
-          !anim.applyInitialState),
-      this,
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+    _loadTransfers();
+    _updateTimeController();
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
+    _searchController.dispose();
+    _pickupController.dispose();
+    _dropoffController.dispose();
+    _dateController.dispose();
+    _timeController.dispose();
+    _quantityController.dispose();
     super.dispose();
+  }
+
+  void _updateTimeController() {
+    final hour = _selectedTime.hour.toString().padLeft(2, '0');
+    final minute = _selectedTime.minute.toString().padLeft(2, '0');
+    _timeController.text = '$hour:$minute';
+  }
+
+  Future<void> _loadTransfers() async {
+    setState(() => _isLoading = true);
+
+    try {
+      // Load transfers with provider information
+      final transfers = await SupaFlow.client
+          .from('transfers')
+          .select('*, contacts!transfers_id_contact_fkey(id, name)')
+          .order('name');
+
+      setState(() {
+        _transfers = transfers;
+        _filteredTransfers = transfers;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading transfers: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _loadRates(String transferId) async {
+    try {
+      final rates = await TransferRatesTable().queryRows(
+        queryFn: (q) => q.eq('id_transfer', transferId).order('name'),
+      );
+
+      setState(() {
+        _rates = rates;
+        if (rates.isNotEmpty) {
+          _selectedRate = rates.first;
+        }
+      });
+    } catch (e) {
+      print('Error loading rates: $e');
+    }
+  }
+
+  Future<void> _addTransferToItinerary() async {
+    if (!_formKey.currentState!.validate()) return;
+    if (_selectedTransfer == null || _selectedRate == null) return;
+    if (_pickupController.text.isEmpty || _dropoffController.text.isEmpty)
+      return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Calculate pricing
+      final quantity = int.tryParse(_quantityController.text) ?? 1;
+      final unitCost = _selectedRate.cost ?? 0.0;
+      final unitPrice = _selectedRate.price ?? 0.0;
+      final totalCost = unitCost * quantity;
+      final totalPrice = unitPrice * quantity;
+      final profit = totalPrice - totalCost;
+      final profitPercentage = totalCost > 0 ? (profit / totalCost) * 100 : 0;
+
+      // Combine date and time
+      final dateTime = DateTime(
+        _selectedDate.year,
+        _selectedDate.month,
+        _selectedDate.day,
+        _selectedTime.hour,
+        _selectedTime.minute,
+      );
+
+      // Add to itinerary
+      await ItineraryItemsTable().insert({
+        'id_itinerary': widget.itineraryId,
+        'id_product': _selectedTransfer['id'],
+        'product_type': 'Transporte',
+        'product_name': _selectedTransfer['name'],
+        'rate_name': _selectedRate.name,
+        'date': dateTime.toIso8601String(),
+        'destination': '${_pickupController.text} → ${_dropoffController.text}',
+        'quantity': quantity,
+        'unit_cost': unitCost,
+        'unit_price': unitPrice,
+        'total_cost': totalCost,
+        'total_price': totalPrice,
+        'profit': profit,
+        'profit_percentage': profitPercentage,
+        'reservation_status': false,
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Transporte agregado exitosamente'),
+          backgroundColor: BukeerColors.success,
+        ),
+      );
+
+      // Close modal
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      print('Error adding transfer: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al agregar el transporte'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // context.watch<FFAppState>(); // Migrated to modern services
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: BukeerColors.getBackground(context),
-        body: SafeArea(
-          top: true,
-          child: Align(
-            alignment: AlignmentDirectional(0.0, 0.0),
-            child: Padding(
-              padding: EdgeInsets.all(BukeerSpacing.s),
-              child: Material(
-                color: Colors.transparent,
-                elevation: 2.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16.0),
-                    bottomRight: Radius.circular(16.0),
-                    topLeft: Radius.circular(16.0),
-                    topRight: Radius.circular(16.0),
-                  ),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.85,
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      child: Column(
+        children: [
+          // Header
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.l),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
                 ),
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: 600.0,
-                    maxHeight: 700.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: BukeerColors.getBackground(context, secondary: true),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 12.0,
-                        color: Color(0x1E000000),
-                        offset: Offset(
-                          0.0,
-                          5.0,
-                        ),
-                      )
-                    ],
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(16.0),
-                      bottomRight: Radius.circular(16.0),
-                      topLeft: Radius.circular(16.0),
-                      topRight: Radius.circular(16.0),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.directions_car,
+                      color: BukeerColors.primary,
+                      size: 28,
                     ),
-                  ),
-                  alignment: AlignmentDirectional(0.0, 0.0),
-                  child: Padding(
-                    padding: EdgeInsets.all(BukeerSpacing.m),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                    SizedBox(width: BukeerSpacing.s),
+                    Text(
+                      widget.isEdit
+                          ? 'Editar Transporte'
+                          : 'Agregar Transporte',
+                      style: BukeerTypography.headlineSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+                BukeerIconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(false),
+                  variant: BukeerIconButtonVariant.ghost,
+                ),
+              ],
+            ),
+          ),
+
+          // Form
+          Expanded(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Form(
+                    key: _formKey,
+                    child: ListView(
+                      padding: EdgeInsets.all(BukeerSpacing.l),
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 4.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Icon(
-                                      Icons.directions_car_rounded,
-                                      color: BukeerColors.primary,
-                                      size: 28.0,
-                                    ),
-                                    if (widget!.isEdit == true)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 2.0, 0.0),
-                                        child: Text(
-                                          'Editar',
-                                          style: FlutterFlowTheme.of(context)
-                                              .headlineMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .headlineMediumIsCustom,
-                                              ),
-                                        ),
-                                      ),
-                                    if (widget!.isEdit == false)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 2.0, 0.0),
-                                        child: Text(
-                                          'Agregar transporte',
-                                          style: FlutterFlowTheme.of(context)
-                                              .headlineMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .headlineMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .headlineMediumIsCustom,
-                                              ),
-                                        ),
-                                      ),
-                                  ].divide(SizedBox(width: BukeerSpacing.s)),
-                                ),
-                              ),
-                              if (widget!.isEdit)
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 5.0, 5.0, 0.0),
-                                  child: BukeerIconButton(
-                                    size: BukeerIconButtonSize.small,
-                                    variant: BukeerIconButtonVariant.outlined,
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.trashAlt,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () async {
-                                      var confirmDialogResponse =
-                                          await showDialog<bool>(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Mensaje'),
-                                                    content: Text(
-                                                        '¿Está seguro que desea borrar este ítem?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                false),
-                                                        child: Text('Cancelar'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                true),
-                                                        child:
-                                                            Text('Confirmar'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ) ??
-                                              false;
-                                      if (confirmDialogResponse) {
-                                        _model.responseActivityDeleted =
-                                            await ItineraryItemsTable().delete(
-                                          matchingRows: (rows) => rows.eqOrNull(
-                                            'id',
-                                            getJsonField(
-                                              context
-                                                  .read<ProductService>()
-                                                  .allDataTransfer,
-                                              r'''$.id''',
-                                            ).toString(),
-                                          ),
-                                          returnRows: true,
-                                        );
-                                        Navigator.pop(context);
-                                      }
-
-                                      safeSetState(() {});
-                                    },
-                                  ),
-                                ),
-                              if (widget!.isEdit)
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      5.0, 5.0, 0.0, 0.0),
-                                  child: BukeerIconButton(
-                                    size: BukeerIconButtonSize.small,
-                                    variant: BukeerIconButtonVariant.outlined,
-                                    icon: Icon(
-                                      Icons.content_copy,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 24.0,
-                                    ),
-                                    onPressed: () async {
-                                      var confirmDialogResponse =
-                                          await showDialog<bool>(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: Text('Mensaje'),
-                                                    content: Text(
-                                                        '¿Estas seguro que vas a realizar una copia de este itinerario y sus items?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                false),
-                                                        child: Text('Cancel'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                true),
-                                                        child: Text('Confirm'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ) ??
-                                              false;
-                                      if (confirmDialogResponse) {
-                                        _model.apiResponseDuplicateItemActivity =
-                                            await DuplicateItineraryItemCall
-                                                .call(
-                                          originalId: getJsonField(
-                                            context
-                                                .read<ProductService>()
-                                                .allDataTransfer,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          authToken: currentJwtToken,
-                                        );
-
-                                        if ((_model
-                                                .apiResponseDuplicateItemActivity
-                                                ?.succeeded ??
-                                            true)) {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Transporte duplicado con éxito.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Hubo un error al duplicar el item.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      }
-
-                                      safeSetState(() {});
-                                    },
-                                  ),
-                                ),
-                            ],
+                        // Transfer selector
+                        Text(
+                          'Seleccionar Transporte',
+                          style: BukeerTypography.titleMedium.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? BukeerColors.textPrimaryDark
+                                : BukeerColors.textPrimary,
                           ),
                         ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Wrap(
-                                  spacing: 8.0,
-                                  runSpacing: 0.0,
-                                  alignment: WrapAlignment.center,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  direction: Axis.horizontal,
-                                  runAlignment: WrapAlignment.start,
-                                  verticalDirection: VerticalDirection.down,
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Container(
-                                      width: 245.0,
-                                      decoration: BoxDecoration(),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
-                                        height: 70.0,
-                                        child: custom_widgets
-                                            .CustomDatePickerWidget(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  1.0,
-                                          height: 70.0,
-                                          initialStartDate: widget!.isEdit
-                                              ? getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataTransfer,
-                                                  r'''$.date''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ContactService>()
-                                                      .allDataContact,
-                                                  r'''$[:].start_date''',
-                                                ).toString(),
-                                          labelText: 'Fecha',
-                                          isRangePicker: false,
-                                          onRangeSelected: (startDateStr,
-                                              endDateStr) async {},
-                                          onDateSelected: (date) async {
-                                            _model.initialDate = date;
-                                            safeSetState(() {});
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 90.0,
-                                      child: TextFormField(
-                                        controller:
-                                            _model.quantityTextController,
-                                        focusNode: _model.quantityFocusNode,
-                                        onChanged: (_) => EasyDebounce.debounce(
-                                          '_model.quantityTextController',
-                                          Duration(milliseconds: 2000),
-                                          () async {
-                                            _model.totalCost =
-                                                valueOrDefault<double>(
-                                              double.parse(_model
-                                                      .quantityTextController
-                                                      .text) *
-                                                  double.parse(_model
-                                                      .totalCostTextController
-                                                      .text),
-                                              0.0,
-                                            );
-                                            safeSetState(() {});
-                                          },
-                                        ),
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          labelText: 'Cantidad',
-                                          labelStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMediumIsCustom,
-                                              ),
-                                          hintStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts:
-                                                    !FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMediumIsCustom,
-                                              ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                                BukeerSpacing.s),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                                BukeerSpacing.s),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                                BukeerSpacing.s),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                                BukeerSpacing.s),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          contentPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  20.0, 24.0, 20.0, 24.0),
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .bodyMediumIsCustom,
-                                            ),
-                                        maxLines: null,
-                                        cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                        validator: _model
-                                            .quantityTextControllerValidator
-                                            .asValidator(context),
-                                      ),
-                                    ),
-                                  ],
+                        SizedBox(height: BukeerSpacing.m),
+
+                        // Search field
+                        BukeerTextField(
+                          controller: _searchController,
+                          hintText: 'Buscar transporte...',
+                          leadingIcon: Icons.search,
+                          onChanged: (value) {
+                            setState(() {
+                              _filteredTransfers = _transfers.where((transfer) {
+                                final name =
+                                    transfer['name']?.toLowerCase() ?? '';
+                                final type =
+                                    transfer['vehicle_type']?.toLowerCase() ??
+                                        '';
+                                final searchLower = value.toLowerCase();
+                                return name.contains(searchLower) ||
+                                    type.contains(searchLower);
+                              }).toList();
+                            });
+                          },
+                        ),
+                        SizedBox(height: BukeerSpacing.m),
+
+                        // Transfers list
+                        Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: isDark
+                                  ? BukeerColors.dividerDark
+                                  : BukeerColors.divider,
+                              width: BukeerBorders.widthThin,
+                            ),
+                            borderRadius: BukeerBorders.radiusMedium,
+                          ),
+                          child: ListView.builder(
+                            itemCount: _filteredTransfers.length,
+                            itemBuilder: (context, index) {
+                              final transfer = _filteredTransfers[index];
+                              final isSelected =
+                                  _selectedTransfer?['id'] == transfer['id'];
+
+                              return ListTile(
+                                selected: isSelected,
+                                selectedTileColor:
+                                    BukeerColors.primary.withOpacity(0.1),
+                                leading: CircleAvatar(
+                                  backgroundColor:
+                                      BukeerColors.primary.withOpacity(0.1),
+                                  child: Icon(
+                                    _getVehicleIcon(transfer['vehicle_type']),
+                                    color: BukeerColors.primary,
+                                    size: 20,
+                                  ),
                                 ),
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    await showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      enableDrag: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            FocusScope.of(context).unfocus();
-                                            FocusManager.instance.primaryFocus
-                                                ?.unfocus();
-                                          },
-                                          child: Padding(
-                                            padding: MediaQuery.viewInsetsOf(
-                                                context),
-                                            child: DropdownProductsWidget(
-                                              productType: 'transfers',
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ).then((value) => safeSetState(() {}));
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.easeInOut,
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 10.2,
-                                    constraints: BoxConstraints(
-                                      minHeight: 70.0,
-                                      maxWidth: 770.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 3.0,
-                                          color: BukeerColors.overlay,
-                                          offset: Offset(
-                                            0.0,
-                                            1.0,
-                                          ),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(
-                                          BukeerSpacing.s),
-                                      border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        width: 1.0,
+                                title: Text(
+                                  transfer['name'] ?? '',
+                                  style: BukeerTypography.bodyLarge.copyWith(
+                                    fontWeight:
+                                        isSelected ? FontWeight.w600 : null,
+                                    color: isSelected
+                                        ? BukeerColors.primary
+                                        : isDark
+                                            ? BukeerColors.textPrimaryDark
+                                            : BukeerColors.textPrimary,
+                                  ),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (transfer['vehicle_type'] != null)
+                                      Text(
+                                        transfer['vehicle_type'],
+                                        style:
+                                            BukeerTypography.bodySmall.copyWith(
+                                          color: isDark
+                                              ? BukeerColors.textSecondaryDark
+                                              : BukeerColors.textSecondary,
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(BukeerSpacing.s),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
+                                    if (transfer['contacts'] != null &&
+                                        transfer['contacts']['name'] != null)
+                                      Row(
                                         children: [
-                                          Container(
-                                            width: 44.0,
-                                            height: 44.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent1,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      BukeerSpacing.s),
-                                              shape: BoxShape.rectangle,
-                                              border: Border.all(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                width: 2.0,
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(
-                                                  BukeerSpacing.xs),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: Image.network(
-                                                  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxiZWFjaHxlbnwwfHx8fDE3MzAxNjgxMTV8MA&ixlib=rb-4.0.3&q=80&w=1080',
-                                                  width: 60.0,
-                                                  height: 60.0,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
+                                          Icon(
+                                            Icons.business,
+                                            size: 12,
+                                            color: isDark
+                                                ? BukeerColors.textSecondaryDark
+                                                : BukeerColors.textSecondary,
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          12.0, 0.0, 0.0, 0.0),
-                                                  child: Text(
-                                                    valueOrDefault<String>(
-                                                      widget!.isEdit == true
-                                                          ? (context
-                                                                      .read<
-                                                                          UiStateService>()
-                                                                      .itemsProducts !=
-                                                                  null
-                                                              ? getJsonField(
-                                                                  context
-                                                                      .read<
-                                                                          UiStateService>()
-                                                                      .itemsProducts,
-                                                                  r'''$.name''',
-                                                                ).toString()
-                                                              : getJsonField(
-                                                                  context
-                                                                      .read<
-                                                                          ProductService>()
-                                                                      .allDataTransfer,
-                                                                  r'''$.product_name''',
-                                                                ).toString())
-                                                          : valueOrDefault<
-                                                              String>(
-                                                              getJsonField(
-                                                                context
-                                                                    .read<
-                                                                        UiStateService>()
-                                                                    .itemsProducts,
-                                                                r'''$.name''',
-                                                              )?.toString(),
-                                                              'Seleccionar',
-                                                            ),
-                                                      'Seleccionar',
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyLarge
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyLargeFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyLargeIsCustom,
-                                                        ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          12.0, 4.0, 0.0, 0.0),
-                                                  child: Text(
-                                                    'Transporte',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMediumFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .labelMediumIsCustom,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                            elevation: 1.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(40.0),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(
-                                                  BukeerSpacing.xs),
-                                              child: Icon(
-                                                Icons.chevron_right_rounded,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                                size: 24.0,
-                                              ),
+                                          SizedBox(width: BukeerSpacing.xs),
+                                          Text(
+                                            transfer['contacts']['name'],
+                                            style: BukeerTypography.bodySmall
+                                                .copyWith(
+                                              color: isDark
+                                                  ? BukeerColors
+                                                      .textSecondaryDark
+                                                  : BukeerColors.textSecondary,
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ).animateOnPageLoad(animationsMap[
-                                    'containerOnPageLoadAnimation2']!),
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    if ((context
-                                                .read<UiStateService>()
-                                                .itemsProducts !=
-                                            null) ||
-                                        (widget!.isEdit == true))
-                                      InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          context
-                                              .read<UiStateService>()
-                                              .selectRates = true;
-                                          safeSetState(() {});
-                                        },
-                                        child: AnimatedContainer(
-                                          duration: Duration(milliseconds: 100),
-                                          curve: Curves.easeInOut,
-                                          width: 1000.0,
-                                          constraints: BoxConstraints(
-                                            minHeight: 70.0,
-                                            maxWidth: 770.0,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 3.0,
-                                                color: BukeerColors.overlay,
-                                                offset: Offset(
-                                                  0.0,
-                                                  1.0,
-                                                ),
-                                              )
-                                            ],
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(0.0),
-                                              bottomRight: Radius.circular(0.0),
-                                              topLeft: Radius.circular(12.0),
-                                              topRight: Radius.circular(12.0),
-                                            ),
-                                            border: Border.all(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.all(BukeerSpacing.s),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            widget!.isEdit ==
-                                                                    true
-                                                                ? (_model.itemsActivitiesRates !=
-                                                                        null
-                                                                    ? getJsonField(
-                                                                        _model
-                                                                            .itemsActivitiesRates,
-                                                                        r'''$.name''',
-                                                                      )
-                                                                        .toString()
-                                                                    : getJsonField(
-                                                                        context
-                                                                            .read<ProductService>()
-                                                                            .allDataTransfer,
-                                                                        r'''$.rate_name''',
-                                                                      )
-                                                                        .toString())
-                                                                : valueOrDefault<
-                                                                    String>(
-                                                                    getJsonField(
-                                                                      _model
-                                                                          .itemsActivitiesRates,
-                                                                      r'''$.name''',
-                                                                    )?.toString(),
-                                                                    'Seleccionar',
-                                                                  ),
-                                                            'Seleccionar',
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLargeFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyLargeIsCustom,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    12.0,
-                                                                    4.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          'Tarifa',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMediumFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMediumIsCustom,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Card(
-                                                  clipBehavior: Clip
-                                                      .antiAliasWithSaveLayer,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryBackground,
-                                                  elevation: 1.0,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            40.0),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      if (_model.selectRates ==
-                                                          false)
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  BukeerSpacing
-                                                                      .xs),
-                                                          child: Icon(
-                                                            Icons
-                                                                .chevron_right_rounded,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryText,
-                                                            size: 24.0,
-                                                          ),
-                                                        ),
-                                                      if (_model.selectRates ==
-                                                          true)
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      8.0,
-                                                                      10.0,
-                                                                      8.0,
-                                                                      6.0),
-                                                          child: FaIcon(
-                                                            FontAwesomeIcons
-                                                                .angleDown,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryText,
-                                                            size: 16.0,
-                                                          ),
-                                                        ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ).animateOnPageLoad(animationsMap[
-                                          'containerOnPageLoadAnimation3']!),
-                                    if (context
-                                            .read<UiStateService>()
-                                            .selectRates ==
-                                        true)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4.0, 0.0, 4.0, 0.0),
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          elevation: 3.0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(12.0),
-                                              bottomRight:
-                                                  Radius.circular(12.0),
-                                              topLeft: Radius.circular(0.0),
-                                              topRight: Radius.circular(0.0),
-                                            ),
-                                          ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius: 4.0,
-                                                  color: BukeerColors.overlay,
-                                                  offset: Offset(
-                                                    0.0,
-                                                    2.0,
-                                                  ),
-                                                )
-                                              ],
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(12.0),
-                                                bottomRight:
-                                                    Radius.circular(12.0),
-                                                topLeft: Radius.circular(0.0),
-                                                topRight: Radius.circular(0.0),
-                                              ),
-                                            ),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 8.0, 8.0, 4.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Flexible(
-                                                        child: Text(
-                                                          'Seleccionar tarifa',
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .headlineMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineMediumFamily,
-                                                                fontSize:
-                                                                    BukeerTypography
-                                                                        .bodyMediumSize,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .headlineMediumIsCustom,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        splashColor:
-                                                            Colors.transparent,
-                                                        focusColor:
-                                                            Colors.transparent,
-                                                        hoverColor:
-                                                            Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () async {
-                                                          context
-                                                              .read<
-                                                                  UiStateService>()
-                                                              .isSelectingRates = false;
-                                                          safeSetState(() {});
-                                                        },
-                                                        child: Card(
-                                                          clipBehavior: Clip
-                                                              .antiAliasWithSaveLayer,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          elevation: 1.0,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    BukeerSpacing
-                                                                        .s),
-                                                            child: Icon(
-                                                              Icons.close_sharp,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryText,
-                                                              size: 18.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ].divide(SizedBox(
-                                                        width:
-                                                            BukeerSpacing.s)),
-                                                  ),
-                                                ),
-                                                Divider(
-                                                  height: 1.0,
-                                                  thickness: 1.0,
-                                                  indent: 0.0,
-                                                  endIndent: 0.0,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .alternate,
-                                                ),
-                                                FutureBuilder<ApiCallResponse>(
-                                                  future: GetTransfersRatesCall
-                                                      .call(
-                                                    transferId: widget!
-                                                                .isEdit ==
-                                                            true
-                                                        ? (context
-                                                                    .read<
-                                                                        ProductService>()
-                                                                    .selectedTransfer !=
-                                                                null
-                                                            ? getJsonField(
-                                                                context
-                                                                    .read<
-                                                                        ProductService>()
-                                                                    .selectedTransfer,
-                                                                r'''$.id''',
-                                                              ).toString()
-                                                            : getJsonField(
-                                                                context
-                                                                    .read<
-                                                                        ProductService>()
-                                                                    .allDataTransfer,
-                                                                r'''$.id_product''',
-                                                              ).toString())
-                                                        : getJsonField(
-                                                            context
-                                                                .read<
-                                                                    ProductService>()
-                                                                .selectedTransfer,
-                                                            r'''$.id''',
-                                                          ).toString(),
-                                                    authToken: currentJwtToken,
-                                                  ),
-                                                  builder: (context, snapshot) {
-                                                    // Customize what your widget looks like when it's loading.
-                                                    if (!snapshot.hasData) {
-                                                      return Center(
-                                                        child: SizedBox(
-                                                          width: 50.0,
-                                                          height: 50.0,
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            valueColor:
-                                                                AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primary,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }
-                                                    final listViewGetTransfersRatesResponse =
-                                                        snapshot.data!;
-
-                                                    return Builder(
-                                                      builder: (context) {
-                                                        final itemsTransfersRates =
-                                                            listViewGetTransfersRatesResponse
-                                                                .jsonBody
-                                                                .toList();
-
-                                                        return ListView.builder(
-                                                          padding:
-                                                              EdgeInsets.zero,
-                                                          primary: false,
-                                                          shrinkWrap: true,
-                                                          scrollDirection:
-                                                              Axis.vertical,
-                                                          itemCount:
-                                                              itemsTransfersRates
-                                                                  .length,
-                                                          itemBuilder: (context,
-                                                              itemsTransfersRatesIndex) {
-                                                            final itemsTransfersRatesItem =
-                                                                itemsTransfersRates[
-                                                                    itemsTransfersRatesIndex];
-                                                            return InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                _model.itemsActivitiesRates =
-                                                                    itemsTransfersRatesItem;
-                                                                _model.profitActivities =
-                                                                    getJsonField(
-                                                                  itemsTransfersRatesItem,
-                                                                  r'''$.profit''',
-                                                                );
-                                                                _model.unitCost =
-                                                                    getJsonField(
-                                                                  itemsTransfersRatesItem,
-                                                                  r'''$.unit_cost''',
-                                                                );
-                                                                _model.totalCost =
-                                                                    getJsonField(
-                                                                  itemsTransfersRatesItem,
-                                                                  r'''$.price''',
-                                                                );
-                                                                await Future
-                                                                    .wait([
-                                                                  Future(
-                                                                      () async {
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model.unitCostTextController
-                                                                              ?.text =
-                                                                          _model
-                                                                              .unitCost
-                                                                              .toString();
-                                                                    });
-                                                                  }),
-                                                                  Future(
-                                                                      () async {
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model.markupTextController
-                                                                              ?.text =
-                                                                          _model
-                                                                              .profitActivities
-                                                                              .toString();
-                                                                    });
-                                                                  }),
-                                                                  Future(
-                                                                      () async {
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model.totalCostTextController
-                                                                              ?.text =
-                                                                          _model
-                                                                              .totalCost
-                                                                              .toString();
-                                                                    });
-                                                                  }),
-                                                                ]);
-                                                                context
-                                                                    .read<
-                                                                        UiStateService>()
-                                                                    .isSelectingRates = false;
-                                                                safeSetState(
-                                                                    () {});
-                                                              },
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Flexible(
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: EdgeInsets.all(
-                                                                          BukeerSpacing
-                                                                              .s),
-                                                                      child:
-                                                                          SingleChildScrollView(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.min,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.end,
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Flexible(
-                                                                                  child: Padding(
-                                                                                    padding: EdgeInsets.only(left: BukeerSpacing.xs),
-                                                                                    child: Text(
-                                                                                      valueOrDefault<String>(
-                                                                                        getJsonField(
-                                                                                          itemsTransfersRatesItem,
-                                                                                          r'''$.name''',
-                                                                                        )?.toString(),
-                                                                                        'Nombre',
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                            letterSpacing: 0.0,
-                                                                                            useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Row(
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      valueOrDefault<String>(
-                                                                                        '\$${getJsonField(
-                                                                                          itemsTransfersRatesItem,
-                                                                                          r'''$.price''',
-                                                                                        ).toString()}',
-                                                                                        'Precio',
-                                                                                      ),
-                                                                                      textAlign: TextAlign.end,
-                                                                                      style: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                                            fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                                            color: BukeerColors.primary,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            useGoogleFonts: !FlutterFlowTheme.of(context).titleSmallIsCustom,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            Align(
-                                                                              alignment: AlignmentDirectional(1.0, 0.0),
-                                                                              child: Wrap(
-                                                                                spacing: 8.0,
-                                                                                runSpacing: 8.0,
-                                                                                alignment: WrapAlignment.start,
-                                                                                crossAxisAlignment: WrapCrossAlignment.start,
-                                                                                direction: Axis.horizontal,
-                                                                                runAlignment: WrapAlignment.start,
-                                                                                verticalDirection: VerticalDirection.down,
-                                                                                clipBehavior: Clip.none,
-                                                                                children: [
-                                                                                  Row(
-                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                                                    children: [
-                                                                                      Padding(
-                                                                                        padding: EdgeInsets.only(right: BukeerSpacing.xs),
-                                                                                        child: Text(
-                                                                                          'Markup',
-                                                                                          style: FlutterFlowTheme.of(context).bodySmall.override(
-                                                                                                fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                                letterSpacing: 0.0,
-                                                                                                useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
-                                                                                              ),
-                                                                                        ),
-                                                                                      ),
-                                                                                      Padding(
-                                                                                        padding: EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
-                                                                                        child: Text(
-                                                                                          '${getJsonField(
-                                                                                            itemsTransfersRatesItem,
-                                                                                            r'''$.profit''',
-                                                                                          ).toString()}%',
-                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                color: BukeerColors.primaryText,
-                                                                                                letterSpacing: 0.0,
-                                                                                                fontWeight: FontWeight.bold,
-                                                                                                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                                              ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                  Row(
-                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                                                    children: [
-                                                                                      Padding(
-                                                                                        padding: EdgeInsets.only(right: BukeerSpacing.xs),
-                                                                                        child: Text(
-                                                                                          'Tarifa neta',
-                                                                                          style: FlutterFlowTheme.of(context).bodySmall.override(
-                                                                                                fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                                                                                                letterSpacing: 0.0,
-                                                                                                useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
-                                                                                              ),
-                                                                                        ),
-                                                                                      ),
-                                                                                      Padding(
-                                                                                        padding: EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
-                                                                                        child: Text(
-                                                                                          '\$${valueOrDefault<String>(
-                                                                                            getJsonField(
-                                                                                              itemsTransfersRatesItem,
-                                                                                              r'''$.unit_cost''',
-                                                                                            )?.toString(),
-                                                                                            'costo unico',
-                                                                                          )}',
-                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                                letterSpacing: 0.0,
-                                                                                                fontWeight: FontWeight.bold,
-                                                                                                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                                              ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Icon(
-                                                                    Icons
-                                                                        .arrow_forward_ios,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 16.0,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 12.0, 0.0, 12.0),
-                                  child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.easeInOut,
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
+                                onTap: () {
+                                  setState(() {
+                                    _selectedTransfer = transfer;
+                                    _selectedRate = null;
+                                    _rates = [];
+                                  });
+                                  _loadRates(transfer['id']);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+
+                        if (_selectedTransfer != null) ...[
+                          SizedBox(height: BukeerSpacing.xl),
+
+                          // Route details
+                          Text(
+                            'Detalles de la Ruta',
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? BukeerColors.textPrimaryDark
+                                  : BukeerColors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Pickup location
+                          BukeerTextField(
+                            controller: _pickupController,
+                            label: 'Lugar de Recogida',
+                            hintText: 'Ej: Hotel Marriott',
+                            leadingIcon: Icons.location_on,
+                            required: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Lugar de recogida requerido';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Dropoff location
+                          BukeerTextField(
+                            controller: _dropoffController,
+                            label: 'Lugar de Destino',
+                            hintText: 'Ej: Aeropuerto Internacional',
+                            leadingIcon: Icons.flag,
+                            required: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Lugar de destino requerido';
+                              }
+                              return null;
+                            },
+                          ),
+
+                          SizedBox(height: BukeerSpacing.xl),
+
+                          // Rate selector
+                          Text(
+                            'Seleccionar Tarifa',
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? BukeerColors.textPrimaryDark
+                                  : BukeerColors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          if (_rates.isEmpty)
+                            Center(
+                              child: Text(
+                                'No hay tarifas disponibles',
+                                style: BukeerTypography.bodyMedium.copyWith(
+                                  color: isDark
+                                      ? BukeerColors.textSecondaryDark
+                                      : BukeerColors.textSecondary,
+                                ),
+                              ),
+                            )
+                          else
+                            ...List.generate(_rates.length, (index) {
+                              final rate = _rates[index];
+                              final isSelected = _selectedRate?.id == rate.id;
+
+                              return Padding(
+                                padding:
+                                    EdgeInsets.only(bottom: BukeerSpacing.s),
+                                child: InkWell(
+                                  onTap: () =>
+                                      setState(() => _selectedRate = rate),
+                                  borderRadius: BukeerBorders.radiusMedium,
+                                  child: Container(
+                                    padding: EdgeInsets.all(BukeerSpacing.m),
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 3.0,
-                                          color: BukeerColors.overlay,
-                                          offset: Offset(
-                                            0.0,
-                                            1.0,
-                                          ),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(
-                                          BukeerSpacing.s),
                                       border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        width: 1.0,
+                                        color: isSelected
+                                            ? BukeerColors.primary
+                                            : isDark
+                                                ? BukeerColors.dividerDark
+                                                : BukeerColors.divider,
+                                        width: isSelected
+                                            ? BukeerBorders.widthMedium
+                                            : BukeerBorders.widthThin,
+                                      ),
+                                      borderRadius: BukeerBorders.radiusMedium,
+                                      color: isSelected
+                                          ? BukeerColors.primary
+                                              .withOpacity(0.05)
+                                          : null,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                rate.name ?? '',
+                                                style: BukeerTypography
+                                                    .bodyLarge
+                                                    .copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: isDark
+                                                      ? BukeerColors
+                                                          .textPrimaryDark
+                                                      : BukeerColors
+                                                          .textPrimary,
+                                                ),
+                                              ),
+                                              if (rate.description != null) ...[
+                                                SizedBox(
+                                                    height: BukeerSpacing.xs),
+                                                Text(
+                                                  rate.description!,
+                                                  style: BukeerTypography
+                                                      .bodySmall
+                                                      .copyWith(
+                                                    color: isDark
+                                                        ? BukeerColors
+                                                            .textSecondaryDark
+                                                        : BukeerColors
+                                                            .textSecondary,
+                                                  ),
+                                                ),
+                                              ],
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          '\$${rate.price?.toStringAsFixed(2) ?? '0.00'}',
+                                          style: BukeerTypography.titleMedium
+                                              .copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: BukeerColors.primary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+
+                          SizedBox(height: BukeerSpacing.xl),
+
+                          // Date and time
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Fecha',
+                                      style:
+                                          BukeerTypography.titleSmall.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? BukeerColors.textPrimaryDark
+                                            : BukeerColors.textPrimary,
                                       ),
                                     ),
-                                    child: Visibility(
-                                      visible: (_model.itemsActivitiesRates !=
-                                              null) ||
-                                          (widget!.isEdit == true),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 20.0, 0.0, 12.0),
-                                        child: Wrap(
-                                          spacing: 12.0,
-                                          runSpacing: 8.0,
-                                          alignment: WrapAlignment.center,
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.start,
-                                          direction: Axis.horizontal,
-                                          runAlignment: WrapAlignment.start,
-                                          verticalDirection:
-                                              VerticalDirection.down,
-                                          clipBehavior: Clip.none,
+                                    SizedBox(height: BukeerSpacing.s),
+                                    InkWell(
+                                      onTap: () async {
+                                        final date = await showDatePicker(
+                                          context: context,
+                                          initialDate: _selectedDate,
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now()
+                                              .add(Duration(days: 730)),
+                                        );
+                                        if (date != null) {
+                                          setState(() => _selectedDate = date);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.m),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: isDark
+                                                ? BukeerColors.dividerDark
+                                                : BukeerColors.divider,
+                                            width: BukeerBorders.widthThin,
+                                          ),
+                                          borderRadius:
+                                              BukeerBorders.radiusMedium,
+                                        ),
+                                        child: Row(
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(8.0, 5.0, 0.0, 5.0),
-                                              child: Container(
-                                                width: 190.0,
-                                                child: TextFormField(
-                                                  controller: _model
-                                                      .unitCostTextController,
-                                                  focusNode:
-                                                      _model.unitCostFocusNode,
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    '_model.unitCostTextController',
-                                                    Duration(
-                                                        milliseconds: 2000),
-                                                    () async {
-                                                      _model.responseTotal =
-                                                          await actions
-                                                              .calculateTotal(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text,
-                                                      );
-                                                      safeSetState(() {
-                                                        _model.totalCostTextController
-                                                                ?.text =
-                                                            _model
-                                                                .responseTotal!;
-                                                      });
-                                                      _model.totalCost =
-                                                          valueOrDefault<
-                                                              double>(
-                                                        int.parse(_model
-                                                                .quantityTextController
-                                                                .text) *
-                                                            double.parse(_model
-                                                                .totalCostTextController
-                                                                .text),
-                                                        0.0,
-                                                      );
-                                                      safeSetState(() {});
-
-                                                      safeSetState(() {});
-                                                    },
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Valor Unitario',
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20.0,
-                                                                24.0,
-                                                                20.0,
-                                                                24.0),
-                                                  ),
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary,
-                                                  validator: _model
-                                                      .unitCostTextControllerValidator
-                                                      .asValidator(context),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            '^[0-9]*([\\\\.][0-9]{0,2})?\$'))
-                                                  ],
-                                                ),
-                                              ),
+                                            Icon(
+                                              Icons.calendar_today,
+                                              size: 20,
+                                              color: isDark
+                                                  ? BukeerColors
+                                                      .textSecondaryDark
+                                                  : BukeerColors.textSecondary,
                                             ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(8.0, 5.0, 0.0, 5.0),
-                                              child: Container(
-                                                width: 100.0,
-                                                child: TextFormField(
-                                                  controller: _model
-                                                      .markupTextController,
-                                                  focusNode:
-                                                      _model.markupFocusNode,
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    '_model.markupTextController',
-                                                    Duration(
-                                                        milliseconds: 2000),
-                                                    () async {
-                                                      _model.responseTotal2 =
-                                                          await actions
-                                                              .calculateTotal(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text,
-                                                      );
-                                                      safeSetState(() {
-                                                        _model.totalCostTextController
-                                                                ?.text =
-                                                            _model
-                                                                .responseTotal2!;
-                                                      });
-                                                      _model.totalCost =
-                                                          valueOrDefault<
-                                                              double>(
-                                                        int.parse(_model
-                                                                .quantityTextController
-                                                                .text) *
-                                                            double.parse(_model
-                                                                .totalCostTextController
-                                                                .text),
-                                                        0.0,
-                                                      );
-                                                      safeSetState(() {});
-
-                                                      safeSetState(() {});
-                                                    },
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Margen %',
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20.0,
-                                                                24.0,
-                                                                20.0,
-                                                                24.0),
-                                                  ),
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary,
-                                                  validator: _model
-                                                      .markupTextControllerValidator
-                                                      .asValidator(context),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            '^[0-9]*([\\\\.][0-9]*)?\$'))
-                                                  ],
-                                                ),
+                                            SizedBox(width: BukeerSpacing.s),
+                                            Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_selectedDate),
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(8.0, 5.0, 0.0, 5.0),
-                                              child: Container(
-                                                width: 190.0,
-                                                child: TextFormField(
-                                                  controller: _model
-                                                      .totalCostTextController,
-                                                  focusNode:
-                                                      _model.totalCostFocusNode,
-                                                  onChanged: (_) =>
-                                                      EasyDebounce.debounce(
-                                                    '_model.totalCostTextController',
-                                                    Duration(
-                                                        milliseconds: 2000),
-                                                    () async {
-                                                      _model.responseProfit2 =
-                                                          await actions
-                                                              .calculateProfit(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .totalCostTextController
-                                                            .text,
-                                                      );
-                                                      safeSetState(() {
-                                                        _model.markupTextController
-                                                                ?.text =
-                                                            _model
-                                                                .responseProfit2!;
-                                                      });
-                                                      _model.totalCost =
-                                                          valueOrDefault<
-                                                              double>(
-                                                        int.parse(_model
-                                                                .quantityTextController
-                                                                .text) *
-                                                            double.parse(_model
-                                                                .totalCostTextController
-                                                                .text),
-                                                        0.0,
-                                                      );
-                                                      safeSetState(() {});
-
-                                                      safeSetState(() {});
-                                                    },
-                                                  ),
-                                                  autofocus: false,
-                                                  obscureText: false,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Valor  Total',
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumFamily,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMediumIsCustom,
-                                                            ),
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    focusedErrorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              BukeerSpacing.sm),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor: FlutterFlowTheme
-                                                            .of(context)
-                                                        .secondaryBackground,
-                                                    contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20.0,
-                                                                24.0,
-                                                                20.0,
-                                                                24.0),
-                                                  ),
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumIsCustom,
-                                                          ),
-                                                  cursorColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary,
-                                                  validator: _model
-                                                      .totalCostTextControllerValidator
-                                                      .asValidator(context),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            '^[0-9]*([\\\\.][0-9]{0,2})?\$'))
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  'Total',
-                                                  style:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .headlineSmall
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineSmallFamily,
-                                                            fontSize:
-                                                                BukeerTypography
-                                                                    .bodyMediumSize,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineSmallIsCustom,
-                                                          ),
-                                                ),
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                      '\$',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyLarge
-                                                          .override(
-                                                            fontFamily:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLargeFamily,
-                                                            fontSize:
-                                                                BukeerTypography
-                                                                    .headlineSmallSize,
-                                                            letterSpacing: 0.0,
-                                                            useGoogleFonts:
-                                                                !FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyLargeIsCustom,
-                                                          ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  8.0,
-                                                                  0.0),
-                                                      child: Text(
-                                                        valueOrDefault<String>(
-                                                          formatNumber(
-                                                            valueOrDefault<
-                                                                    double>(
-                                                                  double.tryParse(
-                                                                      _model
-                                                                          .totalCostTextController
-                                                                          .text),
-                                                                  0.0,
-                                                                ) *
-                                                                valueOrDefault<
-                                                                    int>(
-                                                                  int.tryParse(_model
-                                                                      .quantityTextController
-                                                                      .text),
-                                                                  0,
-                                                                ),
-                                                            formatType:
-                                                                FormatType
-                                                                    .decimal,
-                                                            decimalType:
-                                                                DecimalType
-                                                                    .commaDecimal,
-                                                          ),
-                                                          '0',
-                                                        ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyLarge
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLargeFamily,
-                                                              fontSize: 21.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts:
-                                                                  !FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLargeIsCustom,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ].divide(SizedBox(
-                                                  width: BukeerSpacing.s)),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      24.0, 5.0, 24.0, 5.0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      controller:
-                                          _model.messageActivityTextController,
-                                      focusNode:
-                                          _model.messageActivityFocusNode,
-                                      autofocus: false,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        labelText: 'Mensaje destacado',
-                                        labelStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .labelMediumIsCustom,
-                                            ),
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .labelMediumIsCustom,
-                                            ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                              BukeerSpacing.s),
-                                        ),
-                                        filled: true,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                20.0, 24.0, 20.0, 24.0),
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMediumFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .bodyMediumIsCustom,
-                                          ),
-                                      maxLines: null,
-                                      minLines: 3,
-                                      cursorColor: BukeerColors.primary,
-                                      validator: _model
-                                          .messageActivityTextControllerValidator
-                                          .asValidator(context),
-                                    ),
-                                  ),
-                                ),
-                              ].divide(SizedBox(height: BukeerSpacing.s)),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 8.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.05),
-                                child: FFButtonWidget(
-                                  onPressed: () async {
-                                    context
-                                        .read<UiStateService>()
-                                        .itemsProducts = null;
-                                    context
-                                        .read<ProductService>()
-                                        .allDataTransfer = null;
-                                    safeSetState(() {});
-                                    Navigator.pop(context);
-                                  },
-                                  text: 'Cancelar',
-                                  options: FFButtonOptions(
-                                    height: 44.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily,
-                                          letterSpacing: 0.0,
-                                          useGoogleFonts:
-                                              !FlutterFlowTheme.of(context)
-                                                  .bodyMediumIsCustom,
-                                        ),
-                                    elevation: 0.0,
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.circular(BukeerSpacing.s),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).alternate,
-                                    hoverBorderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      width: 2.0,
-                                    ),
-                                    hoverTextColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    hoverElevation: 3.0,
-                                  ),
+                                  ],
                                 ),
                               ),
-                              if (widget!.isEdit == false)
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.05),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      if ((_model.unitCostTextController.text !=
-                                                  null &&
-                                              _model.unitCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.markupTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.markupTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.totalCostTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.totalCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.quantityTextController.text !=
-                                                  null &&
-                                              _model.quantityTextController
-                                                      .text !=
-                                                  '')) {
-                                        _model.apiResponseAddItineraryItem =
-                                            await AddItineraryItemsCall.call(
-                                          quantity: int.tryParse(_model
-                                              .quantityTextController.text),
-                                          authToken: currentJwtToken,
-                                          idProduct: getJsonField(
-                                            context
-                                                .read<UiStateService>()
-                                                .itemsProducts,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          productType: 'Transporte',
-                                          destination: getJsonField(
-                                            context
-                                                .read<UiStateService>()
-                                                .itemsProducts,
-                                            r'''$.city''',
-                                          ).toString(),
-                                          productName: getJsonField(
-                                            context
-                                                .read<UiStateService>()
-                                                .itemsProducts,
-                                            r'''$.name''',
-                                          ).toString(),
-                                          rateName: getJsonField(
-                                            _model.itemsActivitiesRates,
-                                            r'''$.name''',
-                                          ).toString(),
-                                          profitPercentage: double.tryParse(
-                                              _model.markupTextController.text),
-                                          unitCost: double.tryParse(_model
-                                              .unitCostTextController.text),
-                                          date: _model.initialDate != null &&
-                                                  _model.initialDate != ''
-                                              ? _model.initialDate
-                                              : getJsonField(
-                                                  context
-                                                      .read<ContactService>()
-                                                      .allDataContact,
-                                                  r'''$[:].start_date''',
-                                                ).toString(),
-                                          idItinerary: widget!.itineraryId,
-                                          totalPrice: valueOrDefault<double>(
-                                            double.parse(
-                                                    functions.calculateTotalFunction(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text)) *
-                                                int.parse(_model
-                                                    .quantityTextController
-                                                    .text),
-                                            0.0,
-                                          ),
-                                          accountId:
-                                              appServices.account.accountId!,
-                                          personalizedMessage:
-                                              (String personalizedMessage) {
-                                            return personalizedMessage
-                                                .replaceAll('\n', '\\n');
-                                          }(_model.messageActivityTextController
-                                                  .text),
-                                        );
-
-                                        if ((_model.apiResponseAddItineraryItem
-                                                ?.succeeded ??
-                                            true)) {
-                                          context
-                                              .read<UiStateService>()
-                                              .itemsProducts = null;
-                                          context
-                                              .read<ProductService>()
-                                              .allDataTransfer = null;
-                                          safeSetState(() {});
-                                          _model.totalCost = 0.0;
-                                          _model.unitCost = 0.0;
-                                          _model.profitActivities = 0.0;
-                                          _model.itemsActivitiesRates = null;
-                                          safeSetState(() {});
-                                          context.safePop();
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Ocurrio un error inesperado.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: Text('Mensaje'),
-                                              content: Text(
-                                                  'Todos los campos son obligatorios.'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: Text('Ok'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
-
-                                      safeSetState(() {});
-                                    },
-                                    text: 'Agregar',
-                                    options: FFButtonOptions(
-                                      height: 44.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: BukeerColors.primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmallFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .titleSmallIsCustom,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Hora',
+                                      style:
+                                          BukeerTypography.titleSmall.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? BukeerColors.textPrimaryDark
+                                            : BukeerColors.textPrimary,
                                       ),
-                                      borderRadius: BorderRadius.circular(
-                                          BukeerSpacing.s),
-                                      hoverColor: BukeerColors.primaryAccent,
-                                      hoverBorderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        width: 1.0,
-                                      ),
-                                      hoverTextColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                      hoverElevation: 0.0,
                                     ),
-                                  ),
-                                ),
-                              if (widget!.isEdit == true)
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.05),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      if ((_model.unitCostTextController.text !=
-                                                  null &&
-                                              _model.unitCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.markupTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.markupTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.totalCostTextController
-                                                      .text !=
-                                                  null &&
-                                              _model.totalCostTextController
-                                                      .text !=
-                                                  '') &&
-                                          (_model.quantityTextController.text !=
-                                                  null &&
-                                              _model.quantityTextController
-                                                      .text !=
-                                                  '')) {
-                                        _model.apiResponseUpdateItineraryItem =
-                                            await UpdateItineraryItemsCall.call(
-                                          authToken: currentJwtToken,
-                                          id: getJsonField(
-                                            context
-                                                .read<ProductService>()
-                                                .allDataTransfer,
-                                            r'''$.id''',
-                                          ).toString(),
-                                          unitCost: double.tryParse(_model
-                                              .unitCostTextController.text),
-                                          quantity: int.tryParse(_model
-                                              .quantityTextController.text),
-                                          date: _model.initialDate != null &&
-                                                  _model.initialDate != ''
-                                              ? _model.initialDate
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataTransfer,
-                                                  r'''$.date''',
-                                                ).toString(),
-                                          profitPercentage: double.tryParse(
-                                              _model.markupTextController.text),
-                                          idProduct: context
-                                                      .read<ProductService>()
-                                                      .selectedTransfer !=
-                                                  null
-                                              ? getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .selectedTransfer,
-                                                  r'''$.id''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataTransfer,
-                                                  r'''$.id_product''',
-                                                ).toString(),
-                                          totalPrice: valueOrDefault<double>(
-                                            double.parse(
-                                                    functions.calculateTotalFunction(
-                                                        _model
-                                                            .unitCostTextController
-                                                            .text,
-                                                        _model
-                                                            .markupTextController
-                                                            .text)) *
-                                                int.parse(_model
-                                                    .quantityTextController
-                                                    .text),
-                                            0.0,
-                                          ),
-                                          productType: 'Transporte',
-                                          destination: context
-                                                      .read<ProductService>()
-                                                      .selectedTransfer !=
-                                                  null
-                                              ? getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .selectedTransfer,
-                                                  r'''$.city''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataTransfer,
-                                                  r'''$.destination''',
-                                                ).toString(),
-                                          rateName: _model
-                                                      .itemsActivitiesRates !=
-                                                  null
-                                              ? getJsonField(
-                                                  _model.itemsActivitiesRates,
-                                                  r'''$.name''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataTransfer,
-                                                  r'''$.rate_name''',
-                                                ).toString(),
-                                          productName: context
-                                                      .read<ProductService>()
-                                                      .selectedTransfer !=
-                                                  null
-                                              ? getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .selectedTransfer,
-                                                  r'''$.name''',
-                                                ).toString()
-                                              : getJsonField(
-                                                  context
-                                                      .read<ProductService>()
-                                                      .allDataTransfer,
-                                                  r'''$.product_name''',
-                                                ).toString(),
-                                          personalizedMessage:
-                                              (String personalizedMessage) {
-                                            return personalizedMessage
-                                                .replaceAll('\n', '\\n');
-                                          }(_model.messageActivityTextController
-                                                  .text),
-                                        );
-
-                                        if ((_model
-                                                .apiResponseUpdateItineraryItem
-                                                ?.succeeded ??
-                                            true)) {
-                                          context
-                                              .read<UiStateService>()
-                                              .itemsProducts = null;
-                                          context
-                                              .read<ProductService>()
-                                              .allDataTransfer = null;
-                                          safeSetState(() {});
-                                          _model.itemsActivitiesRates = null;
-                                          _model.unitCost = 0.0;
-                                          _model.totalCost = 0.0;
-                                          _model.profitActivities = 0.0;
-                                          safeSetState(() {});
-                                          context.safePop();
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Mensaje'),
-                                                content: Text(
-                                                    'Ocurrio un error inesperado.'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      } else {
-                                        await showDialog(
+                                    SizedBox(height: BukeerSpacing.s),
+                                    InkWell(
+                                      onTap: () async {
+                                        final time = await showTimePicker(
                                           context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: Text('Mensaje'),
-                                              content: Text(
-                                                  'Todos los campos son obligatorios.'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: Text('Ok'),
-                                                ),
-                                              ],
-                                            );
-                                          },
+                                          initialTime: _selectedTime,
                                         );
-                                      }
-
-                                      safeSetState(() {});
-                                    },
-                                    text: 'Guardar',
-                                    options: FFButtonOptions(
-                                      height: 44.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: BukeerColors.primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmallFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts:
-                                                !FlutterFlowTheme.of(context)
-                                                    .titleSmallIsCustom,
+                                        if (time != null) {
+                                          setState(() {
+                                            _selectedTime = time;
+                                            _updateTimeController();
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.all(BukeerSpacing.m),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: isDark
+                                                ? BukeerColors.dividerDark
+                                                : BukeerColors.divider,
+                                            width: BukeerBorders.widthThin,
                                           ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
+                                          borderRadius:
+                                              BukeerBorders.radiusMedium,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.access_time,
+                                              size: 20,
+                                              color: isDark
+                                                  ? BukeerColors
+                                                      .textSecondaryDark
+                                                  : BukeerColors.textSecondary,
+                                            ),
+                                            SizedBox(width: BukeerSpacing.s),
+                                            Text(
+                                              _timeController.text,
+                                              style: BukeerTypography.bodyMedium
+                                                  .copyWith(
+                                                color: isDark
+                                                    ? BukeerColors
+                                                        .textPrimaryDark
+                                                    : BukeerColors.textPrimary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(
-                                          BukeerSpacing.s),
-                                      hoverColor: BukeerColors.primaryAccent,
-                                      hoverBorderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        width: 1.0,
-                                      ),
-                                      hoverTextColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                      hoverElevation: 0.0,
                                     ),
-                                  ),
+                                  ],
                                 ),
+                              ),
                             ],
                           ),
-                        ),
-                      ].divide(SizedBox(height: BukeerSpacing.s)),
+                          SizedBox(height: BukeerSpacing.m),
+
+                          // Quantity
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Cantidad de Vehículos',
+                                style: BukeerTypography.titleSmall.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? BukeerColors.textPrimaryDark
+                                      : BukeerColors.textPrimary,
+                                ),
+                              ),
+                              SizedBox(height: BukeerSpacing.s),
+                              BukeerTextField(
+                                controller: _quantityController,
+                                type: BukeerTextFieldType.number,
+                                required: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Requerido';
+                                  }
+                                  if (int.tryParse(value) == null ||
+                                      int.parse(value) < 1) {
+                                    return 'Cantidad inválida';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ],
                     ),
                   ),
+          ),
+
+          // Footer
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.l),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
                 ),
-              ).animateOnPageLoad(
-                  animationsMap['containerOnPageLoadAnimation1']!),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                BukeerButton(
+                  text: 'Cancelar',
+                  onPressed: () => Navigator.of(context).pop(false),
+                  variant: BukeerButtonVariant.secondary,
+                ),
+                SizedBox(width: BukeerSpacing.m),
+                BukeerButton(
+                  text: widget.isEdit ? 'Guardar' : 'Agregar',
+                  onPressed: (_selectedTransfer != null &&
+                          _selectedRate != null &&
+                          _pickupController.text.isNotEmpty &&
+                          _dropoffController.text.isNotEmpty)
+                      ? _addTransferToItinerary
+                      : null,
+                  variant: BukeerButtonVariant.primary,
+                  icon: widget.isEdit ? Icons.save : Icons.add,
+                ),
+              ],
             ),
           ),
-        ),
+        ],
       ),
     );
+  }
+
+  IconData _getVehicleIcon(String? vehicleType) {
+    switch (vehicleType?.toLowerCase()) {
+      case 'car':
+      case 'auto':
+      case 'sedan':
+        return Icons.directions_car;
+      case 'van':
+      case 'minivan':
+        return Icons.airport_shuttle;
+      case 'bus':
+      case 'autobus':
+        return Icons.directions_bus;
+      case 'suv':
+        return Icons.directions_car;
+      default:
+        return Icons.directions_car;
+    }
   }
 }

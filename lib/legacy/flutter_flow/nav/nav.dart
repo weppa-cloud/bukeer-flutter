@@ -281,21 +281,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
               ),
             ),
-            FFRoute(
-              name: AddActivitiesWidget.routeName,
-              path: AddActivitiesWidget.routePath,
-              requireAuth: true,
-              builder: (context, params) => AddActivitiesWidget(
-                isEdit: params.getParam(
-                  'isEdit',
-                  ParamType.bool,
-                ),
-                itineraryId: params.getParam(
-                  'itineraryId',
-                  ParamType.String,
-                ),
-              ),
-            ),
+            // Commented out - AddActivitiesWidget doesn't have routeName/routePath
+            // FFRoute(
+            //   name: AddActivitiesWidget.routeName,
+            //   path: AddActivitiesWidget.routePath,
+            //   requireAuth: true,
+            //   builder: (context, params) => AddActivitiesWidget(
+            //     isEdit: params.getParam(
+            //       'isEdit',
+            //       ParamType.bool,
+            //     ),
+            //     itineraryId: params.getParam(
+            //       'itineraryId',
+            //       ParamType.String,
+            //     ),
+            //   ),
+            // ),
             FFRoute(
               name: AddFlightsWidget.routeName,
               path: AddFlightsWidget.routePath,
