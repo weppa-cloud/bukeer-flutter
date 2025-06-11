@@ -112,11 +112,66 @@ class ItineraryService extends BaseService {
     });
   }
 
-  // Load specific itinerary details - OPTIMIZED VERSION
+  // Load specific itinerary details - OPTIMIZED VERSION WITH RPC
   Future<Map<String, dynamic>?> loadItineraryDetailsOptimized(
       String itineraryId) async {
     print(
         'ItineraryService: Loading complete itinerary data for: $itineraryId');
+
+    try {
+      // Use RPC function for optimized data loading
+      final response =
+          await SupaFlow.client.rpc('get_complete_itinerary_details', params: {
+        'p_itinerary_id': itineraryId,
+      });
+
+      if (response == null) {
+        print('ItineraryService: No data returned from RPC');
+        return null;
+      }
+
+      // Extract data from response
+      final itineraryData = response['itinerary'];
+      final itemsGrouped = response['items_grouped'];
+      final totals = response['totals'];
+      final passengers = response['passengers'] ?? [];
+      final transactions = response['transactions'] ?? [];
+      final paymentSummary = response['payment_summary'];
+      final summary = response['summary'];
+
+      // Build complete data object
+      final completeData = {
+        // Flatten itinerary data
+        ...itineraryData,
+        // Add grouped items
+        'items_grouped': itemsGrouped,
+        // Add other data
+        'passengers': passengers,
+        'transactions': transactions,
+        'totals': totals,
+        'payment_summary': paymentSummary,
+        // Add summary flags
+        ...summary,
+      };
+
+      // Cache the data for offline access
+      _itineraryDetails[itineraryId] = completeData;
+      _itineraryItems[itineraryId] = itemsGrouped['all_items'] ?? [];
+      _itineraryPassengers[itineraryId] = passengers;
+
+      notifyListeners();
+      return completeData;
+    } catch (e) {
+      print('ItineraryService: Error loading from RPC: $e');
+      // Fallback to individual queries if RPC fails
+      return _loadItineraryDetailsFallback(itineraryId);
+    }
+  }
+
+  // Fallback method using individual queries
+  Future<Map<String, dynamic>?> _loadItineraryDetailsFallback(
+      String itineraryId) async {
+    print('ItineraryService: Using fallback method for loading data');
 
     try {
       // Load all data in parallel for better performance
@@ -162,7 +217,7 @@ class ItineraryService extends BaseService {
       notifyListeners();
       return completeData;
     } catch (e) {
-      print('ItineraryService: Error loading complete data: $e');
+      print('ItineraryService: Error in fallback loading: $e');
       return null;
     }
   }
