@@ -271,6 +271,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         // Main tabs
         _buildMainTabs(),
 
+        // Financial info box (only for Items tab)
+        if (_selectedMainTab == 0) _buildFinancialInfoBox(itineraryData),
+
         // Service buttons (only for Items tab)
         if (_selectedMainTab == 0) _buildServiceButtons(),
 
@@ -904,12 +907,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         _buildItineraryInfoBox(itineraryData),
         SizedBox(height: BukeerSpacing.m),
 
-        // Financial info
-        _buildFinancialInfoBox(itineraryData),
-        SizedBox(height: BukeerSpacing.m),
-
-        // Actions
-        _buildActionsBox(),
+        // Actions (previously Financial info)
+        _buildActionsBox(itineraryData),
       ],
     );
   }
@@ -1150,77 +1149,142 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: EdgeInsets.all(BukeerSpacing.m),
+      padding: EdgeInsets.fromLTRB(
+          BukeerSpacing.l, BukeerSpacing.m, BukeerSpacing.l, 0),
       decoration: BoxDecoration(
         color: isDark
             ? BukeerColors.surfacePrimaryDark
             : BukeerColors.surfacePrimary,
-        borderRadius: BukeerBorders.radiusLarge,
-        boxShadow: BukeerShadows.small,
+        boxShadow: BukeerShadows.subtle,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Información Financiera',
-            style: BukeerTypography.titleMedium.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? BukeerColors.textPrimaryDark
-                  : BukeerColors.textPrimary,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
-            height: 1,
-            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
-          ),
-
-          // Pricing info
-          Container(
-            padding: EdgeInsets.all(BukeerSpacing.m),
-            decoration: BoxDecoration(
-              color: BukeerColors.info.withOpacity(0.1),
-              borderRadius: BukeerBorders.radiusSmall,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Total ${_formatCurrency(totalPrice)} COP',
-                  style: BukeerTypography.titleLarge.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: BukeerColors.primary,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: BukeerSpacing.xl, vertical: BukeerSpacing.m),
+        decoration: BoxDecoration(
+          color: BukeerColors.info.withOpacity(0.1),
+          borderRadius: BukeerBorders.radiusMedium,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth < 600) {
+              // Mobile layout - vertical
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildFinancialItem(
+                    'Total',
+                    _formatCurrency(totalPrice) + ' COP',
+                    BukeerColors.primary,
+                    true,
                   ),
-                ),
-                SizedBox(height: BukeerSpacing.xs),
-                Text(
-                  'Valor por persona ${_formatCurrency(totalPrice / 5)} COP',
-                  style: BukeerTypography.bodySmall.copyWith(
-                    color: BukeerColors.info,
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: BukeerSpacing.s),
+                    height: 1,
+                    width: double.infinity,
+                    color: BukeerColors.info.withOpacity(0.3),
                   ),
-                ),
-                Text(
-                  'Margen ${_formatCurrency(1179100)} COP',
-                  style: BukeerTypography.bodySmall.copyWith(
-                    color: BukeerColors.info,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildFinancialItem(
+                        'Por persona',
+                        _formatCurrency(totalPrice / 5) + ' COP',
+                        BukeerColors.info,
+                        false,
+                      ),
+                      Container(
+                        width: 1,
+                        height: 40,
+                        color: BukeerColors.info.withOpacity(0.3),
+                      ),
+                      _buildFinancialItem(
+                        'Margen',
+                        _formatCurrency(1179100) + ' COP',
+                        BukeerColors.info,
+                        false,
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: BukeerSpacing.m),
-
-          // Toggles
-          _buildToggleItem('Ocultar Tarifas', false),
-          SizedBox(height: BukeerSpacing.m),
-          _buildToggleItem('Publicar en la Web', true),
-        ],
+                ],
+              );
+            } else {
+              // Desktop layout - horizontal
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: _buildFinancialItem(
+                      'Total',
+                      _formatCurrency(totalPrice) + ' COP',
+                      BukeerColors.primary,
+                      true,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 40,
+                    color: BukeerColors.info.withOpacity(0.3),
+                  ),
+                  Expanded(
+                    child: _buildFinancialItem(
+                      'Por persona',
+                      _formatCurrency(totalPrice / 5) + ' COP',
+                      BukeerColors.info,
+                      false,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 40,
+                    color: BukeerColors.info.withOpacity(0.3),
+                  ),
+                  Expanded(
+                    child: _buildFinancialItem(
+                      'Margen',
+                      _formatCurrency(1179100) + ' COP',
+                      BukeerColors.info,
+                      false,
+                    ),
+                  ),
+                ],
+              );
+            }
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildActionsBox() {
+  Widget _buildFinancialItem(
+      String label, String value, Color color, bool isTotal) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: BukeerTypography.labelSmall.copyWith(
+            color: color.withOpacity(0.8),
+          ),
+        ),
+        SizedBox(height: BukeerSpacing.xs),
+        Text(
+          value,
+          style: isTotal
+              ? BukeerTypography.titleMedium.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: color,
+                )
+              : BukeerTypography.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: color,
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionsBox(dynamic itineraryData) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -1233,7 +1297,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         boxShadow: BukeerShadows.small,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'Acciones',
+            style: BukeerTypography.titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? BukeerColors.textPrimaryDark
+                  : BukeerColors.textPrimary,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
+            height: 1,
+            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          ),
           BukeerButton(
             text: 'Exportar Itinerario (PDF)',
             onPressed: () {},
@@ -1249,6 +1328,12 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             size: BukeerButtonSize.medium,
             icon: Icons.visibility,
           ),
+          SizedBox(height: BukeerSpacing.m),
+
+          // Toggles from financial info
+          _buildToggleItem('Ocultar Tarifas', false),
+          SizedBox(height: BukeerSpacing.m),
+          _buildToggleItem('Publicar en la Web', true),
         ],
       ),
     );
