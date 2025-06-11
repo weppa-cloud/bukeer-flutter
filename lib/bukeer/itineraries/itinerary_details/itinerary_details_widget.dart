@@ -1437,18 +1437,69 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Transfer icon
+          // Transfer image with fallback
           Container(
             width: 60,
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BukeerBorders.radiusSmall,
-              color: BukeerColors.secondary.withOpacity(0.1),
+              color: isDark
+                  ? BukeerColors.surfacePrimaryDark
+                  : BukeerColors.surfaceSecondary,
             ),
-            child: Icon(
-              Icons.directions_car,
-              size: 30,
-              color: BukeerColors.secondary,
+            child: ClipRRect(
+              borderRadius: BukeerBorders.radiusSmall,
+              child: () {
+                // Try to get image from different possible fields
+                final mainImage =
+                    getJsonField(item, r'$.main_image')?.toString();
+                final productMainImage =
+                    getJsonField(item, r'$.product_main_image')?.toString();
+                final transferMainImage =
+                    getJsonField(item, r'$.transfer_main_image')?.toString();
+                final imageUrl =
+                    mainImage ?? productMainImage ?? transferMainImage;
+
+                if (imageUrl != null && imageUrl.isNotEmpty) {
+                  return Image.network(
+                    imageUrl,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.directions_car,
+                        size: 30,
+                        color: isDark
+                            ? BukeerColors.textTertiaryDark
+                            : BukeerColors.textTertiary,
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            BukeerColors.primary,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return Icon(
+                  Icons.directions_car,
+                  size: 30,
+                  color: isDark
+                      ? BukeerColors.textTertiaryDark
+                      : BukeerColors.textTertiary,
+                );
+              }(),
             ),
           ),
           SizedBox(width: BukeerSpacing.m),
