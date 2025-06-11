@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:bukeer/design_system/index.dart';
+import 'package:bukeer/auth/supabase_auth/auth_util.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
 import '../../core/widgets/navigation/sidebar/sidebar_navigation_widget.dart';
 import '../../../services/app_services.dart';
 import '../../../services/itinerary_service.dart';
 import '../../../components/service_builder.dart';
+import '../../../backend/supabase/supabase.dart';
 import 'sections/itinerary_passengers_section.dart';
 import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import '../servicios/add_hotel/add_hotel_widget.dart';
@@ -461,10 +463,36 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildItemsTabContent(dynamic itineraryData) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    // Get itinerary items from service
+    final items = _itineraryId != null
+        ? appServices.itinerary.getItineraryItems(_itineraryId!)
+        : [];
+
+    // Filter items by selected service type
+    final serviceTypeMap = {
+      0: 'flight',
+      1: 'hotel',
+      2: 'activity',
+      3: 'transfer',
+    };
+
+    final selectedType = serviceTypeMap[_selectedServiceTab];
+    final filteredItems = items.where((item) {
+      final productType =
+          getJsonField(item, r'$[:].product_type')?.toString() ?? '';
+      return productType == selectedType;
+    }).toList();
+
+    // Calculate totals
+    double totalAmount = 0;
+    for (var item in filteredItems) {
+      totalAmount += (getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section header
+        // Section header with total
         InkWell(
           onTap: () {
             setState(() {
@@ -478,7 +506,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Total hoteles \$3.500.000,00',
+                  'Total ${_getServiceLabel(_selectedServiceTab)} ${_formatCurrency(totalAmount)}',
                   style: BukeerTypography.titleMedium.copyWith(
                     fontWeight: FontWeight.w600,
                     color: isDark
@@ -501,48 +529,948 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         if (_isHotelsExpanded) ...[
           SizedBox(height: BukeerSpacing.m),
           Expanded(
-            child: ListView(
-              children: [
-                _buildHotelCard(
-                  name: 'Hotel Estelar Blue',
-                  provider: 'Booking.com',
-                  roomType: 'Doble Estándar',
-                  dates: '07 Jul - 11 Jul 2025',
-                  location: 'Medellín, Antioquia',
-                  nights: 4,
-                  rooms: 2,
-                  nightRate: 350000,
-                  markup: 15,
-                  value: 402500,
-                  total: 3500000,
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1566073771259-6a8506099945',
-                ),
-                SizedBox(height: BukeerSpacing.m),
-                _buildHotelCard(
-                  name: 'Hotel Dann Carlton Medellín',
-                  provider: 'Expedia',
-                  roomType: 'Suite Ejecutiva',
-                  dates: '07 Jul - 11 Jul 2025',
-                  location: 'Medellín, Antioquia',
-                  nights: 4,
-                  rooms: 1,
-                  nightRate: 550000,
-                  markup: 10,
-                  value: 605000,
-                  total: 2420000,
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa',
-                ),
-              ],
-            ),
+            child: filteredItems.isEmpty
+                ? _buildEmptyState(selectedType!)
+                : ListView.separated(
+                    itemCount: filteredItems.length,
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: BukeerSpacing.m),
+                    itemBuilder: (context, index) {
+                      final item = filteredItems[index];
+
+                      switch (selectedType) {
+                        case 'flight':
+                          return _buildFlightCard(item);
+                        case 'hotel':
+                          return _buildHotelItemCard(item);
+                        case 'activity':
+                          return _buildActivityCard(item);
+                        case 'transfer':
+                          return _buildTransferCard(item);
+                        default:
+                          return const SizedBox.shrink();
+                      }
+                    },
+                  ),
           ),
         ],
       ],
     );
   }
 
-  Widget _buildHotelCard({
+  // New card builders for real data
+  Widget _buildFlightCard(dynamic item) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final airline =
+        getJsonField(item, r'$[:].airline')?.toString() ?? 'Aerolínea';
+    final flightNumber =
+        getJsonField(item, r'$[:].flight_number')?.toString() ?? '';
+    final departure =
+        getJsonField(item, r'$[:].flight_departure')?.toString() ?? '';
+    final arrival =
+        getJsonField(item, r'$[:].flight_arrival')?.toString() ?? '';
+    final departureTime =
+        getJsonField(item, r'$[:].departure_time')?.toString() ?? '';
+    final arrivalTime =
+        getJsonField(item, r'$[:].arrival_time')?.toString() ?? '';
+    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
+    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
+    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
+    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+    final reservationStatus =
+        getJsonField(item, r'$[:].reservation_status') ?? false;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.flight,
+                    size: 24,
+                    color: BukeerColors.primary,
+                  ),
+                  SizedBox(width: BukeerSpacing.s),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$airline ${flightNumber.isNotEmpty ? "- $flightNumber" : ""}',
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        _formatDate(date),
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: isDark
+                              ? BukeerColors.textSecondaryDark
+                              : BukeerColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: BukeerSpacing.m,
+                  vertical: BukeerSpacing.xs,
+                ),
+                decoration: BoxDecoration(
+                  color: reservationStatus
+                      ? BukeerColors.success.withOpacity(0.1)
+                      : BukeerColors.warning.withOpacity(0.1),
+                  borderRadius: BukeerBorders.radiusLarge,
+                ),
+                child: Text(
+                  reservationStatus ? 'Confirmado' : 'Pendiente',
+                  style: BukeerTypography.labelSmall.copyWith(
+                    color: reservationStatus
+                        ? BukeerColors.success
+                        : BukeerColors.warning,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: BukeerSpacing.m),
+
+          // Route
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      departure,
+                      style: BukeerTypography.bodyMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      departureTime,
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
+                child: Icon(
+                  Icons.arrow_forward,
+                  size: 20,
+                  color: isDark
+                      ? BukeerColors.textTertiaryDark
+                      : BukeerColors.textTertiary,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      arrival,
+                      style: BukeerTypography.bodyMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      arrivalTime,
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          // Pricing
+          Container(
+            margin: EdgeInsets.only(top: BukeerSpacing.m),
+            padding: EdgeInsets.only(top: BukeerSpacing.m),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      size: 16,
+                      color: isDark
+                          ? BukeerColors.textTertiaryDark
+                          : BukeerColors.textTertiary,
+                    ),
+                    SizedBox(width: BukeerSpacing.xs),
+                    Text(
+                      '$quantity ${quantity > 1 ? "pasajeros" : "pasajero"}',
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                    SizedBox(width: BukeerSpacing.m),
+                    Text(
+                      '${_formatCurrency(unitPrice)} c/u',
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  _formatCurrency(totalPrice),
+                  style: BukeerTypography.titleMedium.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: BukeerColors.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHotelItemCard(dynamic item) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final name =
+        getJsonField(item, r'$[:].product_name')?.toString() ?? 'Hotel';
+    final rateName = getJsonField(item, r'$[:].rate_name')?.toString() ?? '';
+    final destination =
+        getJsonField(item, r'$[:].destination')?.toString() ?? '';
+    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
+    final nights = getJsonField(item, r'$[:].hotel_nights')?.toInt() ?? 1;
+    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
+    final unitCost = getJsonField(item, r'$[:].unit_cost')?.toDouble() ?? 0;
+    final profitPercentage =
+        getJsonField(item, r'$[:].profit_percentage')?.toDouble() ?? 0;
+    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+    final reservationStatus =
+        getJsonField(item, r'$[:].reservation_status') ?? false;
+
+    // Calculate check-out date
+    DateTime checkIn = DateTime.parse(date);
+    DateTime checkOut = checkIn.add(Duration(days: nights));
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Hotel image placeholder
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BukeerBorders.radiusSmall,
+              color: isDark
+                  ? BukeerColors.surfacePrimaryDark
+                  : BukeerColors.surfaceSecondary,
+            ),
+            child: Icon(
+              Icons.hotel,
+              size: 40,
+              color: isDark
+                  ? BukeerColors.textTertiaryDark
+                  : BukeerColors.textTertiary,
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.m),
+
+          // Hotel info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? BukeerColors.textPrimaryDark
+                                  : BukeerColors.textPrimary,
+                            ),
+                          ),
+                          if (rateName.isNotEmpty) ...[
+                            SizedBox(height: BukeerSpacing.xs),
+                            Text(
+                              rateName,
+                              style: BukeerTypography.bodySmall.copyWith(
+                                color: isDark
+                                    ? BukeerColors.textSecondaryDark
+                                    : BukeerColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: BukeerSpacing.m,
+                        vertical: BukeerSpacing.xs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: reservationStatus
+                            ? BukeerColors.success.withOpacity(0.1)
+                            : BukeerColors.warning.withOpacity(0.1),
+                        borderRadius: BukeerBorders.radiusLarge,
+                      ),
+                      child: Text(
+                        reservationStatus ? 'Confirmado' : 'Pendiente',
+                        style: BukeerTypography.labelSmall.copyWith(
+                          color: reservationStatus
+                              ? BukeerColors.success
+                              : BukeerColors.warning,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: BukeerSpacing.m),
+
+                // Meta info
+                Wrap(
+                  spacing: BukeerSpacing.m,
+                  runSpacing: BukeerSpacing.s,
+                  children: [
+                    _buildHotelMetaItem(Icons.location_on, destination),
+                    _buildHotelMetaItem(Icons.calendar_today,
+                        '${_formatDate(date)} - ${_formatDate(checkOut.toString())}'),
+                    _buildHotelMetaItem(Icons.nights_stay, '$nights noches'),
+                    _buildHotelMetaItem(
+                        Icons.meeting_room, '$quantity habitaciones'),
+                  ],
+                ),
+
+                // Pricing
+                Container(
+                  margin: EdgeInsets.only(top: BukeerSpacing.m),
+                  padding: EdgeInsets.only(top: BukeerSpacing.m),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: isDark
+                            ? BukeerColors.dividerDark
+                            : BukeerColors.divider,
+                        width: BukeerBorders.widthThin,
+                      ),
+                    ),
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth < 400) {
+                        // Mobile layout - vertical
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Wrap(
+                              spacing: BukeerSpacing.s,
+                              runSpacing: BukeerSpacing.s,
+                              children: [
+                                _buildPriceItem(
+                                    Icons.sell, _formatCurrency(unitCost)),
+                                Text('|',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? BukeerColors.dividerDark
+                                            : BukeerColors.divider)),
+                                _buildPriceItem(Icons.trending_up,
+                                    '${profitPercentage.toInt()}%'),
+                                Text('|',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? BukeerColors.dividerDark
+                                            : BukeerColors.divider)),
+                                _buildPriceItem(Icons.request_quote,
+                                    _formatCurrency(unitPrice)),
+                              ],
+                            ),
+                            SizedBox(height: BukeerSpacing.m),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.paid,
+                                  size: 18,
+                                  color: BukeerColors.primary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  _formatCurrency(totalPrice),
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: BukeerColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      } else {
+                        // Desktop layout - horizontal
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Wrap(
+                                spacing: BukeerSpacing.s,
+                                runSpacing: BukeerSpacing.s,
+                                children: [
+                                  _buildPriceItem(
+                                      Icons.sell, _formatCurrency(unitCost)),
+                                  Text('|',
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? BukeerColors.dividerDark
+                                              : BukeerColors.divider)),
+                                  _buildPriceItem(Icons.trending_up,
+                                      '${profitPercentage.toInt()}%'),
+                                  Text('|',
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? BukeerColors.dividerDark
+                                              : BukeerColors.divider)),
+                                  _buildPriceItem(Icons.request_quote,
+                                      _formatCurrency(unitPrice)),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: BukeerSpacing.m),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.paid,
+                                  size: 18,
+                                  color: BukeerColors.primary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  _formatCurrency(totalPrice),
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: BukeerColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActivityCard(dynamic item) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final name =
+        getJsonField(item, r'$[:].product_name')?.toString() ?? 'Actividad';
+    final destination =
+        getJsonField(item, r'$[:].destination')?.toString() ?? '';
+    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
+    final startTime = getJsonField(item, r'$[:].start_time')?.toString() ?? '';
+    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
+    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+    final reservationStatus =
+        getJsonField(item, r'$[:].reservation_status') ?? false;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Activity icon
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BukeerBorders.radiusSmall,
+              color: BukeerColors.primary.withOpacity(0.1),
+            ),
+            child: Icon(
+              Icons.local_activity,
+              size: 30,
+              color: BukeerColors.primary,
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.m),
+
+          // Activity info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        name,
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: BukeerSpacing.m,
+                        vertical: BukeerSpacing.xs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: reservationStatus
+                            ? BukeerColors.success.withOpacity(0.1)
+                            : BukeerColors.warning.withOpacity(0.1),
+                        borderRadius: BukeerBorders.radiusLarge,
+                      ),
+                      child: Text(
+                        reservationStatus ? 'Confirmado' : 'Pendiente',
+                        style: BukeerTypography.labelSmall.copyWith(
+                          color: reservationStatus
+                              ? BukeerColors.success
+                              : BukeerColors.warning,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: BukeerSpacing.s),
+
+                // Meta info
+                Wrap(
+                  spacing: BukeerSpacing.l,
+                  runSpacing: BukeerSpacing.s,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 16,
+                          color: isDark
+                              ? BukeerColors.textTertiaryDark
+                              : BukeerColors.textTertiary,
+                        ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        Text(
+                          destination,
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 16,
+                          color: isDark
+                              ? BukeerColors.textTertiaryDark
+                              : BukeerColors.textTertiary,
+                        ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        Text(
+                          _formatDate(date),
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (startTime.isNotEmpty)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 16,
+                            color: isDark
+                                ? BukeerColors.textTertiaryDark
+                                : BukeerColors.textTertiary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            startTime,
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+
+                // Pricing
+                Container(
+                  margin: EdgeInsets.only(top: BukeerSpacing.m),
+                  padding: EdgeInsets.only(top: BukeerSpacing.m),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: isDark
+                            ? BukeerColors.dividerDark
+                            : BukeerColors.divider,
+                        width: BukeerBorders.widthThin,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.person,
+                            size: 16,
+                            color: isDark
+                                ? BukeerColors.textTertiaryDark
+                                : BukeerColors.textTertiary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            '$quantity ${quantity > 1 ? "personas" : "persona"}',
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                          ),
+                          SizedBox(width: BukeerSpacing.m),
+                          Text(
+                            '${_formatCurrency(unitPrice)} c/u',
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        _formatCurrency(totalPrice),
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: BukeerColors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransferCard(dynamic item) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final name =
+        getJsonField(item, r'$[:].product_name')?.toString() ?? 'Traslado';
+    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
+    final startTime = getJsonField(item, r'$[:].start_time')?.toString() ?? '';
+    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
+    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+    final reservationStatus =
+        getJsonField(item, r'$[:].reservation_status') ?? false;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Transfer icon
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BukeerBorders.radiusSmall,
+              color: BukeerColors.secondary.withOpacity(0.1),
+            ),
+            child: Icon(
+              Icons.directions_car,
+              size: 30,
+              color: BukeerColors.secondary,
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.m),
+
+          // Transfer info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        name,
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: BukeerSpacing.m,
+                        vertical: BukeerSpacing.xs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: reservationStatus
+                            ? BukeerColors.success.withOpacity(0.1)
+                            : BukeerColors.warning.withOpacity(0.1),
+                        borderRadius: BukeerBorders.radiusLarge,
+                      ),
+                      child: Text(
+                        reservationStatus ? 'Confirmado' : 'Pendiente',
+                        style: BukeerTypography.labelSmall.copyWith(
+                          color: reservationStatus
+                              ? BukeerColors.success
+                              : BukeerColors.warning,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: BukeerSpacing.s),
+
+                // Meta info
+                Wrap(
+                  spacing: BukeerSpacing.l,
+                  runSpacing: BukeerSpacing.s,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 16,
+                          color: isDark
+                              ? BukeerColors.textTertiaryDark
+                              : BukeerColors.textTertiary,
+                        ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        Text(
+                          _formatDate(date),
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (startTime.isNotEmpty)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 16,
+                            color: isDark
+                                ? BukeerColors.textTertiaryDark
+                                : BukeerColors.textTertiary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            startTime,
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.directions_car,
+                          size: 16,
+                          color: isDark
+                              ? BukeerColors.textTertiaryDark
+                              : BukeerColors.textTertiary,
+                        ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        Text(
+                          '$quantity ${quantity > 1 ? "vehículos" : "vehículo"}',
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                // Pricing
+                Container(
+                  margin: EdgeInsets.only(top: BukeerSpacing.m),
+                  padding: EdgeInsets.only(top: BukeerSpacing.m),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: isDark
+                            ? BukeerColors.dividerDark
+                            : BukeerColors.divider,
+                        width: BukeerBorders.widthThin,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${_formatCurrency(unitPrice)} x $quantity',
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: isDark
+                              ? BukeerColors.textSecondaryDark
+                              : BukeerColors.textSecondary,
+                        ),
+                      ),
+                      Text(
+                        _formatCurrency(totalPrice),
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: BukeerColors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Renamed old method
+  Widget _buildHotelCardOld({
     required String name,
     required String provider,
     required String roomType,
@@ -881,58 +1809,263 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildPaymentsTabContent() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.payments,
-            size: 64,
-            color: isDark
-                ? BukeerColors.textTertiaryDark
-                : BukeerColors.textTertiary,
-          ),
-          SizedBox(height: BukeerSpacing.m),
-          Text(
-            'Gestión de pagos',
-            style: BukeerTypography.titleMedium.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isDark
-                  ? BukeerColors.textPrimaryDark
-                  : BukeerColors.textPrimary,
+    // Get itinerary items and calculate totals
+    final items = _itineraryId != null
+        ? appServices.itinerary.getItineraryItems(_itineraryId!)
+        : [];
+
+    // Calculate financial summary
+    double totalCost = 0;
+    double totalPrice = 0;
+    for (var item in items) {
+      totalCost += (getJsonField(item, r'$[:].total_cost')?.toDouble() ?? 0);
+      totalPrice += (getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0);
+    }
+    double profit = totalPrice - totalCost;
+
+    return FutureBuilder<List<dynamic>>(
+      future: _itineraryId != null
+          ? SupaFlow.client
+              .from('transactions')
+              .select()
+              .eq('id_itinerary', _itineraryId!)
+              .order('created_at', ascending: false)
+          : Future.value([]),
+      builder: (context, snapshot) {
+        List<dynamic> transactions = snapshot.data ?? [];
+
+        // Calculate payments
+        double totalPaid = 0;
+        double totalPaidToProviders = 0;
+        for (var transaction in transactions) {
+          final type =
+              getJsonField(transaction, r'$[:].type')?.toString() ?? '';
+          final value =
+              getJsonField(transaction, r'$[:].value')?.toDouble() ?? 0;
+
+          if (type == 'ingreso') {
+            totalPaid += value;
+          } else if (type == 'egreso') {
+            totalPaidToProviders += value;
+          }
+        }
+        double pendingPayment = totalPrice - totalPaid;
+        double pendingToProviders = totalCost - totalPaidToProviders;
+
+        return Column(
+          children: [
+            // Financial summary
+            Container(
+              padding: EdgeInsets.all(BukeerSpacing.l),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? BukeerColors.surfaceSecondaryDark
+                    : BukeerColors.backgroundPrimary,
+                borderRadius: BukeerBorders.radiusMedium,
+                border: Border.all(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Resumen Financiero',
+                    style: BukeerTypography.titleMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: isDark
+                          ? BukeerColors.textPrimaryDark
+                          : BukeerColors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: BukeerSpacing.m),
+                  // Summary grid
+                  Wrap(
+                    spacing: BukeerSpacing.xl,
+                    runSpacing: BukeerSpacing.m,
+                    children: [
+                      _buildFinancialSummaryItem(
+                        'Costo Total',
+                        _formatCurrency(totalCost),
+                        Icons.money_off,
+                        BukeerColors.error,
+                      ),
+                      _buildFinancialSummaryItem(
+                        'Precio Total',
+                        _formatCurrency(totalPrice),
+                        Icons.attach_money,
+                        BukeerColors.primary,
+                      ),
+                      _buildFinancialSummaryItem(
+                        'Ganancia',
+                        _formatCurrency(profit),
+                        Icons.trending_up,
+                        BukeerColors.success,
+                      ),
+                      _buildFinancialSummaryItem(
+                        'Total Pagado',
+                        _formatCurrency(totalPaid),
+                        Icons.check_circle,
+                        BukeerColors.info,
+                      ),
+                      _buildFinancialSummaryItem(
+                        'Pendiente Cliente',
+                        _formatCurrency(pendingPayment),
+                        Icons.pending,
+                        pendingPayment > 0
+                            ? BukeerColors.warning
+                            : BukeerColors.success,
+                      ),
+                      _buildFinancialSummaryItem(
+                        'Pendiente Proveedores',
+                        _formatCurrency(pendingToProviders),
+                        Icons.business,
+                        pendingToProviders > 0
+                            ? BukeerColors.warning
+                            : BukeerColors.success,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: BukeerSpacing.s),
-          Text(
-            'Administra los pagos del itinerario',
-            style: BukeerTypography.bodyMedium.copyWith(
-              color: isDark
-                  ? BukeerColors.textSecondaryDark
-                  : BukeerColors.textSecondary,
+
+            SizedBox(height: BukeerSpacing.l),
+
+            // Transactions header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Transacciones',
+                  style: BukeerTypography.titleMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: isDark
+                        ? BukeerColors.textPrimaryDark
+                        : BukeerColors.textPrimary,
+                  ),
+                ),
+                BukeerButton(
+                  text: 'Registrar pago',
+                  onPressed: _handleAddPayment,
+                  variant: BukeerButtonVariant.primary,
+                  size: BukeerButtonSize.small,
+                  icon: Icons.add,
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
+
+            SizedBox(height: BukeerSpacing.m),
+
+            // Transactions list
+            Expanded(
+              child: transactions.isEmpty
+                  ? _buildEmptyTransactionsState()
+                  : ListView.separated(
+                      itemCount: transactions.length,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: BukeerSpacing.m),
+                      itemBuilder: (context, index) {
+                        final transaction = transactions[index];
+                        return _buildTransactionCard(transaction);
+                      },
+                    ),
+            ),
+          ],
+        );
+      },
     );
   }
 
   Widget _buildProvidersTabContent() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.storefront,
-            size: 64,
-            color: isDark
-                ? BukeerColors.textTertiaryDark
-                : BukeerColors.textTertiary,
-          ),
-          SizedBox(height: BukeerSpacing.m),
-          Text(
-            'Proveedores',
+    // Get itinerary items to extract providers
+    final items = _itineraryId != null
+        ? appServices.itinerary.getItineraryItems(_itineraryId!)
+        : [];
+
+    // Extract unique providers from items
+    Map<String, Map<String, dynamic>> providersMap = {};
+    for (var item in items) {
+      final productType =
+          getJsonField(item, r'$[:].product_type')?.toString() ?? '';
+      final productId =
+          getJsonField(item, r'$[:].id_product')?.toString() ?? '';
+
+      // Get provider info based on product type
+      if (productId.isNotEmpty) {
+        // For now, we'll create a provider entry based on item data
+        // In a real implementation, we'd fetch the actual provider data from contacts table
+        final providerName =
+            getJsonField(item, r'$[:].product_name')?.toString() ?? 'Proveedor';
+        final key = '$productType-$productId';
+
+        if (!providersMap.containsKey(key)) {
+          providersMap[key] = {
+            'name': providerName,
+            'type': productType,
+            'itemCount': 1,
+            'totalCost':
+                getJsonField(item, r'$[:].total_cost')?.toDouble() ?? 0,
+            'items': [item],
+          };
+        } else {
+          providersMap[key]!['itemCount'] = providersMap[key]!['itemCount'] + 1;
+          providersMap[key]!['totalCost'] = providersMap[key]!['totalCost'] +
+              (getJsonField(item, r'$[:].total_cost')?.toDouble() ?? 0);
+          providersMap[key]!['items'].add(item);
+        }
+      }
+    }
+
+    final providers = providersMap.values.toList();
+
+    if (providers.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.storefront,
+              size: 64,
+              color: isDark
+                  ? BukeerColors.textTertiaryDark
+                  : BukeerColors.textTertiary,
+            ),
+            SizedBox(height: BukeerSpacing.m),
+            Text(
+              'No hay proveedores en este itinerario',
+              style: BukeerTypography.titleMedium.copyWith(
+                color: isDark
+                    ? BukeerColors.textSecondaryDark
+                    : BukeerColors.textSecondary,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.s),
+            Text(
+              'Los proveedores aparecerán cuando agregues servicios',
+              style: BukeerTypography.bodyMedium.copyWith(
+                color: isDark
+                    ? BukeerColors.textTertiaryDark
+                    : BukeerColors.textTertiary,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header
+        Padding(
+          padding: EdgeInsets.only(bottom: BukeerSpacing.m),
+          child: Text(
+            'Proveedores del Itinerario',
             style: BukeerTypography.titleMedium.copyWith(
               fontWeight: FontWeight.w600,
               color: isDark
@@ -940,17 +2073,21 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   : BukeerColors.textPrimary,
             ),
           ),
-          SizedBox(height: BukeerSpacing.s),
-          Text(
-            'Gestiona los proveedores del itinerario',
-            style: BukeerTypography.bodyMedium.copyWith(
-              color: isDark
-                  ? BukeerColors.textSecondaryDark
-                  : BukeerColors.textSecondary,
-            ),
+        ),
+
+        // Providers list
+        Expanded(
+          child: ListView.separated(
+            itemCount: providers.length,
+            separatorBuilder: (context, index) =>
+                SizedBox(height: BukeerSpacing.m),
+            itemBuilder: (context, index) {
+              final provider = providers[index];
+              return _buildProviderCard(provider);
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -1562,7 +2699,543 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     );
   }
 
+  Widget _buildFinancialSummaryItem(
+      String label, String value, IconData icon, Color color) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: color.withOpacity(0.3),
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 20,
+                color: color,
+              ),
+              SizedBox(width: BukeerSpacing.s),
+              Text(
+                label,
+                style: BukeerTypography.labelMedium.copyWith(
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: BukeerSpacing.xs),
+          Text(
+            value,
+            style: BukeerTypography.titleMedium.copyWith(
+              fontWeight: FontWeight.w700,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyTransactionsState() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.receipt_long,
+            size: 64,
+            color: isDark
+                ? BukeerColors.textTertiaryDark
+                : BukeerColors.textTertiary,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          Text(
+            'No hay transacciones registradas',
+            style: BukeerTypography.titleMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.s),
+          Text(
+            'Registra el primer pago para este itinerario',
+            style: BukeerTypography.bodyMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textTertiaryDark
+                  : BukeerColors.textTertiary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionCard(dynamic transaction) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final type = getJsonField(transaction, r'$[:].type')?.toString() ?? '';
+    final value = getJsonField(transaction, r'$[:].value')?.toDouble() ?? 0;
+    final date = getJsonField(transaction, r'$[:].date')?.toString() ?? '';
+    final paymentMethod =
+        getJsonField(transaction, r'$[:].payment_method')?.toString() ?? '';
+    final reference =
+        getJsonField(transaction, r'$[:].reference')?.toString() ?? '';
+    final voucherUrl =
+        getJsonField(transaction, r'$[:].voucher_url')?.toString() ?? '';
+
+    final isIncome = type == 'ingreso';
+    final color = isIncome ? BukeerColors.success : BukeerColors.error;
+    final icon = isIncome ? Icons.arrow_downward : Icons.arrow_upward;
+    final label = isIncome ? 'Pago recibido' : 'Pago a proveedor';
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Icon
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BukeerBorders.radiusFull,
+            ),
+            child: Icon(
+              icon,
+              size: 20,
+              color: color,
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.m),
+
+          // Info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      label,
+                      style: BukeerTypography.titleSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      _formatCurrency(value),
+                      style: BukeerTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: color,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: BukeerSpacing.xs),
+                Wrap(
+                  spacing: BukeerSpacing.m,
+                  runSpacing: BukeerSpacing.xs,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 14,
+                          color: isDark
+                              ? BukeerColors.textTertiaryDark
+                              : BukeerColors.textTertiary,
+                        ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        Text(
+                          _formatDate(date),
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (paymentMethod.isNotEmpty)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.payment,
+                            size: 14,
+                            color: isDark
+                                ? BukeerColors.textTertiaryDark
+                                : BukeerColors.textTertiary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            paymentMethod,
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (reference.isNotEmpty)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.tag,
+                            size: 14,
+                            color: isDark
+                                ? BukeerColors.textTertiaryDark
+                                : BukeerColors.textTertiary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            reference,
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (voucherUrl.isNotEmpty)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.attachment,
+                            size: 14,
+                            color: BukeerColors.primary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            'Comprobante',
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: BukeerColors.primary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProviderCard(Map<String, dynamic> provider) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final name = provider['name'] ?? 'Proveedor';
+    final type = provider['type'] ?? '';
+    final itemCount = provider['itemCount'] ?? 0;
+    final totalCost = provider['totalCost'] ?? 0.0;
+    final items = provider['items'] as List<dynamic>? ?? [];
+
+    // Calculate total paid to this provider
+    double totalPaidToProvider = 0;
+    // In a real implementation, we'd query transactions for this provider
+
+    final pendingPayment = totalCost - totalPaidToProvider;
+
+    IconData typeIcon;
+    Color typeColor;
+    String typeLabel;
+
+    switch (type) {
+      case 'hotel':
+        typeIcon = Icons.hotel;
+        typeColor = BukeerColors.primary;
+        typeLabel = 'Hotel';
+        break;
+      case 'activity':
+        typeIcon = Icons.local_activity;
+        typeColor = BukeerColors.secondary;
+        typeLabel = 'Actividad';
+        break;
+      case 'transfer':
+        typeIcon = Icons.directions_car;
+        typeColor = BukeerColors.tertiary;
+        typeLabel = 'Traslado';
+        break;
+      case 'flight':
+        typeIcon = Icons.flight;
+        typeColor = BukeerColors.info;
+        typeLabel = 'Vuelo';
+        break;
+      default:
+        typeIcon = Icons.business;
+        typeColor = BukeerColors.textTertiary;
+        typeLabel = 'Servicio';
+    }
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.l),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: typeColor.withOpacity(0.1),
+                  borderRadius: BukeerBorders.radiusMedium,
+                ),
+                child: Icon(
+                  typeIcon,
+                  size: 24,
+                  color: typeColor,
+                ),
+              ),
+              SizedBox(width: BukeerSpacing.m),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: BukeerTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      '$itemCount ${itemCount > 1 ? "servicios" : "servicio"} • $typeLabel',
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          // Financial info
+          Container(
+            margin: EdgeInsets.only(top: BukeerSpacing.m),
+            padding: EdgeInsets.only(top: BukeerSpacing.m),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Costo total',
+                      style: BukeerTypography.labelSmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                    Text(
+                      _formatCurrency(totalCost),
+                      style: BukeerTypography.titleSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Pagado',
+                      style: BukeerTypography.labelSmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                    Text(
+                      _formatCurrency(totalPaidToProvider),
+                      style: BukeerTypography.titleSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: BukeerColors.success,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Pendiente',
+                      style: BukeerTypography.labelSmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                    Text(
+                      _formatCurrency(pendingPayment),
+                      style: BukeerTypography.titleSmall.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: pendingPayment > 0
+                            ? BukeerColors.warning
+                            : BukeerColors.success,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          // Action button
+          SizedBox(height: BukeerSpacing.m),
+          BukeerButton(
+            text: 'Registrar pago',
+            onPressed: () => _handleAddProviderPayment(provider),
+            variant: BukeerButtonVariant.secondary,
+            size: BukeerButtonSize.small,
+            icon: Icons.payment,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(String serviceType) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    String message = '';
+    IconData icon = Icons.add_circle_outline;
+
+    switch (serviceType) {
+      case 'flight':
+        message = 'No hay vuelos agregados';
+        icon = Icons.flight;
+        break;
+      case 'hotel':
+        message = 'No hay hoteles agregados';
+        icon = Icons.hotel;
+        break;
+      case 'activity':
+        message = 'No hay actividades agregadas';
+        icon = Icons.local_activity;
+        break;
+      case 'transfer':
+        message = 'No hay traslados agregados';
+        icon = Icons.directions_car;
+        break;
+    }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 64,
+            color: isDark
+                ? BukeerColors.textTertiaryDark
+                : BukeerColors.textTertiary,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          Text(
+            message,
+            style: BukeerTypography.titleMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.l),
+          BukeerButton(
+            text: 'Agregar ${_getServiceLabel(_selectedServiceTab)}',
+            onPressed: () => _handleAddService(serviceType),
+            variant: BukeerButtonVariant.primary,
+            icon: Icons.add,
+          ),
+        ],
+      ),
+    );
+  }
+
   // Helper methods
+  String _getServiceLabel(int index) {
+    switch (index) {
+      case 0:
+        return 'vuelos';
+      case 1:
+        return 'hoteles';
+      case 2:
+        return 'actividades';
+      case 3:
+        return 'traslados';
+      default:
+        return '';
+    }
+  }
+
   String _formatDate(String? dateStr) {
     if (dateStr == null || dateStr.isEmpty) return 'Sin fecha';
     try {
@@ -1602,6 +3275,163 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   // Action handlers
+  void _handleAddService(String serviceType) async {
+    switch (serviceType) {
+      case 'flight':
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          enableDrag: false,
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Padding(
+                padding: MediaQuery.viewInsetsOf(context),
+                child: AddFlightsWidget(
+                  itineraryId: _itineraryId,
+                ),
+              ),
+            );
+          },
+        );
+        break;
+      case 'hotel':
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          enableDrag: false,
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Padding(
+                padding: MediaQuery.viewInsetsOf(context),
+                child: AddHotelWidget(
+                  itineraryId: _itineraryId,
+                ),
+              ),
+            );
+          },
+        );
+        break;
+      case 'activity':
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          enableDrag: false,
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Padding(
+                padding: MediaQuery.viewInsetsOf(context),
+                child: AddActivitiesWidget(
+                  itineraryId: _itineraryId,
+                ),
+              ),
+            );
+          },
+        );
+        break;
+      case 'transfer':
+        await showModalBottomSheet(
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          enableDrag: false,
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Padding(
+                padding: MediaQuery.viewInsetsOf(context),
+                child: AddTransferWidget(
+                  itineraryId: _itineraryId,
+                ),
+              ),
+            );
+          },
+        );
+        break;
+    }
+
+    // Refresh items after adding
+    if (_itineraryId != null) {
+      await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+      setState(() {});
+    }
+  }
+
+  void _handleAddPayment() async {
+    await showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: MediaQuery.viewInsetsOf(context),
+            child: PaymentAddWidget(
+              idItinerary: _itineraryId,
+              typeTransaction: 'ingreso',
+              agentName: currentUserDisplayName,
+              agentEmail: currentUserEmail,
+              emailProvider: '',
+              nameProvider: 'Cliente',
+              fechaReserva: DateTime.now().toString(),
+              producto: 'Pago de cliente',
+              tarifa: '',
+              cantidad: 1,
+            ),
+          ),
+        );
+      },
+    );
+
+    // Refresh page after adding payment
+    setState(() {});
+  }
+
+  void _handleAddProviderPayment(Map<String, dynamic> provider) async {
+    // Get first item to extract provider info
+    final items = provider['items'] as List<dynamic>? ?? [];
+    if (items.isEmpty) return;
+
+    final firstItem = items.first;
+
+    await showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: MediaQuery.viewInsetsOf(context),
+            child: PaymentAddWidget(
+              idItinerary: _itineraryId,
+              typeTransaction: 'egreso',
+              agentName: currentUserDisplayName,
+              agentEmail: currentUserEmail,
+              emailProvider: '',
+              nameProvider: provider['name'] ?? 'Proveedor',
+              fechaReserva: DateTime.now().toString(),
+              producto: provider['name'] ?? '',
+              tarifa: '',
+              cantidad: 1,
+            ),
+          ),
+        );
+      },
+    );
+
+    // Refresh page after adding payment
+    setState(() {});
+  }
+
   void _handleEditItinerary() async {
     await showModalBottomSheet(
       isScrollControlled: true,
