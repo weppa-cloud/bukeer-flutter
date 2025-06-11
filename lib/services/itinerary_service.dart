@@ -29,6 +29,58 @@ class ItineraryService extends BaseService {
   List<dynamic> getItineraryPassengers(String id) =>
       _itineraryPassengers[id] ?? [];
 
+  // Optimized getters for grouped data
+  Map<String, dynamic>? getCompleteItineraryData(String id) =>
+      _itineraryDetails[id];
+
+  List<dynamic> getItineraryItemsByType(String id, String productType) {
+    final data = _itineraryDetails[id];
+    if (data == null || data['items_grouped'] == null) return [];
+
+    final itemsGrouped = data['items_grouped'] as Map<String, dynamic>;
+    switch (productType.toLowerCase()) {
+      case 'flight':
+      case 'vuelos':
+        return itemsGrouped['flights'] ?? [];
+      case 'hotel':
+      case 'hoteles':
+        return itemsGrouped['hotels'] ?? [];
+      case 'activity':
+      case 'servicios':
+        return itemsGrouped['activities'] ?? [];
+      case 'transfer':
+      case 'transporte':
+        return itemsGrouped['transfers'] ?? [];
+      default:
+        return [];
+    }
+  }
+
+  double getItineraryTotalByType(String id, String productType) {
+    final data = _itineraryDetails[id];
+    if (data == null || data['items_grouped'] == null) return 0.0;
+
+    final totals = data['items_grouped']['totals'] as Map<String, dynamic>?;
+    if (totals == null) return 0.0;
+
+    switch (productType.toLowerCase()) {
+      case 'flight':
+      case 'vuelos':
+        return totals['flights'] ?? 0.0;
+      case 'hotel':
+      case 'hoteles':
+        return totals['hotels'] ?? 0.0;
+      case 'activity':
+      case 'servicios':
+        return totals['activities'] ?? 0.0;
+      case 'transfer':
+      case 'transporte':
+        return totals['transfers'] ?? 0.0;
+      default:
+        return 0.0;
+    }
+  }
+
   // Selected itinerary getters (replacement for allDataItinerary)
   dynamic get selectedItinerary => _selectedItinerary;
 
@@ -60,68 +112,64 @@ class ItineraryService extends BaseService {
     });
   }
 
-  // Load specific itinerary details
-  Future<void> loadItineraryDetails(String itineraryId) async {
-    print('ItineraryService: Loading details for itinerary: $itineraryId');
+  // Load specific itinerary details - OPTIMIZED VERSION
+  Future<Map<String, dynamic>?> loadItineraryDetailsOptimized(
+      String itineraryId) async {
+    print(
+        'ItineraryService: Loading complete itinerary data for: $itineraryId');
 
     try {
-      // Load directly from table with joins
-      final itineraryRows = await ItinerariesTable().queryRows(
-        queryFn: (q) => q.eq('id', itineraryId),
-      );
+      // Load all data in parallel for better performance
+      final results = await Future.wait([
+        // 1. Load itinerary with contact info
+        _loadItineraryWithContact(itineraryId),
+        // 2. Load all items
+        _loadItemsGrouped(itineraryId),
+        // 3. Load passengers
+        _loadPassengersData(itineraryId),
+        // 4. Load payments/transactions
+        _loadTransactionsData(itineraryId),
+      ]);
 
-      if (itineraryRows.isNotEmpty) {
-        final itinerary = itineraryRows.first;
+      final itineraryData = results[0] as Map<String, dynamic>?;
+      final itemsData = results[1] as Map<String, dynamic>;
+      final passengersData = results[2] as List<dynamic>;
+      final transactionsData = results[3] as List<dynamic>;
 
-        // Get contact info if available
-        String? contactName;
-        if (itinerary.idContact != null) {
-          final contacts = await ContactsTable().queryRows(
-            queryFn: (q) => q.eq('id', itinerary.idContact!),
-          );
-          if (contacts.isNotEmpty) {
-            contactName = contacts.first.name;
-          }
-        }
-
-        // Build complete itinerary data
-        final data = {
-          'id': itinerary.id,
-          'name': itinerary.name,
-          'start_date': itinerary.startDate.toIso8601String(),
-          'end_date': itinerary.endDate.toIso8601String(),
-          'status': itinerary.status,
-          'passenger_count': itinerary.passengerCount,
-          'currency_type': itinerary.currencyType,
-          'total_amount': itinerary.totalAmount,
-          'total_cost': itinerary.totalCost,
-          'total_markup': itinerary.totalMarkup,
-          'agent': itinerary.agent,
-          'id_fm': itinerary.idFm,
-          'language': itinerary.language,
-          'valid_until': itinerary.validUntil?.toIso8601String(),
-          'rates_visibility': itinerary.ratesVisibility,
-          'itinerary_visibility': itinerary.itineraryVisibility,
-          'contact_name': contactName,
-          'created_at': itinerary.createdAt?.toIso8601String(),
-        };
-
-        print('ItineraryService: Storing itinerary data');
-        _itineraryDetails[itineraryId] = data;
-
-        // Load items separately
-        await _loadItineraryItemsDirectly(itineraryId);
-
-        // Load passengers if needed
-        await _loadItineraryPassengersDirectly(itineraryId);
-
-        notifyListeners();
-      } else {
-        print('ItineraryService: No itinerary found with ID: $itineraryId');
+      if (itineraryData == null) {
+        return null;
       }
+
+      // Build complete response object
+      final completeData = {
+        ...itineraryData,
+        'items_grouped': itemsData,
+        'passengers': passengersData,
+        'transactions': transactionsData,
+        // Calculated fields
+        'total_items': itemsData['all_items'].length,
+        'has_flights': itemsData['flights'].isNotEmpty,
+        'has_hotels': itemsData['hotels'].isNotEmpty,
+        'has_activities': itemsData['activities'].isNotEmpty,
+        'has_transfers': itemsData['transfers'].isNotEmpty,
+      };
+
+      // Cache the complete data
+      _itineraryDetails[itineraryId] = completeData;
+      _itineraryItems[itineraryId] = itemsData['all_items'];
+      _itineraryPassengers[itineraryId] = passengersData;
+
+      notifyListeners();
+      return completeData;
     } catch (e) {
-      print('ItineraryService: Error loading details: $e');
+      print('ItineraryService: Error loading complete data: $e');
+      return null;
     }
+  }
+
+  // Load specific itinerary details (mantener para compatibilidad)
+  Future<void> loadItineraryDetails(String itineraryId) async {
+    await loadItineraryDetailsOptimized(itineraryId);
   }
 
   // Load items directly from database
@@ -187,6 +235,179 @@ class ItineraryService extends BaseService {
     } catch (e) {
       print('ItineraryService: Error loading passengers: $e');
     }
+  }
+
+  // ============= OPTIMIZED HELPER METHODS =============
+
+  // Load itinerary with contact info in one query
+  Future<Map<String, dynamic>?> _loadItineraryWithContact(
+      String itineraryId) async {
+    try {
+      final itineraryRows = await ItinerariesTable().queryRows(
+        queryFn: (q) => q.eq('id', itineraryId),
+      );
+
+      if (itineraryRows.isEmpty) return null;
+
+      final itinerary = itineraryRows.first;
+
+      // Get contact info if available
+      String? contactName;
+      if (itinerary.idContact != null) {
+        final contacts = await ContactsTable().queryRows(
+          queryFn: (q) => q.eq('id', itinerary.idContact!),
+        );
+        if (contacts.isNotEmpty) {
+          contactName = contacts.first.name;
+        }
+      }
+
+      return {
+        'id': itinerary.id,
+        'name': itinerary.name,
+        'start_date': itinerary.startDate.toIso8601String(),
+        'end_date': itinerary.endDate.toIso8601String(),
+        'status': itinerary.status,
+        'passenger_count': itinerary.passengerCount,
+        'currency_type': itinerary.currencyType,
+        'total_amount': itinerary.totalAmount,
+        'total_cost': itinerary.totalCost,
+        'total_markup': itinerary.totalMarkup,
+        'agent': itinerary.agent,
+        'id_fm': itinerary.idFm,
+        'language': itinerary.language,
+        'valid_until': itinerary.validUntil?.toIso8601String(),
+        'rates_visibility': itinerary.ratesVisibility,
+        'itinerary_visibility': itinerary.itineraryVisibility,
+        'contact_name': contactName,
+        'contact_id': itinerary.idContact,
+        'created_at': itinerary.createdAt?.toIso8601String(),
+      };
+    } catch (e) {
+      print('Error loading itinerary: $e');
+      return null;
+    }
+  }
+
+  // Load and group items by type
+  Future<Map<String, dynamic>> _loadItemsGrouped(String itineraryId) async {
+    try {
+      final items = await ItineraryItemsTable().queryRows(
+        queryFn: (q) => q.eq('id_itinerary', itineraryId).order('date'),
+      );
+
+      final allItems = items
+          .map((item) => {
+                'id': item.id,
+                'product_type': item.productType,
+                'product_name': item.productName,
+                'rate_name': item.rateName,
+                'date': item.date?.toIso8601String(),
+                'destination': item.destination,
+                'unit_cost': item.unitCost,
+                'unit_price': item.unitPrice,
+                'quantity': item.quantity,
+                'total_cost': item.totalCost,
+                'total_price': item.totalPrice,
+                'profit': item.profit,
+                'profit_percentage': item.profitPercentage,
+                'hotel_nights': item.hotelNights,
+                'flight_departure': item.flightDeparture,
+                'flight_arrival': item.flightArrival,
+                'departure_time': item.departureTime,
+                'arrival_time': item.arrivalTime,
+                'flight_number': item.flightNumber,
+                'airline': item.airline,
+                'reservation_status': item.reservationStatus,
+              })
+          .toList();
+
+      // Group by type for easy access
+      return {
+        'all_items': allItems,
+        'flights':
+            allItems.where((item) => item['product_type'] == 'Vuelos').toList(),
+        'hotels': allItems
+            .where((item) => item['product_type'] == 'Hoteles')
+            .toList(),
+        'activities': allItems
+            .where((item) => item['product_type'] == 'Servicios')
+            .toList(),
+        'transfers': allItems
+            .where((item) => item['product_type'] == 'Transporte')
+            .toList(),
+        // Totals by type
+        'totals': {
+          'flights': _calculateTypeTotal(allItems, 'Vuelos'),
+          'hotels': _calculateTypeTotal(allItems, 'Hoteles'),
+          'activities': _calculateTypeTotal(allItems, 'Servicios'),
+          'transfers': _calculateTypeTotal(allItems, 'Transporte'),
+        }
+      };
+    } catch (e) {
+      print('Error loading items: $e');
+      return {
+        'all_items': [],
+        'flights': [],
+        'hotels': [],
+        'activities': [],
+        'transfers': [],
+        'totals': {
+          'flights': 0.0,
+          'hotels': 0.0,
+          'activities': 0.0,
+          'transfers': 0.0
+        }
+      };
+    }
+  }
+
+  // Load passengers data
+  Future<List<dynamic>> _loadPassengersData(String itineraryId) async {
+    try {
+      final passengers = await PassengerTable().queryRows(
+        queryFn: (q) => q.eq('itinerary_id', itineraryId),
+      );
+
+      return passengers
+          .map((p) => {
+                'id': p.id,
+                'name': p.name,
+                'last_name': p.lastName,
+                'type_id': p.typeId,
+                'number_id': p.numberId,
+                'nationality': p.nationality,
+                'birth_date': p.birthDate.toIso8601String(),
+                'full_name': '${p.name} ${p.lastName}',
+              })
+          .toList();
+    } catch (e) {
+      print('Error loading passengers: $e');
+      return [];
+    }
+  }
+
+  // Load transactions data
+  Future<List<dynamic>> _loadTransactionsData(String itineraryId) async {
+    try {
+      final transactions = await SupaFlow.client
+          .from('transactions')
+          .select()
+          .eq('id_itinerary', itineraryId)
+          .order('created_at', ascending: false);
+
+      return transactions;
+    } catch (e) {
+      print('Error loading transactions: $e');
+      return [];
+    }
+  }
+
+  // Calculate total for a specific product type
+  double _calculateTypeTotal(List<dynamic> items, String productType) {
+    return items
+        .where((item) => item['product_type'] == productType)
+        .fold(0.0, (sum, item) => sum + (item['total_price'] ?? 0.0));
   }
 
   // Create new itinerary

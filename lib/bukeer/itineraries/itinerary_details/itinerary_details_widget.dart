@@ -54,6 +54,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   int _selectedServiceTab = 1; // Hotels by default
   bool _isHotelsExpanded = true;
 
+  // Helper to get complete itinerary data
+  Map<String, dynamic>? get _completeData => _itineraryId != null
+      ? appServices.itinerary.getCompleteItineraryData(_itineraryId!)
+      : null;
+
   @override
   void initState() {
     super.initState();
@@ -82,8 +87,17 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (_itineraryId != null && _itineraryId!.isNotEmpty) {
         print(
-            'ItineraryDetailsWidget: Loading data for itinerary $_itineraryId');
-        await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+            'ItineraryDetailsWidget: Loading complete data for itinerary $_itineraryId');
+        final completeData = await appServices.itinerary
+            .loadItineraryDetailsOptimized(_itineraryId!);
+
+        if (completeData != null) {
+          print('ItineraryDetailsWidget: Data loaded successfully');
+          print('Has flights: ${completeData['has_flights']}');
+          print('Has hotels: ${completeData['has_hotels']}');
+          print('Has activities: ${completeData['has_activities']}');
+          print('Has transfers: ${completeData['has_transfers']}');
+        }
 
         // Force a rebuild after loading
         if (mounted) {
@@ -480,34 +494,29 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildItemsTabContent(dynamic itineraryData) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Get itinerary items from service
-    final items = _itineraryId != null
-        ? appServices.itinerary.getItineraryItems(_itineraryId!)
-        : [];
-
-    print('ItemsTab: Total items found: ${items.length}');
-    print('ItemsTab: Items data: $items');
-
-    // Filter items by selected service type
+    // Get items already filtered by type - OPTIMIZED
     final serviceTypeMap = {
-      0: 'Vuelos', // flight
-      1: 'Hoteles', // hotel
-      2: 'Servicios', // activity/services
-      3: 'Transporte', // transfer
+      0: 'vuelos',
+      1: 'hoteles',
+      2: 'servicios',
+      3: 'transporte',
     };
 
-    final selectedType = serviceTypeMap[_selectedServiceTab];
-    final filteredItems = items.where((item) {
-      final productType =
-          getJsonField(item, r'$.product_type')?.toString() ?? '';
-      return productType == selectedType;
-    }).toList();
+    final selectedType = serviceTypeMap[_selectedServiceTab]!;
+    final filteredItems = _itineraryId != null
+        ? appServices.itinerary
+            .getItineraryItemsByType(_itineraryId!, selectedType)
+        : [];
 
-    // Calculate totals
-    double totalAmount = 0;
-    for (var item in filteredItems) {
-      totalAmount += (getJsonField(item, r'$.total_price')?.toDouble() ?? 0);
-    }
+    // Get total for this type directly from service
+    final totalAmount = _itineraryId != null
+        ? appServices.itinerary
+            .getItineraryTotalByType(_itineraryId!, selectedType)
+        : 0.0;
+
+    print('ItemsTab: Selected type: $selectedType');
+    print('ItemsTab: Filtered items count: ${filteredItems.length}');
+    print('ItemsTab: Total amount: $totalAmount');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

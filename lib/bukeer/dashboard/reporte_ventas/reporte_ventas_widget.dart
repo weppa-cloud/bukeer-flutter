@@ -92,6 +92,9 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
               }
               final columnGetReporteVentasResponse = snapshot.data!;
 
+              // Debug: Print the response to console
+              print('API Response: ${columnGetReporteVentasResponse.jsonBody}');
+
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
