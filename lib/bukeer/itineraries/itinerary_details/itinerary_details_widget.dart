@@ -348,16 +348,19 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             : BukeerColors.surfacePrimary,
         boxShadow: BukeerShadows.subtle,
       ),
-      child: Row(
-        children: [
-          _buildServiceButton(Icons.flight, 'Flights', 0),
-          SizedBox(width: BukeerSpacing.m),
-          _buildServiceButton(Icons.hotel, 'Hotels', 1),
-          SizedBox(width: BukeerSpacing.m),
-          _buildServiceButton(Icons.room_service, 'Services', 2),
-          SizedBox(width: BukeerSpacing.m),
-          _buildServiceButton(Icons.directions_car, 'Transfers', 3),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildServiceButton(Icons.flight, 'Flights', 0),
+            SizedBox(width: BukeerSpacing.m),
+            _buildServiceButton(Icons.hotel, 'Hotels', 1),
+            SizedBox(width: BukeerSpacing.m),
+            _buildServiceButton(Icons.room_service, 'Services', 2),
+            SizedBox(width: BukeerSpacing.m),
+            _buildServiceButton(Icons.directions_car, 'Transfers', 3),
+          ],
+        ),
       ),
     );
   }
@@ -659,51 +662,106 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          _buildPriceItem(
-                              Icons.sell, _formatCurrency(nightRate)),
-                          SizedBox(width: BukeerSpacing.s),
-                          Text('|',
-                              style: TextStyle(
-                                  color: isDark
-                                      ? BukeerColors.dividerDark
-                                      : BukeerColors.divider)),
-                          SizedBox(width: BukeerSpacing.s),
-                          _buildPriceItem(
-                              Icons.trending_up, '${markup.toInt()}%'),
-                          SizedBox(width: BukeerSpacing.s),
-                          Text('|',
-                              style: TextStyle(
-                                  color: isDark
-                                      ? BukeerColors.dividerDark
-                                      : BukeerColors.divider)),
-                          SizedBox(width: BukeerSpacing.s),
-                          _buildPriceItem(
-                              Icons.request_quote, _formatCurrency(value)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.paid,
-                            size: 18,
-                            color: BukeerColors.primary,
-                          ),
-                          SizedBox(width: BukeerSpacing.xs),
-                          Text(
-                            _formatCurrency(total),
-                            style: BukeerTypography.titleMedium.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: BukeerColors.primary,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth < 600) {
+                        // Mobile layout - vertical
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Wrap(
+                              spacing: BukeerSpacing.s,
+                              runSpacing: BukeerSpacing.s,
+                              children: [
+                                _buildPriceItem(
+                                    Icons.sell, _formatCurrency(nightRate)),
+                                Text('|',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? BukeerColors.dividerDark
+                                            : BukeerColors.divider)),
+                                _buildPriceItem(
+                                    Icons.trending_up, '${markup.toInt()}%'),
+                                Text('|',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? BukeerColors.dividerDark
+                                            : BukeerColors.divider)),
+                                _buildPriceItem(Icons.request_quote,
+                                    _formatCurrency(value)),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            SizedBox(height: BukeerSpacing.m),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.paid,
+                                  size: 18,
+                                  color: BukeerColors.primary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  _formatCurrency(total),
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: BukeerColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      } else {
+                        // Desktop layout - horizontal
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Wrap(
+                                spacing: BukeerSpacing.s,
+                                runSpacing: BukeerSpacing.s,
+                                children: [
+                                  _buildPriceItem(
+                                      Icons.sell, _formatCurrency(nightRate)),
+                                  Text('|',
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? BukeerColors.dividerDark
+                                              : BukeerColors.divider)),
+                                  _buildPriceItem(
+                                      Icons.trending_up, '${markup.toInt()}%'),
+                                  Text('|',
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? BukeerColors.dividerDark
+                                              : BukeerColors.divider)),
+                                  _buildPriceItem(Icons.request_quote,
+                                      _formatCurrency(value)),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: BukeerSpacing.m),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.paid,
+                                  size: 18,
+                                  color: BukeerColors.primary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  _formatCurrency(total),
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: BukeerColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
