@@ -8,136 +8,154 @@ class BukeerAnimations {
   // ================================
   // DURATION TOKENS
   // ================================
-  
-  /// Ultra fast - for micro-interactions
+
+  /// Instant - no animation
+  static const Duration instant = Duration(milliseconds: 0);
+
+  /// Ultra fast - for very quick state changes
   static const Duration ultraFast = Duration(milliseconds: 100);
-  
+
   /// Fast - for quick state changes
   static const Duration fast = Duration(milliseconds: 200);
-  
+
   /// Medium - standard transition duration
   static const Duration medium = Duration(milliseconds: 300);
-  
+
   /// Slow - for page transitions
   static const Duration slow = Duration(milliseconds: 500);
-  
+
   /// Ultra slow - for dramatic effects
   static const Duration ultraSlow = Duration(milliseconds: 800);
 
   // ================================
   // CURVE TOKENS
   // ================================
-  
-  /// Standard ease - most common curve
-  static const Curve ease = Curves.easeInOut;
-  
+
+  /// Standard ease - most common curve (from itinerary design)
+  static const Curve standard = Curves.easeInOut;
+
+  /// Accelerate - for enter animations (from itinerary design)
+  static const Curve accelerate = Curves.easeIn;
+
+  /// Decelerate - for exit animations (from itinerary design)
+  static const Curve decelerate = Curves.easeOut;
+
   /// Smooth ease - for elegant transitions
-  static const Curve easeSmooth = Curves.easeInOutCubic;
-  
+  static const Curve smooth = Curves.easeInOutCubic;
+
   /// Sharp ease - for quick, decisive actions
-  static const Curve easeSharp = Curves.easeInOutQuart;
-  
+  static const Curve sharp = Curves.easeInOutQuart;
+
   /// Bounce - for playful interactions
   static const Curve bounce = Curves.bounceOut;
-  
+
   /// Elastic - for attention-grabbing effects
   static const Curve elastic = Curves.elasticOut;
-  
+
   /// Linear - for progress indicators
   static const Curve linear = Curves.linear;
+
+  /// Ease - standard Material ease
+  static const Curve ease = Curves.ease;
+
+  /// Ease smooth - smoother variant
+  static const Curve easeSmooth = Curves.easeInOutCubic;
+
+  /// Ease sharp - sharper variant
+  static const Curve easeSharp = Curves.easeInOutQuart;
 
   // ================================
   // COMPONENT-SPECIFIC ANIMATIONS
   // ================================
 
   /// Button press animation
-  static const Duration buttonPress = ultraFast;
-  static const Curve buttonCurve = Curves.easeInOut;
-  
+  static const Duration buttonPress = fast;
+  static const Curve buttonCurve = standard;
+
   /// Modal animation
   static const Duration modalShow = medium;
   static const Duration modalHide = fast;
-  static const Curve modalCurve = easeSmooth;
-  
+  static const Curve modalCurve = smooth;
+
   /// Page transition
   static const Duration pageTransition = medium;
-  static const Curve pageTransitionCurve = ease;
-  
+  static const Curve pageTransitionCurve = standard;
+
   /// Loading spinner
   static const Duration loadingRotation = Duration(milliseconds: 1200);
   static const Curve loadingCurve = linear;
-  
+
   /// Form field focus
   static const Duration formFocus = fast;
-  static const Curve formFocusCurve = ease;
-  
+  static const Curve formFocusCurve = standard;
+
   /// Snackbar/Toast
   static const Duration snackbarShow = fast;
   static const Duration snackbarHide = fast;
-  static const Curve snackbarCurve = ease;
-  
+  static const Curve snackbarCurve = standard;
+
   /// Drawer/Sidebar
   static const Duration drawerAnimation = medium;
-  static const Curve drawerCurve = easeSmooth;
-  
+  static const Curve drawerCurve = smooth;
+
   /// Tab switching
   static const Duration tabSwitch = fast;
-  static const Curve tabSwitchCurve = ease;
-  
+  static const Curve tabSwitchCurve = standard;
+
   /// Dropdown animation
   static const Duration dropdownShow = fast;
   static const Duration dropdownHide = ultraFast;
-  static const Curve dropdownCurve = ease;
-  
+  static const Curve dropdownCurve = standard;
+
   /// Card hover/focus
   static const Duration cardHover = ultraFast;
-  static const Curve cardHoverCurve = ease;
-  
+  static const Curve cardHoverCurve = standard;
+
   /// List item animation
   static const Duration listItemAnimation = fast;
-  static const Curve listItemCurve = ease;
+  static const Curve listItemCurve = standard;
 
   // ================================
   // MICRO-INTERACTION ANIMATIONS
   // ================================
-  
+
   /// Icon rotation (e.g., expand/collapse)
   static const Duration iconRotation = fast;
-  static const Curve iconRotationCurve = ease;
-  
+  static const Curve iconRotationCurve = standard;
+
   /// Scale on press
   static const Duration scalePress = ultraFast;
   static const Curve scaleCurve = Curves.easeInOutBack;
-  
+
   /// Fade in/out
   static const Duration fadeIn = medium;
   static const Duration fadeOut = fast;
-  static const Curve fadeCurve = ease;
-  
+  static const Curve fadeCurve = standard;
+
   /// Slide animations
   static const Duration slideIn = medium;
   static const Duration slideOut = fast;
-  static const Curve slideCurve = easeSmooth;
+  static const Curve slideCurve = smooth;
 
   // ================================
   // COMPLEX ANIMATION SEQUENCES
   // ================================
-  
+
   /// Staggered list animation delay
   static const Duration staggerDelay = Duration(milliseconds: 50);
-  
+
   /// Search results animation
   static const Duration searchResults = medium;
-  static const Curve searchResultsCurve = easeSmooth;
-  
+  static const Curve searchResultsCurve = smooth;
+
   /// Loading state transitions
   static const Duration loadingStateChange = fast;
-  static const Curve loadingStateCurve = ease;
+  static const Curve loadingStateCurve = standard;
 
   // ================================
   // UTILITY METHODS
   // ================================
-  
+
   /// Get animation duration by speed category
   static Duration getDuration(AnimationSpeed speed) {
     switch (speed) {
@@ -153,7 +171,7 @@ class BukeerAnimations {
         return ultraSlow;
     }
   }
-  
+
   /// Get curve by style category
   static Curve getCurve(AnimationStyle style) {
     switch (style) {
@@ -171,7 +189,7 @@ class BukeerAnimations {
         return linear;
     }
   }
-  
+
   /// Create a standard fade transition
   static Widget fadeTransition({
     required Animation<double> animation,
@@ -189,7 +207,7 @@ class BukeerAnimations {
       child: child,
     );
   }
-  
+
   /// Create a standard slide transition
   static Widget slideTransition({
     required Animation<double> animation,
@@ -208,7 +226,7 @@ class BukeerAnimations {
       child: child,
     );
   }
-  
+
   /// Create a standard scale transition
   static Widget scaleTransition({
     required Animation<double> animation,
@@ -227,7 +245,7 @@ class BukeerAnimations {
       child: child,
     );
   }
-  
+
   /// Create a combination fade + scale transition (material design style)
   static Widget materialTransition({
     required Animation<double> animation,
@@ -238,7 +256,7 @@ class BukeerAnimations {
       parent: animation,
       curve: curve ?? easeSmooth,
     );
-    
+
     return FadeTransition(
       opacity: curvedAnimation,
       child: ScaleTransition(
@@ -247,7 +265,7 @@ class BukeerAnimations {
       ),
     );
   }
-  
+
   /// Create page route with custom animation
   static PageRouteBuilder<T> createPageRoute<T>({
     required Widget page,
@@ -267,7 +285,8 @@ class BukeerAnimations {
           case PageTransitionType.scale:
             return scaleTransition(animation: animation, child: child);
           case PageTransitionType.material:
-            return materialTransition(animation: animation, child: child, curve: curve);
+            return materialTransition(
+                animation: animation, child: child, curve: curve);
         }
       },
     );
@@ -304,31 +323,31 @@ enum PageTransitionType {
 /// Predefined animation configurations for common use cases
 class BukeerAnimationPresets {
   BukeerAnimationPresets._();
-  
+
   /// Button tap animation configuration
   static const AnimationConfig buttonTap = AnimationConfig(
     duration: BukeerAnimations.buttonPress,
     curve: BukeerAnimations.buttonCurve,
   );
-  
+
   /// Modal presentation configuration
   static const AnimationConfig modalPresentation = AnimationConfig(
     duration: BukeerAnimations.modalShow,
     curve: BukeerAnimations.modalCurve,
   );
-  
+
   /// Form field focus configuration
   static const AnimationConfig formFocus = AnimationConfig(
     duration: BukeerAnimations.formFocus,
     curve: BukeerAnimations.formFocusCurve,
   );
-  
+
   /// Loading state configuration
   static const AnimationConfig loading = AnimationConfig(
     duration: BukeerAnimations.loadingRotation,
     curve: BukeerAnimations.loadingCurve,
   );
-  
+
   /// Snackbar configuration
   static const AnimationConfig snackbar = AnimationConfig(
     duration: BukeerAnimations.snackbarShow,
@@ -340,7 +359,7 @@ class BukeerAnimationPresets {
 class AnimationConfig {
   final Duration duration;
   final Curve curve;
-  
+
   const AnimationConfig({
     required this.duration,
     required this.curve,

@@ -245,50 +245,44 @@ class MobileTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'outfitSemiBold';
-  bool get displayLargeIsCustom => true;
-  TextStyle get displayLarge => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displayLargeFamily => 'Outfit';
+  bool get displayLargeIsCustom => false;
+  TextStyle get displayLarge => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 48.0,
       );
-  String get displayMediumFamily => 'outfitSemiBold';
-  bool get displayMediumIsCustom => true;
-  TextStyle get displayMedium => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displayMediumFamily => 'Outfit';
+  bool get displayMediumIsCustom => false;
+  TextStyle get displayMedium => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
-  String get displaySmallFamily => 'outfitSemiBold';
-  bool get displaySmallIsCustom => true;
-  TextStyle get displaySmall => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displaySmallFamily => 'Outfit';
+  bool get displaySmallIsCustom => false;
+  TextStyle get displaySmall => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineLargeFamily => 'outfitSemiBold';
-  bool get headlineLargeIsCustom => true;
-  TextStyle get headlineLarge => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineLargeFamily => 'Outfit';
+  bool get headlineLargeIsCustom => false;
+  TextStyle get headlineLarge => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'outfitSemiBold';
-  bool get headlineMediumIsCustom => true;
-  TextStyle get headlineMedium => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineMediumFamily => 'Outfit';
+  bool get headlineMediumIsCustom => false;
+  TextStyle get headlineMedium => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'outfitSemiBold';
-  bool get headlineSmallIsCustom => true;
-  TextStyle get headlineSmall => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineSmallFamily => 'Outfit';
+  bool get headlineSmallIsCustom => false;
+  TextStyle get headlineSmall => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 22.0,
@@ -363,50 +357,44 @@ class TabletTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'outfitSemiBold';
-  bool get displayLargeIsCustom => true;
-  TextStyle get displayLarge => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displayLargeFamily => 'Outfit';
+  bool get displayLargeIsCustom => false;
+  TextStyle get displayLarge => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 48.0,
       );
-  String get displayMediumFamily => 'outfitSemiBold';
-  bool get displayMediumIsCustom => true;
-  TextStyle get displayMedium => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displayMediumFamily => 'Outfit';
+  bool get displayMediumIsCustom => false;
+  TextStyle get displayMedium => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
-  String get displaySmallFamily => 'outfitSemiBold';
-  bool get displaySmallIsCustom => true;
-  TextStyle get displaySmall => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displaySmallFamily => 'Outfit';
+  bool get displaySmallIsCustom => false;
+  TextStyle get displaySmall => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineLargeFamily => 'outfitSemiBold';
-  bool get headlineLargeIsCustom => true;
-  TextStyle get headlineLarge => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineLargeFamily => 'Outfit';
+  bool get headlineLargeIsCustom => false;
+  TextStyle get headlineLarge => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'outfitSemiBold';
-  bool get headlineMediumIsCustom => true;
-  TextStyle get headlineMedium => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineMediumFamily => 'Outfit';
+  bool get headlineMediumIsCustom => false;
+  TextStyle get headlineMedium => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'outfitSemiBold';
-  bool get headlineSmallIsCustom => true;
-  TextStyle get headlineSmall => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineSmallFamily => 'Outfit';
+  bool get headlineSmallIsCustom => false;
+  TextStyle get headlineSmall => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 22.0,
@@ -481,50 +469,44 @@ class DesktopTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'outfitSemiBold';
-  bool get displayLargeIsCustom => true;
-  TextStyle get displayLarge => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displayLargeFamily => 'Outfit';
+  bool get displayLargeIsCustom => false;
+  TextStyle get displayLarge => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 48.0,
       );
-  String get displayMediumFamily => 'outfitSemiBold';
-  bool get displayMediumIsCustom => true;
-  TextStyle get displayMedium => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displayMediumFamily => 'Outfit';
+  bool get displayMediumIsCustom => false;
+  TextStyle get displayMedium => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
-  String get displaySmallFamily => 'outfitSemiBold';
-  bool get displaySmallIsCustom => true;
-  TextStyle get displaySmall => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get displaySmallFamily => 'Outfit';
+  bool get displaySmallIsCustom => false;
+  TextStyle get displaySmall => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineLargeFamily => 'outfitSemiBold';
-  bool get headlineLargeIsCustom => true;
-  TextStyle get headlineLarge => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineLargeFamily => 'Outfit';
+  bool get headlineLargeIsCustom => false;
+  TextStyle get headlineLarge => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'outfitSemiBold';
-  bool get headlineMediumIsCustom => true;
-  TextStyle get headlineMedium => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineMediumFamily => 'Outfit';
+  bool get headlineMediumIsCustom => false;
+  TextStyle get headlineMedium => GoogleFonts.outfit(
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'outfitSemiBold';
-  bool get headlineSmallIsCustom => true;
-  TextStyle get headlineSmall => TextStyle(
-        fontFamily: 'outfitSemiBold',
+  String get headlineSmallFamily => 'Outfit';
+  bool get headlineSmallIsCustom => false;
+  TextStyle get headlineSmall => GoogleFonts.outfit(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 22.0,

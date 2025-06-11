@@ -1,26 +1,17 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/design_system/components/index.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
-import 'dart:ui';
 import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'reporte_ventas_model.dart';
 // import '../../../services/ui_state_service.dart'; // TODO: Create UiStateService
-import '../../../custom_code/widgets/index.dart';
+import '../../core/widgets/forms/date_range_picker/date_range_picker_widget.dart';
 export 'reporte_ventas_model.dart';
 
 class ReporteVentasWidget extends StatefulWidget {
@@ -33,13 +24,10 @@ class ReporteVentasWidget extends StatefulWidget {
   State<ReporteVentasWidget> createState() => _ReporteVentasWidgetState();
 }
 
-class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
-    with TickerProviderStateMixin {
+class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
   late ReporteVentasModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
@@ -47,53 +35,6 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
     _model = createModel(context, () => ReporteVentasModel());
 
     _model.textController ??= TextEditingController();
-
-    animationsMap.addAll({
-      'containerOnPageLoadAnimation1': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation2': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-    });
-    setupAnimations(
-      animationsMap.values.where((anim) =>
-          anim.trigger == AnimationTrigger.onActionTrigger ||
-          !anim.applyInitialState),
-      this,
-    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -222,32 +163,6 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
-                                                    // New DateRangePickerWithPresets
-                                                    Container(
-                                                      width: double.infinity,
-                                                      margin: EdgeInsets.only(
-                                                          bottom:
-                                                              BukeerSpacing.s),
-                                                      child:
-                                                          DateRangePickerWithPresets(
-                                                        width: double.infinity,
-                                                        height: 280,
-                                                        initialStartDate:
-                                                            _model.datePicked1,
-                                                        initialEndDate:
-                                                            _model.datePicked2,
-                                                        onDateRangeChanged:
-                                                            (startDate,
-                                                                endDate) async {
-                                                          await _model
-                                                              .onDateRangeChanged(
-                                                                  startDate,
-                                                                  endDate);
-                                                          safeSetState(() {});
-                                                        },
-                                                        showPresets: true,
-                                                      ),
-                                                    ),
                                                     Row(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -305,11 +220,9 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                         ),
                                                       ],
                                                     ),
+                                                    // Search bar and date range picker
                                                     Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          1.0,
+                                                      width: double.infinity,
                                                       decoration: BoxDecoration(
                                                         color: FlutterFlowTheme
                                                                 .of(context)
@@ -319,746 +232,269 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget>
                                                                 .circular(8.0),
                                                       ),
                                                       child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    16.0,
-                                                                    16.0,
-                                                                    16.0),
+                                                        padding: EdgeInsets.all(
+                                                            BukeerSpacing.s),
                                                         child: Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
                                                           children: [
+                                                            // Search field
                                                             Expanded(
-                                                              child: Align(
-                                                                alignment:
-                                                                    AlignmentDirectional(
-                                                                        0.0,
-                                                                        0.0),
-                                                                child:
-                                                                    Autocomplete<
-                                                                        String>(
-                                                                  initialValue:
-                                                                      TextEditingValue(),
-                                                                  optionsBuilder:
-                                                                      (textEditingValue) {
-                                                                    if (textEditingValue
-                                                                            .text ==
-                                                                        '') {
-                                                                      return const Iterable<
-                                                                          String>.empty();
-                                                                    }
-                                                                    return [
-                                                                      'Option 1'
-                                                                    ].where(
-                                                                        (option) {
-                                                                      final lowercaseOption =
-                                                                          option
-                                                                              .toLowerCase();
-                                                                      return lowercaseOption.contains(textEditingValue
-                                                                          .text
-                                                                          .toLowerCase());
-                                                                    });
-                                                                  },
-                                                                  optionsViewBuilder:
-                                                                      (context,
-                                                                          onSelected,
-                                                                          options) {
-                                                                    return AutocompleteOptionsList(
-                                                                      textFieldKey:
-                                                                          _model
-                                                                              .textFieldKey,
-                                                                      textController:
-                                                                          _model
-                                                                              .textController!,
-                                                                      options:
-                                                                          options?.toList() ??
-                                                                              [],
-                                                                      onSelected:
-                                                                          onSelected,
-                                                                      textStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                          ),
-                                                                      textHighlightStyle:
-                                                                          TextStyle(),
-                                                                      elevation:
-                                                                          4.0,
-                                                                      optionBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryBackground,
-                                                                      optionHighlightColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
-                                                                      maxHeight:
-                                                                          200.0,
-                                                                    );
-                                                                  },
-                                                                  onSelected:
-                                                                      (String
-                                                                          selection) {
-                                                                    safeSetState(() =>
-                                                                        _model.textFieldSelectedOption =
-                                                                            selection);
-                                                                    FocusScope.of(
+                                                              child:
+                                                                  Autocomplete<
+                                                                      String>(
+                                                                initialValue:
+                                                                    TextEditingValue(),
+                                                                optionsBuilder:
+                                                                    (textEditingValue) {
+                                                                  if (textEditingValue
+                                                                          .text ==
+                                                                      '') {
+                                                                    return const Iterable<
+                                                                        String>.empty();
+                                                                  }
+                                                                  return [
+                                                                    'Option 1'
+                                                                  ].where(
+                                                                      (option) {
+                                                                    final lowercaseOption =
+                                                                        option
+                                                                            .toLowerCase();
+                                                                    return lowercaseOption.contains(
+                                                                        textEditingValue
+                                                                            .text
+                                                                            .toLowerCase());
+                                                                  });
+                                                                },
+                                                                optionsViewBuilder:
+                                                                    (context,
+                                                                        onSelected,
+                                                                        options) {
+                                                                  return AutocompleteOptionsList(
+                                                                    textFieldKey:
+                                                                        _model
+                                                                            .textFieldKey,
+                                                                    textController:
+                                                                        _model
+                                                                            .textController!,
+                                                                    options: options
+                                                                        .toList(),
+                                                                    onSelected:
+                                                                        onSelected,
+                                                                    textStyle: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .unfocus();
-                                                                  },
-                                                                  fieldViewBuilder:
-                                                                      (
-                                                                    context,
-                                                                    textEditingController,
-                                                                    focusNode,
-                                                                    onEditingComplete,
-                                                                  ) {
-                                                                    _model.textFieldFocusNode =
-                                                                        focusNode;
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          useGoogleFonts:
+                                                                              !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                        ),
+                                                                    textHighlightStyle:
+                                                                        TextStyle(),
+                                                                    elevation:
+                                                                        4.0,
+                                                                    optionBackgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primaryBackground,
+                                                                    optionHighlightColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .secondaryBackground,
+                                                                    maxHeight:
+                                                                        200.0,
+                                                                  );
+                                                                },
+                                                                onSelected: (String
+                                                                    selection) {
+                                                                  safeSetState(() =>
+                                                                      _model.textFieldSelectedOption =
+                                                                          selection);
+                                                                  FocusScope.of(
+                                                                          context)
+                                                                      .unfocus();
+                                                                },
+                                                                fieldViewBuilder:
+                                                                    (
+                                                                  context,
+                                                                  textEditingController,
+                                                                  focusNode,
+                                                                  onEditingComplete,
+                                                                ) {
+                                                                  _model.textFieldFocusNode =
+                                                                      focusNode;
 
-                                                                    _model.textController =
-                                                                        textEditingController;
-                                                                    return TextFormField(
-                                                                      key: _model
-                                                                          .textFieldKey,
-                                                                      controller:
-                                                                          textEditingController,
-                                                                      focusNode:
-                                                                          focusNode,
-                                                                      onEditingComplete:
-                                                                          onEditingComplete,
-                                                                      onChanged:
-                                                                          (_) =>
-                                                                              EasyDebounce.debounce(
-                                                                        '_model.textController',
-                                                                        Duration(
-                                                                            milliseconds:
-                                                                                2000),
-                                                                        () async {
-                                                                          // TODO: Update UiStateService when created
-                                                                          // context.read<UiStateService>().searchQuery = _model.textController.text;
-                                                                          safeSetState(() =>
-                                                                              _model.apiRequestCompleter = null);
-                                                                          await _model
-                                                                              .waitForApiRequestCompleted();
-                                                                        },
-                                                                      ),
-                                                                      autofocus:
+                                                                  _model.textController =
+                                                                      textEditingController;
+                                                                  return TextFormField(
+                                                                    key: _model
+                                                                        .textFieldKey,
+                                                                    controller:
+                                                                        textEditingController,
+                                                                    focusNode:
+                                                                        focusNode,
+                                                                    onEditingComplete:
+                                                                        onEditingComplete,
+                                                                    onChanged: (_) =>
+                                                                        EasyDebounce
+                                                                            .debounce(
+                                                                      '_model.textController',
+                                                                      Duration(
+                                                                          milliseconds:
+                                                                              2000),
+                                                                      () async {
+                                                                        // TODO: Update UiStateService when created
+                                                                        // context.read<UiStateService>().searchQuery = _model.textController.text;
+                                                                        safeSetState(() =>
+                                                                            _model.apiRequestCompleter =
+                                                                                null);
+                                                                        await _model
+                                                                            .waitForApiRequestCompleted();
+                                                                      },
+                                                                    ),
+                                                                    autofocus:
+                                                                        false,
+                                                                    obscureText:
+                                                                        false,
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      isDense:
                                                                           false,
-                                                                      obscureText:
+                                                                      labelText:
+                                                                          'Buscar',
+                                                                      alignLabelWithHint:
                                                                           false,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        isDense:
-                                                                            false,
-                                                                        labelText:
-                                                                            'Buscar',
-                                                                        alignLabelWithHint:
-                                                                            false,
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide:
-                                                                              BorderSide(
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).alternate,
-                                                                            width:
-                                                                                1.0,
-                                                                          ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(BukeerSpacing.s),
+                                                                      enabledBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).alternate,
+                                                                          width:
+                                                                              1.0,
                                                                         ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide:
-                                                                              BorderSide(
-                                                                            color:
-                                                                                BukeerColors.primary,
-                                                                            width:
-                                                                                1.0,
-                                                                          ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(BukeerSpacing.s),
-                                                                        ),
-                                                                        errorBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide:
-                                                                              BorderSide(
-                                                                            color:
-                                                                                BukeerColors.error,
-                                                                            width:
-                                                                                1.0,
-                                                                          ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(BukeerSpacing.s),
-                                                                        ),
-                                                                        focusedErrorBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide:
-                                                                              BorderSide(
-                                                                            color:
-                                                                                BukeerColors.error,
-                                                                            width:
-                                                                                1.0,
-                                                                          ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(BukeerSpacing.s),
-                                                                        ),
-                                                                        contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                        prefixIcon:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .search_sharp,
-                                                                          size:
-                                                                              20.0,
-                                                                        ),
-                                                                        suffixIcon: _model.textController!.text.isNotEmpty
-                                                                            ? InkWell(
-                                                                                onTap: () async {
-                                                                                  _model.textController?.clear();
-                                                                                  // TODO: Update UiStateService when created
-                                                                                  // context.read<UiStateService>().searchQuery = _model.textController.text;
-                                                                                  safeSetState(() => _model.apiRequestCompleter = null);
-                                                                                  await _model.waitForApiRequestCompleted();
-                                                                                  safeSetState(() {});
-                                                                                },
-                                                                                child: Icon(
-                                                                                  Icons.clear,
-                                                                                  color: BukeerColors.textSecondary,
-                                                                                  size: 20.0,
-                                                                                ),
-                                                                              )
-                                                                            : null,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(BukeerSpacing.s),
                                                                       ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                            fontSize:
-                                                                                14.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                                                                          ),
-                                                                      cursorColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      validator: _model
-                                                                          .textControllerValidator
-                                                                          .asValidator(
-                                                                              context),
-                                                                    );
-                                                                  },
-                                                                ),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              BukeerColors.primary,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(BukeerSpacing.s),
+                                                                      ),
+                                                                      errorBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              BukeerColors.error,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(BukeerSpacing.s),
+                                                                      ),
+                                                                      focusedErrorBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              BukeerColors.error,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(BukeerSpacing.s),
+                                                                      ),
+                                                                      contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          8.0),
+                                                                      prefixIcon:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .search_sharp,
+                                                                        size:
+                                                                            20.0,
+                                                                      ),
+                                                                      suffixIcon: _model
+                                                                              .textController!
+                                                                              .text
+                                                                              .isNotEmpty
+                                                                          ? InkWell(
+                                                                              onTap: () async {
+                                                                                _model.textController?.clear();
+                                                                                // TODO: Update UiStateService when created
+                                                                                // context.read<UiStateService>().searchQuery = _model.textController.text;
+                                                                                safeSetState(() => _model.apiRequestCompleter = null);
+                                                                                await _model.waitForApiRequestCompleted();
+                                                                                safeSetState(() {});
+                                                                              },
+                                                                              child: Icon(
+                                                                                Icons.clear,
+                                                                                color: BukeerColors.textSecondary,
+                                                                                size: 20.0,
+                                                                              ),
+                                                                            )
+                                                                          : null,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                          fontSize:
+                                                                              14.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          useGoogleFonts:
+                                                                              !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                                                                        ),
+                                                                    cursorColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                    validator: _model
+                                                                        .textControllerValidator
+                                                                        .asValidator(
+                                                                            context),
+                                                                  );
+                                                                },
                                                               ),
                                                             ),
-                                                            InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                final _datePicked1Date =
-                                                                    await showDatePicker(
-                                                                  context:
-                                                                      context,
-                                                                  initialDate:
-                                                                      getCurrentTimestamp,
-                                                                  firstDate:
-                                                                      DateTime(
-                                                                          1900),
-                                                                  lastDate:
-                                                                      DateTime(
-                                                                          2050),
-                                                                  builder:
-                                                                      (context,
-                                                                          child) {
-                                                                    return wrapInMaterialDatePickerTheme(
-                                                                      context,
-                                                                      child!,
-                                                                      headerBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      headerForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .info,
-                                                                      headerTextStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .headlineLarge
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).headlineLargeFamily,
-                                                                            fontSize:
-                                                                                32.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).headlineLargeIsCustom,
-                                                                          ),
-                                                                      pickerBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
-                                                                      pickerForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      selectedDateTimeBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      selectedDateTimeForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .info,
-                                                                      actionButtonForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      iconSize:
-                                                                          24.0,
-                                                                    );
-                                                                  },
-                                                                );
-
-                                                                if (_datePicked1Date !=
-                                                                    null) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.datePicked1 =
-                                                                        DateTime(
-                                                                      _datePicked1Date
-                                                                          .year,
-                                                                      _datePicked1Date
-                                                                          .month,
-                                                                      _datePicked1Date
-                                                                          .day,
-                                                                    );
-                                                                  });
-                                                                } else if (_model
-                                                                        .datePicked1 !=
-                                                                    null) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.datePicked1 =
-                                                                        getCurrentTimestamp;
-                                                                  });
-                                                                }
-                                                                safeSetState(() =>
-                                                                    _model.apiRequestCompleter =
-                                                                        null);
+                                                            // Date range picker
+                                                            SizedBox(
+                                                                width:
+                                                                    BukeerSpacing
+                                                                        .s),
+                                                            DateRangePickerWidget(
+                                                              initialStartDate:
+                                                                  _model
+                                                                      .datePicked1,
+                                                              initialEndDate:
+                                                                  _model
+                                                                      .datePicked2,
+                                                              onDateRangeChanged:
+                                                                  (startDate,
+                                                                      endDate) async {
                                                                 await _model
-                                                                    .waitForApiRequestCompleted();
+                                                                    .onDateRangeChanged(
+                                                                        startDate,
+                                                                        endDate);
+                                                                safeSetState(
+                                                                    () {});
                                                               },
-                                                              child:
-                                                                  AnimatedContainer(
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        100),
-                                                                curve: Curves
-                                                                    .easeInOut,
-                                                                width: 250.0,
-                                                                height: 50.0,
-                                                                constraints:
-                                                                    BoxConstraints(
-                                                                  maxWidth:
-                                                                      250.0,
-                                                                ),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryBackground,
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      blurRadius:
-                                                                          3.0,
-                                                                      color: Color(
-                                                                          0x33000000),
-                                                                      offset:
-                                                                          Offset(
-                                                                        0.0,
-                                                                        1.0,
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .alternate,
-                                                                    width: 1.0,
-                                                                  ),
-                                                                ),
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              8.0),
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'Desde:  ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                        color: BukeerColors.secondaryText,
-                                                                                        fontSize: BukeerTypography.bodySmallSize,
-                                                                                        letterSpacing: 0.0,
-                                                                                        fontWeight: FontWeight.normal,
-                                                                                        useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
-                                                                                      ),
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
-                                                                                  child: Text(
-                                                                                    valueOrDefault<String>(
-                                                                                      _model.datePicked1 != null
-                                                                                          ? valueOrDefault<String>(
-                                                                                              dateTimeFormat(
-                                                                                                "d/M/y",
-                                                                                                _model.datePicked1,
-                                                                                                locale: FFLocalizations.of(context).languageCode,
-                                                                                              ),
-                                                                                              'd/m/y',
-                                                                                            )
-                                                                                          : null,
-                                                                                      'd/m/y',
-                                                                                    ).maybeHandleOverflow(
-                                                                                      maxChars: 10,
-                                                                                      replacement: '…',
-                                                                                    ),
-                                                                                    style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                          color: BukeerColors.secondaryText,
-                                                                                          fontSize: BukeerTypography.bodySmallSize,
-                                                                                          letterSpacing: 0.0,
-                                                                                          fontWeight: FontWeight.normal,
-                                                                                          useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
-                                                                                        ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Card(
-                                                                        clipBehavior:
-                                                                            Clip.antiAliasWithSaveLayer,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primaryBackground,
-                                                                        elevation:
-                                                                            1.0,
-                                                                        shape:
-                                                                            RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(40.0),
-                                                                        ),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding:
-                                                                              EdgeInsets.all(BukeerSpacing.xs),
-                                                                          child:
-                                                                              Icon(
-                                                                            Icons.calendar_month,
-                                                                            color:
-                                                                                BukeerColors.secondaryText,
-                                                                            size:
-                                                                                22.0,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'containerOnPageLoadAnimation1']!),
-                                                            InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                final _datePicked2Date =
-                                                                    await showDatePicker(
-                                                                  context:
-                                                                      context,
-                                                                  initialDate:
-                                                                      getCurrentTimestamp,
-                                                                  firstDate:
-                                                                      DateTime(
-                                                                          1900),
-                                                                  lastDate:
-                                                                      DateTime(
-                                                                          2050),
-                                                                  builder:
-                                                                      (context,
-                                                                          child) {
-                                                                    return wrapInMaterialDatePickerTheme(
-                                                                      context,
-                                                                      child!,
-                                                                      headerBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      headerForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .info,
-                                                                      headerTextStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .headlineLarge
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                FlutterFlowTheme.of(context).headlineLargeFamily,
-                                                                            fontSize:
-                                                                                32.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            useGoogleFonts:
-                                                                                !FlutterFlowTheme.of(context).headlineLargeIsCustom,
-                                                                          ),
-                                                                      pickerBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
-                                                                      pickerForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      selectedDateTimeBackgroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                      selectedDateTimeForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .info,
-                                                                      actionButtonForegroundColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryText,
-                                                                      iconSize:
-                                                                          24.0,
-                                                                    );
-                                                                  },
-                                                                );
-
-                                                                if (_datePicked2Date !=
-                                                                    null) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.datePicked2 =
-                                                                        DateTime(
-                                                                      _datePicked2Date
-                                                                          .year,
-                                                                      _datePicked2Date
-                                                                          .month,
-                                                                      _datePicked2Date
-                                                                          .day,
-                                                                    );
-                                                                  });
-                                                                } else if (_model
-                                                                        .datePicked2 !=
-                                                                    null) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.datePicked2 =
-                                                                        getCurrentTimestamp;
-                                                                  });
-                                                                }
-                                                                safeSetState(() =>
-                                                                    _model.apiRequestCompleter =
-                                                                        null);
-                                                                await _model
-                                                                    .waitForApiRequestCompleted();
-                                                              },
-                                                              child:
-                                                                  AnimatedContainer(
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        100),
-                                                                curve: Curves
-                                                                    .easeInOut,
-                                                                width: 250.0,
-                                                                height: 50.0,
-                                                                constraints:
-                                                                    BoxConstraints(
-                                                                  maxWidth:
-                                                                      250.0,
-                                                                ),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryBackground,
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      blurRadius:
-                                                                          3.0,
-                                                                      color: Color(
-                                                                          0x33000000),
-                                                                      offset:
-                                                                          Offset(
-                                                                        0.0,
-                                                                        1.0,
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .alternate,
-                                                                    width: 1.0,
-                                                                  ),
-                                                                ),
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              8.0),
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      Expanded(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              children: [
-                                                                                Text(
-                                                                                  'Hasta:  ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                        fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                        color: BukeerColors.secondaryText,
-                                                                                        fontSize: BukeerTypography.bodySmallSize,
-                                                                                        letterSpacing: 0.0,
-                                                                                        fontWeight: FontWeight.normal,
-                                                                                        useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
-                                                                                      ),
-                                                                                ),
-                                                                                Padding(
-                                                                                  padding: EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
-                                                                                  child: Text(
-                                                                                    valueOrDefault<String>(
-                                                                                      _model.datePicked2 != null
-                                                                                          ? valueOrDefault<String>(
-                                                                                              dateTimeFormat(
-                                                                                                "d/M/y",
-                                                                                                _model.datePicked2,
-                                                                                                locale: FFLocalizations.of(context).languageCode,
-                                                                                              ),
-                                                                                              'd/m/y',
-                                                                                            )
-                                                                                          : null,
-                                                                                      'd/m/y',
-                                                                                    ).maybeHandleOverflow(
-                                                                                      maxChars: 10,
-                                                                                      replacement: '…',
-                                                                                    ),
-                                                                                    style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                                                                          fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                                                                          color: BukeerColors.secondaryText,
-                                                                                          fontSize: BukeerTypography.bodySmallSize,
-                                                                                          letterSpacing: 0.0,
-                                                                                          fontWeight: FontWeight.normal,
-                                                                                          useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
-                                                                                        ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Card(
-                                                                        clipBehavior:
-                                                                            Clip.antiAliasWithSaveLayer,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primaryBackground,
-                                                                        elevation:
-                                                                            1.0,
-                                                                        shape:
-                                                                            RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(40.0),
-                                                                        ),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding:
-                                                                              EdgeInsets.all(BukeerSpacing.xs),
-                                                                          child:
-                                                                              Icon(
-                                                                            Icons.calendar_month,
-                                                                            color:
-                                                                                BukeerColors.secondaryText,
-                                                                            size:
-                                                                                22.0,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ).animateOnPageLoad(
-                                                                animationsMap[
-                                                                    'containerOnPageLoadAnimation2']!),
-                                                          ].divide(SizedBox(
-                                                              width: 12.0)),
+                                                              showPresets: true,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),

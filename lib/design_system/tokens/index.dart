@@ -5,6 +5,7 @@
 /// - Spacing: Padding, margin, and layout spacing values
 /// - Typography: Text styles, font definitions, and responsive text
 /// - Elevation: Shadow definitions and border radius values
+/// - Borders: Border styles, widths, and helper utilities
 /// - Breakpoints: Responsive design breakpoints and utilities
 /// - Animations: Duration, curves, and transition presets
 /// - Iconography: Icon sizes, semantic mappings, and theme data
@@ -40,6 +41,7 @@ export 'colors.dart';
 export 'spacing.dart';
 export 'typography.dart';
 export 'elevation.dart';
+export 'borders.dart';
 export 'breakpoints.dart';
 export 'animations.dart';
 export 'iconography.dart';

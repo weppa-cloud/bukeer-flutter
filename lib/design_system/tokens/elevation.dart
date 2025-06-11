@@ -9,34 +9,28 @@ class BukeerElevation {
   // ================================
   // ELEVATION LEVELS
   // ================================
-  static const double level0 = 0.0;   // No elevation
-  static const double level1 = 1.0;   // Subtle elevation
-  static const double level2 = 3.0;   // Card elevation
-  static const double level3 = 6.0;   // Raised elements
-  static const double level4 = 8.0;   // Modal/Dialog elevation
-  static const double level5 = 12.0;  // Navigation elevation
-  static const double level6 = 16.0;  // FAB elevation
-  static const double level7 = 24.0;  // Tooltip elevation
+  static const double level0 = 0.0; // No elevation
+  static const double level1 = 1.0; // Subtle elevation
+  static const double level2 = 3.0; // Card elevation
+  static const double level3 = 6.0; // Raised elements
+  static const double level4 = 8.0; // Modal/Dialog elevation
+  static const double level5 = 12.0; // Navigation elevation
+  static const double level6 = 16.0; // FAB elevation
+  static const double level7 = 24.0; // Tooltip elevation
 
   // ================================
   // SHADOW DEFINITIONS
   // ================================
-  
+
   /// No shadow
   static const List<BoxShadow> shadowNone = [];
 
   /// Level 1 shadow - Subtle shadow for slightly raised elements
   static const List<BoxShadow> shadow1 = [
     BoxShadow(
-      color: Color(0x0F000000), // 6% opacity
-      offset: Offset(0, 1),
-      blurRadius: 3.0,
-      spreadRadius: 0,
-    ),
-    BoxShadow(
-      color: Color(0x1A000000), // 10% opacity
-      offset: Offset(0, 1),
-      blurRadius: 2.0,
+      color: Color(0x1A000000), // 10% opacity - from itinerary design
+      offset: Offset(0, 2),
+      blurRadius: 6.0,
       spreadRadius: 0,
     ),
   ];
@@ -44,15 +38,9 @@ class BukeerElevation {
   /// Level 2 shadow - Cards and containers
   static const List<BoxShadow> shadow2 = [
     BoxShadow(
-      color: Color(0x0F000000), // 6% opacity
-      offset: Offset(0, 1),
-      blurRadius: 5.0,
-      spreadRadius: 0,
-    ),
-    BoxShadow(
-      color: Color(0x1A000000), // 10% opacity
-      offset: Offset(0, 2),
-      blurRadius: 4.0,
+      color: Color(0x25000000), // 15% opacity - from itinerary design
+      offset: Offset(0, 4),
+      blurRadius: 8.0,
       spreadRadius: 0,
     ),
   ];
@@ -60,15 +48,9 @@ class BukeerElevation {
   /// Level 3 shadow - Raised buttons, dropdowns
   static const List<BoxShadow> shadow3 = [
     BoxShadow(
-      color: Color(0x0F000000), // 6% opacity
-      offset: Offset(0, 4),
-      blurRadius: 6.0,
-      spreadRadius: 0,
-    ),
-    BoxShadow(
-      color: Color(0x1A000000), // 10% opacity
-      offset: Offset(0, 2),
-      blurRadius: 4.0,
+      color: Color(0x30000000), // 19% opacity - from itinerary design
+      offset: Offset(0, 6),
+      blurRadius: 12.0,
       spreadRadius: 0,
     ),
   ];
@@ -124,41 +106,41 @@ class BukeerElevation {
   // ================================
   // COLORED SHADOWS
   // ================================
-  
+
   /// Primary colored shadow
   static List<BoxShadow> get shadowPrimary => [
-    BoxShadow(
-      color: BukeerColors.primary.withOpacity(0.3),
-      offset: const Offset(0, 4),
-      blurRadius: 12.0,
-      spreadRadius: 0,
-    ),
-  ];
+        BoxShadow(
+          color: BukeerColors.primary.withOpacity(0.3),
+          offset: const Offset(0, 4),
+          blurRadius: 12.0,
+          spreadRadius: 0,
+        ),
+      ];
 
   /// Success colored shadow
   static List<BoxShadow> get shadowSuccess => [
-    BoxShadow(
-      color: BukeerColors.success.withOpacity(0.3),
-      offset: const Offset(0, 4),
-      blurRadius: 12.0,
-      spreadRadius: 0,
-    ),
-  ];
+        BoxShadow(
+          color: BukeerColors.success.withOpacity(0.3),
+          offset: const Offset(0, 4),
+          blurRadius: 12.0,
+          spreadRadius: 0,
+        ),
+      ];
 
   /// Error colored shadow
   static List<BoxShadow> get shadowError => [
-    BoxShadow(
-      color: BukeerColors.error.withOpacity(0.3),
-      offset: const Offset(0, 4),
-      blurRadius: 12.0,
-      spreadRadius: 0,
-    ),
-  ];
+        BoxShadow(
+          color: BukeerColors.error.withOpacity(0.3),
+          offset: const Offset(0, 4),
+          blurRadius: 12.0,
+          spreadRadius: 0,
+        ),
+      ];
 
   // ================================
   // HELPER METHODS
   // ================================
-  
+
   /// Get shadow by elevation level
   static List<BoxShadow> getShadow(ElevationLevel level) {
     switch (level) {
@@ -208,46 +190,49 @@ class BukeerBorderRadius {
   // BORDER RADIUS VALUES
   // ================================
   static const double none = 0.0;
-  static const double xs = 2.0;
-  static const double sm = 4.0;
-  static const double md = 8.0;
-  static const double lg = 12.0;
-  static const double xl = 16.0;
-  static const double xxl = 20.0;
-  static const double full = 999.0; // For circular elements
+  static const double xs = 4.0; // radius-xs - from itinerary design
+  static const double sm = 6.0; // radius-sm - from itinerary design
+  static const double md = 8.0; // radius-md - from itinerary design
+  static const double lg = 12.0; // radius-lg - from itinerary design
+  static const double xl = 16.0; // radius-xl - from itinerary design
+  static const double xxl = 20.0; // radius-2xl - from itinerary design
+  static const double full = 9999.0; // radius-full - for circular elements
 
   // ================================
   // COMMON BORDER RADIUS PATTERNS
   // ================================
-  
+
   /// No border radius
   static const BorderRadius noneRadius = BorderRadius.zero;
-  
-  /// Small border radius (4.0) - Buttons, chips
+
+  /// Small border radius (6.0) - Buttons, chips
   static const BorderRadius smallRadius = BorderRadius.all(Radius.circular(sm));
-  
+
   /// Medium border radius (8.0) - Cards, containers
-  static const BorderRadius mediumRadius = BorderRadius.all(Radius.circular(md));
-  
+  static const BorderRadius mediumRadius =
+      BorderRadius.all(Radius.circular(md));
+
   /// Large border radius (12.0) - Modals, prominent containers
   static const BorderRadius largeRadius = BorderRadius.all(Radius.circular(lg));
-  
+
   /// Extra large border radius (16.0) - Special containers
-  static const BorderRadius extraLargeRadius = BorderRadius.all(Radius.circular(xl));
-  
+  static const BorderRadius extraLargeRadius =
+      BorderRadius.all(Radius.circular(xl));
+
   /// Circular border radius - Avatar, FAB
-  static const BorderRadius circularRadius = BorderRadius.all(Radius.circular(full));
+  static const BorderRadius circularRadius =
+      BorderRadius.all(Radius.circular(full));
 
   // ================================
   // TOP-ONLY BORDER RADIUS
   // ================================
-  
+
   /// Top-only medium radius - Modal headers
   static const BorderRadius topMediumRadius = BorderRadius.only(
     topLeft: Radius.circular(md),
     topRight: Radius.circular(md),
   );
-  
+
   /// Top-only large radius - Sheet headers
   static const BorderRadius topLargeRadius = BorderRadius.only(
     topLeft: Radius.circular(lg),
@@ -257,7 +242,7 @@ class BukeerBorderRadius {
   // ================================
   // HELPER METHODS
   // ================================
-  
+
   /// Get border radius by size
   static BorderRadius getRadius(BorderRadiusSize size) {
     switch (size) {
@@ -299,7 +284,7 @@ class BukeerBorderRadius {
 
 /// Elevation level enumeration
 enum ElevationLevel {
-  none,   // 0dp
+  none, // 0dp
   level1, // 1dp
   level2, // 3dp
   level3, // 6dp
@@ -310,12 +295,12 @@ enum ElevationLevel {
 
 /// Border radius size enumeration
 enum BorderRadiusSize {
-  none,       // 0
-  small,      // 4dp
-  medium,     // 8dp
-  large,      // 12dp
+  none, // 0
+  small, // 6dp
+  medium, // 8dp
+  large, // 12dp
   extraLarge, // 16dp
-  circular,   // 999dp
+  circular, // 9999dp
 }
 
 /// Extension for easier elevation access in widgets

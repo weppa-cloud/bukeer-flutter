@@ -8,7 +8,7 @@ class BukeerColors {
   // ================================
   // PRIMARY COLORS
   // ================================
-  static const Color primary = Color(0xFF7C57B3); // FlutterFlow purple
+  static const Color primary = Color(0xFF4B39EF); // Bukeer primary purple
   static const Color primaryAccent = Color(0xFF6F61EF);
   static const Color primaryLight = Color(0xFF9A8FF0);
   static const Color primaryDark = Color(0xFF3730C1);
@@ -16,18 +16,19 @@ class BukeerColors {
   // ================================
   // SECONDARY COLORS
   // ================================
-  static const Color secondary = Color(0xFF102877); // FlutterFlow dark blue
+  static const Color secondary =
+      Color(0xFF39D2C0); // Bukeer secondary turquoise
   static const Color secondaryAccent = Color(0xFF4DDAC6);
-  static const Color secondaryLight = Color(0xFF102877); // Light mode
+  static const Color secondaryLight = Color(0xFF39D2C0); // Light mode
   static const Color secondaryDark = Color(0xFF68E0F8); // Dark mode cyan
 
   // ================================
   // FLUTTERFLOW ADDITIONAL COLORS
   // ================================
-  static const Color tertiary = Color(0xFF4098F8); // Light blue
-  static const Color tertiaryDark = Color(0xFF4098F8);
-  static const Color alternate = Color(0xFFB7BAC3); // Light gray
-  static const Color alternateDark = Color(0xFFB7BAC3);
+  static const Color tertiary = Color(0xFFEE8B60); // Bukeer tertiary orange
+  static const Color tertiaryDark = Color(0xFFEE8B60);
+  static const Color alternate = Color(0xFFE0E3E7); // Light gray for borders
+  static const Color alternateDark = Color(0xFF404449); // Dark mode borders
   static const Color accent1 = Color(0x4D9489F5);
   static const Color accent2 = Color(0x4C39D2C0);
   static const Color accent3 = Color(0x4CEE8B60);
@@ -56,30 +57,34 @@ class BukeerColors {
   // ================================
   // SEMANTIC COLORS
   // ================================
-  static const Color success = Color(0xFF10B981);
+  static const Color success = Color(0xFF04A24C);
   static const Color successLight = Color(0xFF34D399);
   static const Color successDark = Color(0xFF047857);
 
-  static const Color warning = Color(0xFFF59E0B);
+  static const Color warning = Color(0xFFF9CF58);
   static const Color warningLight = Color(0xFFFBBF24);
   static const Color warningDark = Color(0xFFD97706);
 
-  static const Color error = Color(0xFFEF4444);
+  static const Color error = Color(0xFFFF5963);
   static const Color errorLight = Color(0xFFF87171);
   static const Color errorDark = Color(0xFFDC2626);
 
-  static const Color info = Color(0xFF3B82F6);
+  static const Color info = Color(0xFF4B39EF);
   static const Color infoLight = Color(0xFF60A5FA);
   static const Color infoDark = Color(0xFF2563EB);
 
   // ================================
   // BACKGROUND COLORS
   // ================================
-  static const Color backgroundPrimary = Color(0xFFFFFFFF);
-  static const Color backgroundSecondary = Color(0xFFF8FAFC);
-  static const Color backgroundTertiary = Color(0xFFF1F5F9);
-  static const Color backgroundDark = Color(0xFF1A1D24);
-  static const Color backgroundDarkSecondary = Color(0xFF252832);
+  static const Color backgroundPrimary =
+      Color(0xFFF1F4F8); // Light mode primary background
+  static const Color backgroundSecondary =
+      Color(0xFFFFFFFF); // Light mode cards
+  static const Color backgroundTertiary = Color(0xFFF8FAFC);
+  static const Color backgroundDark =
+      Color(0xFF1A1F24); // Dark mode primary background
+  static const Color backgroundDarkSecondary =
+      Color(0xFF2B2F33); // Dark mode cards
   static const Color backgroundDarkTertiary = Color(0xFF2A2F3C);
 
   // Form field specific colors for dark mode
@@ -92,6 +97,8 @@ class BukeerColors {
   static const Color primaryColor = primary;
   static const Color surfacePrimary = backgroundPrimary;
   static const Color surfaceSecondary = backgroundSecondary;
+  static const Color surfacePrimaryDark = backgroundDark;
+  static const Color surfaceSecondaryDark = backgroundDarkSecondary;
   static const Color neutralLight = neutral300;
   static const Color neutralMedium = neutral500;
   static const Color neutralDark = neutral700;
@@ -99,16 +106,17 @@ class BukeerColors {
   // ================================
   // TEXT COLORS
   // ================================
-  static const Color textPrimary = Color(0xFF1E293B);
-  static const Color textSecondary = Color(0xFF64748B);
+  static const Color textPrimary = Color(0xFF14181B); // Light mode primary text
+  static const Color textSecondary =
+      Color(0xFF57636C); // Light mode secondary text
   static const Color textTertiary = Color(0xFF94A3B8);
   static const Color textInverse = Color(0xFFFFFFFF);
   static const Color textDisabled = Color(0xFFCBD5E1);
 
-  // Dark mode text colors (FlutterFlow original)
+  // Dark mode text colors
   static const Color textPrimaryDark = Color(0xFFFFFFFF);
-  static const Color textSecondaryDark = Color(0xFFA9ADC6);
-  static const Color textTertiaryDark = Color(0xFF94A3B8);
+  static const Color textSecondaryDark = Color(0xFFB4BDC4);
+  static const Color textTertiaryDark = Color(0xFF8B95A1);
 
   // FlutterFlow compatibility aliases
   static const Color primaryText = textPrimary;
@@ -126,6 +134,10 @@ class BukeerColors {
   // Dark mode border colors (FlutterFlow compatible)
   static const Color borderPrimaryDark = Color(0xFF313442);
   static const Color borderSecondaryDark = Color(0xFF475569);
+
+  // Divider colors
+  static const Color divider = borderPrimary;
+  static const Color dividerDark = borderPrimaryDark;
 
   // ================================
   // OVERLAY COLORS

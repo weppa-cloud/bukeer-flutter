@@ -2,6 +2,8 @@
 
 Un sistema de diseño unificado para la aplicación Bukeer que reemplaza valores hardcodeados con tokens consistentes y mantenibles.
 
+> 📚 **Documentación Completa**: Ver la [Guía Completa del Sistema de Diseño](/docs/BUKEER_DESIGN_SYSTEM_GUIDE.md) para documentación detallada, ejemplos y mejores prácticas.
+
 ## 📁 Estructura
 
 ```
@@ -13,7 +15,14 @@ design_system/
 │   ├── index.dart
 │   ├── buttons/
 │   │   ├── bukeer_button.dart   # Botón estándar
-│   │   └── bukeer_fab.dart      # Floating Action Button
+│   │   ├── bukeer_fab.dart      # Floating Action Button
+│   │   └── bukeer_icon_button.dart # Botón de icono
+│   ├── cards/
+│   │   └── bukeer_service_card.dart # Tarjetas de servicios (vuelos, hoteles)
+│   ├── chips/
+│   │   └── bukeer_meta_chip.dart # Chips de metadata con iconos
+│   ├── containers/
+│   │   └── bukeer_price_container.dart # Contenedores de precio
 │   ├── forms/
 │   │   └── bukeer_text_field.dart # Campo de texto estandarizado
 │   ├── modals/
@@ -24,9 +33,13 @@ design_system/
 │   └── responsive_layout.dart    # Sistema responsive
 ├── tokens/                       # Design tokens
 │   ├── index.dart
+│   ├── animations.dart          # Duraciones y curvas de animación
+│   ├── borders.dart             # Estilos y anchos de bordes
 │   ├── breakpoints.dart         # Puntos de quiebre responsive
 │   ├── colors.dart              # Paleta de colores
-│   ├── elevation.dart           # Niveles de elevación
+│   ├── elevation.dart           # Niveles de elevación y radios
+│   ├── iconography.dart         # Sistema de iconos
+│   ├── shadows.dart             # Sistema de sombras
 │   ├── spacing.dart             # Sistema de espaciado
 │   └── typography.dart          # Tipografía
 ├── tools/
@@ -72,11 +85,11 @@ Container(
 // ✅ Después (design tokens)
 Container(
   padding: EdgeInsets.all(BukeerSpacing.m),
-  margin: EdgeInsets.fromLTRB(BukeerSpacing.s, BukeerSpacing.s, BukeerSpacing.s, 0),
+  margin: EdgeInsets.fromLTRB(BukeerSpacing.s, BukeerSpacing.sm, BukeerSpacing.s, 0),
   decoration: BoxDecoration(
-    color: BukeerColors.surfacePrimary,
-    borderRadius: BorderRadius.circular(BukeerSpacing.s),
-    boxShadow: BukeerElevation.small,
+    color: BukeerColors.backgroundSecondary,
+    borderRadius: BorderRadius.circular(BukeerBorderRadius.lg),
+    boxShadow: BukeerElevation.shadow1,
   ),
   child: Text(
     'Hola mundo',
@@ -90,41 +103,128 @@ Container(
 ## 🎨 Design Tokens
 
 ### Espaciado (BukeerSpacing)
-- `BukeerSpacing.xs` = 4.0px - Extra pequeño
-- `BukeerSpacing.s` = 8.0px - Pequeño  
-- `BukeerSpacing.m` = 16.0px - Mediano
-- `BukeerSpacing.l` = 24.0px - Grande
-- `BukeerSpacing.xl` = 32.0px - Extra grande
+- `BukeerSpacing.xs` = 4.0px - spacing-xs
+- `BukeerSpacing.s` = 8.0px - spacing-sm  
+- `BukeerSpacing.sm` = 12.0px - spacing-md
+- `BukeerSpacing.m` = 16.0px - spacing-lg
+- `BukeerSpacing.ml` = 20.0px - spacing-xl
+- `BukeerSpacing.l` = 24.0px - spacing-2xl
+- `BukeerSpacing.xl` = 32.0px - spacing-3xl
+- `BukeerSpacing.xxl` = 48.0px - spacing-4xl
+- `BukeerSpacing.xxxl` = 64.0px - spacing-5xl
 
 ### Colores (BukeerColors)
-- **Primarios**: `primaryMain`, `primaryLight`, `primaryDark`
-- **Superficie**: `surfacePrimary`, `surfaceSecondary`, `surfaceTertiary`
-- **Texto**: `textPrimary`, `textSecondary`, `textTertiary`
-- **Estados**: `successMain`, `warningMain`, `errorMain`, `infoMain`
-- **Utilidad**: `overlay`, `borderLight`, `borderMedium`
+- **Primarios**: `primary` (#4B39EF), `secondary` (#39D2C0), `tertiary` (#EE8B60)
+- **Backgrounds**: 
+  - Light: `backgroundPrimary` (#F1F4F8), `backgroundSecondary` (#FFFFFF)
+  - Dark: `backgroundDark` (#1A1F24), `backgroundDarkSecondary` (#2B2F33)
+- **Texto**: 
+  - Light: `textPrimary` (#14181B), `textSecondary` (#57636C)
+  - Dark: `textPrimaryDark` (#FFFFFF), `textSecondaryDark` (#95A1AC)
+- **Semánticos**: `success` (#04A24C), `warning` (#F9CF58), `error` (#FF5963), `info` (#4B39EF)
+- **Bordes**: `alternate` (#E0E3E7), `alternateDark` (#404449)
 
 ### Tipografía (BukeerTypography)
-- **Display**: `displayLarge`, `displayMedium`, `displaySmall`
-- **Headline**: `headlineLarge`, `headlineMedium`, `headlineSmall`  
-- **Body**: `bodyLarge`, `bodyMedium`, `bodySmall`
-- **Label**: `labelLarge`, `labelMedium`, `labelSmall`
-- **Caption**: `caption`
+- **Display**: `displayLarge` (57px), `displayMedium` (45px), `displaySmall` (36px)
+- **Headline**: `headlineLarge` (32px/700), `headlineMedium` (24px/700), `headlineSmall` (20px/700)
+- **Title**: `titleLarge` (22px/600), `titleMedium` (18px/600), `titleSmall` (16px/500)
+- **Body**: `bodyLarge` (16px), `bodyMedium` (14px), `bodySmall` (13px)
+- **Label**: `labelLarge` (14px/500), `labelMedium` (12px/500), `labelSmall` (11px/400)
+- **Familias**: `Outfit` (headings), `Readex Pro` (body)
 
-### Elevación (BukeerElevation)
-- `BukeerElevation.none` - Sin sombra
-- `BukeerElevation.small` - Sombra pequeña
-- `BukeerElevation.medium` - Sombra mediana
-- `BukeerElevation.large` - Sombra grande
+### Elevación y Bordes
+**Sombras (BukeerElevation)**
+- `shadow1` - BoxShadow(0, 2, 6, #1A000000)
+- `shadow2` - BoxShadow(0, 4, 8, #25000000)
+- `shadow3` - BoxShadow(0, 6, 12, #30000000)
+
+**Border Radius (BukeerBorderRadius)**
+- `xs` = 4px, `sm` = 6px, `md` = 8px
+- `lg` = 12px, `xl` = 16px, `xxl` = 20px
+- `full` = 9999px (circular)
+
+**Border Width (BukeerBorders)**
+- `thin` = 1px, `medium` = 2px, `thick` = 3px
+
+### Animaciones (BukeerAnimations)
+**Duraciones**
+- `instant` = 0ms, `fast` = 200ms, `medium` = 300ms, `slow` = 500ms
+
+**Curvas**
+- `standard` = Curves.easeInOut (más común)
+- `accelerate` = Curves.easeIn (entrada)
+- `decelerate` = Curves.easeOut (salida)
+- `smooth` = Curves.easeInOutCubic (transiciones elegantes)
+
+## 🧩 Componentes Reutilizables
+
+### Tarjetas de Servicio
+```dart
+// Tarjeta de vuelo con toda la información
+BukeerFlightCard(
+  airline: 'JetSmart',
+  origin: 'BOG',
+  destination: 'MDE',
+  departureTime: '09:04',
+  arrivalTime: '10:09',
+  date: '07 Jul 2025',
+  passengers: 5,
+  netRate: 250000,
+  markupPercent: 18,
+  totalPrice: 295000,
+  onTap: () => print('Flight selected'),
+)
+```
+
+### Chips de Metadata
+```dart
+// Chip individual
+BukeerMetaChip(
+  icon: Icons.date_range,
+  text: '08 Jun 2025',
+  isActive: true,
+)
+
+// Estilos predefinidos
+BukeerMetaChipSet(
+  chips: [
+    BukeerMetaChipStyles.tag(text: 'ID 1-6180'),
+    BukeerMetaChipStyles.person(text: '5 adultos, 2 niños'),
+    BukeerMetaChipStyles.date(text: '08 Jun - 12 Jun'),
+    BukeerMetaChipStyles.language(text: 'Español'),
+  ],
+)
+```
+
+### Contenedores de Precio
+```dart
+// Contenedor destacado de precio
+BukeerPriceContainer(
+  totalPrice: 7450100,
+  pricePerPerson: 1490020,
+  margin: 1179100,
+  currency: 'COP',
+  showMargin: true,
+  orientation: Axis.vertical,
+)
+
+// Desglose de precio compacto
+BukeerPriceBreakdown(
+  netRate: 250000,
+  markupPercent: 18,
+  totalPrice: 295000,
+)
+```
 
 ## 📱 Sistema Responsive
 
 ```dart
-// Usar breakpoints
-if (BukeerBreakpoints.isMobile(context)) {
+// Usar breakpoints (actualizados)
+if (BukeerBreakpoints.isMobile(context)) {       // < 479px
   return MobileLayout();
-} else if (BukeerBreakpoints.isTablet(context)) {
+} else if (BukeerBreakpoints.isTablet(context)) { // 479-991px
   return TabletLayout();
-} else {
+} else {                                          // >= 992px
   return DesktopLayout();
 }
 
@@ -154,9 +254,25 @@ final migratedContent = await MigrationHelper.migrateFile('path/to/widget.dart')
 final results = await MigrationHelper.migrateDirectory('lib/bukeer/', dryRun: true);
 ```
 
-## ✅ Componentes Migrados
+## ✅ Componentes Implementados
 
-### Ejemplos Completados
+### Sistema de Tokens Actualizado (v2.0)
+1. **Colores** - Paleta completa con valores del diseño de itinerarios
+2. **Tipografía** - Escalas ajustadas y familias Outfit/Readex Pro
+3. **Espaciado** - Sistema basado en 4px
+4. **Elevación** - Niveles de sombra simplificados
+5. **Bordes** - Radios y anchos estandarizados
+6. **Animaciones** - Duraciones y curvas consistentes
+7. **Breakpoints** - Valores responsivos actualizados
+
+### Componentes Nuevos
+1. **BukeerServiceCard** - Tarjetas para vuelos, hoteles, actividades
+2. **BukeerFlightCard** - Implementación específica para vuelos
+3. **BukeerMetaChip** - Chips de metadata con iconos
+4. **BukeerPriceContainer** - Contenedores destacados de precio
+5. **BukeerPriceBreakdown** - Desglose de precios compacto
+
+### Componentes Migrados Previamente
 1. **WebNavWidget** - Navegación lateral completamente migrada
 2. **ModalAddEditItineraryWidget** - Modal principal migrado
 3. **SearchBoxWidget** - Componente de búsqueda migrado
@@ -166,29 +282,34 @@ final results = await MigrationHelper.migrateDirectory('lib/bukeer/', dryRun: tr
 | Antes | Después |
 |-------|---------|
 | `EdgeInsets.all(16.0)` | `EdgeInsets.all(BukeerSpacing.m)` |
-| `EdgeInsetsDirectional.fromSTEB(0,0,0,12)` | `EdgeInsets.only(bottom: BukeerSpacing.s)` |
-| `BorderRadius.circular(8.0)` | `BorderRadius.circular(BukeerSpacing.s)` |
-| `Color(0x33000000)` | `BukeerColors.overlay` |
-| `fontSize: 16.0` | `fontSize: BukeerTypography.bodyMediumSize` |
+| `EdgeInsetsDirectional.fromSTEB(0,0,0,12)` | `EdgeInsets.only(bottom: BukeerSpacing.sm)` |
+| `BorderRadius.circular(8.0)` | `BorderRadius.circular(BukeerBorderRadius.md)` |
+| `Color(0x33000000)` | `BukeerColors.overlay` o `BoxShadow` con opacity |
+| `fontSize: 16.0` | `style: BukeerTypography.bodyLarge` |
+| `Color(0xFF4B39EF)` | `BukeerColors.primary` |
+| `BoxShadow(...)` | `BukeerElevation.shadow1/2/3` |
+| `Duration(milliseconds: 300)` | `BukeerAnimations.medium` |
 
 ## 📊 Estado de Migración
 
-### ✅ Completado
-- Sistema de design tokens base
+### ✅ Completado (v2.0 - Enero 2025)
+- Sistema de design tokens actualizado con valores del diseño de itinerarios
+- 10 archivos de tokens (colores, tipografía, espaciado, elevación, bordes, animaciones, etc.)
+- 5 nuevos componentes reutilizables (cards, chips, containers)
 - Herramienta de migración automática
-- 3 componentes principales migrados
-- Documentación completa
-- Ejemplos de uso
+- Documentación completa y actualizada
+- Soporte completo para modo oscuro
 
 ### 🔄 En Progreso
-- Migración masiva de 100+ archivos restantes
+- Migración de componentes existentes para usar nuevos tokens
+- Creación de componentes adicionales (HotelCard, ActivityCard, etc.)
 - Integración con componentes FlutterFlow existentes
 
 ### 📋 Siguiente Fase
 - Tests automatizados del design system
-- Storybook/galería de componentes
-- Plugin VSCode para autocompletado
-- Documentación interactiva
+- Widgetbook/galería de componentes interactiva
+- Validación con el equipo de diseño
+- Guía de patrones de diseño
 
 ## 🛠️ Herramientas de Desarrollo
 
@@ -225,4 +346,8 @@ print('Tokens missing: ${hasDesignSystem.totalIssues}');
 
 **🎯 Objetivo**: Reemplazar 100+ archivos con valores hardcodeados por un sistema de design unificado y mantenible.
 
-**📈 Progreso**: 3/100+ componentes migrados, sistema base completado ✅
+**📈 Progreso**: 
+- Sistema de tokens: 100% completado (v2.0) ✅
+- Componentes nuevos: 5 implementados ✅
+- Componentes migrados: 3/100+ archivos
+- Documentación: Actualizada con los nuevos valores del diseño ✅

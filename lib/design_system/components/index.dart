@@ -2,6 +2,9 @@
 ///
 /// This file exports all design system components including:
 /// - Buttons: Standard button implementations with consistent styling
+/// - Cards: Service cards for displaying flight, hotel, and activity information
+/// - Chips: Meta chips for displaying metadata with icons
+/// - Containers: Price containers and specialized display components
 /// - Navigation: Unified navigation component for web and mobile
 /// - Modals: Standardized modal and dialog components
 /// - Forms: Form field components with validation and styling
@@ -14,6 +17,16 @@
 /// // Using buttons
 /// BukeerButton.primary(text: 'Save', onPressed: () {})
 /// BukeerFAB(icon: Icons.add, onPressed: () {})
+///
+/// // Using cards
+/// BukeerFlightCard(airline: 'JetSmart', origin: 'BOG', destination: 'MDE')
+///
+/// // Using chips
+/// BukeerMetaChip(icon: Icons.date_range, text: '08 Jun 2025')
+/// BukeerMetaChipStyles.person(text: '5 adultos')
+///
+/// // Using containers
+/// BukeerPriceContainer(totalPrice: 7450100, pricePerPerson: 1490020)
 ///
 /// // Using navigation
 /// BukeerNavigation(currentRoute: '/home', navigationItems: items)
@@ -29,6 +42,15 @@
 export 'buttons/bukeer_button.dart';
 export 'buttons/bukeer_fab.dart';
 export 'buttons/bukeer_icon_button.dart';
+
+// Cards
+export 'cards/bukeer_service_card.dart';
+
+// Chips
+export 'chips/bukeer_meta_chip.dart';
+
+// Containers
+export 'containers/bukeer_price_container.dart';
 
 // Navigation
 export 'navigation/bukeer_navigation.dart';

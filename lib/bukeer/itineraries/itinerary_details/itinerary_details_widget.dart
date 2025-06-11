@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import '../../../../auth/supabase_auth/auth_util.dart';
+import 'package:bukeer/design_system/index.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
-import 'package:bukeer/design_system/tokens/index.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart'
-    hide responsiveVisibility;
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart'
-    show responsiveVisibility;
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_widgets.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
+import '../../core/widgets/navigation/sidebar/sidebar_navigation_widget.dart';
 import '../../../services/app_services.dart';
 import '../../../services/itinerary_service.dart';
 import '../../../components/service_builder.dart';
@@ -21,12 +16,11 @@ import '../servicios/add_transfer/add_transfer_widget.dart';
 import '../../core/widgets/modals/passenger/add/modal_add_passenger_widget.dart';
 import '../../core/widgets/payments/payment_add/payment_add_widget.dart';
 import '../main_itineraries/main_itineraries_widget.dart';
-import '../../../custom_code/actions/index.dart' as actions;
 import 'itinerary_details_model.dart';
 
 export 'itinerary_details_model.dart';
 
-/// ItineraryDetailsWidget - Using Bukeer Design System with Dark Mode Support
+/// ItineraryDetailsWidget - Using Bukeer Design System with proper tokens
 class ItineraryDetailsWidget extends StatefulWidget {
   const ItineraryDetailsWidget({
     super.key,
@@ -53,17 +47,33 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   String? get _itineraryId => widget.id;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  int _selectedMainTab = 0;
+  int _selectedServiceTab = 1; // Hotels by default
+  bool _isHotelsExpanded = true;
+  bool _isConfirmed = false;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ItineraryDetailsModel());
-    
-    _mainTabController = TabController(length: 4, vsync: this);
-    _servicesTabController = TabController(length: 4, vsync: this);
-    
+
+    _mainTabController = TabController(length: 5, vsync: this);
+    _servicesTabController =
+        TabController(length: 4, vsync: this, initialIndex: 1);
+
+    _mainTabController.addListener(() {
+      if (_mainTabController.indexIsChanging) {
+        setState(() {
+          _selectedMainTab = _mainTabController.index;
+        });
+      }
+    });
+
     _servicesTabController.addListener(() {
       if (_servicesTabController.indexIsChanging) {
-        setState(() {});
+        setState(() {
+          _selectedServiceTab = _servicesTabController.index;
+        });
       }
     });
 
@@ -86,22 +96,30 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor:
+          isDark ? BukeerColors.backgroundDark : BukeerColors.backgroundPrimary,
+      drawer: responsiveVisibility(
+        context: context,
+        tablet: false,
+        desktop: false,
+      )
+          ? SidebarDrawer(currentRoute: ItineraryDetailsWidget.routeName)
+          : null,
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sidebar/Navigation
+          // Sidebar Navigation
           if (responsiveVisibility(
             context: context,
             phone: false,
             tablet: false,
           ))
-            wrapWithModel(
-              model: _model.webNavModel,
-              updateCallback: () => safeSetState(() {}),
-              child: WebNavWidget(),
+            SidebarNavigationWidget(
+              currentRoute: ItineraryDetailsWidget.routeName,
             ),
 
           // Main Content
@@ -120,7 +138,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   return _buildNotFoundState();
                 }
 
-                return _buildContent(itineraryData);
+                return _buildMainContent(itineraryData);
               },
             ),
           ),
@@ -129,143 +147,563 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     );
   }
 
-  Widget _buildContent(dynamic itineraryData) {
-    final itineraryItems = _itineraryId != null
-        ? appServices.itinerary.getItineraryItems(_itineraryId!)
-        : [];
-    final passengers = _itineraryId != null
-        ? appServices.itinerary.getItineraryPassengers(_itineraryId!)
-        : [];
-    final transactions = <dynamic>[];
-
+  Widget _buildMainContent(dynamic itineraryData) {
     return Container(
-      padding: EdgeInsets.all(32),
-      child: Column(
-        children: [
-          // Header
-          _buildHeader(itineraryData),
-          SizedBox(height: 24),
-          
-          // User info container
-          _buildUserInfoContainer(itineraryData),
-          SizedBox(height: 24),
-          
-          // Tabs
-          _buildTabs(),
-          
-          // Tab content
-          Expanded(
-            child: TabBarView(
-              controller: _mainTabController,
-              children: [
-                _buildServicesContent(itineraryItems),
-                _buildPaymentsContent(transactions, itineraryData),
-                _buildPreviewContent(),
-                _buildPassengersContent(passengers),
-              ],
-            ),
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      child: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              _buildHeader(itineraryData),
+              SizedBox(height: BukeerSpacing.m),
+
+              // Main grid layout
+              Expanded(
+                child: _buildGridLayout(itineraryData),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildHeader(dynamic itineraryData) {
-    final itineraryName = getJsonField(itineraryData, r'$[:].itinerary_name')?.toString() ?? 'Sin nombre';
-    final clientName = getJsonField(itineraryData, r'$[:].client_name')?.toString() ?? '';
-    final startDate = getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
-    final endDate = getJsonField(itineraryData, r'$[:].end_date')?.toString() ?? '';
-    final status = getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'budget';
-    final isConfirmed = status.toLowerCase() == 'confirmed';
-    final passengers = getJsonField(itineraryData, r'$[:].total_passengers')?.toInt() ?? 5;
-    final children = getJsonField(itineraryData, r'$[:].total_children')?.toInt() ?? 2;
-    
+    final itineraryName =
+        getJsonField(itineraryData, r'$[:].itinerary_name')?.toString() ??
+            'Sin nombre';
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title section
+        // Back button
+        BukeerIconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.safePop(),
+          variant: BukeerIconButtonVariant.ghost,
+          size: BukeerIconButtonSize.large,
+        ),
+        SizedBox(width: BukeerSpacing.s),
+
+        // Title
         Expanded(
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: () => context.safePop(),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 4, right: 16),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                    size: 28,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '$itineraryName ✈️',
-                      style: FlutterFlowTheme.of(context).headlineMedium.override(
-                        fontFamily: 'Outfit',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 6,
-                      children: [
-                        _buildMetaItem(Icons.tag, 'ID ${getJsonField(itineraryData, r'$[:].id')?.toString() ?? '1-6180'}'),
-                        _buildMetaItem(Icons.person_outline, clientName),
-                        _buildMetaItem(Icons.date_range, '${_formatDate(startDate)} - ${_formatDate(endDate)}'),
-                        _buildMetaItem(Icons.people_alt, '$passengers adultos, $children niños'),
-                        _buildMetaItem(Icons.translate, 'Español'),
-                        _buildMetaItem(Icons.flight_class, 'Econo'),
-                        _buildMetaItem(Icons.event_available, 'Creado: ${_formatDate(getJsonField(itineraryData, r'$[:].created_at')?.toString() ?? '08 Jun 2025')}'),
-                        _buildMetaItem(Icons.confirmation_number, '$passengers Pax'),
-                      ],
-                    ),
-                  ],
+              Text(
+                '$itineraryName ✈️',
+                style: BukeerTypography.headlineMedium.copyWith(
+                  color: isDark
+                      ? BukeerColors.textPrimaryDark
+                      : BukeerColors.textPrimary,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
         ),
-        // Action buttons
-        Row(
-          children: [
-            _buildChipButton('Confirmar', false),
-            SizedBox(width: 12),
-            _buildChipButton('Presupuesto', !isConfirmed),
-            SizedBox(width: 12),
-            _buildIconButton(Icons.edit, _handleEditItinerary),
-            SizedBox(width: 12),
-            _buildIconButton(Icons.content_copy, () {}),
-          ],
+
+        // Mobile menu button
+        if (responsiveVisibility(
+          context: context,
+          tablet: false,
+          desktop: false,
+        ))
+          BukeerIconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => scaffoldKey.currentState?.openDrawer(),
+            variant: BukeerIconButtonVariant.ghost,
+          ),
+      ],
+    );
+  }
+
+  Widget _buildGridLayout(dynamic itineraryData) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isDesktop = constraints.maxWidth >= BukeerBreakpoints.desktop;
+
+        if (isDesktop) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Content column
+              Expanded(
+                flex: 2,
+                child: _buildContentColumn(itineraryData),
+              ),
+              SizedBox(width: BukeerSpacing.m),
+              // Info column
+              SizedBox(
+                width: 350,
+                child: SingleChildScrollView(
+                  child: _buildInfoColumn(itineraryData),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 600,
+                  child: _buildContentColumn(itineraryData),
+                ),
+                SizedBox(height: BukeerSpacing.m),
+                _buildInfoColumn(itineraryData),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildContentColumn(dynamic itineraryData) {
+    return Column(
+      children: [
+        // Main tabs
+        _buildMainTabs(),
+
+        // Service buttons (only for Items tab)
+        if (_selectedMainTab == 0) _buildServiceButtons(),
+
+        // Content section
+        Expanded(
+          child: _buildContentSection(itineraryData),
         ),
       ],
     );
   }
 
-  Widget _buildMetaItem(IconData icon, String text) {
+  Widget _buildMainTabs() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).alternate.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(16),
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BorderRadius.only(
+          topLeft: BukeerBorders.radiusLarge.topLeft,
+          topRight: BukeerBorders.radiusLarge.topRight,
+        ),
+        boxShadow: BukeerShadows.small,
+      ),
+      child: TabBar(
+        controller: _mainTabController,
+        isScrollable: true,
+        labelColor: BukeerColors.primary,
+        unselectedLabelColor: isDark
+            ? BukeerColors.textSecondaryDark
+            : BukeerColors.textSecondary,
+        labelStyle:
+            BukeerTypography.bodyMedium.copyWith(fontWeight: FontWeight.w600),
+        unselectedLabelStyle: BukeerTypography.bodyMedium,
+        indicatorColor: BukeerColors.primary,
+        indicatorWeight: 2,
+        labelPadding: EdgeInsets.symmetric(horizontal: BukeerSpacing.l),
+        tabs: [
+          _buildTab(Icons.list_alt, 'Items'),
+          _buildTab(Icons.group, 'Passengers'),
+          _buildTab(Icons.visibility, 'Preview'),
+          _buildTab(Icons.payments, 'Payments'),
+          _buildTab(Icons.storefront, 'Providers'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTab(IconData icon, String label) {
+    return Tab(
+      height: 48,
+      child: Row(
+        children: [
+          Icon(icon, size: 19),
+          SizedBox(width: BukeerSpacing.s),
+          Text(label),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceButtons() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+          BukeerSpacing.l, BukeerSpacing.l, BukeerSpacing.l, 0),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        boxShadow: BukeerShadows.subtle,
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: FlutterFlowTheme.of(context).secondaryText),
-          SizedBox(width: 6),
-          Text(
-            text,
-            style: FlutterFlowTheme.of(context).bodySmall.override(
-              fontFamily: 'Readex Pro',
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
+          _buildServiceButton(Icons.flight, 'Flights', 0),
+          SizedBox(width: BukeerSpacing.m),
+          _buildServiceButton(Icons.hotel, 'Hotels', 1),
+          SizedBox(width: BukeerSpacing.m),
+          _buildServiceButton(Icons.room_service, 'Services', 2),
+          SizedBox(width: BukeerSpacing.m),
+          _buildServiceButton(Icons.directions_car, 'Transfers', 3),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceButton(IconData icon, String label, int index) {
+    final isActive = _selectedServiceTab == index;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BukeerBorders.radiusSmall,
+        onTap: () {
+          setState(() {
+            _selectedServiceTab = index;
+            _servicesTabController.animateTo(index);
+          });
+        },
+        child: AnimatedContainer(
+          duration: BukeerAnimations.fast,
+          curve: BukeerAnimations.standard,
+          padding: EdgeInsets.symmetric(
+            horizontal: BukeerSpacing.m,
+            vertical: BukeerSpacing.s,
+          ),
+          decoration: BoxDecoration(
+            color: isActive
+                ? BukeerColors.primary
+                : (isDark
+                    ? BukeerColors.surfaceSecondaryDark
+                    : BukeerColors.surfaceSecondary),
+            borderRadius: BukeerBorders.radiusSmall,
+            border: Border.all(
+              color: isActive
+                  ? BukeerColors.primary
+                  : (isDark ? BukeerColors.dividerDark : BukeerColors.divider),
+              width: BukeerBorders.widthThin,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 19,
+                color: isActive
+                    ? Colors.white
+                    : (isDark
+                        ? BukeerColors.textSecondaryDark
+                        : BukeerColors.textSecondary),
+              ),
+              SizedBox(width: BukeerSpacing.s),
+              Text(
+                label,
+                style: BukeerTypography.bodySmall.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: isActive
+                      ? Colors.white
+                      : (isDark
+                          ? BukeerColors.textSecondaryDark
+                          : BukeerColors.textSecondary),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContentSection(dynamic itineraryData) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BorderRadius.only(
+          bottomLeft: BukeerBorders.radiusLarge.bottomLeft,
+          bottomRight: BukeerBorders.radiusLarge.bottomRight,
+        ),
+        boxShadow: BukeerShadows.small,
+      ),
+      padding: EdgeInsets.all(BukeerSpacing.l),
+      child: TabBarView(
+        controller: _mainTabController,
+        children: [
+          _buildItemsTabContent(itineraryData),
+          _buildPassengersTabContent(itineraryData),
+          _buildPreviewTabContent(),
+          _buildPaymentsTabContent(),
+          _buildProvidersTabContent(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItemsTabContent(dynamic itineraryData) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section header
+        InkWell(
+          onTap: () {
+            setState(() {
+              _isHotelsExpanded = !_isHotelsExpanded;
+            });
+          },
+          borderRadius: BukeerBorders.radiusSmall,
+          child: Padding(
+            padding: EdgeInsets.all(BukeerSpacing.s),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total hoteles \$3.500.000,00',
+                  style: BukeerTypography.titleMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: isDark
+                        ? BukeerColors.textPrimaryDark
+                        : BukeerColors.textPrimary,
+                  ),
+                ),
+                Icon(
+                  _isHotelsExpanded ? Icons.expand_less : Icons.expand_more,
+                  size: 22,
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        if (_isHotelsExpanded) ...[
+          SizedBox(height: BukeerSpacing.m),
+          Expanded(
+            child: ListView(
+              children: [
+                _buildHotelCard(
+                  name: 'Hotel Estelar Blue',
+                  provider: 'Booking.com',
+                  roomType: 'Doble Estándar',
+                  dates: '07 Jul - 11 Jul 2025',
+                  location: 'Medellín, Antioquia',
+                  nights: 4,
+                  rooms: 2,
+                  nightRate: 350000,
+                  markup: 15,
+                  value: 402500,
+                  total: 3500000,
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+                ),
+                SizedBox(height: BukeerSpacing.m),
+                _buildHotelCard(
+                  name: 'Hotel Dann Carlton Medellín',
+                  provider: 'Expedia',
+                  roomType: 'Suite Ejecutiva',
+                  dates: '07 Jul - 11 Jul 2025',
+                  location: 'Medellín, Antioquia',
+                  nights: 4,
+                  rooms: 1,
+                  nightRate: 550000,
+                  markup: 10,
+                  value: 605000,
+                  total: 2420000,
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa',
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildHotelCard({
+    required String name,
+    required String provider,
+    required String roomType,
+    required String dates,
+    required String location,
+    required int nights,
+    required int rooms,
+    required double nightRate,
+    required double markup,
+    required double value,
+    required double total,
+    required String imageUrl,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.backgroundPrimary,
+        borderRadius: BukeerBorders.radiusMedium,
+        border: Border.all(
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          width: BukeerBorders.widthThin,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Hotel image
+          Container(
+            width: 130,
+            height: 130,
+            decoration: BoxDecoration(
+              borderRadius: BukeerBorders.radiusSmall,
+              image: DecorationImage(
+                image: NetworkImage(imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.m),
+
+          // Hotel info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: BukeerTypography.titleMedium.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? BukeerColors.textPrimaryDark
+                                : BukeerColors.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: BukeerSpacing.xs),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.store,
+                              size: 15,
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                            SizedBox(width: BukeerSpacing.xs),
+                            Text(
+                              provider,
+                              style: BukeerTypography.bodySmall.copyWith(
+                                color: isDark
+                                    ? BukeerColors.textSecondaryDark
+                                    : BukeerColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: BukeerSpacing.m),
+
+                // Meta info
+                Wrap(
+                  spacing: BukeerSpacing.m,
+                  runSpacing: BukeerSpacing.s,
+                  children: [
+                    _buildHotelMetaItem(Icons.king_bed, roomType),
+                    _buildHotelMetaItem(Icons.date_range, dates),
+                    _buildHotelMetaItem(Icons.location_on, location),
+                    _buildHotelMetaItem(Icons.night_shelter, '$nights'),
+                    _buildHotelMetaItem(Icons.meeting_room, '$rooms'),
+                  ],
+                ),
+                SizedBox(height: BukeerSpacing.m),
+
+                // Pricing
+                Container(
+                  padding: EdgeInsets.only(top: BukeerSpacing.m),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: isDark
+                            ? BukeerColors.dividerDark
+                            : BukeerColors.divider,
+                        width: BukeerBorders.widthThin,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          _buildPriceItem(
+                              Icons.sell, _formatCurrency(nightRate)),
+                          SizedBox(width: BukeerSpacing.s),
+                          Text('|',
+                              style: TextStyle(
+                                  color: isDark
+                                      ? BukeerColors.dividerDark
+                                      : BukeerColors.divider)),
+                          SizedBox(width: BukeerSpacing.s),
+                          _buildPriceItem(
+                              Icons.trending_up, '${markup.toInt()}%'),
+                          SizedBox(width: BukeerSpacing.s),
+                          Text('|',
+                              style: TextStyle(
+                                  color: isDark
+                                      ? BukeerColors.dividerDark
+                                      : BukeerColors.divider)),
+                          SizedBox(width: BukeerSpacing.s),
+                          _buildPriceItem(
+                              Icons.request_quote, _formatCurrency(value)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.paid,
+                            size: 18,
+                            color: BukeerColors.primary,
+                          ),
+                          SizedBox(width: BukeerSpacing.xs),
+                          Text(
+                            _formatCurrency(total),
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: BukeerColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -273,556 +711,429 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     );
   }
 
-  Widget _buildChipButton(String text, bool isActive) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isActive 
-              ? FlutterFlowTheme.of(context).primary 
-              : FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(20),
+  Widget _buildHotelMetaItem(IconData icon, String text) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          size: 17,
+          color: isDark
+              ? BukeerColors.textTertiaryDark
+              : BukeerColors.textTertiary,
         ),
-        child: Text(
+        SizedBox(width: BukeerSpacing.xs),
+        Text(
           text,
-          style: FlutterFlowTheme.of(context).bodySmall.override(
-            fontFamily: 'Readex Pro',
-            fontSize: 13,
+          style: BukeerTypography.bodySmall.copyWith(
+            color: isDark
+                ? BukeerColors.textPrimaryDark
+                : BukeerColors.textPrimary,
             fontWeight: FontWeight.w500,
-            color: isActive 
-                ? Colors.white 
-                : FlutterFlowTheme.of(context).primaryText,
           ),
         ),
-      ),
+      ],
     );
   }
 
-  Widget _buildIconButton(IconData icon, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
-          border: Border.all(color: FlutterFlowTheme.of(context).alternate),
-          borderRadius: BorderRadius.circular(8),
+  Widget _buildPriceItem(IconData icon, String text) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          size: 15,
+          color: isDark
+              ? BukeerColors.textTertiaryDark
+              : BukeerColors.textTertiary,
         ),
-        child: Icon(icon, size: 20, color: FlutterFlowTheme.of(context).secondaryText),
-      ),
+        SizedBox(width: BukeerSpacing.xs),
+        Text(
+          text,
+          style: BukeerTypography.bodySmall.copyWith(
+            color: isDark
+                ? BukeerColors.textPrimaryDark
+                : BukeerColors.textPrimary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildUserInfoContainer(dynamic itineraryData) {
-    final travelPlannerName = getJsonField(itineraryData, r'$[:].travel_planner_name')?.toString() ?? 
-                             getJsonField(itineraryData, r'$[:].user_name')?.toString() ?? 
-                             'Juan David Alvarez';
-    final totalPrice = getJsonField(itineraryData, r'$[:].total_price')?.toDouble() ?? 7450100.00;
-    final passengers = getJsonField(itineraryData, r'$[:].total_passengers')?.toInt() ?? 5;
-    final pricePerPerson = passengers > 0 ? totalPrice / passengers : totalPrice;
-    final margin = getJsonField(itineraryData, r'$[:].total_margin')?.toDouble() ?? 1179100.00;
-    
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x1A000000),
-            blurRadius: 6,
-            offset: Offset(0, 2),
+  Widget _buildPassengersTabContent(dynamic itineraryData) {
+    final passengers = _itineraryId != null
+        ? appServices.itinerary.getItineraryPassengers(_itineraryId!)
+        : [];
+
+    return ItineraryPassengersSection(
+      itineraryId: _itineraryId ?? '',
+      passengers: passengers,
+      onAddPassenger: _handleAddPassenger,
+      onEditPassenger: (passenger) {},
+      onDeletePassenger: (passenger) {},
+    );
+  }
+
+  Widget _buildPreviewTabContent() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.visibility,
+            size: 64,
+            color: isDark
+                ? BukeerColors.textTertiaryDark
+                : BukeerColors.textTertiary,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          Text(
+            'Vista previa del itinerario',
+            style: BukeerTypography.titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? BukeerColors.textPrimaryDark
+                  : BukeerColors.textPrimary,
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.s),
+          Text(
+            'Genera una vista previa para compartir con el cliente',
+            style: BukeerTypography.bodyMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _buildPaymentsTabContent() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Travel planner info
-          Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: FlutterFlowTheme.of(context).primary, width: 2),
-                  image: DecorationImage(
-                    image: NetworkImage('https://avatar.iran.liara.run/public'),
-                    fit: BoxFit.cover,
-                  ),
+          Icon(
+            Icons.payments,
+            size: 64,
+            color: isDark
+                ? BukeerColors.textTertiaryDark
+                : BukeerColors.textTertiary,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          Text(
+            'Gestión de pagos',
+            style: BukeerTypography.titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? BukeerColors.textPrimaryDark
+                  : BukeerColors.textPrimary,
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.s),
+          Text(
+            'Administra los pagos del itinerario',
+            style: BukeerTypography.bodyMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProvidersTabContent() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.storefront,
+            size: 64,
+            color: isDark
+                ? BukeerColors.textTertiaryDark
+                : BukeerColors.textTertiary,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          Text(
+            'Proveedores',
+            style: BukeerTypography.titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? BukeerColors.textPrimaryDark
+                  : BukeerColors.textPrimary,
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.s),
+          Text(
+            'Gestiona los proveedores del itinerario',
+            style: BukeerTypography.bodyMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoColumn(dynamic itineraryData) {
+    return Column(
+      children: [
+        // User info
+        _buildUserInfoBox(itineraryData),
+        SizedBox(height: BukeerSpacing.m),
+
+        // Itinerary info
+        _buildItineraryInfoBox(itineraryData),
+        SizedBox(height: BukeerSpacing.m),
+
+        // Financial info
+        _buildFinancialInfoBox(itineraryData),
+        SizedBox(height: BukeerSpacing.m),
+
+        // Actions
+        _buildActionsBox(),
+      ],
+    );
+  }
+
+  Widget _buildUserInfoBox(dynamic itineraryData) {
+    final travelPlannerName =
+        getJsonField(itineraryData, r'$[:].travel_planner_name')?.toString() ??
+            'Sin asignar';
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BukeerBorders.radiusFull,
+              border: Border.all(
+                color: BukeerColors.primary,
+                width: BukeerBorders.widthMedium,
+              ),
+              color: BukeerColors.primary.withOpacity(0.1),
+            ),
+            child: Center(
+              child: Text(
+                travelPlannerName.isNotEmpty
+                    ? travelPlannerName[0].toUpperCase()
+                    : 'U',
+                style: BukeerTypography.bodyMedium.copyWith(
+                  color: BukeerColors.primary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    travelPlannerName,
-                    style: FlutterFlowTheme.of(context).bodyLarge.override(
-                      fontFamily: 'Outfit',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.m),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  travelPlannerName,
+                  style: BukeerTypography.titleMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: isDark
+                        ? BukeerColors.textPrimaryDark
+                        : BukeerColors.textPrimary,
                   ),
-                  Text(
-                    'Travel Planner',
-                    style: FlutterFlowTheme.of(context).bodySmall,
+                ),
+                Text(
+                  'Travel Planner',
+                  style: BukeerTypography.bodySmall.copyWith(
+                    color: isDark
+                        ? BukeerColors.textSecondaryDark
+                        : BukeerColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItineraryInfoBox(dynamic itineraryData) {
+    final clientName =
+        getJsonField(itineraryData, r'$[:].client_name')?.toString() ?? '';
+    final startDate =
+        getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
+    final endDate =
+        getJsonField(itineraryData, r'$[:].end_date')?.toString() ?? '';
+    final status =
+        getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'budget';
+    final passengers =
+        getJsonField(itineraryData, r'$[:].total_passengers')?.toInt() ?? 5;
+    final children =
+        getJsonField(itineraryData, r'$[:].total_children')?.toInt() ?? 2;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Información del Itinerario',
+                style: BukeerTypography.titleMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: isDark
+                      ? BukeerColors.textPrimaryDark
+                      : BukeerColors.textPrimary,
+                ),
+              ),
+              Row(
+                children: [
+                  BukeerIconButton(
+                    icon: const Icon(Icons.file_copy),
+                    onPressed: () {},
+                    variant: BukeerIconButtonVariant.ghost,
+                    size: BukeerIconButtonSize.small,
+                  ),
+                  SizedBox(width: BukeerSpacing.s),
+                  BukeerIconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: _handleEditItinerary,
+                    variant: BukeerIconButtonVariant.ghost,
+                    size: BukeerIconButtonSize.small,
                   ),
                 ],
               ),
             ],
           ),
-          // Pricing info
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'Total \$${_formatCurrency(totalPrice)} COP',
-                  style: FlutterFlowTheme.of(context).headlineSmall.override(
-                    fontFamily: 'Outfit',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  'Valor por persona \$${_formatCurrency(pricePerPerson)} COP',
-                  style: FlutterFlowTheme.of(context).bodySmall.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'Margen \$${_formatCurrency(margin)} COP',
-                  style: FlutterFlowTheme.of(context).bodySmall.override(
-                    fontFamily: 'Readex Pro',
-                    color: FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-              ],
-            ),
+            margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
+            height: 1,
+            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
           ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildTabs() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: FlutterFlowTheme.of(context).alternate)),
-      ),
-      child: TabBar(
-        controller: _mainTabController,
-        indicatorColor: FlutterFlowTheme.of(context).primary,
-        indicatorWeight: 3,
-        labelColor: FlutterFlowTheme.of(context).primary,
-        unselectedLabelColor: FlutterFlowTheme.of(context).secondaryText,
-        labelStyle: FlutterFlowTheme.of(context).titleSmall.override(
-          fontFamily: 'Readex Pro',
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-        ),
-        unselectedLabelStyle: FlutterFlowTheme.of(context).titleSmall.override(
-          fontFamily: 'Readex Pro',
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-        ),
-        tabs: [
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.flight, size: 20),
-                SizedBox(width: 8),
-                Text('Servicios'),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.credit_card, size: 20),
-                SizedBox(width: 8),
-                Text('Pagos'),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.visibility, size: 20),
-                SizedBox(width: 8),
-                Text('Preview'),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.group, size: 20),
-                SizedBox(width: 8),
-                Text('Pasajeros'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildServicesContent(List<dynamic> itineraryItems) {
-    return Padding(
-      padding: EdgeInsets.all(24),
-      child: Column(
-        children: [
-          // Service buttons
+          // Info items
+          _buildInfoItem(Icons.tag, 'ID:', '1-6180'),
+          _buildInfoItem(Icons.person_outline, 'Cliente:', clientName),
           Row(
             children: [
-              _buildServiceButton(Icons.flight, 'Vuelos', _servicesTabController.index == 0, () => _servicesTabController.animateTo(0)),
-              SizedBox(width: 12),
-              _buildServiceButton(Icons.hotel, 'Hoteles', _servicesTabController.index == 1, () => _servicesTabController.animateTo(1)),
-              SizedBox(width: 12),
-              _buildServiceButton(Icons.local_activity, 'Actividades', _servicesTabController.index == 2, () => _servicesTabController.animateTo(2)),
-              SizedBox(width: 12),
-              _buildServiceButton(Icons.transfer_within_a_station, 'Transfer', _servicesTabController.index == 3, () => _servicesTabController.animateTo(3)),
+              Icon(Icons.label,
+                  size: 19,
+                  color: isDark
+                      ? BukeerColors.textTertiaryDark
+                      : BukeerColors.textTertiary),
+              SizedBox(width: BukeerSpacing.m),
+              Text(
+                'Estado:',
+                style: BukeerTypography.bodyMedium.copyWith(
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                ),
+              ),
+              SizedBox(width: BukeerSpacing.xs),
+              Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: BukeerSpacing.m, vertical: BukeerSpacing.xs),
+                decoration: BoxDecoration(
+                  color: _isConfirmed
+                      ? BukeerColors.success.withOpacity(0.1)
+                      : BukeerColors.info.withOpacity(0.1),
+                  borderRadius: BukeerBorders.radiusLarge,
+                ),
+                child: Text(
+                  _isConfirmed ? 'Confirmado' : 'Presupuesto',
+                  style: BukeerTypography.labelSmall.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color:
+                        _isConfirmed ? BukeerColors.success : BukeerColors.info,
+                  ),
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 24),
-          // Service content
-          Expanded(
-            child: TabBarView(
-              controller: _servicesTabController,
-              children: [
-                _buildFlightsTab(itineraryItems),
-                _buildHotelsTab(itineraryItems),
-                _buildActivitiesTab(itineraryItems),
-                _buildTransfersTab(itineraryItems),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+          SizedBox(height: BukeerSpacing.m),
+          _buildInfoItem(Icons.date_range, 'Fechas:',
+              '${_formatDate(startDate)} - ${_formatDate(endDate)}'),
+          _buildInfoItem(Icons.people_alt, 'Pasajeros:',
+              '$passengers adultos, $children niños'),
+          _buildInfoItem(Icons.translate, 'Idioma:', 'Español'),
+          _buildInfoItem(Icons.flight_class, 'Clase:', 'Econo'),
+          _buildInfoItem(Icons.event_available, 'Creado:', '08 Jun 2025'),
+          _buildInfoItem(Icons.currency_exchange, 'Rate:', '3,950 COP/USD'),
 
-  Widget _buildServiceButton(IconData icon, String label, bool isActive, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isActive 
-              ? FlutterFlowTheme.of(context).primary 
-              : FlutterFlowTheme.of(context).secondaryBackground,
-          border: Border.all(
-              color: isActive 
-                  ? FlutterFlowTheme.of(context).primary 
-                  : FlutterFlowTheme.of(context).alternate
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 20,
-              color: isActive 
-                  ? Colors.white 
-                  : FlutterFlowTheme.of(context).secondaryText,
-            ),
-            SizedBox(width: 8),
-            Text(
-              label,
-              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                fontFamily: 'Readex Pro',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: isActive 
-                    ? Colors.white 
-                    : FlutterFlowTheme.of(context).secondaryText,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFlightsTab(List<dynamic> items) {
-    final flights = items.where((item) => getJsonField(item, r'$.type')?.toString() == 'flight').toList();
-    
-    if (flights.isEmpty) {
-      flights.addAll([
-        {
-          'type': 'flight',
-          'flights': {
-            'airline': 'JetSmart',
-            'origin': 'BOG',
-            'destination': 'MDE',
-            'departure_time': '09:04',
-            'arrival_time': '10:09',
-          },
-          'departure_date': '2025-07-07',
-          'passengers': 5,
-          'net_rate': 250000.00,
-          'markup_percent': 18.0,
-          'total_price': 295000.00,
-        },
-        {
-          'type': 'flight',
-          'flights': {
-            'airline': 'JetSmart',
-            'origin': 'MDE',
-            'destination': 'BOG',
-            'departure_time': '21:39',
-            'arrival_time': '22:35',
-          },
-          'departure_date': '2025-07-11',
-          'passengers': 5,
-          'net_rate': 0.00,
-          'markup_percent': 0.0,
-          'total_price': 0.00,
-        },
-      ]);
-    }
-    
-    final totalFlights = flights.fold<double>(0, (sum, item) => sum + (getJsonField(item, r'$.total_price')?.toDouble() ?? (item['total_price'] as double? ?? 0)));
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Container(
-          margin: EdgeInsets.only(bottom: 20),
-          child: Text(
-            'Total vuelos \$${_formatCurrency(totalFlights)}',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              fontFamily: 'Outfit',
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        // Flights list
-        Expanded(
-          child: ListView.builder(
-            itemCount: flights.length,
-            itemBuilder: (context, index) => _buildFlightCard(flights[index]),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFlightCard(dynamic flight) {
-    final flightInfo = getJsonField(flight, r'$.flights') ?? flight['flights'];
-    final airline = getJsonField(flightInfo, r'$.airline')?.toString() ?? 
-                   (flightInfo is Map ? flightInfo['airline']?.toString() : null) ?? 'JetSmart';
-    final origin = getJsonField(flightInfo, r'$.origin')?.toString() ?? 
-                  (flightInfo is Map ? flightInfo['origin']?.toString() : null) ?? 'BOG';
-    final destination = getJsonField(flightInfo, r'$.destination')?.toString() ?? 
-                       (flightInfo is Map ? flightInfo['destination']?.toString() : null) ?? 'MDE';
-    final departureTime = getJsonField(flightInfo, r'$.departure_time')?.toString() ?? 
-                         (flightInfo is Map ? flightInfo['departure_time']?.toString() : null) ?? '09:04';
-    final arrivalTime = getJsonField(flightInfo, r'$.arrival_time')?.toString() ?? 
-                       (flightInfo is Map ? flightInfo['arrival_time']?.toString() : null) ?? '10:09';
-    final date = getJsonField(flight, r'$.departure_date')?.toString() ?? 
-                (flight is Map ? flight['departure_date']?.toString() : null) ?? '2025-07-07';
-    final passengers = getJsonField(flight, r'$.passengers')?.toInt() ?? 
-                      (flight is Map ? flight['passengers'] as int? : null) ?? 5;
-    
-    final netRate = getJsonField(flight, r'$.net_rate')?.toDouble() ?? 
-                   (flight is Map ? flight['net_rate'] as double? : null) ?? 250000.00;
-    final markupPercent = getJsonField(flight, r'$.markup_percent')?.toDouble() ?? 
-                         (flight is Map ? flight['markup_percent'] as double? : null) ?? 18.0;
-    final totalPrice = getJsonField(flight, r'$.total_price')?.toDouble() ?? 
-                      (flight is Map ? flight['total_price'] as double? : null) ?? 295000.00;
-    
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: Column(
-        children: [
-          // Main flight card
+          // Status toggle
           Container(
-            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.only(top: BukeerSpacing.m),
+            padding: EdgeInsets.only(top: BukeerSpacing.m),
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-              border: Border.all(color: FlutterFlowTheme.of(context).alternate),
-            ),
-            child: Column(
-              children: [
-                // Top row with airline and time
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Airline info
-                    Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).tertiary.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Center(
-                            child: Text(
-                              airline.substring(0, 1),
-                              style: FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Outfit',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: FlutterFlowTheme.of(context).tertiary,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              airline,
-                              style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                fontFamily: 'Readex Pro',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(height: 2),
-                            Row(
-                              children: [
-                                Text(
-                                  _formatDate(date),
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                ),
-                                SizedBox(width: 12),
-                                Icon(Icons.person_outline, size: 16, color: FlutterFlowTheme.of(context).secondaryText),
-                                SizedBox(width: 4),
-                                Text(
-                                  passengers.toString(),
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    // Time info
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              departureTime,
-                              style: FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Outfit',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Icon(Icons.arrow_forward, size: 16, color: FlutterFlowTheme.of(context).secondaryText),
-                            ),
-                            Text(
-                              arrivalTime,
-                              style: FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Outfit',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          '$origin --- $destination',
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          // Bottom price section
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).primaryBackground,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
               border: Border(
-                left: BorderSide(color: FlutterFlowTheme.of(context).alternate),
-                right: BorderSide(color: FlutterFlowTheme.of(context).alternate),
-                bottom: BorderSide(color: FlutterFlowTheme.of(context).alternate),
+                top: BorderSide(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  width: BukeerBorders.widthThin,
+                ),
               ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Price details
-                Row(
-                  children: [
-                    Text(
-                      'Tarifa neta \$${_formatCurrency(netRate)}',
-                      style: FlutterFlowTheme.of(context).bodySmall,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      width: 1,
-                      height: 16,
-                      color: FlutterFlowTheme.of(context).alternate,
-                    ),
-                    Text(
-                      'Markup ${markupPercent.toStringAsFixed(0)}%',
-                      style: FlutterFlowTheme.of(context).bodySmall,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      width: 1,
-                      height: 16,
-                      color: FlutterFlowTheme.of(context).alternate,
-                    ),
-                    Text(
-                      'Valor \$${_formatCurrency(totalPrice)}',
-                      style: FlutterFlowTheme.of(context).bodySmall,
-                    ),
-                  ],
-                ),
-                // Total
                 Text(
-                  'Total \$${_formatCurrency(totalPrice * passengers)}',
-                  style: FlutterFlowTheme.of(context).titleSmall.override(
-                    fontFamily: 'Outfit',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: FlutterFlowTheme.of(context).primary,
+                  _isConfirmed
+                      ? 'Bloqueado (Confirmado)'
+                      : 'Desbloqueado (Presupuesto)',
+                  style: BukeerTypography.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: isDark
+                        ? BukeerColors.textSecondaryDark
+                        : BukeerColors.textSecondary,
                   ),
+                ),
+                Switch(
+                  value: _isConfirmed,
+                  onChanged: (value) {
+                    setState(() {
+                      _isConfirmed = value;
+                    });
+                  },
+                  activeColor: BukeerColors.primary,
                 ),
               ],
             ),
@@ -832,231 +1143,361 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     );
   }
 
-  // Other tabs implementations (similar structure)
-  Widget _buildHotelsTab(List<dynamic> items) {
-    return Center(
-      child: Text('Hoteles - Por implementar'),
-    );
-  }
+  Widget _buildFinancialInfoBox(dynamic itineraryData) {
+    final totalPrice =
+        getJsonField(itineraryData, r'$[:].totalPrice')?.toDouble() ??
+            7450100.0;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-  Widget _buildActivitiesTab(List<dynamic> items) {
-    return Center(
-      child: Text('Actividades - Por implementar'),
-    );
-  }
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Información Financiera',
+            style: BukeerTypography.titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isDark
+                  ? BukeerColors.textPrimaryDark
+                  : BukeerColors.textPrimary,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
+            height: 1,
+            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          ),
 
-  Widget _buildTransfersTab(List<dynamic> items) {
-    return Center(
-      child: Text('Transfers - Por implementar'),
-    );
-  }
+          // Pricing info
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.m),
+            decoration: BoxDecoration(
+              color: BukeerColors.info.withOpacity(0.1),
+              borderRadius: BukeerBorders.radiusSmall,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total ${_formatCurrency(totalPrice)} COP',
+                  style: BukeerTypography.titleLarge.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: BukeerColors.primary,
+                  ),
+                ),
+                SizedBox(height: BukeerSpacing.xs),
+                Text(
+                  'Valor por persona ${_formatCurrency(totalPrice / 5)} COP',
+                  style: BukeerTypography.bodySmall.copyWith(
+                    color: BukeerColors.info,
+                  ),
+                ),
+                Text(
+                  'Margen ${_formatCurrency(1179100)} COP',
+                  style: BukeerTypography.bodySmall.copyWith(
+                    color: BukeerColors.info,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.m),
 
-  Widget _buildPaymentsContent(List<dynamic> transactions, dynamic itineraryData) {
-    return Padding(
-      padding: EdgeInsets.all(24),
-      child: Center(
-        child: Text('Sección de Pagos - Por implementar'),
+          // Toggles
+          _buildToggleItem('Ocultar Tarifas', false),
+          SizedBox(height: BukeerSpacing.m),
+          _buildToggleItem('Publicar en la Web', true),
+        ],
       ),
     );
   }
 
-  Widget _buildPreviewContent() {
+  Widget _buildActionsBox() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      child: Column(
+        children: [
+          BukeerButton(
+            text: 'Exportar Itinerario (PDF)',
+            onPressed: () {},
+            variant: BukeerButtonVariant.secondary,
+            size: BukeerButtonSize.medium,
+            icon: Icons.picture_as_pdf,
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          BukeerButton(
+            text: 'Ver en la Web',
+            onPressed: () {},
+            variant: BukeerButtonVariant.secondary,
+            size: BukeerButtonSize.medium,
+            icon: Icons.visibility,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoItem(IconData icon, String label, String value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
-      padding: EdgeInsets.all(24),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.visibility, size: 64, color: FlutterFlowTheme.of(context).secondaryText),
-            SizedBox(height: 16),
-            Text('Vista previa del itinerario', style: FlutterFlowTheme.of(context).titleMedium),
-            SizedBox(height: 24),
-            FFButtonWidget(
-              onPressed: _handlePreviewItinerary,
-              text: 'Ver Preview',
-              options: FFButtonOptions(
-                height: 44,
-                padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                color: FlutterFlowTheme.of(context).primary,
-                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                  fontFamily: 'Readex Pro',
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-                borderRadius: BorderRadius.circular(8),
+      padding: EdgeInsets.only(bottom: BukeerSpacing.m),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 19,
+            color: isDark
+                ? BukeerColors.textTertiaryDark
+                : BukeerColors.textTertiary,
+          ),
+          SizedBox(width: BukeerSpacing.m),
+          Text(
+            label,
+            style: BukeerTypography.bodyMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
+          ),
+          SizedBox(width: BukeerSpacing.xs),
+          Expanded(
+            child: Text(
+              value,
+              style: BukeerTypography.bodyMedium.copyWith(
+                color: isDark
+                    ? BukeerColors.textPrimaryDark
+                    : BukeerColors.textPrimary,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToggleItem(String label, bool value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: BukeerTypography.bodyMedium.copyWith(
+            fontWeight: FontWeight.w500,
+            color: isDark
+                ? BukeerColors.textSecondaryDark
+                : BukeerColors.textSecondary,
+          ),
         ),
-      ),
+        Switch(
+          value: value,
+          onChanged: (newValue) {},
+          activeColor: BukeerColors.primary,
+        ),
+      ],
     );
   }
 
-  Widget _buildPassengersContent(List<dynamic> passengers) {
-    return Padding(
-      padding: EdgeInsets.all(24),
-      child: ItineraryPassengersSection(
-        itineraryId: widget.id!,
-        passengers: passengers,
-        onAddPassenger: _handleAddPassenger,
-        onEditPassenger: _handleEditPassenger,
-        onDeletePassenger: _handleDeletePassenger,
-      ),
-    );
-  }
-
-  // Loading and error states
+  // Loading, error and not found states
   Widget _buildLoadingState() {
     return Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(FlutterFlowTheme.of(context).primary),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(BukeerColors.primary),
+          ),
+          SizedBox(height: BukeerSpacing.m),
+          Text(
+            'Cargando itinerario...',
+            style: BukeerTypography.bodyMedium.copyWith(
+              color: BukeerColors.textSecondary,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildErrorState(String error) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.error_outline, color: FlutterFlowTheme.of(context).error, size: 64),
-          SizedBox(height: 16),
-          Text('Error al cargar el itinerario', style: FlutterFlowTheme.of(context).titleMedium),
-          SizedBox(height: 8),
-          Text(error, style: FlutterFlowTheme.of(context).bodyMedium),
-        ],
+      child: Padding(
+        padding: EdgeInsets.all(BukeerSpacing.xl),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: BukeerColors.error,
+            ),
+            SizedBox(height: BukeerSpacing.m),
+            Text(
+              'Error al cargar el itinerario',
+              style: BukeerTypography.titleMedium.copyWith(
+                fontWeight: FontWeight.w600,
+                color: BukeerColors.error,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.s),
+            Text(
+              error,
+              style: BukeerTypography.bodyMedium.copyWith(
+                color: BukeerColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: BukeerSpacing.l),
+            BukeerButton(
+              text: 'Volver',
+              onPressed: () => context.safePop(),
+              variant: BukeerButtonVariant.secondary,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildNotFoundState() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.search_off, color: FlutterFlowTheme.of(context).secondaryText, size: 64),
-          SizedBox(height: 16),
-          Text('Itinerario no encontrado', style: FlutterFlowTheme.of(context).titleMedium),
-        ],
+      child: Padding(
+        padding: EdgeInsets.all(BukeerSpacing.xl),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: BukeerColors.textTertiary,
+            ),
+            SizedBox(height: BukeerSpacing.m),
+            Text(
+              'Itinerario no encontrado',
+              style: BukeerTypography.titleMedium.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.s),
+            Text(
+              'El itinerario que buscas no existe o ha sido eliminado',
+              style: BukeerTypography.bodyMedium.copyWith(
+                color: BukeerColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: BukeerSpacing.l),
+            BukeerButton(
+              text: 'Ir a Itinerarios',
+              onPressed: () =>
+                  context.pushReplacementNamed(MainItinerariesWidget.routeName),
+              variant: BukeerButtonVariant.primary,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   // Helper methods
-  String _formatDate(String dateString) {
-    if (dateString.isEmpty) return '';
+  String _formatDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 'Sin fecha';
     try {
-      final date = DateTime.parse(dateString);
-      final months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-      return '${date.day.toString().padLeft(2, '0')} ${months[date.month - 1]} ${date.year}';
+      final date = DateTime.parse(dateStr);
+      return '${date.day.toString().padLeft(2, '0')} ${_getMonthName(date.month)} ${date.year}';
     } catch (e) {
-      return dateString;
+      return dateStr;
     }
   }
 
-  String _formatCurrency(double amount) {
-    final formatter = amount.toStringAsFixed(0);
-    final regex = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-    return formatter.replaceAllMapped(regex, (Match m) => '${m[1]}.');
+  String _getMonthName(int month) {
+    const months = [
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic'
+    ];
+    return months[month - 1];
   }
 
-  // Action handlers (same as before)
-  void _handleEditItinerary() {
-    if (_itineraryId == null) return;
-    final itineraryData = appServices.itinerary.getItinerary(_itineraryId!);
-    if (itineraryData == null) return;
+  String _formatCurrency(double amount) {
+    final formatted = amount.toStringAsFixed(2);
+    final parts = formatted.split('.');
+    final wholePart = parts[0].replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
+    return '\$$wholePart.${parts[1]}';
+  }
 
-    showModalBottomSheet(
+  // Action handlers
+  void _handleEditItinerary() async {
+    await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       enableDrag: false,
       context: context,
-      builder: (context) => GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: MediaQuery.viewInsetsOf(context),
-          child: ModalAddEditItineraryWidget(
-            isEdit: true,
-            allDataItinerary: itineraryData,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: MediaQuery.viewInsetsOf(context),
+            child: ModalAddEditItineraryWidget(
+              isEdit: true,
+              allDataItinerary:
+                  appServices.itinerary.getItinerary(_itineraryId!),
+            ),
           ),
-        ),
-      ),
-    ).then((value) => safeSetState(() {}));
-  }
-
-  void _handlePreviewItinerary() {
-    context.pushNamed(
-      'preview_itinerary_URL',
-      pathParameters: {'id': widget.id!},
+        );
+      },
     );
   }
 
-  void _handleAddPassenger() {
-    showModalBottomSheet(
+  void _handleAddPassenger() async {
+    await showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       enableDrag: false,
       context: context,
-      builder: (context) => GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: MediaQuery.viewInsetsOf(context),
-          child: ModalAddPassengerWidget(
-            itineraryId: widget.id!,
-            accountId: appServices.account.accountId!,
-            isEdit: false,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: MediaQuery.viewInsetsOf(context),
+            child: ModalAddPassengerWidget(
+              itineraryId: _itineraryId,
+            ),
           ),
-        ),
-      ),
-    ).then((value) => safeSetState(() {}));
-  }
-
-  void _handleEditPassenger(dynamic passenger) {
-    final passengerId = getJsonField(passenger, r'$.id')?.toString();
-    if (passengerId == null) return;
-
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      enableDrag: false,
-      context: context,
-      builder: (context) => GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: MediaQuery.viewInsetsOf(context),
-          child: ModalAddPassengerWidget(
-            itineraryId: widget.id!,
-            accountId: appServices.account.accountId!,
-            isEdit: true,
-          ),
-        ),
-      ),
-    ).then((value) => safeSetState(() {}));
-  }
-
-  void _handleDeletePassenger(dynamic passenger) {
-    final passengerName = getJsonField(passenger, r'$.name')?.toString() ?? 'este pasajero';
-    
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Confirmar eliminación'),
-        content: Text('¿Está seguro de que desea eliminar a $passengerName?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              debugPrint('Delete passenger: ${getJsonField(passenger, r'$.id')}');
-              safeSetState(() {});
-            },
-            child: Text('Eliminar'),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

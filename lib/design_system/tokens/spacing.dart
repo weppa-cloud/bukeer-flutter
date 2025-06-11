@@ -6,29 +6,37 @@ class BukeerSpacing {
   BukeerSpacing._();
 
   // ================================
-  // BASE SPACING VALUES
+  // BASE SPACING VALUES (4px System)
   // ================================
-  static const double xs = 4.0; // Extra small
-  static const double s = 8.0; // Small
-  static const double sm = 12.0; // Small-medium
-  static const double m = 16.0; // Medium (base)
-  static const double md = 16.0; // Medium (alias)
-  static const double ml = 20.0; // Medium-large
-  static const double l = 24.0; // Large
-  static const double lg = 24.0; // Large (alias)
-  static const double xl = 32.0; // Extra large
-  static const double xxl = 48.0; // 2X Large
-  static const double xxxl = 64.0; // 3X Large
+  static const double xs = 4.0; // spacing-xs
+  static const double s = 8.0; // spacing-sm
+  static const double sm = 12.0; // spacing-md
+  static const double m = 16.0; // spacing-lg
+  static const double md = 16.0; // spacing-lg (alias)
+  static const double ml = 20.0; // spacing-xl
+  static const double l = 24.0; // spacing-2xl
+  static const double lg = 24.0; // spacing-2xl (alias)
+  static const double xl = 32.0; // spacing-3xl
+  static const double xxl = 48.0; // spacing-4xl
+  static const double xxxl = 64.0; // spacing-5xl
 
   // ================================
   // COMPONENT SPACING
   // ================================
-  static const double cardPadding = m;
-  static const double modalPadding = l;
-  static const double screenPadding = m;
-  static const double sectionSpacing = xl;
-  static const double itemSpacing = s;
-  static const double buttonPadding = m;
+  static const double cardPadding = m; // 16px
+  static const double containerPadding = ml; // 20px - from itinerary design
+  static const double sectionPadding = l; // 24px - from itinerary design
+  static const double pagePadding = xl; // 32px - from itinerary design
+  static const double modalPadding = l; // 24px
+  static const double screenPadding = m; // 16px
+  static const double sectionSpacing = xl; // 32px
+  static const double itemSpacing = s; // 8px
+  static const double buttonPaddingHorizontal =
+      m; // 16px - from itinerary design
+  static const double buttonPaddingVertical = s; // 8px - from itinerary design
+  static const double chipPaddingHorizontal =
+      10.0; // 10px - from itinerary design
+  static const double chipPaddingVertical = xs; // 4px - from itinerary design
 
   // ================================
   // COMMONLY USED PADDING COMBINATIONS
@@ -125,7 +133,19 @@ class BukeerSpacing {
 
   /// Standard card internal padding
   static const EdgeInsetsDirectional cardInternal =
-      EdgeInsetsDirectional.all(md);
+      EdgeInsetsDirectional.all(md); // 16px
+
+  /// Container padding (from itinerary design)
+  static const EdgeInsetsDirectional containerInternal =
+      EdgeInsetsDirectional.all(ml); // 20px
+
+  /// Section padding (from itinerary design)
+  static const EdgeInsetsDirectional sectionInternal =
+      EdgeInsetsDirectional.all(lg); // 24px
+
+  /// Page padding (from itinerary design)
+  static const EdgeInsetsDirectional pageInternal =
+      EdgeInsetsDirectional.all(xl); // 32px
 
   /// Card external margin
   static const EdgeInsetsDirectional cardExternal =

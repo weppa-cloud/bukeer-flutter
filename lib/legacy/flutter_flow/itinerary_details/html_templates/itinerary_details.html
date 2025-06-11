@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-Width, initial-scale=1.0" name="viewport"/>
+<title>Bukeer - Itinerario</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8F9FA;
+      color: #1F2937;
+      display: flex;
+      min-height: 100vh;
+      font-size: 16px;}
+    .sidebar {
+      background-color: #FFFFFF;
+      width: 260px;
+      padding: 24px;
+      border-right: 1px solid #E5E7EB;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-logo {
+      font-size: 30px;font-weight: 700;
+      color: #4F46E5;
+      margin-bottom: 40px;
+      letter-spacing: -0.5px;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+      font-size: 17px;font-weight: 500;
+      color: #4B5563;
+    }
+    .sidebar-item:hover {
+      background-color: #EEF2FF;
+      color: #4F46E5;
+    }
+    .sidebar-item.active {
+      background-color: #4F46E5;
+      color: #FFFFFF;
+    }
+    .sidebar-item .material-icons {
+      margin-right: 16px;
+      color: inherit;
+      font-size: 24px;}
+    .sidebar-item.active .material-icons {
+      color: #FFFFFF;
+    }
+    .main-content-wrapper {
+      flex: 1;
+      padding: 16px;
+      background-color: #F8F9FA;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+    }
+    .main-content {
+      width: 100%;
+      max-width: 1200px;
+    }
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .header-title-section {
+      display: flex;
+      align-items: flex-start;
+    }
+    .header-title-section .material-icons {
+      font-size: 26px;color: #4B5563;
+      margin-right: 8px;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+    .header-title-text h1 {
+      font-size: 22px;font-weight: 700;
+      color: #111827;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .header-actions .icon-button {
+      background-color: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      padding: 5px;
+      color: #4B5563;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .header-actions .icon-button:hover {
+      background-color: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+    .itinerary-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 1024px) {
+      .itinerary-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+    .content-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .info-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .info-box {
+      background-color: #FFFFFF;
+      padding: 16px;border-radius: 10px;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+    }
+    .info-box-header {
+      font-size: 17px;font-weight: 600;
+      color: #1F2937;
+      margin-bottom: 12px;padding-bottom: 12px;border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .info-box-header .icon-button {
+      background-color: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      padding: 4px;color: #4B5563;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      font-size: 17px;}
+    .info-box-header .icon-button .material-icons {
+      font-size: 20px;}
+    .info-box-header .icon-button:hover {
+      background-color: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+    .info-box-item {
+      display: flex;
+      align-items: center;
+      font-size: 15px;color: #4B5563;
+      margin-bottom: 12px;line-height: 1.6;
+    }
+    .info-box-item:last-child {
+      margin-bottom: 0;
+    }
+    .info-box-item .material-icons {
+      font-size: 19px;margin-right: 10px;color: #9CA3AF;
+    }
+    .info-box-item strong {
+      color: #1F2937;
+      font-weight: 500;
+      margin-left: 4px;
+    }
+    .status-label {
+      background-color: #E5E7EB;
+      color: #4B5563;
+      padding: 4px 10px;border-radius: 16px;
+      font-size: 13px;font-weight: 500;
+    }
+    .status-label.confirmed {
+      background-color: #DEF7EC;
+      color: #067647;
+    }
+    .status-label.budget {
+      background-color: #E0E7FF;
+      color: #3730A3;
+    }
+    .user-info-container {
+      background-color: #FFFFFF;
+      padding: 16px;border-radius: 10px;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      padding-bottom: 12px;}
+    .user-info img {
+      width: 40px;height: 40px;border-radius: 50%;
+      margin-right: 12px;border: 2px solid #4F46E5;
+    }
+    .user-info div h2 {
+      font-size: 17px;font-weight: 600;
+      color: #1F2937;
+      line-height: 1.4;
+    }
+    .user-info div p {
+      font-size: 13px;color: #6B7280;
+      line-height: 1.4;
+    }
+    .financial-info-values-container {
+      background-color: #FFFFFF;
+      padding: 16px;border-radius: 10px;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+    }
+    .financial-info-values-container .financial-info-header {
+      font-size: 17px;font-weight: 600;
+      color: #1F2937;
+      margin-bottom: 12px;padding-bottom: 12px;border-bottom: 1px solid #E5E7EB;
+    }
+    .financial-actions-container {
+      background-color: #FFFFFF;
+      padding: 16px;border-radius: 10px;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+    }
+    .pricing-info {
+      background-color: #EEF2FF;
+      padding: 12px 16px;border-radius: 6px;
+      text-align: left;
+      margin-bottom: 16px;}
+    .pricing-info h3 {
+      font-size: 18px;font-weight: 700;
+      color: #4F46E5;
+      margin-bottom: 6px;line-height: 1.4;
+    }
+    .pricing-info p {
+      font-size: 13px;color: #4338CA;
+      margin-bottom: 4px;line-height: 1.5;
+    }
+    .pricing-info p:last-child {
+      margin-bottom: 0;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #D1D5DB;
+      background-color: #FFFFFF;
+      padding: 0 18px;border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+      overflow-x: auto;
+    }
+    .tab-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;margin-right: 18px;font-size: 15px;color: #6B7280;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .tab-item .material-icons {
+      margin-right: 8px;font-size: 19px;}
+    .tab-item:hover {
+      color: #4F46E5;
+    }
+    .tab-item.active {
+      color: #4F46E5;
+      border-bottom-color: #4F46E5;
+      font-weight: 600;
+    }
+    .service-buttons-container {
+      display: flex;
+      gap: 10px;padding: 18px 18px 0;background-color: #FFFFFF;
+      box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+      overflow-x: auto;
+    }
+    .service-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;padding: 8px 14px;border-radius: 6px;
+      font-size: 14px;font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .service-button .material-icons {
+      font-size: 19px;}
+    .service-button.active {
+      background-color: #4F46E5;
+      color: #FFFFFF;
+      border: 1px solid #4F46E5;
+    }
+    .service-button.active:hover {
+      background-color: #4338CA;
+    }
+    .service-button.inactive {
+      background-color: #FFFFFF;
+      color: #4B5563;
+      border: 1px solid #D1D5DB;
+    }
+    .service-button.inactive:hover {
+      background-color: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+    .content-section {
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      padding: 18px;box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .tabs+.service-buttons-container+.content-section,
+    .tabs+.content-section {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .service-buttons-container+.content-section {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;cursor: pointer;
+    }
+    .section-header h3 {
+      font-size: 17px;font-weight: 600;
+      color: #1F2937;
+      line-height: 1.4;
+    }
+    .section-header .material-icons {
+      font-size: 22px;color: #6B7280;
+      transition: transform 0.3s ease;
+    }
+    .section-header .material-icons.rotate-180 {
+      transform: rotate(180deg);
+    }
+    .section-content.collapsed {
+      display: none;
+    }
+    .hotel-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;background-color: #F8F9FA;
+      border-radius: 8px;
+      padding: 14px;margin-bottom: 12px;border: 1px solid #E5E7EB;
+    }
+    @media (min-width: 640px) {
+      .hotel-card {
+        grid-template-columns: auto 1fr;
+      }
+    }
+    .hotel-card:last-child {
+      margin-bottom: 0;
+    }
+    .hotel-image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hotel-image {
+      width: 130px;height: 130px;object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .hotel-info {
+      flex-grow: 1;
+    }
+    .hotel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;}
+    .hotel-name-provider h4 {
+      font-size: 17px;font-weight: 600;
+      color: #1F2937;
+      margin-bottom: 3px;line-height: 1.4;
+    }
+    .hotel-name-provider p {
+      font-size: 13px;color: #6B7280;
+      line-height: 1.4;
+    }
+     .hotel-name-provider p .material-icons {
+      font-size: 15px;}
+    .hotel-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));gap: 8px 12px;font-size: 13px;color: #6B7280;
+      margin-bottom: 12px;line-height: 1.5;
+    }
+    .hotel-meta-item {
+      display: flex;
+      align-items: center;
+    }
+    .hotel-meta-item .material-icons {
+      font-size: 17px;margin-right: 6px;color: #9CA3AF;
+    }
+    .hotel-meta-item strong {
+      color: #1F2937;
+      font-weight: 500;
+      margin-left: 3px;
+    }
+    .hotel-pricing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;font-size: 13px;color: #6B7280;
+      padding-top: 12px;border-top: 1px solid #E5E7EB;
+      line-height: 1.5;
+    }
+     .hotel-pricing .material-icons {
+      font-size: 15px;}
+    @media (min-width: 500px) {
+      .hotel-pricing {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    .hotel-pricing strong {
+      color: #1F2937;
+      font-weight: 500;
+    }
+    .hotel-pricing .total {
+      font-size: 16px;font-weight: 700;
+      color: #4F46E5;
+      margin-top: 4px;
+    }
+     .hotel-pricing .total .material-icons {
+      font-size: 18px;}
+    @media (min-width: 500px) {
+      .hotel-pricing .total {
+        margin-top: 0;
+      }
+    }
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid #E5E7EB;
+    }
+    .sidebar-footer .sidebar-item .material-icons:last-child {
+      margin-left: auto;
+      margin-right: 0;
+    }
+    .profile-section {
+      display: flex;
+      align-items: center;
+      padding: 16px 0px 0px;
+    }
+    .profile-section img {
+      width: 44px;height: 44px;border-radius: 50%;
+      margin-right: 14px;}
+    .profile-section div p {
+      font-size: 16px;color: #1F2937;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .profile-section div span {
+      font-size: 14px;color: #6B7280;
+      line-height: 1.4;
+    }
+    .action-toggles {}
+    .action-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;color: #4B5563;
+      margin-bottom: 10px;line-height: 1.5;
+    }
+    .action-toggle:last-child {
+      margin-bottom: 0;
+    }
+    .action-toggle span {
+      font-weight: 500;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;height: 22px;}
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 22px;}
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;width: 16px;left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked+.slider {
+      background-color: #4F46E5;
+    }
+    input:checked+.slider:before {
+      transform: translateX(16px);}
+    .action-buttons-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;margin-top: 16px;padding-top: 16px;border-top: 1px solid #E5E7EB;
+    }
+    .action-button {
+      background-color: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      color: #374151;
+      padding: 8px 12px;border-radius: 6px;
+      font-size: 14px;font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;line-height: 1.5;
+    }
+    .action-button:hover {
+      background-color: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+    .action-button .material-icons {
+      font-size: 19px;}
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100%;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+      .sidebar.open {
+        left: 0;
+      }
+      .main-content-wrapper {
+        padding: 16px;
+      }
+      .header-title-section .material-icons:first-child {
+        display: block;
+      }
+      .tabs,
+      .service-buttons-container {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+    @media (min-width: 769px) {
+      .header-title-section .material-icons:first-child {}
+    }
+  </style>
+</head>
+<body class="font-['Inter']">
+<aside class="sidebar">
+<div class="sidebar-logo">BUKEER</div>
+<nav class="flex-grow">
+<a class="sidebar-item" href="#">
+<span class="material-icons">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="sidebar-item active" href="#">
+<span class="material-icons">receipt_long</span>
+<span>Itinerarios</span>
+</a>
+<a class="sidebar-item" href="#">
+<span class="material-icons">contacts</span>
+<span>Contactos</span>
+</a>
+<a class="sidebar-item" href="#">
+<span class="material-icons">inventory_2</span>
+<span>Productos</span>
+</a>
+<a class="sidebar-item" href="#">
+<span class="material-icons">calendar_today</span>
+<span>Agenda</span>
+</a>
+<a class="sidebar-item" href="#">
+<span class="material-icons">group</span>
+<span>Usuarios</span>
+</a>
+</nav>
+<div class="sidebar-footer">
+<a class="sidebar-item" href="#">
+<span class="material-icons">settings</span>
+<span>Ajustes</span>
+<span class="material-icons">chevron_right</span>
+</a>
+<div class="profile-section">
+<img alt="Avatar del equipo técnico" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO-f7DUSZH_lenKqI9PwzDS0XFhNv-oTGNeMdOKD7xaS4ECBoYZoDfRN0vZCR9SrbsYRqcg2vUvYlsi-MQstABMFUEh4CYRtv1syUyv0t8q_JrOY_w7AtXTlDFdf2_sZb4KLHczO-gnAjMISJtFEOVXQZTEtM8AzNkr3rGksgtyHnMMN89absDcT-rp6_iYAJrlhPCATT3mJZN6rNte_lGiJfwSvQ8WkNWMd9ZqD1eG-IXc140RYspUXEGbW2sO9DQiyZ6jP7zO_M1"/>
+<div>
+<p>Equipo Técnico</p>
+<span>consultoria@weppa.co</span>
+</div>
+</div>
+</div>
+</aside>
+<div class="main-content-wrapper">
+<main class="main-content">
+<header class="header">
+<div class="header-title-section">
+<span class="material-icons md:hidden" onclick="toggleSidebar()">menu</span>
+<span class="material-icons hidden md:inline-block">arrow_back</span>
+<div class="header-title-text">
+<h1>Vacaciones en Familia a Medellín ✈️</h1>
+</div>
+</div>
+<div class="header-actions">
+</div>
+</header>
+<div class="itinerary-grid">
+<div class="content-column">
+<div class="tabs">
+<div class="tab-item active">
+<span class="material-icons">list_alt</span> Items
+            </div>
+<div class="tab-item">
+<span class="material-icons">group</span> Passengers
+            </div>
+<div class="tab-item">
+<span class="material-icons">visibility</span> Preview
+            </div>
+<div class="tab-item">
+<span class="material-icons">payments</span> Payments
+            </div>
+<div class="tab-item">
+<span class="material-icons">storefront</span> Providers
+            </div>
+</div>
+<div class="service-buttons-container">
+<button class="service-button inactive">
+<span class="material-icons">flight</span>
+<span>Flights</span>
+</button>
+<button class="service-button active">
+<span class="material-icons">hotel</span>
+<span>Hotels</span>
+</button>
+<button class="service-button inactive">
+<span class="material-icons">room_service</span>
+<span>Services</span>
+</button>
+<button class="service-button inactive">
+<span class="material-icons">directions_car</span>
+<span>Transfers</span>
+</button>
+</div>
+<div class="content-section">
+<div class="section-header" onclick="toggleSection(this)">
+<h3>Total hoteles $3.500.000,00</h3>
+<span class="material-icons">expand_less</span>
+</div>
+<div class="section-content">
+<div class="hotel-card">
+<div class="hotel-image-container order-last sm:order-first">
+<img alt="Hotel Estelar Blue" class="hotel-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyxJVCl73Y-R3JOdYuHZzzuXKJvPr-ZVSmGZVIZEEmEQCuvYn-xTzRRFt809NYnEU2HCevyEOGMTLRCuvzCnuz_Ua0tOI-lJAzoXVUx9sQzyQeZAYpeTJCIiAuioocWFWjvw1ulzWo3ynT1bjWDk-cOTX8ZgnATjRQ80BTgoDue1CPwrYpZZ-aToeGsf7tUq6ip0Lh7uWfs05-3zHyLa9mBkjeXX0xcj1KUM8qEo4mdXGnHw3WSGndbPNDzllTGHrxhNCyZDUBS2T6"/>
+</div>
+<div class="hotel-info">
+<div class="hotel-header">
+<div class="hotel-name-provider">
+<h4>Hotel Estelar Blue</h4>
+<p><span class="material-icons text-sm mr-1 align-bottom">store</span>Booking.com</p>
+</div>
+</div>
+<div class="hotel-meta">
+<div class="hotel-meta-item" title="Habitación">
+<span class="material-icons">king_bed</span>
+<strong>Doble Estándar</strong>
+</div>
+<div class="hotel-meta-item" title="Fechas">
+<span class="material-icons">date_range</span>
+<strong>07 Jul - 11 Jul 2025</strong>
+</div>
+<div class="hotel-meta-item" title="Ubicación">
+<span class="material-icons">location_on</span>
+<strong>Medellín, Antioquia</strong>
+</div>
+<div class="hotel-meta-item" title="Noches">
+<span class="material-icons">night_shelter</span>
+<strong>4</strong>
+</div>
+<div class="hotel-meta-item" title="Habitaciones">
+<span class="material-icons">meeting_room</span>
+<strong>2</strong>
+</div>
+</div>
+<div class="hotel-pricing">
+<div>
+<span class="material-icons text-sm mr-1 align-bottom text-gray-400" title="Tarifa noche">sell</span><strong>$350.000,00</strong>
+<span class="mx-1 text-gray-300">|</span>
+<span class="material-icons text-sm mr-1 align-bottom text-gray-400" title="Markup">trending_up</span> <strong>15%</strong>
+<span class="mx-1 text-gray-300">|</span>
+<span class="material-icons text-sm mr-1 align-bottom text-gray-400" title="Valor">request_quote</span> <strong>$402.500,00</strong>
+</div>
+<div class="total"><span class="material-icons text-lg mr-1 align-bottom text-indigo-500" title="Total">paid</span>$3.500.000,00</div>
+</div>
+</div>
+</div>
+<div class="hotel-card">
+<div class="hotel-image-container order-last sm:order-first">
+<img alt="Hotel Dann Carlton" class="hotel-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxV_nVgbBYneZD_VbqYHZePstrtLF5UHg6Cqmqy_00i9-sLP9XP8gFFpBv9hGqc9JmSjdg9AIVsZEyNgNQjLfeu5Z5i2-R_lZi-MrltYi43U5-oeW5nwUADPHV5Kwak5idCiAX5mF-1JLDKvHu0eRTW5Y7L2KPXSgFWvjDY09CAs16c0V2tCllBReANG8Ryv24xFDXybDFBRPkTi5qWE5Vwv_pie8Xg857ZHfeC2GpHZaWwgPqpdK-_5ViLGeU3umOCJ7TzMX61MZh"/>
+</div>
+<div class="hotel-info">
+<div class="hotel-header">
+<div class="hotel-name-provider">
+<h4>Hotel Dann Carlton Medellín</h4>
+<p><span class="material-icons text-sm mr-1 align-bottom">store</span>Expedia</p>
+</div>
+</div>
+<div class="hotel-meta">
+<div class="hotel-meta-item" title="Habitación">
+<span class="material-icons">king_bed</span>
+<strong>Suite Ejecutiva</strong>
+</div>
+<div class="hotel-meta-item" title="Fechas">
+<span class="material-icons">date_range</span>
+<strong>07 Jul - 11 Jul 2025</strong>
+</div>
+<div class="hotel-meta-item" title="Ubicación">
+<span class="material-icons">location_on</span>
+<strong>Medellín, Antioquia</strong>
+</div>
+<div class="hotel-meta-item" title="Noches">
+<span class="material-icons">night_shelter</span>
+<strong>4</strong>
+</div>
+<div class="hotel-meta-item" title="Habitaciones">
+<span class="material-icons">meeting_room</span>
+<strong>1</strong>
+</div>
+</div>
+<div class="hotel-pricing">
+<div>
+<span class="material-icons text-sm mr-1 align-bottom text-gray-400" title="Tarifa noche">sell</span><strong>$550.000,00</strong>
+<span class="mx-1 text-gray-300">|</span>
+<span class="material-icons text-sm mr-1 align-bottom text-gray-400" title="Markup">trending_up</span><strong>10%</strong>
+<span class="mx-1 text-gray-300">|</span>
+<span class="material-icons text-sm mr-1 align-bottom text-gray-400" title="Valor">request_quote</span><strong>$605.000,00</strong>
+</div>
+<div class="total"><span class="material-icons text-lg mr-1 align-bottom text-indigo-500" title="Total">paid</span>$2.420.000,00</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="info-column">
+<div class="user-info-container">
+<div class="user-info">
+<img alt="Avatar de Juan David Alvarez" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9GB_qyOhdwMmfZzQ_d5jfGTOd2jXLrO5r5ivnqhxPfg4DYLxIq98EngJiWPfYdZDwgyFzrhi0QFBGP5_7a43IRsGCW05IwTJCRDti9x9j6DVstt96g2KMqT1XNEUmCq5qp8pBpSXZ_op7O3hU9Pj2ZB885N0nBnpvHkANRpMRmYg0tdLQS3NYaNLBp5dKGg70O5ohZnGIE7LOd4f5tw2sSyXNboGNghpun-heaOeRPlsfSauuKJlghkJoxcS-jzEl_YsWwxq0aAOP"/>
+<div>
+<h2>Juan David Alvarez</h2>
+<p>Travel Planner</p>
+</div>
+</div>
+</div>
+<div class="info-box">
+<div class="info-box-header">
+<span>Información del Itinerario</span>
+<div class="flex items-center gap-2">
+<button class="icon-button" title="Duplicar Itinerario">
+<span class="material-icons">file_copy</span>
+</button>
+<button class="icon-button" title="Editar Detalles del Itinerario">
+<span class="material-icons">edit</span>
+</button>
+</div>
+</div>
+<div class="info-box-item">
+<span class="material-icons">tag</span> ID: <strong>1-6180</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">person_outline</span> Cliente: <strong>Sandra Aponte</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">label</span> Estado: <span class="status-label budget ml-1">Presupuesto</span>
+</div>
+<div class="info-box-item">
+<span class="material-icons">date_range</span> Fechas: <strong>07 Jul 2025 - 11 Jul 2025</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">people_alt</span> Pasajeros: <strong>3 adultos, 2 niños</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">translate</span> Idioma: <strong>Español</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">flight_class</span> Clase: <strong>Econo</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">event_available</span> Creado: <strong>08 Jun 2025</strong>
+</div>
+<div class="info-box-item">
+<span class="material-icons">currency_exchange</span> Rate: <strong>3,950 COP/USD</strong>
+</div>
+<div class="action-toggle mt-3 pt-3 border-t border-gray-200">
+<span id="status-toggle-label">Bloqueado (Confirmado)</span>
+<label class="switch">
+<input id="status-toggle" onchange="updateStatus()" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</div>
+<div class="financial-info-values-container">
+<h2 class="financial-info-header">Información Financiera</h2>
+<div class="pricing-info">
+<h3>Total $7.450.100,00 COP</h3>
+<p>Valor por persona $1.490.020,00 COP</p>
+<p>Margen $1.179.100,00 COP</p>
+</div>
+<div class="action-toggles">
+<div class="action-toggle">
+<span>Ocultar Tarifas</span>
+<label class="switch">
+<input type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+<div class="action-toggle">
+<span>Publicar en la Web</span>
+<label class="switch">
+<input checked="" type="checkbox"/>
+<span class="slider"></span>
+</label>
+</div>
+</div>
+</div>
+<div class="financial-actions-container">
+<div class="action-buttons-container mt-0 pt-0 border-t-0">
+<button class="action-button">
+<span class="material-icons">picture_as_pdf</span> Exportar Itinerario (PDF)
+              </button>
+<button class="action-button">
+<span class="material-icons">visibility</span> Ver en la Web
+              </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    function toggleSection(headerElement) {
+      const content = headerElement.nextElementSibling;
+      const icon = headerElement.querySelector('.material-icons');
+      content.classList.toggle('collapsed');
+      if (content.classList.contains('collapsed')) {
+        icon.textContent = 'expand_more';
+      } else {
+        icon.textContent = 'expand_less';
+      }
+    }
+    document.querySelectorAll('.section-header').forEach(header => {
+      const icon = header.querySelector('.material-icons');
+      const content = header.nextElementSibling;
+      if (content && content.classList.contains('collapsed')) {
+        icon.textContent = 'expand_more';
+      } else {
+        icon.textContent = 'expand_less';
+      }
+    });
+    function updateStatus() {
+      const statusToggle = document.getElementById('status-toggle');
+      const statusLabelElement = document.querySelector('.info-box-item .status-label');
+      const statusToggleLabel = document.getElementById('status-toggle-label');
+      if (statusToggle.checked) {
+        statusLabelElement.textContent = 'Confirmado';
+        statusLabelElement.classList.remove('budget');
+        statusLabelElement.classList.add('confirmed');
+        statusToggleLabel.textContent = 'Bloqueado (Confirmado)';
+        document.querySelectorAll('.service-button, .action-button, .icon-button[title*="Editar"], .icon-button[title*="Duplicar"]').forEach(el => el.disabled = true);
+        document.querySelectorAll('.tabs .tab-item').forEach(el => el.style.pointerEvents = 'none');
+        document.querySelectorAll('.content-section .section-header').forEach(el => el.style.pointerEvents = 'none');
+        document.querySelectorAll('.hotel-card input, .hotel-card select, .hotel-card button').forEach(el => el.disabled = true);
+        document.querySelectorAll('.financial-info-values-container input[type="checkbox"]:not(#status-toggle), .financial-actions-container input[type="checkbox"]:not(#status-toggle)').forEach(el => el.disabled = true);
+      } else {
+        statusLabelElement.textContent = 'Presupuesto';
+        statusLabelElement.classList.remove('confirmed');
+        statusLabelElement.classList.add('budget');
+        statusToggleLabel.textContent = 'Desbloqueado (Presupuesto)';
+        document.querySelectorAll('.service-button, .action-button, .icon-button[title*="Editar"], .icon-button[title*="Duplicar"]').forEach(el => el.disabled = false);
+        document.querySelectorAll('.tabs .tab-item').forEach(el => el.style.pointerEvents = 'auto');
+        document.querySelectorAll('.content-section .section-header').forEach(el => el.style.pointerEvents = 'auto');
+        document.querySelectorAll('.hotel-card input, .hotel-card select, .hotel-card button').forEach(el => el.disabled = false);
+        document.querySelectorAll('.financial-info-values-container input[type="checkbox"]:not(#status-toggle), .financial-actions-container input[type="checkbox"]:not(#status-toggle)').forEach(el => el.disabled = false);
+      }
+    }
+    updateStatus();
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('open');
+    }
+    document.addEventListener('click', function(event) {
+      const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content-wrapper');
+      const toggleButton = document.querySelector('.header-title-section .material-icons.md\\:hidden');
+      if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body></html>

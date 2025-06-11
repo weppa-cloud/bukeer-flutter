@@ -174,7 +174,7 @@ flutter:
     - assets/jsons/
 
   fonts:
-    - family: 'outfitSemiBold'
+    - family: outfitSemiBold
       fonts:
         - asset: assets/fonts/Outfit-SemiBold.ttf
           weight: 600

@@ -8,39 +8,42 @@ class BukeerBreakpoints {
   // ================================
   // BREAKPOINT VALUES
   // ================================
-  
-  /// Mobile breakpoint (phones)
+
+  /// Mobile breakpoint (phones) - from itinerary design
   static const double mobile = 479.0;
-  
-  /// Tablet breakpoint (tablets in portrait)
+
+  /// Tablet breakpoint (tablets in portrait) - from itinerary design
   static const double tablet = 991.0;
-  
-  /// Desktop breakpoint (desktop screens)
-  static const double desktop = 1200.0;
-  
+
+  /// Desktop breakpoint (desktop screens) - from itinerary design
+  static const double desktop = 992.0;
+
   /// Large desktop breakpoint (large screens)
+  static const double widescreen = 1280.0;
+
+  /// Extra large desktop breakpoint (very large screens)
   static const double largeDesktop = 1440.0;
 
   // ================================
   // SCREEN SIZE DETECTION
   // ================================
-  
+
   /// Check if current screen is mobile
   static bool isMobile(BuildContext context) {
     return MediaQuery.of(context).size.width <= mobile;
   }
-  
+
   /// Check if current screen is tablet
   static bool isTablet(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return width > mobile && width <= tablet;
   }
-  
+
   /// Check if current screen is desktop
   static bool isDesktop(BuildContext context) {
     return MediaQuery.of(context).size.width > tablet;
   }
-  
+
   /// Check if current screen is large desktop
   static bool isLargeDesktop(BuildContext context) {
     return MediaQuery.of(context).size.width > largeDesktop;
@@ -59,7 +62,7 @@ class BukeerBreakpoints {
   // ================================
   // RESPONSIVE VALUES
   // ================================
-  
+
   /// Get responsive value based on screen size
   static T getResponsiveValue<T>(
     BuildContext context, {
@@ -69,7 +72,7 @@ class BukeerBreakpoints {
     T? largeDesktop,
   }) {
     final width = MediaQuery.of(context).size.width;
-    
+
     if (width <= BukeerBreakpoints.mobile) {
       return mobile;
     } else if (width <= BukeerBreakpoints.tablet) {
@@ -118,7 +121,7 @@ class BukeerBreakpoints {
   // ================================
   // LAYOUT CONSTANTS
   // ================================
-  
+
   /// Maximum content width for different screen sizes
   static double getMaxContentWidth(BuildContext context) {
     if (isMobile(context)) {
@@ -159,11 +162,11 @@ class BukeerBreakpoints {
   // ================================
   // RESPONSIVE UTILITIES
   // ================================
-  
+
   /// Get current device type
   static DeviceType getDeviceType(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    
+
     if (width <= mobile) {
       return DeviceType.mobile;
     } else if (width <= tablet) {
@@ -258,10 +261,10 @@ class ResponsiveLayoutConfig {
 /// Extension for easier breakpoint access in widgets
 extension BukeerBreakpointsExtension on BuildContext {
   BukeerBreakpoints get breakpoints => BukeerBreakpoints._();
-  
+
   /// Quick access to device type
   DeviceType get deviceType => BukeerBreakpoints.getDeviceType(this);
-  
+
   /// Quick access to device checks
   bool get isMobile => BukeerBreakpoints.isMobile(this);
   bool get isTablet => BukeerBreakpoints.isTablet(this);

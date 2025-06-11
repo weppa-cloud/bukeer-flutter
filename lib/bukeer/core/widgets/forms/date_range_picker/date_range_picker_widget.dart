@@ -157,7 +157,8 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
           '${_model.endDate!.day}/${_model.endDate!.month}/${_model.endDate!.year}';
     }
 
-    return '$presetName  $startText - $endText';
+    // Just return the date range without preset name
+    return '$startText - $endText';
   }
 
   String _detectPresetName(DateTime startDate, DateTime endDate) {
@@ -212,6 +213,7 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   void _showDateRangePickerDialog() {
     showDialog(
       context: context,
+      barrierDismissible: false, // Prevent closing by clicking outside
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
@@ -223,15 +225,21 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
               initialStartDate: _model.startDate,
               initialEndDate: _model.endDate,
               onDateRangeChanged: (startDate, endDate) {
+                // Update internal state
                 setState(() {
                   _model.startDate = startDate;
                   _model.endDate = endDate;
                 });
 
                 // Call the callback if provided
-                if (widget.onDateRangeChanged != null) {
+                if (widget.onDateRangeChanged != null &&
+                    startDate != null &&
+                    endDate != null) {
                   widget.onDateRangeChanged!(startDate, endDate);
                 }
+
+                // Close the dialog
+                Navigator.of(context).pop();
               },
             ),
           ),

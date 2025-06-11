@@ -16,6 +16,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'auth_login_model.dart';
 import '../../../../services/app_services.dart';
 export 'auth_login_model.dart';
@@ -578,63 +579,244 @@ class _AuthLoginWidgetState extends State<AuthLoginWidget>
                                   // This button does the login flow
                                   FFButtonWidget(
                                     onPressed: () async {
-                                      GoRouter.of(context).prepareAuthEvent();
-
-                                      final user =
-                                          await authManager.signInWithEmail(
-                                        context,
-                                        _model.emailAddressTextController.text,
-                                        _model.passwordTextController.text,
-                                      );
-                                      if (user == null) {
+                                      // Validate form fields
+                                      if (_model.emailAddressTextController.text
+                                          .isEmpty) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Por favor ingresa tu correo electrónico'),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
                                         return;
                                       }
 
-                                      _model.responseAccount =
-                                          await UserRolesTable().queryRows(
-                                        queryFn: (q) => q
-                                            .eqOrNull(
-                                              'user_id',
-                                              currentUserUid,
-                                            )
-                                            .order('created_at'),
-                                      );
-                                      // Store accountId in AccountService
-                                      final accountId = _model.responseAccount!
-                                          .firstOrNull!.accountId!;
-                                      await appServices.account
-                                          .setAccountId(accountId);
-                                      _model.responseIdfm =
-                                          await AccountsTable().queryRows(
-                                        queryFn: (q) => q.eqOrNull(
-                                          'id',
-                                          accountId,
-                                        ),
-                                      );
-                                      // Store roleId in UserService
-                                      final roleId = _model.responseAccount!
-                                          .firstOrNull!.roleId!;
-                                      await appServices.user
-                                          .setUserRole(roleId.toString());
-                                      // Invalidar cache de autorización para refrescar permisos
-                                      appServices.authorization
-                                          .invalidateCache();
-                                      // Store accountIdFm in AccountService
-                                      final accountIdFm = _model
-                                          .responseIdfm!.firstOrNull!.idFm
-                                          .toString();
-                                      await appServices.account
-                                          .setAccountIdFm(accountIdFm);
+                                      if (_model.passwordTextController.text
+                                          .isEmpty) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Por favor ingresa tu contraseña'),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                        return;
+                                      }
 
-                                      // Initialize user data after login
-                                      await appServices.user.initializeUserData(
-                                          accountId: accountId);
+                                      try {
+                                        // Show loading indicator
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (context) => Center(
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                            ),
+                                          ),
+                                        );
 
-                                      context.goNamedAuth(
-                                          MainHomeWidget.routeName,
-                                          context.mounted);
+                                        GoRouter.of(context).prepareAuthEvent();
 
-                                      safeSetState(() {});
+                                        final user =
+                                            await authManager.signInWithEmail(
+                                          context,
+                                          _model.emailAddressTextController.text
+                                              .trim(),
+                                          _model.passwordTextController.text,
+                                        );
+
+                                        if (user == null) {
+                                          // Hide loading
+                                          if (context.mounted)
+                                            Navigator.of(context).pop();
+                                          // Error already shown by authManager
+                                          return;
+                                        }
+
+                                        // Query user roles
+                                        _model.responseAccount =
+                                            await UserRolesTable().queryRows(
+                                          queryFn: (q) => q
+                                              .eqOrNull(
+                                                'user_id',
+                                                currentUserUid,
+                                              )
+                                              .order('created_at'),
+                                        );
+
+                                        // Check if user has roles
+                                        if (_model.responseAccount == null ||
+                                            _model.responseAccount!.isEmpty) {
+                                          // Hide loading
+                                          if (context.mounted)
+                                            Navigator.of(context).pop();
+
+                                          // Sign out the user
+                                          await authManager.signOut();
+
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'No se encontró información de usuario. Contacta al administrador.'),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                                duration: Duration(seconds: 5),
+                                              ),
+                                            );
+                                          }
+                                          return;
+                                        }
+
+                                        // Get first user role
+                                        final firstUserRole =
+                                            _model.responseAccount!.firstOrNull;
+                                        if (firstUserRole == null ||
+                                            firstUserRole.accountId == null) {
+                                          // Hide loading
+                                          if (context.mounted)
+                                            Navigator.of(context).pop();
+
+                                          // Sign out the user
+                                          await authManager.signOut();
+
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Configuración de cuenta incompleta. Contacta al administrador.'),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                                duration: Duration(seconds: 5),
+                                              ),
+                                            );
+                                          }
+                                          return;
+                                        }
+
+                                        // Store accountId in AccountService
+                                        final accountId =
+                                            firstUserRole.accountId!;
+                                        await appServices.account
+                                            .setAccountId(accountId);
+
+                                        // Query account info
+                                        _model.responseIdfm =
+                                            await AccountsTable().queryRows(
+                                          queryFn: (q) => q.eqOrNull(
+                                            'id',
+                                            accountId,
+                                          ),
+                                        );
+
+                                        // Check if account exists
+                                        if (_model.responseIdfm == null ||
+                                            _model.responseIdfm!.isEmpty) {
+                                          // Hide loading
+                                          if (context.mounted)
+                                            Navigator.of(context).pop();
+
+                                          // Sign out the user
+                                          await authManager.signOut();
+
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Cuenta no encontrada. Contacta al administrador.'),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                                duration: Duration(seconds: 5),
+                                              ),
+                                            );
+                                          }
+                                          return;
+                                        }
+
+                                        // Store roleId in UserService
+                                        final roleId = firstUserRole.roleId;
+                                        if (roleId != null) {
+                                          await appServices.user
+                                              .setUserRole(roleId.toString());
+                                        }
+
+                                        // Invalidar cache de autorización para refrescar permisos
+                                        appServices.authorization
+                                            .invalidateCache();
+
+                                        // Store accountIdFm in AccountService
+                                        final firstAccount =
+                                            _model.responseIdfm!.firstOrNull;
+                                        if (firstAccount != null &&
+                                            firstAccount.idFm != null) {
+                                          final accountIdFm =
+                                              firstAccount.idFm.toString();
+                                          await appServices.account
+                                              .setAccountIdFm(accountIdFm);
+                                        }
+
+                                        // Initialize user data after login
+                                        await appServices.user
+                                            .initializeUserData(
+                                                accountId: accountId);
+
+                                        // Hide loading
+                                        if (context.mounted)
+                                          Navigator.of(context).pop();
+
+                                        if (context.mounted) {
+                                          context.goNamedAuth(
+                                              MainHomeWidget.routeName,
+                                              context.mounted);
+                                        }
+
+                                        safeSetState(() {});
+                                      } catch (e) {
+                                        // Hide loading if still showing
+                                        if (context.mounted)
+                                          Navigator.of(context).pop();
+
+                                        // Log error for debugging
+                                        debugPrint('Login error: $e');
+
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Error al iniciar sesión. Por favor intenta nuevamente.'),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              duration: Duration(seconds: 5),
+                                              action: SnackBarAction(
+                                                label: 'Reintentar',
+                                                textColor: Colors.white,
+                                                onPressed: () {
+                                                  // Clear password field for security
+                                                  _model.passwordTextController
+                                                      ?.clear();
+                                                },
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      }
                                     },
                                     text: 'Iniciar sesión',
                                     options: FFButtonOptions(

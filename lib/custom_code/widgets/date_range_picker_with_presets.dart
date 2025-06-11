@@ -151,8 +151,36 @@ class _DateRangePickerWithPresetsState
     super.initState();
     _startDate = widget.initialStartDate;
     _endDate = widget.initialEndDate;
+
+    // If no dates provided, default to last 28 days
+    if (_startDate == null || _endDate == null) {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      _endDate = today;
+      _startDate = today.subtract(Duration(days: 27));
+      _selectedPreset = 'last28days';
+    } else {
+      // Detect which preset matches the current dates
+      _selectedPreset = _detectCurrentPreset();
+    }
+
     _updateDateControllers();
-    _selectedPreset = 'last28days'; // Default selection like GA
+  }
+
+  String? _detectCurrentPreset() {
+    if (_startDate == null || _endDate == null) return null;
+
+    for (final preset in _presets) {
+      if (preset.key == 'custom') continue;
+
+      final range = preset.getDateRange();
+      if (_isSameDay(_startDate!, range.start) &&
+          _isSameDay(_endDate!, range.end)) {
+        return preset.key;
+      }
+    }
+
+    return 'custom';
   }
 
   @override
@@ -211,13 +239,14 @@ class _DateRangePickerWithPresetsState
                   child: ListView.builder(
                     padding: EdgeInsets.symmetric(vertical: 8),
                     itemCount: _presets.length,
-                    itemBuilder: (context, index) => _buildPresetButton(_presets[index]),
+                    itemBuilder: (context, index) =>
+                        _buildPresetButton(_presets[index]),
                   ),
                 ),
               ],
             ),
           ),
-          
+
           // Right side with date inputs and calendar
           Expanded(
             child: Padding(
@@ -234,13 +263,19 @@ class _DateRangePickerWithPresetsState
                           children: [
                             Text(
                               'Fecha de inicio',
-                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                color: FlutterFlowTheme.of(context).secondaryText,
-                                fontSize: 12,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts:
+                                        !FlutterFlowTheme.of(context)
+                                            .bodyMediumIsCustom,
+                                  ),
                             ),
                             SizedBox(height: 4),
                             Container(
@@ -255,14 +290,20 @@ class _DateRangePickerWithPresetsState
                               child: TextField(
                                 controller: _startDateController,
                                 readOnly: true,
-                                style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                  fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
-                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .bodyLargeFamily,
+                                      letterSpacing: 0.0,
+                                      useGoogleFonts:
+                                          !FlutterFlowTheme.of(context)
+                                              .bodyLargeIsCustom,
+                                    ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
                                   suffixIcon: Icon(
                                     Icons.calendar_today,
                                     color: FlutterFlowTheme.of(context).primary,
@@ -274,34 +315,40 @@ class _DateRangePickerWithPresetsState
                           ],
                         ),
                       ),
-                      
                       SizedBox(width: 16),
-                      
                       Text(
                         '–',
-                        style: FlutterFlowTheme.of(context).headlineMedium.override(
-                          fontFamily: FlutterFlowTheme.of(context).headlineMediumFamily,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          letterSpacing: 0.0,
-                          useGoogleFonts: !FlutterFlowTheme.of(context).headlineMediumIsCustom,
-                        ),
+                        style: FlutterFlowTheme.of(context)
+                            .headlineMedium
+                            .override(
+                              fontFamily: FlutterFlowTheme.of(context)
+                                  .headlineMediumFamily,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              letterSpacing: 0.0,
+                              useGoogleFonts: !FlutterFlowTheme.of(context)
+                                  .headlineMediumIsCustom,
+                            ),
                       ),
-                      
                       SizedBox(width: 16),
-                      
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Fecha de final',
-                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                color: FlutterFlowTheme.of(context).secondaryText,
-                                fontSize: 12,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts:
+                                        !FlutterFlowTheme.of(context)
+                                            .bodyMediumIsCustom,
+                                  ),
                             ),
                             SizedBox(height: 4),
                             Container(
@@ -316,14 +363,20 @@ class _DateRangePickerWithPresetsState
                               child: TextField(
                                 controller: _endDateController,
                                 readOnly: true,
-                                style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                  fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: !FlutterFlowTheme.of(context).bodyLargeIsCustom,
-                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .bodyLargeFamily,
+                                      letterSpacing: 0.0,
+                                      useGoogleFonts:
+                                          !FlutterFlowTheme.of(context)
+                                              .bodyLargeIsCustom,
+                                    ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
                                 ),
                               ),
                             ),
@@ -332,16 +385,16 @@ class _DateRangePickerWithPresetsState
                       ),
                     ],
                   ),
-                  
+
                   SizedBox(height: 20),
-                  
+
                   // Calendar
                   Expanded(
                     child: _buildCalendar(),
                   ),
-                  
+
                   SizedBox(height: 20),
-                  
+
                   // Action buttons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -350,21 +403,24 @@ class _DateRangePickerWithPresetsState
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                           'Cancel',
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                            color: FlutterFlowTheme.of(context).primary,
-                            letterSpacing: 0.0,
-                            useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                color: FlutterFlowTheme.of(context).primary,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: !FlutterFlowTheme.of(context)
+                                    .bodyMediumIsCustom,
+                              ),
                         ),
                       ),
-                      
                       SizedBox(width: 12),
-                      
                       ElevatedButton(
                         onPressed: () {
+                          // Only call the callback, don't close the dialog here
+                          // The parent widget will handle closing the dialog
                           widget.onDateRangeChanged(_startDate, _endDate);
-                          Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -376,12 +432,16 @@ class _DateRangePickerWithPresetsState
                         ),
                         child: Text(
                           'Apply',
-                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                            color: Colors.white,
-                            letterSpacing: 0.0,
-                            useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                color: Colors.white,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: !FlutterFlowTheme.of(context)
+                                    .bodyMediumIsCustom,
+                              ),
                         ),
                       ),
                     ],
@@ -411,14 +471,15 @@ class _DateRangePickerWithPresetsState
         child: Text(
           preset.label,
           style: FlutterFlowTheme.of(context).bodyMedium.override(
-            fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-            color: isSelected
-                ? Colors.white
-                : FlutterFlowTheme.of(context).primaryText,
-            letterSpacing: 0.0,
-            fontWeight: FontWeight.normal,
-            useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-          ),
+                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                color: isSelected
+                    ? Colors.white
+                    : FlutterFlowTheme.of(context).primaryText,
+                letterSpacing: 0.0,
+                fontWeight: FontWeight.normal,
+                useGoogleFonts:
+                    !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+              ),
         ),
       ),
     );
@@ -434,7 +495,8 @@ class _DateRangePickerWithPresetsState
             IconButton(
               onPressed: () {
                 setState(() {
-                  _currentMonth = DateTime(_currentMonth.year, _currentMonth.month - 1, 1);
+                  _currentMonth =
+                      DateTime(_currentMonth.year, _currentMonth.month - 1, 1);
                 });
               },
               icon: Icon(Icons.chevron_left),
@@ -442,27 +504,29 @@ class _DateRangePickerWithPresetsState
             Text(
               DateFormat('MMMM yyyy').format(_currentMonth).toUpperCase(),
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                color: FlutterFlowTheme.of(context).secondaryText,
-                fontSize: 12,
-                letterSpacing: 0.0,
-                fontWeight: FontWeight.w600,
-                useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-              ),
+                    fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    fontSize: 12,
+                    letterSpacing: 0.0,
+                    fontWeight: FontWeight.w600,
+                    useGoogleFonts:
+                        !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                  ),
             ),
             IconButton(
               onPressed: () {
                 setState(() {
-                  _currentMonth = DateTime(_currentMonth.year, _currentMonth.month + 1, 1);
+                  _currentMonth =
+                      DateTime(_currentMonth.year, _currentMonth.month + 1, 1);
                 });
               },
               icon: Icon(Icons.chevron_right),
             ),
           ],
         ),
-        
+
         SizedBox(height: 16),
-        
+
         // Days of week header
         Row(
           children: ['L', 'M', 'X', 'J', 'V', 'S', 'D']
@@ -471,21 +535,23 @@ class _DateRangePickerWithPresetsState
                       child: Text(
                         day,
                         style: FlutterFlowTheme.of(context).bodySmall.override(
-                          fontFamily: FlutterFlowTheme.of(context).bodySmallFamily,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          fontSize: 12,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w600,
-                          useGoogleFonts: !FlutterFlowTheme.of(context).bodySmallIsCustom,
-                        ),
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodySmallFamily,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              fontSize: 12,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w600,
+                              useGoogleFonts: !FlutterFlowTheme.of(context)
+                                  .bodySmallIsCustom,
+                            ),
                       ),
                     ),
                   ))
               .toList(),
         ),
-        
+
         SizedBox(height: 8),
-        
+
         // Calendar grid
         Expanded(
           child: _buildCalendarGrid(),
@@ -495,8 +561,10 @@ class _DateRangePickerWithPresetsState
   }
 
   Widget _buildCalendarGrid() {
-    final firstDayOfMonth = DateTime(_currentMonth.year, _currentMonth.month, 1);
-    final lastDayOfMonth = DateTime(_currentMonth.year, _currentMonth.month + 1, 0);
+    final firstDayOfMonth =
+        DateTime(_currentMonth.year, _currentMonth.month, 1);
+    final lastDayOfMonth =
+        DateTime(_currentMonth.year, _currentMonth.month + 1, 0);
     final startDay = firstDayOfMonth.weekday % 7;
     final daysInMonth = lastDayOfMonth.day;
 
@@ -525,22 +593,26 @@ class _DateRangePickerWithPresetsState
                   : isSelected
                       ? FlutterFlowTheme.of(context).primary.withOpacity(0.3)
                       : Colors.transparent,
-              shape: isRangeStart || isRangeEnd ? BoxShape.circle : BoxShape.rectangle,
+              shape: isRangeStart || isRangeEnd
+                  ? BoxShape.circle
+                  : BoxShape.rectangle,
               border: isRangeEnd && !isRangeStart
-                  ? Border.all(color: FlutterFlowTheme.of(context).primary, width: 2)
+                  ? Border.all(
+                      color: FlutterFlowTheme.of(context).primary, width: 2)
                   : null,
             ),
             child: Center(
               child: Text(
                 day.toString(),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                  color: isRangeStart || isRangeEnd
-                      ? Colors.white
-                      : FlutterFlowTheme.of(context).primaryText,
-                  letterSpacing: 0.0,
-                  useGoogleFonts: !FlutterFlowTheme.of(context).bodyMediumIsCustom,
-                ),
+                      fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
+                      color: isRangeStart || isRangeEnd
+                          ? Colors.white
+                          : FlutterFlowTheme.of(context).primaryText,
+                      letterSpacing: 0.0,
+                      useGoogleFonts:
+                          !FlutterFlowTheme.of(context).bodyMediumIsCustom,
+                    ),
               ),
             ),
           ),
@@ -558,13 +630,13 @@ class _DateRangePickerWithPresetsState
   bool _isDateInRange(DateTime date) {
     if (_startDate == null || _endDate == null) return false;
     return date.isAfter(_startDate!.subtract(Duration(days: 1))) &&
-           date.isBefore(_endDate!.add(Duration(days: 1)));
+        date.isBefore(_endDate!.add(Duration(days: 1)));
   }
 
   bool _isSameDay(DateTime date1, DateTime date2) {
     return date1.year == date2.year &&
-           date1.month == date2.month &&
-           date1.day == date2.day;
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   void _selectDate(DateTime date) {
@@ -594,7 +666,7 @@ class _DateRangePickerWithPresetsState
       });
       return;
     }
-    
+
     final dateRange = preset.getDateRange();
     setState(() {
       _startDate = dateRange.start;
@@ -603,7 +675,6 @@ class _DateRangePickerWithPresetsState
       _updateDateControllers();
     });
   }
-
 }
 
 class DatePreset {

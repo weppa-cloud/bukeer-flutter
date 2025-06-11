@@ -66,51 +66,107 @@ FFAppState().idProductSelected = 'id';
 FFAppState().typeProduct = 'hotels';
 ```
 
-## 🎨 SISTEMA DE DISEÑO Y TEMAS (Actualizado 2025)
+## 🎨 SISTEMA DE DISEÑO Y TEMAS (v2.0 - Enero 2025)
 
-### Migración del Tema FlutterFlow
-El proyecto ha sido actualizado para usar el tema original de FlutterFlow con las siguientes características:
+### Sistema de Design Tokens Actualizado
+El proyecto ha completado una **actualización masiva del sistema de diseño** basándose en los valores extraídos del diseño de itinerarios, con soporte completo para modo oscuro.
 
-#### 📐 Colores Principales
-- **Primary**: `#7C57B3` (morado FlutterFlow)
-- **Secondary**: `#102877` (azul oscuro)
-- **Secondary Dark**: `#68E0F8` (cyan para modo oscuro)
-- **Tertiary**: `#4098F8` (azul claro)
-- **Alternate**: `#B7BAC3` (gris claro para bordes)
+#### 📐 Tokens de Color
+- **Primary**: `#4B39EF` (morado principal Bukeer)
+- **Secondary**: `#39D2C0` (turquesa)
+- **Tertiary**: `#EE8B60` (naranja)
+- **Backgrounds Light**: `#F1F4F8` (primary), `#FFFFFF` (secondary)
+- **Backgrounds Dark**: `#1A1F24` (primary), `#2B2F33` (secondary)
+- **Semánticos**: `#04A24C` (success), `#F9CF58` (warning), `#FF5963` (error)
 
-#### 🔤 Tipografía
-- **Headers**: `outfitSemiBold` (displays y headlines)
-- **Body/Títulos**: `Plus Jakarta Sans` (via Google Fonts)
-- **Tamaños**: Ajustados para coincidir con FlutterFlow original
+#### 🔤 Tokens de Tipografía
+- **Familias**: `Outfit` (headings), `Readex Pro` (body)
+- **Escalas**: 
+  - Headlines: 32px/700, 24px/700, 20px/700
+  - Titles: 22px/600, 18px/600, 16px/500
+  - Body: 16px, 14px, 13px
+- **Sistema responsivo** integrado
 
-#### 🌓 Modo Oscuro Optimizado
-- Navegación con fondo `backgroundDarkSecondary`
-- Bordes de formularios semi-transparentes para mejor visibilidad
-- Contraste mejorado en textos secundarios
+#### 📏 Tokens de Espaciado (Sistema 4px)
+```dart
+xs: 4px    // spacing-xs
+s: 8px     // spacing-sm
+sm: 12px   // spacing-md
+m: 16px    // spacing-lg
+ml: 20px   // spacing-xl
+l: 24px    // spacing-2xl
+xl: 32px   // spacing-3xl
+xxl: 48px  // spacing-4xl
+xxxl: 64px // spacing-5xl
+```
 
-#### 📝 Formularios
-- Sin relleno por defecto (`filled: false`)
-- Bordes con color `alternate` y grosor 2px
-- Estados focus/error claramente diferenciados
+#### 🎭 Nuevos Tokens
+- **Elevación**: 3 niveles de sombra simplificados
+- **Bordes**: Radios (4-20px) y anchos (1-3px)
+- **Animaciones**: Duraciones (0-500ms) y curvas estandarizadas
+- **Breakpoints**: Mobile (<479px), Tablet (479-991px), Desktop (≥992px)
 
-### Uso del Sistema de Diseño
+### Componentes Reutilizables Nuevos
 
 ```dart
-// Acceder a colores
-BukeerColors.primary
-BukeerColors.secondary
-BukeerColors.tertiary
-BukeerColors.alternate
+// Tarjeta de servicio (vuelos, hoteles, etc.)
+BukeerFlightCard(
+  airline: 'JetSmart',
+  origin: 'BOG',
+  destination: 'MDE',
+  departureTime: '09:04',
+  arrivalTime: '10:09',
+  passengers: 5,
+  totalPrice: 295000,
+);
 
-// Tema adaptativo
-Theme.of(context).colorScheme.primary
-Theme.of(context).textTheme.headlineLarge
+// Chips de metadata
+BukeerMetaChipSet(
+  chips: [
+    BukeerMetaChipStyles.tag(text: 'ID 1-6180'),
+    BukeerMetaChipStyles.person(text: '5 adultos'),
+    BukeerMetaChipStyles.date(text: '08 Jun 2025'),
+  ],
+);
 
-// Helpers de color
-BukeerColors.getTextColor(context)
-BukeerColors.getBackground(context)
-BukeerColors.getBorderColor(context)
+// Contenedor de precio
+BukeerPriceContainer(
+  totalPrice: 7450100,
+  pricePerPerson: 1490020,
+  margin: 1179100,
+  currency: 'COP',
+);
 ```
+
+### Uso del Sistema de Diseño v2.0
+
+```dart
+// Importar todo el sistema
+import 'package:bukeer/design_system/index.dart';
+
+// Acceder a tokens
+BukeerColors.primary          // Colores
+BukeerTypography.headlineLarge // Tipografía
+BukeerSpacing.m               // Espaciado (16px)
+BukeerElevation.shadow1       // Sombras
+BukeerBorderRadius.md         // Border radius (8px)
+BukeerAnimations.medium       // Animaciones (300ms)
+
+// Helpers responsivos
+if (BukeerBreakpoints.isMobile(context)) { }
+BukeerBreakpoints.getResponsivePadding(context);
+```
+
+### 📚 Documentación Completa del Sistema de Diseño
+
+#### 🎯 Documento Principal
+- **[Guía Completa Unificada](/docs/BUKEER_DESIGN_SYSTEM_GUIDE.md)** - TODO sobre el sistema de diseño en un solo lugar
+
+#### 📂 Documentación Adicional
+- [Índice de Documentación](/docs/DESIGN_SYSTEM_INDEX.md) - Mapa completo de toda la documentación
+- [README del Sistema](/lib/design_system/README.md) - Introducción y estructura
+- [Guía de Migración](/lib/design_system/MIGRATION_GUIDE.md) - Cómo migrar componentes existentes
+- [Reporte de Implementación](/docs/DESIGN_SYSTEM_IMPLEMENTATION_REPORT.md) - Cambios realizados en v2.0
 
 ## 🧪 SISTEMA DE PRUEBAS (Actualizado Enero 2025)
 
