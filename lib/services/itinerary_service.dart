@@ -133,7 +133,41 @@ class ItineraryService extends BaseService {
       );
 
       print('ItineraryService: Loaded ${items.length} items from database');
-      _itineraryItems[itineraryId] = items.map((item) => item.data).toList();
+      // Map the items to include all necessary fields
+      _itineraryItems[itineraryId] = items.map((item) {
+        return {
+          'id': item.id,
+          'id_itinerary': item.idItinerary,
+          'product_type': item.productType,
+          'product_name': item.productName,
+          'rate_name': item.rateName,
+          'date': item.date?.toIso8601String(),
+          'destination': item.destination,
+          'unit_cost': item.unitCost,
+          'unit_price': item.unitPrice,
+          'quantity': item.quantity,
+          'total_cost': item.totalCost,
+          'total_price': item.totalPrice,
+          'profit': item.profit,
+          'profit_percentage': item.profitPercentage,
+          'hotel_nights': item.hotelNights,
+          // Flight specific fields
+          'flight_departure': item.flightDeparture,
+          'flight_arrival': item.flightArrival,
+          'departure_time': item.departureTime,
+          'arrival_time': item.arrivalTime,
+          'flight_number': item.flightNumber,
+          'airline': item.airline,
+          // Additional fields
+          'start_time': item.startTime?.toIso8601String(),
+          'end_time': item.endTime?.toIso8601String(),
+          'day_number': item.dayNumber,
+          'order': item.order,
+          'reservation_status': item.reservationStatus ?? false,
+          'created_at': item.createdAt.toIso8601String(),
+          'updated_at': item.updatedAt.toIso8601String(),
+        };
+      }).toList();
     } catch (e) {
       print('ItineraryService: Error loading items: $e');
     }

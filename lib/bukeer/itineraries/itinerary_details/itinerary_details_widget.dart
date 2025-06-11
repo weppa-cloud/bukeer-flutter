@@ -499,14 +499,14 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final selectedType = serviceTypeMap[_selectedServiceTab];
     final filteredItems = items.where((item) {
       final productType =
-          getJsonField(item, r'$[:].product_type')?.toString() ?? '';
+          getJsonField(item, r'$.product_type')?.toString() ?? '';
       return productType == selectedType;
     }).toList();
 
     // Calculate totals
     double totalAmount = 0;
     for (var item in filteredItems) {
-      totalAmount += (getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0);
+      totalAmount += (getJsonField(item, r'$.total_price')?.toDouble() ?? 0);
     }
 
     return Column(
@@ -582,24 +582,21 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildFlightCard(dynamic item) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final airline =
-        getJsonField(item, r'$[:].airline')?.toString() ?? 'Aerolínea';
+    final airline = getJsonField(item, r'$.airline')?.toString() ?? 'Aerolínea';
     final flightNumber =
-        getJsonField(item, r'$[:].flight_number')?.toString() ?? '';
+        getJsonField(item, r'$.flight_number')?.toString() ?? '';
     final departure =
-        getJsonField(item, r'$[:].flight_departure')?.toString() ?? '';
-    final arrival =
-        getJsonField(item, r'$[:].flight_arrival')?.toString() ?? '';
+        getJsonField(item, r'$.flight_departure')?.toString() ?? '';
+    final arrival = getJsonField(item, r'$.flight_arrival')?.toString() ?? '';
     final departureTime =
-        getJsonField(item, r'$[:].departure_time')?.toString() ?? '';
-    final arrivalTime =
-        getJsonField(item, r'$[:].arrival_time')?.toString() ?? '';
-    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
-    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
-    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
-    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+        getJsonField(item, r'$.departure_time')?.toString() ?? '';
+    final arrivalTime = getJsonField(item, r'$.arrival_time')?.toString() ?? '';
+    final date = getJsonField(item, r'$.date')?.toString() ?? '';
+    final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
+    final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
+    final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
     final reservationStatus =
-        getJsonField(item, r'$[:].reservation_status') ?? false;
+        getJsonField(item, r'$.reservation_status') ?? false;
 
     return Container(
       padding: EdgeInsets.all(BukeerSpacing.m),
@@ -804,21 +801,19 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildHotelItemCard(dynamic item) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final name =
-        getJsonField(item, r'$[:].product_name')?.toString() ?? 'Hotel';
-    final rateName = getJsonField(item, r'$[:].rate_name')?.toString() ?? '';
-    final destination =
-        getJsonField(item, r'$[:].destination')?.toString() ?? '';
-    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
-    final nights = getJsonField(item, r'$[:].hotel_nights')?.toInt() ?? 1;
-    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
-    final unitCost = getJsonField(item, r'$[:].unit_cost')?.toDouble() ?? 0;
+    final name = getJsonField(item, r'$.product_name')?.toString() ?? 'Hotel';
+    final rateName = getJsonField(item, r'$.rate_name')?.toString() ?? '';
+    final destination = getJsonField(item, r'$.destination')?.toString() ?? '';
+    final date = getJsonField(item, r'$.date')?.toString() ?? '';
+    final nights = getJsonField(item, r'$.hotel_nights')?.toInt() ?? 1;
+    final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
+    final unitCost = getJsonField(item, r'$.unit_cost')?.toDouble() ?? 0;
     final profitPercentage =
-        getJsonField(item, r'$[:].profit_percentage')?.toDouble() ?? 0;
-    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
-    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+        getJsonField(item, r'$.profit_percentage')?.toDouble() ?? 0;
+    final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
     final reservationStatus =
-        getJsonField(item, r'$[:].reservation_status') ?? false;
+        getJsonField(item, r'$.reservation_status') ?? false;
 
     // Calculate check-out date
     DateTime checkIn = DateTime.parse(date);
@@ -1062,16 +1057,15 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final name =
-        getJsonField(item, r'$[:].product_name')?.toString() ?? 'Actividad';
-    final destination =
-        getJsonField(item, r'$[:].destination')?.toString() ?? '';
-    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
-    final startTime = getJsonField(item, r'$[:].start_time')?.toString() ?? '';
-    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
-    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
-    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+        getJsonField(item, r'$.product_name')?.toString() ?? 'Actividad';
+    final destination = getJsonField(item, r'$.destination')?.toString() ?? '';
+    final date = getJsonField(item, r'$.date')?.toString() ?? '';
+    final startTime = getJsonField(item, r'$.start_time')?.toString() ?? '';
+    final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
+    final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
     final reservationStatus =
-        getJsonField(item, r'$[:].reservation_status') ?? false;
+        getJsonField(item, r'$.reservation_status') ?? false;
 
     return Container(
       padding: EdgeInsets.all(BukeerSpacing.m),
@@ -1289,14 +1283,14 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final name =
-        getJsonField(item, r'$[:].product_name')?.toString() ?? 'Traslado';
-    final date = getJsonField(item, r'$[:].date')?.toString() ?? '';
-    final startTime = getJsonField(item, r'$[:].start_time')?.toString() ?? '';
-    final quantity = getJsonField(item, r'$[:].quantity')?.toInt() ?? 1;
-    final unitPrice = getJsonField(item, r'$[:].unit_price')?.toDouble() ?? 0;
-    final totalPrice = getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0;
+        getJsonField(item, r'$.product_name')?.toString() ?? 'Traslado';
+    final date = getJsonField(item, r'$.date')?.toString() ?? '';
+    final startTime = getJsonField(item, r'$.start_time')?.toString() ?? '';
+    final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
+    final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
+    final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
     final reservationStatus =
-        getJsonField(item, r'$[:].reservation_status') ?? false;
+        getJsonField(item, r'$.reservation_status') ?? false;
 
     return Container(
       padding: EdgeInsets.all(BukeerSpacing.m),
@@ -1836,9 +1830,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     // Get financial data from itinerary
     final totalPrice =
-        getJsonField(itineraryData, r'$[:].total_amount')?.toDouble() ?? 0.0;
+        getJsonField(itineraryData, r'$.total_amount')?.toDouble() ?? 0.0;
     final totalCost =
-        getJsonField(itineraryData, r'$[:].total_cost')?.toDouble() ?? 0.0;
+        getJsonField(itineraryData, r'$.total_cost')?.toDouble() ?? 0.0;
     final profit = totalPrice - totalCost;
 
     return FutureBuilder<List<dynamic>>(
@@ -1856,10 +1850,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         double totalPaid = 0;
         double totalPaidToProviders = 0;
         for (var transaction in transactions) {
-          final type =
-              getJsonField(transaction, r'$[:].type')?.toString() ?? '';
-          final value =
-              getJsonField(transaction, r'$[:].value')?.toDouble() ?? 0;
+          final type = getJsonField(transaction, r'$.type')?.toString() ?? '';
+          final value = getJsonField(transaction, r'$.value')?.toDouble() ?? 0;
 
           if (type == 'ingreso') {
             totalPaid += value;
@@ -2356,13 +2348,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   Widget _buildFinancialInfoBox(dynamic itineraryData) {
     final totalPrice =
-        getJsonField(itineraryData, r'$[:].total_amount')?.toDouble() ?? 0.0;
+        getJsonField(itineraryData, r'$.total_amount')?.toDouble() ?? 0.0;
     final totalCost =
-        getJsonField(itineraryData, r'$[:].total_cost')?.toDouble() ?? 0.0;
+        getJsonField(itineraryData, r'$.total_cost')?.toDouble() ?? 0.0;
     final totalMarkup =
-        getJsonField(itineraryData, r'$[:].total_markup')?.toDouble() ?? 0.0;
+        getJsonField(itineraryData, r'$.total_markup')?.toDouble() ?? 0.0;
     final passengerCount =
-        getJsonField(itineraryData, r'$[:].passenger_count')?.toInt() ?? 1;
+        getJsonField(itineraryData, r'$.passenger_count')?.toInt() ?? 1;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
