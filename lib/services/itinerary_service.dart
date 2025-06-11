@@ -1,5 +1,7 @@
 import '../backend/api_requests/api_calls.dart';
 import "package:bukeer/legacy/flutter_flow/flutter_flow_util.dart";
+import '../auth/supabase_auth/auth_util.dart';
+import '../backend/supabase/supabase.dart';
 import 'base_service.dart';
 
 class ItineraryService extends BaseService {
@@ -48,7 +50,9 @@ class ItineraryService extends BaseService {
     if (isCacheValid && _itineraries.isNotEmpty) return;
 
     await loadData(() async {
-      final response = await GetItinerariesCall.call();
+      final response = await GetItinerariesCall.call(
+        authToken: currentJwtToken,
+      );
       if (response.succeeded) {
         _itineraries = getJsonField(response.jsonBody, r'$[:]') ?? [];
         notifyListeners();
@@ -58,28 +62,97 @@ class ItineraryService extends BaseService {
 
   // Load specific itinerary details
   Future<void> loadItineraryDetails(String itineraryId) async {
-    await loadData(() async {
-      final response =
-          await GetitIneraryDetailsCall.call(itineraryId: itineraryId);
-      if (response.succeeded) {
-        _itineraryDetails[itineraryId] =
-            getJsonField(response.jsonBody, r'$[0]');
+    print('ItineraryService: Loading details for itinerary: $itineraryId');
 
-        // Also cache items and passengers if included
-        final items = getJsonField(response.jsonBody, r'$[0].items');
-        if (items != null) {
-          _itineraryItems[itineraryId] = items is List ? items : [items];
+    try {
+      // Load directly from table with joins
+      final itineraryRows = await ItinerariesTable().queryRows(
+        queryFn: (q) => q.eq('id', itineraryId),
+      );
+
+      if (itineraryRows.isNotEmpty) {
+        final itinerary = itineraryRows.first;
+
+        // Get contact info if available
+        String? contactName;
+        if (itinerary.idContact != null) {
+          final contacts = await ContactsTable().queryRows(
+            queryFn: (q) => q.eq('id', itinerary.idContact!),
+          );
+          if (contacts.isNotEmpty) {
+            contactName = contacts.first.name;
+          }
         }
 
-        final passengers = getJsonField(response.jsonBody, r'$[0].passengers');
-        if (passengers != null) {
-          _itineraryPassengers[itineraryId] =
-              passengers is List ? passengers : [passengers];
-        }
+        // Build complete itinerary data
+        final data = {
+          'id': itinerary.id,
+          'name': itinerary.name,
+          'start_date': itinerary.startDate.toIso8601String(),
+          'end_date': itinerary.endDate.toIso8601String(),
+          'status': itinerary.status,
+          'passenger_count': itinerary.passengerCount,
+          'currency_type': itinerary.currencyType,
+          'total_amount': itinerary.totalAmount,
+          'total_cost': itinerary.totalCost,
+          'total_markup': itinerary.totalMarkup,
+          'agent': itinerary.agent,
+          'id_fm': itinerary.idFm,
+          'language': itinerary.language,
+          'valid_until': itinerary.validUntil?.toIso8601String(),
+          'rates_visibility': itinerary.ratesVisibility,
+          'itinerary_visibility': itinerary.itineraryVisibility,
+          'contact_name': contactName,
+          'created_at': itinerary.createdAt?.toIso8601String(),
+        };
+
+        print('ItineraryService: Storing itinerary data');
+        _itineraryDetails[itineraryId] = data;
+
+        // Load items separately
+        await _loadItineraryItemsDirectly(itineraryId);
+
+        // Load passengers if needed
+        await _loadItineraryPassengersDirectly(itineraryId);
 
         notifyListeners();
+      } else {
+        print('ItineraryService: No itinerary found with ID: $itineraryId');
       }
-    });
+    } catch (e) {
+      print('ItineraryService: Error loading details: $e');
+    }
+  }
+
+  // Load items directly from database
+  Future<void> _loadItineraryItemsDirectly(String itineraryId) async {
+    try {
+      print('ItineraryService: Loading items directly for: $itineraryId');
+      final items = await ItineraryItemsTable().queryRows(
+        queryFn: (q) => q.eq('id_itinerary', itineraryId).order('date'),
+      );
+
+      print('ItineraryService: Loaded ${items.length} items from database');
+      _itineraryItems[itineraryId] = items.map((item) => item.data).toList();
+    } catch (e) {
+      print('ItineraryService: Error loading items: $e');
+    }
+  }
+
+  // Load passengers directly from database
+  Future<void> _loadItineraryPassengersDirectly(String itineraryId) async {
+    try {
+      print('ItineraryService: Loading passengers for: $itineraryId');
+      final passengers = await PassengerTable().queryRows(
+        queryFn: (q) => q.eq('id_itinerary', itineraryId),
+      );
+
+      print('ItineraryService: Loaded ${passengers.length} passengers');
+      _itineraryPassengers[itineraryId] =
+          passengers.map((p) => p.data).toList();
+    } catch (e) {
+      print('ItineraryService: Error loading passengers: $e');
+    }
   }
 
   // Create new itinerary
@@ -252,6 +325,12 @@ class ItineraryService extends BaseService {
 
   set allDataPassenger(dynamic value) {
     _selectedPassenger = value;
+    notifyListeners();
+  }
+
+  // Set itinerary items directly
+  void setItineraryItems(String itineraryId, List<dynamic> items) {
+    _itineraryItems[itineraryId] = items;
     notifyListeners();
   }
 

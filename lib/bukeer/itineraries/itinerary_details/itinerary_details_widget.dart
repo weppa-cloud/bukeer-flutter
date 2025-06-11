@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:bukeer/design_system/index.dart';
 import 'package:bukeer/auth/supabase_auth/auth_util.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
@@ -52,7 +53,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   int _selectedMainTab = 0;
   int _selectedServiceTab = 1; // Hotels by default
   bool _isHotelsExpanded = true;
-  bool _isConfirmed = false;
 
   @override
   void initState() {
@@ -81,7 +81,14 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (_itineraryId != null && _itineraryId!.isNotEmpty) {
+        print(
+            'ItineraryDetailsWidget: Loading data for itinerary $_itineraryId');
         await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+
+        // Force a rebuild after loading
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
 
@@ -126,18 +133,29 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
           // Main Content
           Expanded(
-            child: ServiceBuilder<ItineraryService>(
-              service: appServices.itinerary,
-              loadingWidget: _buildLoadingState(),
-              errorBuilder: (error) => _buildErrorState(error),
-              builder: (context, itineraryService) {
+            child: Consumer<ItineraryService>(
+              builder: (context, itineraryService, child) {
                 if (widget.id == null || widget.id!.isEmpty) {
                   return _buildNotFoundState();
                 }
 
+                if (itineraryService.isLoading) {
+                  return _buildLoadingState();
+                }
+
+                if (itineraryService.hasError) {
+                  return _buildErrorState(
+                      itineraryService.errorMessage ?? 'Error loading data');
+                }
+
                 final itineraryData = itineraryService.getItinerary(widget.id!);
+                print(
+                    'ItineraryDetailsWidget: Itinerary data from service: $itineraryData');
+
                 if (itineraryData == null) {
-                  return _buildNotFoundState();
+                  print(
+                      'ItineraryDetailsWidget: No data found for itinerary ${widget.id}');
+                  return _buildLoadingState(); // Show loading while data arrives
                 }
 
                 return _buildMainContent(itineraryData);
@@ -175,8 +193,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   Widget _buildHeader(dynamic itineraryData) {
     final itineraryName =
-        getJsonField(itineraryData, r'$[:].itinerary_name')?.toString() ??
-            'Sin nombre';
+        getJsonField(itineraryData, r'$.name')?.toString() ?? 'Sin nombre';
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Row(
@@ -467,6 +484,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final items = _itineraryId != null
         ? appServices.itinerary.getItineraryItems(_itineraryId!)
         : [];
+
+    print('ItemsTab: Total items found: ${items.length}');
+    print('ItemsTab: Items data: $items');
 
     // Filter items by selected service type
     final serviceTypeMap = {
@@ -1809,19 +1829,17 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildPaymentsTabContent() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Get itinerary items and calculate totals
-    final items = _itineraryId != null
-        ? appServices.itinerary.getItineraryItems(_itineraryId!)
-        : [];
+    // Get itinerary data
+    final itineraryData = _itineraryId != null
+        ? appServices.itinerary.getItinerary(_itineraryId!)
+        : null;
 
-    // Calculate financial summary
-    double totalCost = 0;
-    double totalPrice = 0;
-    for (var item in items) {
-      totalCost += (getJsonField(item, r'$[:].total_cost')?.toDouble() ?? 0);
-      totalPrice += (getJsonField(item, r'$[:].total_price')?.toDouble() ?? 0);
-    }
-    double profit = totalPrice - totalCost;
+    // Get financial data from itinerary
+    final totalPrice =
+        getJsonField(itineraryData, r'$[:].total_amount')?.toDouble() ?? 0.0;
+    final totalCost =
+        getJsonField(itineraryData, r'$[:].total_cost')?.toDouble() ?? 0.0;
+    final profit = totalPrice - totalCost;
 
     return FutureBuilder<List<dynamic>>(
       future: _itineraryId != null
@@ -1881,48 +1899,28 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                     ),
                   ),
                   SizedBox(height: BukeerSpacing.m),
-                  // Summary grid
+                  // Summary grid - Simplified as requested
                   Wrap(
                     spacing: BukeerSpacing.xl,
                     runSpacing: BukeerSpacing.m,
                     children: [
                       _buildFinancialSummaryItem(
-                        'Costo Total',
-                        _formatCurrency(totalCost),
-                        Icons.money_off,
-                        BukeerColors.error,
-                      ),
-                      _buildFinancialSummaryItem(
-                        'Precio Total',
+                        'Total',
                         _formatCurrency(totalPrice),
                         Icons.attach_money,
                         BukeerColors.primary,
                       ),
                       _buildFinancialSummaryItem(
-                        'Ganancia',
-                        _formatCurrency(profit),
-                        Icons.trending_up,
+                        'Valor Pagado',
+                        _formatCurrency(totalPaid),
+                        Icons.check_circle,
                         BukeerColors.success,
                       ),
                       _buildFinancialSummaryItem(
-                        'Total Pagado',
-                        _formatCurrency(totalPaid),
-                        Icons.check_circle,
-                        BukeerColors.info,
-                      ),
-                      _buildFinancialSummaryItem(
-                        'Pendiente Cliente',
+                        'Saldo Pendiente',
                         _formatCurrency(pendingPayment),
                         Icons.pending,
                         pendingPayment > 0
-                            ? BukeerColors.warning
-                            : BukeerColors.success,
-                      ),
-                      _buildFinancialSummaryItem(
-                        'Pendiente Proveedores',
-                        _formatCurrency(pendingToProviders),
-                        Icons.business,
-                        pendingToProviders > 0
                             ? BukeerColors.warning
                             : BukeerColors.success,
                       ),
@@ -2110,8 +2108,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   Widget _buildUserInfoBox(dynamic itineraryData) {
     final travelPlannerName =
-        getJsonField(itineraryData, r'$[:].travel_planner_name')?.toString() ??
-            'Sin asignar';
+        getJsonField(itineraryData, r'$[:].agent')?.toString() ?? 'Sin asignar';
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -2179,8 +2176,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildItineraryInfoBox(dynamic itineraryData) {
+    // Try to get client name from different possible fields
     final clientName =
-        getJsonField(itineraryData, r'$[:].client_name')?.toString() ?? '';
+        getJsonField(itineraryData, r'$[:].contact_name')?.toString() ??
+            getJsonField(itineraryData, r'$[:].client_name')?.toString() ??
+            'Cliente no especificado';
     final startDate =
         getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
     final endDate =
@@ -2188,9 +2188,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final status =
         getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'budget';
     final passengers =
-        getJsonField(itineraryData, r'$[:].total_passengers')?.toInt() ?? 5;
-    final children =
-        getJsonField(itineraryData, r'$[:].total_children')?.toInt() ?? 2;
+        getJsonField(itineraryData, r'$[:].passenger_count')?.toInt() ?? 0;
+    final idFm = getJsonField(itineraryData, r'$[:].id_fm')?.toString() ?? '';
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -2244,7 +2243,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           ),
 
           // Info items
-          _buildInfoItem(Icons.tag, 'ID:', '1-6180'),
+          _buildInfoItem(Icons.tag, 'ID:', idFm.isNotEmpty ? idFm : 'N/A'),
           _buildInfoItem(Icons.person_outline, 'Cliente:', clientName),
           Row(
             children: [
@@ -2267,17 +2266,18 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                 padding: EdgeInsets.symmetric(
                     horizontal: BukeerSpacing.m, vertical: BukeerSpacing.xs),
                 decoration: BoxDecoration(
-                  color: _isConfirmed
+                  color: status == 'confirmed'
                       ? BukeerColors.success.withOpacity(0.1)
                       : BukeerColors.info.withOpacity(0.1),
                   borderRadius: BukeerBorders.radiusLarge,
                 ),
                 child: Text(
-                  _isConfirmed ? 'Confirmado' : 'Presupuesto',
+                  status == 'confirmed' ? 'Confirmado' : 'Presupuesto',
                   style: BukeerTypography.labelSmall.copyWith(
                     fontWeight: FontWeight.w500,
-                    color:
-                        _isConfirmed ? BukeerColors.success : BukeerColors.info,
+                    color: status == 'confirmed'
+                        ? BukeerColors.success
+                        : BukeerColors.info,
                   ),
                 ),
               ),
@@ -2287,11 +2287,30 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           _buildInfoItem(Icons.date_range, 'Fechas:',
               '${_formatDate(startDate)} - ${_formatDate(endDate)}'),
           _buildInfoItem(Icons.people_alt, 'Pasajeros:',
-              '$passengers adultos, $children niños'),
-          _buildInfoItem(Icons.translate, 'Idioma:', 'Español'),
-          _buildInfoItem(Icons.flight_class, 'Clase:', 'Econo'),
-          _buildInfoItem(Icons.event_available, 'Creado:', '08 Jun 2025'),
-          _buildInfoItem(Icons.currency_exchange, 'Rate:', '3,950 COP/USD'),
+              passengers > 0 ? '$passengers personas' : 'No especificado'),
+          _buildInfoItem(
+              Icons.translate,
+              'Idioma:',
+              getJsonField(itineraryData, r'$[:].language')?.toString() ??
+                  'Español'),
+          _buildInfoItem(
+              Icons.attach_money,
+              'Moneda:',
+              getJsonField(itineraryData, r'$[:].currency_type')?.toString() ??
+                  'COP'),
+          _buildInfoItem(
+              Icons.event_available,
+              'Creado:',
+              _formatDate(
+                  getJsonField(itineraryData, r'$[:].created_at')?.toString() ??
+                      '')),
+          if (getJsonField(itineraryData, r'$[:].valid_until') != null)
+            _buildInfoItem(
+                Icons.timer,
+                'Válido hasta:',
+                _formatDate(getJsonField(itineraryData, r'$[:].valid_until')
+                        ?.toString() ??
+                    '')),
 
           // Status toggle
           Container(
@@ -2310,7 +2329,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _isConfirmed
+                  status == 'confirmed'
                       ? 'Bloqueado (Confirmado)'
                       : 'Desbloqueado (Presupuesto)',
                   style: BukeerTypography.bodyMedium.copyWith(
@@ -2321,11 +2340,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   ),
                 ),
                 Switch(
-                  value: _isConfirmed,
+                  value: status == 'confirmed',
                   onChanged: (value) {
-                    setState(() {
-                      _isConfirmed = value;
-                    });
+                    _handleStatusChange(value);
                   },
                   activeColor: BukeerColors.primary,
                 ),
@@ -2339,8 +2356,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   Widget _buildFinancialInfoBox(dynamic itineraryData) {
     final totalPrice =
-        getJsonField(itineraryData, r'$[:].totalPrice')?.toDouble() ??
-            7450100.0;
+        getJsonField(itineraryData, r'$[:].total_amount')?.toDouble() ?? 0.0;
+    final totalCost =
+        getJsonField(itineraryData, r'$[:].total_cost')?.toDouble() ?? 0.0;
+    final totalMarkup =
+        getJsonField(itineraryData, r'$[:].total_markup')?.toDouble() ?? 0.0;
+    final passengerCount =
+        getJsonField(itineraryData, r'$[:].passenger_count')?.toInt() ?? 1;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -2368,7 +2390,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                 children: [
                   _buildFinancialItem(
                     'Total',
-                    _formatCurrency(totalPrice) + ' COP',
+                    _formatCurrency(totalPrice) +
+                        ' ' +
+                        (getJsonField(itineraryData, r'$[:].currency_type')
+                                ?.toString() ??
+                            'COP'),
                     BukeerColors.primary,
                     true,
                   ),
@@ -2383,7 +2409,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                     children: [
                       _buildFinancialItem(
                         'Por persona',
-                        _formatCurrency(totalPrice / 5) + ' COP',
+                        _formatCurrency(passengerCount > 0
+                                ? totalPrice / passengerCount
+                                : totalPrice) +
+                            ' ' +
+                            (getJsonField(itineraryData, r'$[:].currency_type')
+                                    ?.toString() ??
+                                'COP'),
                         BukeerColors.info,
                         false,
                       ),
@@ -2394,7 +2426,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       ),
                       _buildFinancialItem(
                         'Margen',
-                        _formatCurrency(1179100) + ' COP',
+                        _formatCurrency(totalMarkup) +
+                            ' ' +
+                            (getJsonField(itineraryData, r'$[:].currency_type')
+                                    ?.toString() ??
+                                'COP'),
                         BukeerColors.info,
                         false,
                       ),
@@ -2410,7 +2446,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   Expanded(
                     child: _buildFinancialItem(
                       'Total',
-                      _formatCurrency(totalPrice) + ' COP',
+                      _formatCurrency(totalPrice) +
+                          ' ' +
+                          (getJsonField(itineraryData, r'$[:].currency_type')
+                                  ?.toString() ??
+                              'COP'),
                       BukeerColors.primary,
                       true,
                     ),
@@ -2423,7 +2463,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   Expanded(
                     child: _buildFinancialItem(
                       'Por persona',
-                      _formatCurrency(totalPrice / 5) + ' COP',
+                      _formatCurrency(passengerCount > 0
+                              ? totalPrice / passengerCount
+                              : totalPrice) +
+                          ' ' +
+                          (getJsonField(itineraryData, r'$[:].currency_type')
+                                  ?.toString() ??
+                              'COP'),
                       BukeerColors.info,
                       false,
                     ),
@@ -2436,7 +2482,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   Expanded(
                     child: _buildFinancialItem(
                       'Margen',
-                      _formatCurrency(1179100) + ' COP',
+                      _formatCurrency(totalMarkup) +
+                          ' ' +
+                          (getJsonField(itineraryData, r'$[:].currency_type')
+                                  ?.toString() ??
+                              'COP'),
                       BukeerColors.info,
                       false,
                     ),
@@ -2526,9 +2576,19 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           SizedBox(height: BukeerSpacing.m),
 
           // Toggles from financial info
-          _buildToggleItem('Ocultar Tarifas', false),
+          _buildToggleItem(
+              'Ocultar Tarifas',
+              getJsonField(itineraryData, r'$[:].rates_visibility')?.toBool() ??
+                  false,
+              (value) => _handleVisibilityToggle('rates_visibility', value)),
           SizedBox(height: BukeerSpacing.m),
-          _buildToggleItem('Publicar en la Web', true),
+          _buildToggleItem(
+              'Publicar en la Web',
+              getJsonField(itineraryData, r'$[:].itinerary_visibility')
+                      ?.toBool() ??
+                  false,
+              (value) =>
+                  _handleVisibilityToggle('itinerary_visibility', value)),
         ],
       ),
     );
@@ -2574,7 +2634,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     );
   }
 
-  Widget _buildToggleItem(String label, bool value) {
+  Widget _buildToggleItem(String label, bool value, Function(bool)? onChanged) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Row(
@@ -2591,7 +2651,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         ),
         Switch(
           value: value,
-          onChanged: (newValue) {},
+          onChanged: onChanged,
           activeColor: BukeerColors.primary,
         ),
       ],
@@ -3430,6 +3490,86 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     // Refresh page after adding payment
     setState(() {});
+  }
+
+  // Visibility toggle handler
+  Future<void> _handleVisibilityToggle(String field, bool value) async {
+    if (_itineraryId == null) return;
+
+    try {
+      await ItinerariesTable().update(
+        data: {
+          field: value,
+        },
+        matchingRows: (rows) => rows.eq('id', _itineraryId!),
+      );
+
+      // Reload itinerary data
+      await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+      setState(() {});
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            field == 'rates_visibility'
+                ? (value ? 'Tarifas ocultas' : 'Tarifas visibles')
+                : (value ? 'Publicado en la web' : 'No publicado en la web'),
+          ),
+          backgroundColor: BukeerColors.success,
+        ),
+      );
+    } catch (e) {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al actualizar: $e'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+    }
+  }
+
+  // Status change handler
+  Future<void> _handleStatusChange(bool isConfirmed) async {
+    if (_itineraryId == null) return;
+
+    try {
+      final newStatus = isConfirmed ? 'confirmed' : 'budget';
+      final confirmationDate = isConfirmed ? DateTime.now() : null;
+
+      await ItinerariesTable().update(
+        data: {
+          'status': newStatus,
+          'confirmation_date': confirmationDate?.toIso8601String(),
+        },
+        matchingRows: (rows) => rows.eq('id', _itineraryId!),
+      );
+
+      // Reload itinerary data
+      await appServices.itinerary.loadItineraryDetails(_itineraryId!);
+      setState(() {});
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isConfirmed
+                ? 'Itinerario confirmado exitosamente'
+                : 'Itinerario cambiado a presupuesto',
+          ),
+          backgroundColor: BukeerColors.success,
+        ),
+      );
+    } catch (e) {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al cambiar el estado: $e'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+    }
   }
 
   void _handleEditItinerary() async {
