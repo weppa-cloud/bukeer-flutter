@@ -35,47 +35,76 @@ class ItineraryService extends BaseService {
 
   List<dynamic> getItineraryItemsByType(String id, String productType) {
     final data = _itineraryDetails[id];
-    if (data == null || data['items_grouped'] == null) return [];
+    if (data == null) {
+      print('ItineraryService: No data found for itinerary $id');
+      return [];
+    }
+
+    if (data['items_grouped'] == null) {
+      print('ItineraryService: No items_grouped found in data');
+      print('ItineraryService: Available keys: ${data.keys.toList()}');
+      return [];
+    }
 
     final itemsGrouped = data['items_grouped'] as Map<String, dynamic>;
+    print(
+        'ItineraryService: items_grouped keys: ${itemsGrouped.keys.toList()}');
+
+    List<dynamic> result = [];
     switch (productType.toLowerCase()) {
       case 'flight':
       case 'vuelos':
-        return itemsGrouped['flights'] ?? [];
+        result = itemsGrouped['flights'] ?? [];
+        break;
       case 'hotel':
       case 'hoteles':
-        return itemsGrouped['hotels'] ?? [];
+        result = itemsGrouped['hotels'] ?? [];
+        break;
       case 'activity':
       case 'servicios':
-        return itemsGrouped['activities'] ?? [];
+        result = itemsGrouped['activities'] ?? [];
+        break;
       case 'transfer':
       case 'transporte':
-        return itemsGrouped['transfers'] ?? [];
+        result = itemsGrouped['transfers'] ?? [];
+        break;
       default:
-        return [];
+        result = [];
     }
+
+    print(
+        'ItineraryService: getItineraryItemsByType($id, $productType) returned ${result.length} items');
+    return result;
   }
 
   double getItineraryTotalByType(String id, String productType) {
     final data = _itineraryDetails[id];
-    if (data == null || data['items_grouped'] == null) return 0.0;
+    if (data == null) return 0.0;
 
-    final totals = data['items_grouped']['totals'] as Map<String, dynamic>?;
+    // Check if totals is at root level or inside items_grouped
+    Map<String, dynamic>? totals;
+    if (data['totals'] != null) {
+      totals = data['totals'] as Map<String, dynamic>?;
+    } else if (data['items_grouped'] != null &&
+        data['items_grouped']['totals'] != null) {
+      totals = data['items_grouped']['totals'] as Map<String, dynamic>?;
+    }
+
     if (totals == null) return 0.0;
 
     switch (productType.toLowerCase()) {
       case 'flight':
       case 'vuelos':
-        return totals['flights'] ?? 0.0;
+        return (totals['flights'] ?? 0.0).toDouble();
       case 'hotel':
       case 'hoteles':
-        return totals['hotels'] ?? 0.0;
+        return (totals['hotels'] ?? 0.0).toDouble();
       case 'activity':
       case 'servicios':
-        return totals['activities'] ?? 0.0;
+        return (totals['activities'] ?? 0.0).toDouble();
       case 'transfer':
       case 'transporte':
-        return totals['transfers'] ?? 0.0;
+        return (totals['transfers'] ?? 0.0).toDouble();
       default:
         return 0.0;
     }
@@ -140,7 +169,7 @@ class ItineraryService extends BaseService {
       final summary = response['summary'];
 
       // Build complete data object
-      final completeData = {
+      final completeData = <String, dynamic>{
         // Flatten itinerary data
         ...itineraryData,
         // Add grouped items

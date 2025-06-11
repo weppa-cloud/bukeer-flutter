@@ -51,7 +51,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   int _selectedMainTab = 0;
-  int _selectedServiceTab = 1; // Hotels by default
+  int _selectedServiceTab = 2; // Services/Activities by default
   bool _isHotelsExpanded = true;
 
   // Helper to get complete itinerary data
@@ -65,8 +65,8 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     _model = createModel(context, () => ItineraryDetailsModel());
 
     _mainTabController = TabController(length: 5, vsync: this);
-    _servicesTabController =
-        TabController(length: 4, vsync: this, initialIndex: 1);
+    _servicesTabController = TabController(
+        length: 4, vsync: this, initialIndex: _selectedServiceTab);
 
     _mainTabController.addListener(() {
       if (_mainTabController.indexIsChanging) {
@@ -97,6 +97,30 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           print('Has hotels: ${completeData['has_hotels']}');
           print('Has activities: ${completeData['has_activities']}');
           print('Has transfers: ${completeData['has_transfers']}');
+
+          // Set the initial service tab based on available content
+          int newTab = _selectedServiceTab;
+          if (completeData['has_flights'] == true && _selectedServiceTab == 0) {
+            newTab = 0;
+          } else if (completeData['has_hotels'] == true &&
+              _selectedServiceTab == 1) {
+            newTab = 1;
+          } else if (completeData['has_activities'] == true) {
+            newTab = 2;
+          } else if (completeData['has_transfers'] == true) {
+            newTab = 3;
+          } else if (completeData['has_flights'] == true) {
+            newTab = 0;
+          } else if (completeData['has_hotels'] == true) {
+            newTab = 1;
+          }
+
+          if (newTab != _selectedServiceTab) {
+            setState(() {
+              _selectedServiceTab = newTab;
+              _servicesTabController.animateTo(newTab);
+            });
+          }
         }
 
         // Force a rebuild after loading
@@ -568,13 +592,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       final item = filteredItems[index];
 
                       switch (selectedType) {
-                        case 'flight':
+                        case 'vuelos':
                           return _buildFlightCard(item);
-                        case 'hotel':
+                        case 'hoteles':
                           return _buildHotelItemCard(item);
-                        case 'activity':
+                        case 'servicios':
                           return _buildActivityCard(item);
-                        case 'transfer':
+                        case 'transporte':
                           return _buildTransferCard(item);
                         default:
                           return const SizedBox.shrink();
@@ -843,7 +867,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Hotel image placeholder
+          // Hotel image with fallback
           Container(
             width: 100,
             height: 100,
@@ -853,12 +877,47 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   ? BukeerColors.surfacePrimaryDark
                   : BukeerColors.surfaceSecondary,
             ),
-            child: Icon(
-              Icons.hotel,
-              size: 40,
-              color: isDark
-                  ? BukeerColors.textTertiaryDark
-                  : BukeerColors.textTertiary,
+            child: ClipRRect(
+              borderRadius: BukeerBorders.radiusSmall,
+              child: () {
+                // Try to get image from different possible fields
+                final mainImage =
+                    getJsonField(item, r'$.main_image')?.toString();
+                final productMainImage =
+                    getJsonField(item, r'$.product_main_image')?.toString();
+                final hotelMainImage =
+                    getJsonField(item, r'$.hotel_main_image')?.toString();
+                final imageUrl =
+                    mainImage ?? productMainImage ?? hotelMainImage;
+
+                if (imageUrl != null && imageUrl.isNotEmpty) {
+                  return Image.network(
+                    imageUrl,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return _buildImagePlaceholder(Icons.hotel, isDark);
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            BukeerColors.primary,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return _buildImagePlaceholder(Icons.hotel, isDark);
+              }(),
             ),
           ),
           SizedBox(width: BukeerSpacing.m),
@@ -1067,12 +1126,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     final name =
         getJsonField(item, r'$.product_name')?.toString() ?? 'Actividad';
+    final rateName = getJsonField(item, r'$.rate_name')?.toString() ?? '';
     final destination = getJsonField(item, r'$.destination')?.toString() ?? '';
     final date = getJsonField(item, r'$.date')?.toString() ?? '';
     final startTime = getJsonField(item, r'$.start_time')?.toString() ?? '';
     final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
+    final unitCost = getJsonField(item, r'$.unit_cost')?.toDouble() ?? 0;
     final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
     final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
+    final profitPercentage =
+        getJsonField(item, r'$.profit_percentage')?.toDouble() ?? 0;
     final reservationStatus =
         getJsonField(item, r'$.reservation_status') ?? false;
 
@@ -1091,18 +1154,58 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Activity icon
+          // Activity image with fallback
           Container(
-            width: 60,
-            height: 60,
+            width: 100,
+            height: 100,
             decoration: BoxDecoration(
               borderRadius: BukeerBorders.radiusSmall,
-              color: BukeerColors.primary.withOpacity(0.1),
+              color: isDark
+                  ? BukeerColors.surfacePrimaryDark
+                  : BukeerColors.surfaceSecondary,
             ),
-            child: Icon(
-              Icons.local_activity,
-              size: 30,
-              color: BukeerColors.primary,
+            child: ClipRRect(
+              borderRadius: BukeerBorders.radiusSmall,
+              child: () {
+                // Try to get image from different possible fields
+                final mainImage =
+                    getJsonField(item, r'$.main_image')?.toString();
+                final productMainImage =
+                    getJsonField(item, r'$.product_main_image')?.toString();
+                final activityMainImage =
+                    getJsonField(item, r'$.activity_main_image')?.toString();
+                final imageUrl =
+                    mainImage ?? productMainImage ?? activityMainImage;
+
+                if (imageUrl != null && imageUrl.isNotEmpty) {
+                  return Image.network(
+                    imageUrl,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return _buildImagePlaceholder(
+                          Icons.local_activity, isDark);
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            BukeerColors.primary,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return _buildImagePlaceholder(Icons.local_activity, isDark);
+              }(),
             ),
           ),
           SizedBox(width: BukeerSpacing.m),
@@ -1117,14 +1220,30 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
-                        name,
-                        style: BukeerTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? BukeerColors.textPrimaryDark
-                              : BukeerColors.textPrimary,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: BukeerTypography.titleMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? BukeerColors.textPrimaryDark
+                                  : BukeerColors.textPrimary,
+                            ),
+                          ),
+                          if (rateName.isNotEmpty) ...[
+                            SizedBox(height: BukeerSpacing.xs),
+                            Text(
+                              rateName,
+                              style: BukeerTypography.bodySmall.copyWith(
+                                color: isDark
+                                    ? BukeerColors.textSecondaryDark
+                                    : BukeerColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                     Container(
@@ -1150,77 +1269,19 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                     ),
                   ],
                 ),
-                SizedBox(height: BukeerSpacing.s),
+                SizedBox(height: BukeerSpacing.m),
 
                 // Meta info
                 Wrap(
-                  spacing: BukeerSpacing.l,
+                  spacing: BukeerSpacing.m,
                   runSpacing: BukeerSpacing.s,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 16,
-                          color: isDark
-                              ? BukeerColors.textTertiaryDark
-                              : BukeerColors.textTertiary,
-                        ),
-                        SizedBox(width: BukeerSpacing.xs),
-                        Text(
-                          destination,
-                          style: BukeerTypography.bodySmall.copyWith(
-                            color: isDark
-                                ? BukeerColors.textSecondaryDark
-                                : BukeerColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.calendar_today,
-                          size: 16,
-                          color: isDark
-                              ? BukeerColors.textTertiaryDark
-                              : BukeerColors.textTertiary,
-                        ),
-                        SizedBox(width: BukeerSpacing.xs),
-                        Text(
-                          _formatDate(date),
-                          style: BukeerTypography.bodySmall.copyWith(
-                            color: isDark
-                                ? BukeerColors.textSecondaryDark
-                                : BukeerColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
+                    _buildHotelMetaItem(Icons.location_on, destination),
+                    _buildHotelMetaItem(
+                        Icons.calendar_today, _formatDate(date)),
                     if (startTime.isNotEmpty)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            size: 16,
-                            color: isDark
-                                ? BukeerColors.textTertiaryDark
-                                : BukeerColors.textTertiary,
-                          ),
-                          SizedBox(width: BukeerSpacing.xs),
-                          Text(
-                            startTime,
-                            style: BukeerTypography.bodySmall.copyWith(
-                              color: isDark
-                                  ? BukeerColors.textSecondaryDark
-                                  : BukeerColors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildHotelMetaItem(Icons.access_time, startTime),
+                    _buildHotelMetaItem(Icons.people, '$quantity personas'),
                   ],
                 ),
 
@@ -1238,46 +1299,106 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.person,
-                            size: 16,
-                            color: isDark
-                                ? BukeerColors.textTertiaryDark
-                                : BukeerColors.textTertiary,
-                          ),
-                          SizedBox(width: BukeerSpacing.xs),
-                          Text(
-                            '$quantity ${quantity > 1 ? "personas" : "persona"}',
-                            style: BukeerTypography.bodySmall.copyWith(
-                              color: isDark
-                                  ? BukeerColors.textSecondaryDark
-                                  : BukeerColors.textSecondary,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth < 400) {
+                        // Mobile layout - vertical
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Wrap(
+                              spacing: BukeerSpacing.s,
+                              runSpacing: BukeerSpacing.s,
+                              children: [
+                                _buildPriceItem(
+                                    Icons.sell, _formatCurrency(unitCost)),
+                                Text('|',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? BukeerColors.dividerDark
+                                            : BukeerColors.divider)),
+                                _buildPriceItem(Icons.trending_up,
+                                    '${profitPercentage.toInt()}%'),
+                                Text('|',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? BukeerColors.dividerDark
+                                            : BukeerColors.divider)),
+                                _buildPriceItem(Icons.request_quote,
+                                    _formatCurrency(unitPrice)),
+                              ],
                             ),
-                          ),
-                          SizedBox(width: BukeerSpacing.m),
-                          Text(
-                            '${_formatCurrency(unitPrice)} c/u',
-                            style: BukeerTypography.bodySmall.copyWith(
-                              color: isDark
-                                  ? BukeerColors.textSecondaryDark
-                                  : BukeerColors.textSecondary,
+                            SizedBox(height: BukeerSpacing.m),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.paid,
+                                  size: 18,
+                                  color: BukeerColors.primary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  _formatCurrency(totalPrice),
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: BukeerColors.primary,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        _formatCurrency(totalPrice),
-                        style: BukeerTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: BukeerColors.primary,
-                        ),
-                      ),
-                    ],
+                          ],
+                        );
+                      } else {
+                        // Desktop layout - horizontal
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Wrap(
+                                spacing: BukeerSpacing.s,
+                                runSpacing: BukeerSpacing.s,
+                                children: [
+                                  _buildPriceItem(
+                                      Icons.sell, _formatCurrency(unitCost)),
+                                  Text('|',
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? BukeerColors.dividerDark
+                                              : BukeerColors.divider)),
+                                  _buildPriceItem(Icons.trending_up,
+                                      '${profitPercentage.toInt()}%'),
+                                  Text('|',
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? BukeerColors.dividerDark
+                                              : BukeerColors.divider)),
+                                  _buildPriceItem(Icons.request_quote,
+                                      _formatCurrency(unitPrice)),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: BukeerSpacing.m),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.paid,
+                                  size: 18,
+                                  color: BukeerColors.primary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  _formatCurrency(totalPrice),
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: BukeerColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
@@ -1990,16 +2111,15 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     Map<String, Map<String, dynamic>> providersMap = {};
     for (var item in items) {
       final productType =
-          getJsonField(item, r'$[:].product_type')?.toString() ?? '';
-      final productId =
-          getJsonField(item, r'$[:].id_product')?.toString() ?? '';
+          getJsonField(item, r'$.product_type')?.toString() ?? '';
+      final productId = getJsonField(item, r'$.id_product')?.toString() ?? '';
 
       // Get provider info based on product type
       if (productId.isNotEmpty) {
         // For now, we'll create a provider entry based on item data
         // In a real implementation, we'd fetch the actual provider data from contacts table
         final providerName =
-            getJsonField(item, r'$[:].product_name')?.toString() ?? 'Proveedor';
+            getJsonField(item, r'$.product_name')?.toString() ?? 'Proveedor';
         final key = '$productType-$productId';
 
         if (!providersMap.containsKey(key)) {
@@ -2007,14 +2127,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             'name': providerName,
             'type': productType,
             'itemCount': 1,
-            'totalCost':
-                getJsonField(item, r'$[:].total_cost')?.toDouble() ?? 0,
+            'totalCost': getJsonField(item, r'$.total_cost')?.toDouble() ?? 0,
             'items': [item],
           };
         } else {
           providersMap[key]!['itemCount'] = providersMap[key]!['itemCount'] + 1;
           providersMap[key]!['totalCost'] = providersMap[key]!['totalCost'] +
-              (getJsonField(item, r'$[:].total_cost')?.toDouble() ?? 0);
+              (getJsonField(item, r'$.total_cost')?.toDouble() ?? 0);
           providersMap[key]!['items'].add(item);
         }
       }
@@ -2109,7 +2228,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
   Widget _buildUserInfoBox(dynamic itineraryData) {
     final travelPlannerName =
-        getJsonField(itineraryData, r'$[:].agent')?.toString() ?? 'Sin asignar';
+        getJsonField(itineraryData, r'$.agent')?.toString() ?? 'Sin asignar';
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -2179,18 +2298,18 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildItineraryInfoBox(dynamic itineraryData) {
     // Try to get client name from different possible fields
     final clientName =
-        getJsonField(itineraryData, r'$[:].contact_name')?.toString() ??
-            getJsonField(itineraryData, r'$[:].client_name')?.toString() ??
+        getJsonField(itineraryData, r'$.contact_name')?.toString() ??
+            getJsonField(itineraryData, r'$.client_name')?.toString() ??
             'Cliente no especificado';
     final startDate =
-        getJsonField(itineraryData, r'$[:].start_date')?.toString() ?? '';
+        getJsonField(itineraryData, r'$.start_date')?.toString() ?? '';
     final endDate =
-        getJsonField(itineraryData, r'$[:].end_date')?.toString() ?? '';
+        getJsonField(itineraryData, r'$.end_date')?.toString() ?? '';
     final status =
-        getJsonField(itineraryData, r'$[:].status')?.toString() ?? 'budget';
+        getJsonField(itineraryData, r'$.status')?.toString() ?? 'budget';
     final passengers =
-        getJsonField(itineraryData, r'$[:].passenger_count')?.toInt() ?? 0;
-    final idFm = getJsonField(itineraryData, r'$[:].id_fm')?.toString() ?? '';
+        getJsonField(itineraryData, r'$.passenger_count')?.toInt() ?? 0;
+    final idFm = getJsonField(itineraryData, r'$.id_fm')?.toString() ?? '';
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -2246,6 +2365,18 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           // Info items
           _buildInfoItem(Icons.tag, 'ID:', idFm.isNotEmpty ? idFm : 'N/A'),
           _buildInfoItem(Icons.person_outline, 'Cliente:', clientName),
+          if (getJsonField(itineraryData, r'$.contact_email') != null)
+            _buildInfoItem(
+                Icons.email,
+                'Email:',
+                getJsonField(itineraryData, r'$.contact_email')?.toString() ??
+                    ''),
+          if (getJsonField(itineraryData, r'$.contact_phone') != null)
+            _buildInfoItem(
+                Icons.phone,
+                'Teléfono:',
+                getJsonField(itineraryData, r'$.contact_phone')?.toString() ??
+                    ''),
           Row(
             children: [
               Icon(Icons.label,
@@ -2292,26 +2423,26 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           _buildInfoItem(
               Icons.translate,
               'Idioma:',
-              getJsonField(itineraryData, r'$[:].language')?.toString() ??
+              getJsonField(itineraryData, r'$.language')?.toString() ??
                   'Español'),
           _buildInfoItem(
               Icons.attach_money,
               'Moneda:',
-              getJsonField(itineraryData, r'$[:].currency_type')?.toString() ??
+              getJsonField(itineraryData, r'$.currency_type')?.toString() ??
                   'COP'),
           _buildInfoItem(
               Icons.event_available,
               'Creado:',
               _formatDate(
-                  getJsonField(itineraryData, r'$[:].created_at')?.toString() ??
+                  getJsonField(itineraryData, r'$.created_at')?.toString() ??
                       '')),
-          if (getJsonField(itineraryData, r'$[:].valid_until') != null)
+          if (getJsonField(itineraryData, r'$.valid_until') != null)
             _buildInfoItem(
                 Icons.timer,
                 'Válido hasta:',
-                _formatDate(getJsonField(itineraryData, r'$[:].valid_until')
-                        ?.toString() ??
-                    '')),
+                _formatDate(
+                    getJsonField(itineraryData, r'$.valid_until')?.toString() ??
+                        '')),
 
           // Status toggle
           Container(
@@ -2393,7 +2524,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                     'Total',
                     _formatCurrency(totalPrice) +
                         ' ' +
-                        (getJsonField(itineraryData, r'$[:].currency_type')
+                        (getJsonField(itineraryData, r'$.currency_type')
                                 ?.toString() ??
                             'COP'),
                     BukeerColors.primary,
@@ -2414,7 +2545,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                                 ? totalPrice / passengerCount
                                 : totalPrice) +
                             ' ' +
-                            (getJsonField(itineraryData, r'$[:].currency_type')
+                            (getJsonField(itineraryData, r'$.currency_type')
                                     ?.toString() ??
                                 'COP'),
                         BukeerColors.info,
@@ -2429,7 +2560,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                         'Margen',
                         _formatCurrency(totalMarkup) +
                             ' ' +
-                            (getJsonField(itineraryData, r'$[:].currency_type')
+                            (getJsonField(itineraryData, r'$.currency_type')
                                     ?.toString() ??
                                 'COP'),
                         BukeerColors.info,
@@ -2449,7 +2580,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       'Total',
                       _formatCurrency(totalPrice) +
                           ' ' +
-                          (getJsonField(itineraryData, r'$[:].currency_type')
+                          (getJsonField(itineraryData, r'$.currency_type')
                                   ?.toString() ??
                               'COP'),
                       BukeerColors.primary,
@@ -2468,7 +2599,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                               ? totalPrice / passengerCount
                               : totalPrice) +
                           ' ' +
-                          (getJsonField(itineraryData, r'$[:].currency_type')
+                          (getJsonField(itineraryData, r'$.currency_type')
                                   ?.toString() ??
                               'COP'),
                       BukeerColors.info,
@@ -2485,7 +2616,7 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       'Margen',
                       _formatCurrency(totalMarkup) +
                           ' ' +
-                          (getJsonField(itineraryData, r'$[:].currency_type')
+                          (getJsonField(itineraryData, r'$.currency_type')
                                   ?.toString() ??
                               'COP'),
                       BukeerColors.info,
@@ -2579,15 +2710,12 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           // Toggles from financial info
           _buildToggleItem(
               'Ocultar Tarifas',
-              getJsonField(itineraryData, r'$[:].rates_visibility')?.toBool() ??
-                  false,
+              getJsonField(itineraryData, r'$.rates_visibility') ?? false,
               (value) => _handleVisibilityToggle('rates_visibility', value)),
           SizedBox(height: BukeerSpacing.m),
           _buildToggleItem(
               'Publicar en la Web',
-              getJsonField(itineraryData, r'$[:].itinerary_visibility')
-                      ?.toBool() ??
-                  false,
+              getJsonField(itineraryData, r'$.itinerary_visibility') ?? false,
               (value) =>
                   _handleVisibilityToggle('itinerary_visibility', value)),
         ],
@@ -2850,15 +2978,15 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildTransactionCard(dynamic transaction) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final type = getJsonField(transaction, r'$[:].type')?.toString() ?? '';
-    final value = getJsonField(transaction, r'$[:].value')?.toDouble() ?? 0;
-    final date = getJsonField(transaction, r'$[:].date')?.toString() ?? '';
+    final type = getJsonField(transaction, r'$.type')?.toString() ?? '';
+    final value = getJsonField(transaction, r'$.value')?.toDouble() ?? 0;
+    final date = getJsonField(transaction, r'$.date')?.toString() ?? '';
     final paymentMethod =
-        getJsonField(transaction, r'$[:].payment_method')?.toString() ?? '';
+        getJsonField(transaction, r'$.payment_method')?.toString() ?? '';
     final reference =
-        getJsonField(transaction, r'$[:].reference')?.toString() ?? '';
+        getJsonField(transaction, r'$.reference')?.toString() ?? '';
     final voucherUrl =
-        getJsonField(transaction, r'$[:].voucher_url')?.toString() ?? '';
+        getJsonField(transaction, r'$.voucher_url')?.toString() ?? '';
 
     final isIncome = type == 'ingreso';
     final color = isIncome ? BukeerColors.success : BukeerColors.error;
@@ -3231,19 +3359,19 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     IconData icon = Icons.add_circle_outline;
 
     switch (serviceType) {
-      case 'flight':
+      case 'vuelos':
         message = 'No hay vuelos agregados';
         icon = Icons.flight;
         break;
-      case 'hotel':
+      case 'hoteles':
         message = 'No hay hoteles agregados';
         icon = Icons.hotel;
         break;
-      case 'activity':
+      case 'servicios':
         message = 'No hay actividades agregadas';
         icon = Icons.local_activity;
         break;
-      case 'transfer':
+      case 'transporte':
         message = 'No hay traslados agregados';
         icon = Icons.directions_car;
         break;
@@ -3612,6 +3740,15 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           ),
         );
       },
+    );
+  }
+
+  // Helper method to build image placeholder
+  Widget _buildImagePlaceholder(IconData icon, bool isDark) {
+    return Icon(
+      icon,
+      size: 40,
+      color: isDark ? BukeerColors.textTertiaryDark : BukeerColors.textTertiary,
     );
   }
 }

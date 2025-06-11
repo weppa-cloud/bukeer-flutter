@@ -1,4 +1,4 @@
--- Function to get complete itinerary details with all related data
+-- Fix the RPC function to use correct column names
 CREATE OR REPLACE FUNCTION get_complete_itinerary_details(p_itinerary_id UUID)
 RETURNS JSON
 LANGUAGE plpgsql
@@ -220,9 +220,3 @@ BEGIN
     RETURN result;
 END;
 $$;
-
--- Grant execute permission to authenticated users
-GRANT EXECUTE ON FUNCTION get_complete_itinerary_details(UUID) TO authenticated;
-
--- Add comment
-COMMENT ON FUNCTION get_complete_itinerary_details(UUID) IS 'Returns complete itinerary details including items grouped by type, passengers, transactions, and calculated totals';
