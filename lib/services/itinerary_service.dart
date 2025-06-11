@@ -178,7 +178,7 @@ class ItineraryService extends BaseService {
     try {
       print('ItineraryService: Loading passengers for: $itineraryId');
       final passengers = await PassengerTable().queryRows(
-        queryFn: (q) => q.eq('id_itinerary', itineraryId),
+        queryFn: (q) => q.eq('itinerary_id', itineraryId),
       );
 
       print('ItineraryService: Loaded ${passengers.length} passengers');

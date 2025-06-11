@@ -490,10 +490,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     // Filter items by selected service type
     final serviceTypeMap = {
-      0: 'flight',
-      1: 'hotel',
-      2: 'activity',
-      3: 'transfer',
+      0: 'Vuelos', // flight
+      1: 'Hoteles', // hotel
+      2: 'Servicios', // activity/services
+      3: 'Transporte', // transfer
     };
 
     final selectedType = serviceTypeMap[_selectedServiceTab];
