@@ -3557,7 +3557,7 @@ BEGIN
                             ('Accept-Encoding', 'gzip'),
                             ('Accept', 'application/json'),
                             ('Duffel-Version', 'v2'),
-                            ('Authorization', 'Bearer DUFFEL_API_KEY_REMOVED')
+                            ('Authorization', 'Bearer ' || COALESCE(current_setting('app.duffel_api_key', true), 'DUFFEL_API_KEY_NOT_SET'))
                         ]::extensions.http_header[],
                         NULL,                                              
                         NULL                                                 
@@ -3680,7 +3680,7 @@ BEGIN
                     ('Accept-Encoding', 'gzip'),
                     ('Accept', 'application/json'),
                     ('Duffel-Version', 'v1'),
-                    ('Authorization', 'Bearer DUFFEL_API_KEY_REMOVED')
+                    ('Authorization', 'Bearer ' || COALESCE(current_setting('app.duffel_api_key', true), 'DUFFEL_API_KEY_NOT_SET'))
                 ]::extensions.http_header[],
                 NULL,
                 NULL
