@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'component_itinerary_preview_hotels_model.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/design_system/components/index.dart';
 export 'component_itinerary_preview_hotels_model.dart';
 
 class ComponentItineraryPreviewHotelsWidget extends StatefulWidget {
@@ -69,7 +70,7 @@ class _ComponentItineraryPreviewHotelsWidgetState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 4.0, 0.0),
+      padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.xs),
       child: FutureBuilder<List<HotelsRow>>(
         future: HotelsTable().querySingleRow(
           queryFn: (q) => q.eqOrNull(
@@ -103,627 +104,235 @@ class _ComponentItineraryPreviewHotelsWidgetState
                   ? containerHotelsHotelsRowList.first
                   : null;
 
-          return Container(
-            width: MediaQuery.sizeOf(context).width * 1.0,
-            constraints: BoxConstraints(
-              maxHeight: 500.0,
-            ),
-            decoration: BoxDecoration(
-              color: BukeerColors.getBackground(context, secondary: true),
-            ),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Divider(
-                    height: 1.0,
-                    thickness: 1.0,
-                    indent: 0.0,
-                    color: FlutterFlowTheme.of(context).alternate,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 32.0,
-                        height: 32.0,
-                        decoration: BoxDecoration(
-                          color: BukeerColors.primaryAccent,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: BukeerColors.primary,
-                            width: 2.0,
-                          ),
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional(0.0, 0.0),
-                          child: FaIcon(
-                            FontAwesomeIcons.hotel,
-                            color: BukeerColors.secondaryText,
-                            size: 16.0,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              12.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            valueOrDefault<String>(
-                              widget.name,
-                              'Sin nombre',
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily,
-                                  fontSize: BukeerTypography.bodyMediumSize,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
-                                  useGoogleFonts: !FlutterFlowTheme.of(context)
-                                      .bodyMediumIsCustom,
-                                ),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        valueOrDefault<String>(
-                          dateTimeFormat(
-                            "yMMMd",
-                            widget.date,
-                            locale: FFLocalizations.of(context).languageCode,
-                          ),
-                          'Fecha',
-                        ),
-                        style: FlutterFlowTheme.of(context).labelSmall.override(
-                              fontFamily:
-                                  FlutterFlowTheme.of(context).labelSmallFamily,
-                              color: BukeerColors.primaryText,
-                              fontSize: BukeerTypography.bodySmallSize,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w500,
-                              useGoogleFonts: !FlutterFlowTheme.of(context)
-                                  .labelSmallIsCustom,
-                            ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: BukeerSpacing.m),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: BukeerColors.getBackground(context,
-                            secondary: true),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 0.0,
-                            color: BukeerColors.primary,
-                            offset: Offset(
-                              -2.0,
-                              0.0,
-                            ),
-                          )
-                        ],
-                        border: Border.all(
-                          color: BukeerColors.getBackground(context,
-                              secondary: true),
-                          width: 1.0,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: BukeerSpacing.m),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 4.0, 0.0, 0.0),
-                              child: Wrap(
-                                spacing: 8.0,
-                                runSpacing: 8.0,
-                                alignment: WrapAlignment.start,
-                                crossAxisAlignment: WrapCrossAlignment.start,
-                                direction: Axis.horizontal,
-                                runAlignment: WrapAlignment.start,
-                                verticalDirection: VerticalDirection.down,
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth: 450.0,
+          return BukeerItineraryCard(
+            icon: const FaIcon(FontAwesomeIcons.hotel),
+            title: widget.name,
+            subtitle: widget.rateName,
+            accentColor: BukeerColors.warning,
+            trailing: widget.date != null
+                ? Text(
+                    dateTimeFormat(
+                      "yMMMd",
+                      widget.date,
+                      locale: FFLocalizations.of(context).languageCode,
+                    ),
+                    style: BukeerTypography.labelMedium.copyWith(
+                      color: BukeerColors.textSecondary,
+                    ),
+                  )
+                : null,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Hotel images carousel
+                if (widget.media != null && widget.media!.isNotEmpty)
+                  Container(
+                    height: 180,
+                    margin: EdgeInsets.only(bottom: BukeerSpacing.m),
+                    child: ClipRRect(
+                      borderRadius: BukeerBorders.radiusSmall,
+                      child: CarouselSlider.builder(
+                        itemCount: widget.media!.length,
+                        itemBuilder: (context, itemIndex, realIndex) {
+                          final mediaItem = widget.media![itemIndex];
+                          return InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                pt.PageTransition(
+                                  type: pt.PageTransitionType.fade,
+                                  child: FlutterFlowExpandedImageView(
+                                    image: Image.network(
+                                      mediaItem.toString(),
+                                      fit: BoxFit.contain,
                                     ),
-                                    decoration: BoxDecoration(),
+                                    allowRotation: false,
+                                    tag: mediaItem.toString(),
+                                    useHeroAnimation: true,
                                   ),
-                                ],
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              primary: false,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (widget.media != null &&
-                                      widget.media!.isNotEmpty)
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          child: Builder(
-                                            builder: (context) {
-                                              final itemMediaProduct =
-                                                  widget.media!
-                                                      .map((e) => getJsonField(
-                                                            e,
-                                                            r'''$.image_url''',
-                                                          ))
-                                                      .toList();
-
-                                              return SizedBox(
-                                                width: double.infinity,
-                                                height: 200.0,
-                                                child: CarouselSlider.builder(
-                                                  itemCount:
-                                                      itemMediaProduct.length,
-                                                  itemBuilder: (context,
-                                                      itemMediaProductIndex,
-                                                      _) {
-                                                    final itemMediaProductItem =
-                                                        itemMediaProduct[
-                                                            itemMediaProductIndex];
-                                                    return InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        await Navigator.push(
-                                                          context,
-                                                          PageTransition(
-                                                            type: pt
-                                                                .PageTransitionType
-                                                                .fade,
-                                                            child:
-                                                                FlutterFlowExpandedImageView(
-                                                              image:
-                                                                  Image.network(
-                                                                (itemMediaProductItem?.toString() ??
-                                                                                '') !=
-                                                                            '' &&
-                                                                        itemMediaProductItem !=
-                                                                            null
-                                                                    ? itemMediaProductItem
-                                                                        .toString()
-                                                                    : 'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
-                                                                fit: BoxFit
-                                                                    .contain,
-                                                                errorBuilder:
-                                                                    (context,
-                                                                        error,
-                                                                        stackTrace) {
-                                                                  return Icon(
-                                                                      Icons
-                                                                          .hotel,
-                                                                      size: 48,
-                                                                      color: Colors
-                                                                          .grey);
-                                                                },
-                                                              ),
-                                                              allowRotation:
-                                                                  false,
-                                                              tag: itemMediaProductItem
-                                                                      ?.toString() ??
-                                                                  'hotel-image',
-                                                              useHeroAnimation:
-                                                                  true,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Hero(
-                                                        tag: itemMediaProductItem
-                                                                ?.toString() ??
-                                                            'hotel-image',
-                                                        transitionOnUserGestures:
-                                                            true,
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          child: Image.network(
-                                                            (itemMediaProductItem?.toString() ??
-                                                                            '') !=
-                                                                        '' &&
-                                                                    itemMediaProductItem !=
-                                                                        null
-                                                                ? itemMediaProductItem
-                                                                    .toString()
-                                                                : 'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/hotel-default.png',
-                                                            width: 200.0,
-                                                            height: 200.0,
-                                                            fit: BoxFit.cover,
-                                                            errorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                              return Container(
-                                                                width: 200.0,
-                                                                height: 200.0,
-                                                                color: Colors
-                                                                    .grey[200],
-                                                                child: Icon(
-                                                                    Icons.hotel,
-                                                                    size: 48,
-                                                                    color: Colors
-                                                                        .grey),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  carouselController: _model
-                                                          .carouselController ??=
-                                                      CarouselSliderController(),
-                                                  options: CarouselOptions(
-                                                    initialPage: max(
-                                                        0,
-                                                        min(
-                                                            0,
-                                                            itemMediaProduct
-                                                                    .length -
-                                                                1)),
-                                                    viewportFraction: 0.5,
-                                                    disableCenter: true,
-                                                    enlargeCenterPage: true,
-                                                    enlargeFactor: 0.25,
-                                                    enableInfiniteScroll: true,
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    autoPlay: true,
-                                                    autoPlayAnimationDuration:
-                                                        Duration(
-                                                            milliseconds: 2000),
-                                                    autoPlayInterval: Duration(
-                                                        milliseconds:
-                                                            (2000 + 4000)),
-                                                    autoPlayCurve:
-                                                        Curves.linear,
-                                                    pauseAutoPlayInFiniteScroll:
-                                                        true,
-                                                    onPageChanged: (index, _) =>
-                                                        _model.carouselCurrentIndex =
-                                                            index,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        4.0, 8.0, 4.0, 8.0),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            valueOrDefault<String>(
-                                              widget.rateName,
-                                              'Sin nombre',
-                                            ),
-                                            textAlign: TextAlign.start,
-                                            style: FlutterFlowTheme.of(context)
-                                                .headlineMedium
-                                                .override(
-                                                  fontFamily:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .headlineMediumFamily,
-                                                  fontSize: 15.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                  useGoogleFonts:
-                                                      !FlutterFlowTheme.of(
-                                                              context)
-                                                          .headlineMediumIsCustom,
-                                                ),
-                                          ),
-                                          Wrap(
-                                            spacing: 1.0,
-                                            runSpacing: 0.0,
-                                            alignment: WrapAlignment.start,
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.start,
-                                            direction: Axis.horizontal,
-                                            runAlignment: WrapAlignment.start,
-                                            verticalDirection:
-                                                VerticalDirection.down,
-                                            clipBehavior: Clip.antiAlias,
-                                            children: [
-                                              Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                4.0, 0.0),
-                                                    child: Icon(
-                                                      Icons.location_pin,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryText,
-                                                      size: 16.0,
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                8.0, 0.0),
-                                                    child: Text(
-                                                      valueOrDefault<String>(
-                                                        widget.location,
-                                                        'Ubicación',
-                                                      ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts:
-                                                                    !FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMediumIsCustom,
-                                                              ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                4.0, 0.0),
-                                                    child: Icon(
-                                                      Icons.people,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryText,
-                                                      size: 16.0,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    valueOrDefault<String>(
-                                                      widget.passengers
-                                                          ?.toString(),
-                                                      '1',
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMediumIsCustom,
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 8.0),
-                                            child: Text(
-                                              valueOrDefault<String>(
-                                                containerHotelsHotelsRow
-                                                    ?.description,
-                                                'Sin descripción',
-                                              ),
-                                              maxLines: 3,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMediumFamily,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        useGoogleFonts:
-                                                            !FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMediumIsCustom,
-                                                      ),
-                                            ),
-                                          ),
-                                          if (widget.personalizedMessage !=
-                                                  null &&
-                                              widget.personalizedMessage != '')
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Icon(
-                                                  Icons.info_outline,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  size: 16.0,
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                    valueOrDefault<String>(
-                                                      widget
-                                                          .personalizedMessage,
-                                                      'Sin mensaje',
-                                                    ),
-                                                    maxLines: 3,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          fontSize:
-                                                              BukeerTypography
-                                                                  .bodySmallSize,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMediumIsCustom,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ].divide(SizedBox(
-                                                  width: BukeerSpacing.xs)),
-                                            ),
-                                          Align(
-                                            alignment:
-                                                AlignmentDirectional(1.0, 0.0),
-                                            child: FFButtonWidget(
-                                              onPressed: () async {
-                                                await showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  enableDrag: false,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Padding(
-                                                      padding: MediaQuery
-                                                          .viewInsetsOf(
-                                                              context),
-                                                      child:
-                                                          ComponentInclusionWidget(
-                                                        inclutions:
-                                                            containerHotelsHotelsRow
-                                                                ?.inclutions,
-                                                        exclutions:
-                                                            containerHotelsHotelsRow
-                                                                ?.exclutions,
-                                                        recomendations:
-                                                            containerHotelsHotelsRow
-                                                                ?.recomendations,
-                                                      ),
-                                                    );
-                                                  },
-                                                ).then((value) =>
-                                                    safeSetState(() {}));
-                                              },
-                                              text: 'Ver inclusión',
-                                              options: FFButtonOptions(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        16.0, 0.0, 16.0, 0.0),
-                                                iconPadding:
-                                                    EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent1,
-                                                textStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMediumIsCustom,
-                                                        ),
-                                                elevation: 0.0,
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        BukeerSpacing.s),
-                                                hoverColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                hoverBorderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  width: 2.0,
-                                                ),
-                                                hoverTextColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .info,
-                                                hoverElevation: 3.0,
-                                              ),
-                                            ),
-                                          ),
-                                        ].divide(
-                                            SizedBox(height: BukeerSpacing.xs)),
+                                ),
+                              );
+                            },
+                            child: Hero(
+                              tag: mediaItem.toString(),
+                              transitionOnUserGestures: true,
+                              child: ClipRRect(
+                                borderRadius: BukeerBorders.radiusSmall,
+                                child: Image.network(
+                                  mediaItem.toString(),
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Container(
+                                    color: BukeerColors.surfaceSecondary,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.broken_image_outlined,
+                                        color: BukeerColors.textTertiary,
+                                        size: 40,
                                       ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ].addToEnd(SizedBox(height: BukeerSpacing.s)),
+                          );
+                        },
+                        carouselController: _model.carouselController ??=
+                            CarouselSliderController(),
+                        options: CarouselOptions(
+                          initialPage: 0,
+                          viewportFraction: 1.0,
+                          disableCenter: true,
+                          enlargeCenterPage: false,
+                          enlargeFactor: 0.0,
+                          enableInfiniteScroll: true,
+                          scrollDirection: Axis.horizontal,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 5),
+                          onPageChanged: (index, _) =>
+                              _model.carouselCurrentIndex = index,
                         ),
                       ),
                     ),
                   ),
+
+                // Hotel information
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                size: 16,
+                                color: BukeerColors.textSecondary,
+                              ),
+                              SizedBox(width: BukeerSpacing.xs),
+                              Expanded(
+                                child: Text(
+                                  widget.location,
+                                  style: BukeerTypography.bodyMedium.copyWith(
+                                    color: BukeerColors.textSecondary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (widget.passengers != null &&
+                              widget.passengers! > 0) ...[
+                            SizedBox(height: BukeerSpacing.xs),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.people_outline,
+                                  size: 16,
+                                  color: BukeerColors.textSecondary,
+                                ),
+                                SizedBox(width: BukeerSpacing.xs),
+                                Text(
+                                  '${widget.passengers!.toStringAsFixed(0)} pasajeros',
+                                  style: BukeerTypography.bodyMedium.copyWith(
+                                    color: BukeerColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Action button
+                // TODO: Uncomment when inclusionExclusion and programation fields are added to HotelsRow
+                /*
+                if ((containerHotelsHotelsRow?.inclusionExclusion != null &&
+                        containerHotelsHotelsRow!
+                            .inclusionExclusion!.isNotEmpty) ||
+                    (containerHotelsHotelsRow?.programation != null &&
+                        containerHotelsHotelsRow!
+                            .programation!.isNotEmpty)) ...[
+                  SizedBox(height: BukeerSpacing.m),
+                  SizedBox(
+                    width: double.infinity,
+                    child: BukeerButton.outlined(
+                      text: 'Ver inclusión',
+                      onPressed: () async {
+                        await showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          enableDrag: false,
+                          context: context,
+                          builder: (context) {
+                            return GestureDetector(
+                              onTap: () => FocusScope.of(context).unfocus(),
+                              child: Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: ComponentInclusionWidget(
+                                  name: widget.name,
+                                  inclusions: containerHotelsHotelsRow!
+                                          .inclusionExclusion ??
+                                      '',
+                                  program:
+                                      containerHotelsHotelsRow.programation ??
+                                          '',
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      size: BukeerButtonSize.small,
+                    ),
+                  ),
                 ],
-              ),
+                */
+
+                // Personalized message
+                if (widget.personalizedMessage != null &&
+                    widget.personalizedMessage!.isNotEmpty) ...[
+                  SizedBox(height: BukeerSpacing.m),
+                  Container(
+                    width: double.infinity,
+                    padding: BukeerSpacing.all12,
+                    decoration: BoxDecoration(
+                      color: BukeerColors.warning.withOpacity(0.1),
+                      borderRadius: BukeerBorders.radiusSmall,
+                      border: Border.all(
+                        color: BukeerColors.warning.withOpacity(0.3),
+                        width: BukeerBorders.widthThin,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 16,
+                          color: BukeerColors.warning,
+                        ),
+                        SizedBox(width: BukeerSpacing.s),
+                        Expanded(
+                          child: Text(
+                            widget.personalizedMessage!,
+                            style: BukeerTypography.bodySmall.copyWith(
+                              color: BukeerColors.warning,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ],
             ),
           );
         },

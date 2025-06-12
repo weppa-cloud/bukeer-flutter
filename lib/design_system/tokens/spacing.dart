@@ -8,6 +8,7 @@ class BukeerSpacing {
   // ================================
   // BASE SPACING VALUES (4px System)
   // ================================
+  static const double xxs = 2.0; // spacing-xxs
   static const double xs = 4.0; // spacing-xs
   static const double s = 8.0; // spacing-sm
   static const double sm = 12.0; // spacing-md
@@ -54,6 +55,9 @@ class BukeerSpacing {
 
   /// Replaces EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8)
   static const EdgeInsetsDirectional all8 = EdgeInsetsDirectional.all(s);
+
+  /// Replaces EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)
+  static const EdgeInsetsDirectional all12 = EdgeInsetsDirectional.all(sm);
 
   // ================================
   // HORIZONTAL PADDING

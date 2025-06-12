@@ -9,6 +9,8 @@ import 'error_analytics_service.dart';
 import 'ui_state_service.dart';
 import 'account_service.dart';
 import 'pwa_service.dart';
+import '../backend/supabase/supabase.dart';
+import '../auth/supabase_auth/auth_util.dart';
 
 /// Central service manager for the app
 /// Provides singleton access to all services and coordinates initialization
@@ -57,8 +59,40 @@ class AppServices {
       });
 
       // Initialize user service first (required for other services)
-      // Note: accountId will be set after initial user data load
-      await user.initializeUserData();
+      // First, we need to get the accountId from the user's roles
+      String? accountId;
+
+      try {
+        // Import needed for UserRolesTable
+        final userRoles = await UserRolesTable().queryRows(
+          queryFn: (q) => q.eq('user_id', currentUserUid ?? ''),
+        );
+
+        if (userRoles.isNotEmpty) {
+          accountId = userRoles.first.accountId;
+          debugPrint(
+              'AppServices: Found accountId from user roles: $accountId');
+
+          // Set accountId in AccountService immediately
+          if (accountId != null) {
+            await account.setAccountId(accountId);
+          }
+        } else {
+          debugPrint(
+              'AppServices: No user roles found for user: $currentUserUid');
+        }
+      } catch (e) {
+        debugPrint('AppServices: Error fetching user roles: $e');
+      }
+
+      // Now initialize user data with the accountId
+      if (accountId != null) {
+        await user.initializeUserData(accountId: accountId);
+      } else {
+        // Fallback approach if no accountId found
+        debugPrint('AppServices: No accountId found, using fallback');
+        await user.initializeUserData(accountId: null);
+      }
 
       // Only proceed if user data loaded successfully
       if (user.hasLoadedData) {
@@ -69,7 +103,7 @@ class AppServices {
         }
 
         // Set account ID for AccountService
-        final accountId = user.getAgentInfo(r'$[:].id_account')?.toString();
+        accountId = user.getAgentInfo(r'$[:].id_account')?.toString();
         if (accountId != null) {
           await account.setAccountId(accountId);
         }

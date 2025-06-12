@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'component_itinerary_preview_flights_model.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/design_system/components/index.dart';
 export 'component_itinerary_preview_flights_model.dart';
 
 class ComponentItineraryPreviewFlightsWidget extends StatefulWidget {
@@ -61,366 +62,199 @@ class _ComponentItineraryPreviewFlightsWidgetState
     super.dispose();
   }
 
+  String _extractIATACode(String? location) {
+    if (location == null || location.isEmpty) return '';
+    return location.split(' - ')[0];
+  }
+
+  String _extractCityName(String? location) {
+    if (location == null || location.isEmpty) return '';
+    final parts = location.split(' - ');
+    return parts.length > 1 ? parts[1] : parts[0];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final destinationCode = _extractIATACode(widget.destination);
+    final destinationCity = _extractCityName(widget.destination);
+    final originCode = _extractIATACode(widget.origen);
+    final originCity = _extractCityName(widget.origen);
+
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 4.0, 0.0),
-      child: Container(
-        width: MediaQuery.sizeOf(context).width * 1.0,
-        decoration: BoxDecoration(
-          color: BukeerColors.getBackground(context, secondary: true),
-        ),
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 32.0,
-                    height: 32.0,
-                    decoration: BoxDecoration(
-                      color: BukeerColors.primaryAccent,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: BukeerColors.primary,
-                        width: 2.0,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.flight,
-                      color: BukeerColors.secondaryText,
-                      size: 20.0,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                      child: Text(
-                        'Vuelo a ${valueOrDefault<String>(
-                          (String destino) {
-                            return destino.split(' - ')[1];
-                          }(widget!.destination!),
-                          'Destino',
-                        )}',
-                        style:
-                            FlutterFlowTheme.of(context).headlineSmall.override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .headlineSmallFamily,
-                                  fontSize: BukeerTypography.bodyMediumSize,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: !FlutterFlowTheme.of(context)
-                                      .headlineSmallIsCustom,
-                                ),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    dateTimeFormat(
-                      "yMMMd",
-                      widget!.date,
-                      locale: FFLocalizations.of(context).languageCode,
-                    ),
-                    style: FlutterFlowTheme.of(context).labelSmall.override(
-                          fontFamily:
-                              FlutterFlowTheme.of(context).labelSmallFamily,
-                          color: BukeerColors.primaryText,
-                          fontSize: BukeerTypography.bodySmallSize,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w500,
-                          useGoogleFonts:
-                              !FlutterFlowTheme.of(context).labelSmallIsCustom,
-                        ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(18.0, 0.0, 0.0, 0.0),
-                child: Container(
-                  width: MediaQuery.sizeOf(context).width * 1.0,
-                  decoration: BoxDecoration(
-                    color: BukeerColors.getBackground(context, secondary: true),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 0.0,
-                        color: BukeerColors.primary,
-                        offset: Offset(
-                          -2.0,
-                          0.0,
-                        ),
-                      )
-                    ],
-                    border: Border.all(
-                      color:
-                          BukeerColors.getBackground(context, secondary: true),
-                      width: 1.0,
-                    ),
-                  ),
+      padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.xs),
+      child: BukeerItineraryCard(
+        icon: const Icon(Icons.flight_takeoff),
+        title: 'Vuelo a $destinationCity',
+        subtitle: widget.flightNumber ?? '',
+        accentColor: BukeerColors.info,
+        trailing: widget.date != null
+            ? Text(
+                dateTimeFormat(
+                  "yMMMd",
+                  widget.date,
+                  locale: FFLocalizations.of(context).languageCode,
+                ),
+                style: BukeerTypography.labelMedium.copyWith(
+                  color: BukeerColors.textSecondary,
+                ),
+              )
+            : null,
+        content: Column(
+          children: [
+            // Flight route information
+            Row(
+              children: [
+                // Origin
+                Expanded(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            12.0, 8.0, 12.0, 8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  valueOrDefault<String>(
-                                    (String origen) {
-                                      return origen.split(' - ')[0];
-                                    }(widget!.origen!),
-                                    'Código IATA ',
-                                  ).maybeHandleOverflow(
-                                    maxChars: 3,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .headlineSmallFamily,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        fontSize:
-                                            BukeerTypography.bodySmallSize,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w500,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .headlineSmallIsCustom,
-                                      ),
-                                ),
-                                Text(
-                                  valueOrDefault<String>(
-                                    (String origen) {
-                                      return origen.split(' - ')[1];
-                                    }(widget!.origen!),
-                                    'Origen',
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodySmall
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodySmallFamily,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodySmallIsCustom,
-                                      ),
-                                ),
-                                Text(
-                                  valueOrDefault<String>(
-                                    widget!.departureTime,
-                                    'Desconocido',
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyLargeFamily,
-                                        fontSize:
-                                            BukeerTypography.bodySmallSize,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodyLargeIsCustom,
-                                      ),
-                                ),
-                                Text(
-                                  'Salida',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodySmall
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodySmallFamily,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodySmallIsCustom,
-                                      ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 120.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(BukeerSpacing.l),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(BukeerSpacing.s),
-                                    child: Image.network(
-                                      valueOrDefault<String>(
-                                        widget!.image,
-                                        'https://wzlxbpicdcdvxvdcvgas.supabase.co/storage/v1/object/public/images/assets/airline-default.png',
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.flight_takeoff_sharp,
-                                  color: BukeerColors.primary,
-                                  size: 24.0,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  valueOrDefault<String>(
-                                    (String destination) {
-                                      return destination.split(' - ')[0];
-                                    }(widget!.destination!),
-                                    'Código IATA ',
-                                  ).maybeHandleOverflow(
-                                    maxChars: 3,
-                                  ),
-                                  textAlign: TextAlign.end,
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .headlineSmallFamily,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        fontSize:
-                                            BukeerTypography.bodySmallSize,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w600,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .headlineSmallIsCustom,
-                                      ),
-                                ),
-                                Text(
-                                  valueOrDefault<String>(
-                                    (String destino) {
-                                      return destino.split(' - ')[1];
-                                    }(widget!.destination!),
-                                    'Destino',
-                                  ),
-                                  textAlign: TextAlign.end,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodySmall
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodySmallFamily,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodySmallIsCustom,
-                                      ),
-                                ),
-                                Text(
-                                  valueOrDefault<String>(
-                                    widget!.arrivalTime,
-                                    'Desconocido',
-                                  ),
-                                  textAlign: TextAlign.end,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyLargeFamily,
-                                        fontSize:
-                                            BukeerTypography.bodySmallSize,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodyLargeIsCustom,
-                                      ),
-                                ),
-                                Text(
-                                  'Llegada',
-                                  textAlign: TextAlign.end,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodySmall
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodySmallFamily,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodySmallIsCustom,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ],
+                      Text(
+                        originCode.maybeHandleOverflow(maxChars: 3),
+                        style: BukeerTypography.titleLarge.copyWith(
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      if (widget!.personalizedMessage != null &&
-                          widget!.personalizedMessage != '')
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              12.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                color: BukeerColors.secondaryText,
-                                size: 16.0,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  valueOrDefault<String>(
-                                    widget!.personalizedMessage,
-                                    'Sin mensaje',
-                                  ),
-                                  maxLines: 3,
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyMediumFamily,
-                                        fontSize:
-                                            BukeerTypography.bodySmallSize,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.normal,
-                                        useGoogleFonts:
-                                            !FlutterFlowTheme.of(context)
-                                                .bodyMediumIsCustom,
-                                      ),
-                                ),
-                              ),
-                            ].divide(SizedBox(width: BukeerSpacing.xs)),
+                      Text(
+                        originCity,
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: BukeerColors.textSecondary,
+                        ),
+                      ),
+                      if (widget.departureTime != null) ...[
+                        SizedBox(height: BukeerSpacing.xs),
+                        Text(
+                          widget.departureTime!,
+                          style: BukeerTypography.bodyMedium,
+                        ),
+                        Text(
+                          'Salida',
+                          style: BukeerTypography.labelSmall.copyWith(
+                            color: BukeerColors.textSecondary,
                           ),
                         ),
-                    ].addToEnd(SizedBox(height: BukeerSpacing.s)),
+                      ],
+                    ],
                   ),
+                ),
+                // Flight visual indicator
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (widget.image != null && widget.image!.isNotEmpty)
+                        Container(
+                          height: 40,
+                          margin: EdgeInsets.only(bottom: BukeerSpacing.s),
+                          child: ClipRRect(
+                            borderRadius: BukeerBorders.radiusSmall,
+                            child: Image.network(
+                              widget.image!,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(),
+                            ),
+                          ),
+                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 1,
+                            color: BukeerColors.borderLight,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: BukeerSpacing.xs,
+                            ),
+                            child: Icon(
+                              Icons.flight_takeoff,
+                              size: 20,
+                              color: BukeerColors.info,
+                            ),
+                          ),
+                          Container(
+                            width: 40,
+                            height: 1,
+                            color: BukeerColors.borderLight,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // Destination
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        destinationCode.maybeHandleOverflow(maxChars: 3),
+                        style: BukeerTypography.titleLarge.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        destinationCity,
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: BukeerColors.textSecondary,
+                        ),
+                      ),
+                      if (widget.arrivalTime != null) ...[
+                        SizedBox(height: BukeerSpacing.xs),
+                        Text(
+                          widget.arrivalTime!,
+                          style: BukeerTypography.bodyMedium,
+                        ),
+                        Text(
+                          'Llegada',
+                          style: BukeerTypography.labelSmall.copyWith(
+                            color: BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // Personalized message
+            if (widget.personalizedMessage != null &&
+                widget.personalizedMessage!.isNotEmpty) ...[
+              SizedBox(height: BukeerSpacing.m),
+              Container(
+                width: double.infinity,
+                padding: BukeerSpacing.all12,
+                decoration: BoxDecoration(
+                  color: BukeerColors.info.withOpacity(0.1),
+                  borderRadius: BukeerBorders.radiusSmall,
+                  border: Border.all(
+                    color: BukeerColors.info.withOpacity(0.3),
+                    width: BukeerBorders.widthThin,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      size: 16,
+                      color: BukeerColors.info,
+                    ),
+                    SizedBox(width: BukeerSpacing.s),
+                    Expanded(
+                      child: Text(
+                        widget.personalizedMessage!,
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: BukeerColors.info,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
+          ],
         ),
       ),
     );

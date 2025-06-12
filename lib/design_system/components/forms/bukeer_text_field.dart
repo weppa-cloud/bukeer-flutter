@@ -479,6 +479,11 @@ class _BukeerTextFieldState extends State<BukeerTextField> {
   }
 
   TextInputType _getKeyboardType() {
+    // For multiline text fields, always use multiline keyboard type
+    if (widget.maxLines != null && widget.maxLines! > 1) {
+      return TextInputType.multiline;
+    }
+
     switch (widget.type) {
       case BukeerTextFieldType.email:
         return TextInputType.emailAddress;

@@ -139,6 +139,11 @@ class BukeerColors {
   static const Color divider = borderPrimary;
   static const Color dividerDark = borderPrimaryDark;
 
+  // Additional border aliases
+  static const Color border = borderPrimary;
+  static const Color borderDark = borderPrimaryDark;
+  static const Color borderLight = Color(0xFFE2E8F0);
+
   // ================================
   // OVERLAY COLORS
   // ================================
@@ -160,6 +165,7 @@ class BukeerColors {
   static const Color shadow34 = Color(0x34000000); // Replaces Color(0x34000000)
   static const Color shadow33 = Color(0x33000000); // Replaces Color(0x33000000)
   static const Color shadow4D = Color(0x4D000000); // Replaces Color(0x4D000000)
+  static const Color shadowColor = Color(0x1A000000); // Default shadow color
 
   // ================================
   // HELPER METHODS

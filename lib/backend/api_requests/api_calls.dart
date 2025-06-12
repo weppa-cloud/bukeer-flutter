@@ -2941,6 +2941,37 @@ class GetAgentCall {
   }
 }
 
+class GetAgentsListCall {
+  static Future<ApiCallResponse> call({
+    String? authToken = '',
+    String? accountIdParam = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "account_id_param": "${escapeStringForJson(accountIdParam)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'getAgentsList',
+      apiUrl: '${AppConfig.apiBaseUrl}/rpc/function_get_agents_list',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': AppConfig.supabaseAnonKey,
+        'Authorization': 'Bearer ${authToken}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class GetClientItineraryCall {
   static Future<ApiCallResponse> call({
     String? authToken = '',

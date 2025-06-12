@@ -8,6 +8,7 @@ import '../../preview/component_itinerary_preview_activities/component_itinerary
 import '../../preview/component_itinerary_preview_transfers/component_itinerary_preview_transfers_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
+import 'package:bukeer/design_system/components/index.dart';
 
 /// Services section for itinerary details
 /// Contains flights, hotels, activities, and transfers in organized tabs
@@ -19,6 +20,9 @@ class ItineraryServicesSection extends StatefulWidget {
   final VoidCallback? onAddActivity;
   final VoidCallback? onAddTransfer;
   final bool showAsOriginalDesign;
+  final Function(dynamic item, String serviceType)? onEditService;
+  final Function(dynamic item, String serviceType)? onDeleteService;
+  final VoidCallback? onRefresh;
 
   const ItineraryServicesSection({
     Key? key,
@@ -29,6 +33,9 @@ class ItineraryServicesSection extends StatefulWidget {
     this.onAddActivity,
     this.onAddTransfer,
     this.showAsOriginalDesign = false,
+    this.onEditService,
+    this.onDeleteService,
+    this.onRefresh,
   }) : super(key: key);
 
   @override
@@ -54,6 +61,248 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  // Show delete confirmation dialog
+  Future<void> _showDeleteConfirmationDialog(
+      dynamic item, String serviceType) async {
+    final serviceName = _getServiceDisplayName(item, serviceType);
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(BukeerSpacing.m),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                color: FlutterFlowTheme.of(context).error,
+                size: 28,
+              ),
+              SizedBox(width: BukeerSpacing.s),
+              Expanded(
+                child: Text(
+                  'Confirmar eliminación',
+                  style: FlutterFlowTheme.of(context).headlineSmall.override(
+                        fontFamily: 'Outfit',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '¿Estás seguro de que deseas eliminar este servicio?',
+                style: FlutterFlowTheme.of(context).bodyMedium,
+              ),
+              SizedBox(height: BukeerSpacing.m),
+              Container(
+                padding: EdgeInsets.all(BukeerSpacing.m),
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                  border: Border.all(
+                    color: FlutterFlowTheme.of(context).alternate,
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  serviceName,
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Readex Pro',
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+              SizedBox(height: BukeerSpacing.s),
+              Text(
+                'Esta acción no se puede deshacer.',
+                style: FlutterFlowTheme.of(context).bodySmall.override(
+                      fontFamily: 'Readex Pro',
+                      color: FlutterFlowTheme.of(context).error,
+                      fontSize: 12,
+                    ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            BukeerButton(
+              text: 'Cancelar',
+              onPressed: () => Navigator.of(context).pop(),
+              variant: BukeerButtonVariant.text,
+              size: BukeerButtonSize.small,
+            ),
+            BukeerButton(
+              text: 'Eliminar',
+              onPressed: () async {
+                Navigator.of(context).pop();
+                // Call the delete callback
+                if (widget.onDeleteService != null) {
+                  widget.onDeleteService!(item, serviceType);
+                }
+              },
+              variant: BukeerButtonVariant.primary,
+              size: BukeerButtonSize.small,
+              backgroundColor: BukeerColors.error,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Get service display name for dialogs
+  String _getServiceDisplayName(dynamic item, String serviceType) {
+    switch (serviceType) {
+      case 'flight':
+        final flightInfo = getJsonField(item, r'$.flights');
+        final origin = getJsonField(flightInfo, r'$.origin')?.toString() ?? '';
+        final destination =
+            getJsonField(flightInfo, r'$.destination')?.toString() ?? '';
+        final flightNumber =
+            getJsonField(flightInfo, r'$.flight_number')?.toString() ?? '';
+        return 'Vuelo $flightNumber: $origin - $destination';
+      case 'hotel':
+        final hotelInfo = getJsonField(item, r'$.hotels');
+        final hotelName =
+            getJsonField(hotelInfo, r'$.name')?.toString() ?? 'Hotel';
+        final roomType = getJsonField(item, r'$.room_type')?.toString() ?? '';
+        return '$hotelName - $roomType';
+      case 'activity':
+        final activityInfo = getJsonField(item, r'$.activities');
+        final activityName =
+            getJsonField(activityInfo, r'$.name')?.toString() ?? 'Actividad';
+        return activityName;
+      case 'transfer':
+        final transferInfo = getJsonField(item, r'$.transfers');
+        final transferName =
+            getJsonField(transferInfo, r'$.name')?.toString() ?? 'Traslado';
+        return transferName;
+      default:
+        return 'Servicio';
+    }
+  }
+
+  // Show edit service bottom sheet
+  void _showEditServiceBottomSheet(dynamic item, String serviceType) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.9,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        builder: (_, controller) => Container(
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).secondaryBackground,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(BukeerSpacing.l),
+            ),
+          ),
+          child: Column(
+            children: [
+              // Handle bar
+              Container(
+                margin: EdgeInsets.only(top: BukeerSpacing.m),
+                width: 50,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).alternate,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              // Header
+              Padding(
+                padding: EdgeInsets.all(BukeerSpacing.l),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Editar ${_getServiceTypeName(serviceType)}',
+                      style:
+                          FlutterFlowTheme.of(context).headlineSmall.override(
+                                fontFamily: 'Outfit',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                    ),
+                    BukeerIconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () => Navigator.of(context).pop(),
+                      variant: BukeerIconButtonVariant.ghost,
+                    ),
+                  ],
+                ),
+              ),
+              // Content
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: controller,
+                  padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.l),
+                  child: _buildEditForm(item, serviceType),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Build edit form based on service type
+  Widget _buildEditForm(dynamic item, String serviceType) {
+    // This would contain the edit form for each service type
+    // For now, showing a placeholder
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Formulario de edición para ${_getServiceTypeName(serviceType)}',
+          style: FlutterFlowTheme.of(context).bodyLarge,
+        ),
+        SizedBox(height: BukeerSpacing.m),
+        // Add form fields here based on service type
+        FFButtonWidget(
+          onPressed: () {
+            Navigator.of(context).pop();
+            if (widget.onEditService != null) {
+              widget.onEditService!(item, serviceType);
+            }
+          },
+          text: 'Guardar cambios',
+          options: FFButtonOptions(
+            width: double.infinity,
+            height: 48,
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            color: FlutterFlowTheme.of(context).primary,
+            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                  fontFamily: 'Readex Pro',
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+            elevation: 2,
+            borderSide: BorderSide(
+              color: Colors.transparent,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(BukeerSpacing.s),
+          ),
+        ),
+        SizedBox(height: BukeerSpacing.xl),
+      ],
+    );
   }
 
   Widget _buildFlightsList() {
@@ -786,29 +1035,12 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
         if (onAddPressed != null)
           Padding(
             padding: EdgeInsets.all(16),
-            child: FFButtonWidget(
-              onPressed: onAddPressed,
+            child: BukeerButton(
               text: 'Agregar ${_getServiceTypeName(serviceType)}',
-              icon: Icon(Icons.add, size: 20),
-              options: FFButtonOptions(
-                width: double.infinity,
-                height: 48,
-                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                color: FlutterFlowTheme.of(context).primary,
-                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: Colors.white,
-                      fontSize: 16,
-                      letterSpacing: 0,
-                    ),
-                elevation: 3,
-                borderSide: BorderSide(
-                  color: Colors.transparent,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(8),
-              ),
+              onPressed: onAddPressed,
+              icon: Icons.add,
+              variant: BukeerButtonVariant.primary,
+              width: BukeerButtonWidth.full,
             ),
           ),
 
@@ -1044,26 +1276,30 @@ class _ItineraryServicesSectionState extends State<ItineraryServicesSection>
                 // Actions
                 Column(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        // TODO: Edit action
-                      },
-                      child: Icon(
+                    BukeerIconButton(
+                      icon: Icon(
                         Icons.edit,
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: BukeerColors.primary,
                         size: 20,
                       ),
-                    ),
-                    SizedBox(height: 16),
-                    InkWell(
-                      onTap: () {
-                        // TODO: Delete action
+                      onPressed: () {
+                        _showEditServiceBottomSheet(item, serviceType);
                       },
-                      child: Icon(
+                      variant: BukeerIconButtonVariant.ghost,
+                      size: BukeerIconButtonSize.small,
+                    ),
+                    SizedBox(height: BukeerSpacing.xs),
+                    BukeerIconButton(
+                      icon: Icon(
                         Icons.delete,
-                        color: FlutterFlowTheme.of(context).error,
+                        color: BukeerColors.error,
                         size: 20,
                       ),
+                      onPressed: () {
+                        _showDeleteConfirmationDialog(item, serviceType);
+                      },
+                      variant: BukeerIconButtonVariant.ghost,
+                      size: BukeerIconButtonSize.small,
                     ),
                   ],
                 ),

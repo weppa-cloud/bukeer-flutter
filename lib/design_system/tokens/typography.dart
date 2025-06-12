@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
@@ -10,29 +11,29 @@ class BukeerTypography {
   // ================================
   // FONT FAMILIES
   // ================================
-  static const String _primaryFont = 'Outfit';
-  static const String _fallbackFont = 'Readex Pro';
+  static const String _primaryFont =
+      'Inter'; // Updated to match Stripe's clean typography
+  static const String _fallbackFont = 'Outfit'; // Fallback to Outfit
 
   // ================================
-  // FONT SIZES (for compatibility)
+  // FONT SIZES (Stripe-inspired)
   // ================================
-  static const double displayLargeSize = 57.0;
-  static const double displayMediumSize = 45.0;
-  static const double displaySmallSize = 36.0;
-  static const double headlineLargeSize = 32.0;
-  static const double headlineMediumSize =
-      24.0; // Updated from itinerary design
-  static const double headlineSmallSize = 20.0; // Updated from itinerary design
-  static const double titleLargeSize = 22.0;
-  static const double titleMediumSize = 18.0; // Updated from itinerary design
-  static const double titleSmallSize = 16.0; // Updated from itinerary design
-  static const double bodyLargeSize = 16.0;
-  static const double bodyMediumSize = 14.0;
-  static const double bodySmallSize = 13.0; // Updated from itinerary design
-  static const double labelLargeSize = 14.0;
-  static const double labelMediumSize = 12.0;
-  static const double labelSmallSize = 11.0;
-  static const double captionSize = 11.0;
+  static const double displayLargeSize = 48.0; // Reduced for cleaner look
+  static const double displayMediumSize = 36.0;
+  static const double displaySmallSize = 32.0;
+  static const double headlineLargeSize = 28.0; // Stripe main headings
+  static const double headlineMediumSize = 24.0; // Section headings
+  static const double headlineSmallSize = 20.0; // Subsection headings
+  static const double titleLargeSize = 18.0; // Card titles
+  static const double titleMediumSize = 16.0; // Component titles
+  static const double titleSmallSize = 14.0; // Small titles
+  static const double bodyLargeSize = 16.0; // Main content
+  static const double bodyMediumSize = 14.0; // Standard body text
+  static const double bodySmallSize = 12.0; // Small text, captions
+  static const double labelLargeSize = 14.0; // Button text, labels
+  static const double labelMediumSize = 12.0; // Small labels
+  static const double labelSmallSize = 11.0; // Tiny labels
+  static const double captionSize = 11.0; // Captions
 
   // ================================
   // HEADING STYLES
@@ -41,55 +42,59 @@ class BukeerTypography {
   /// Display Large - Used for hero text and main headlines
   static TextStyle get displayLarge => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 57.0,
-        fontWeight: FontWeight.w400,
-        height: 1.12,
-        letterSpacing: -0.25,
+        fontSize: displayLargeSize,
+        fontWeight: FontWeight.w700, // Bold like Stripe
+        height: 1.1,
+        letterSpacing: -0.5,
         color: BukeerColors.textPrimary,
       );
 
   /// Display Medium - Used for important headlines
   static TextStyle get displayMedium => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 45.0,
-        fontWeight: FontWeight.w400,
-        height: 1.16,
+        fontSize: displayMediumSize,
+        fontWeight: FontWeight.w600, // Semi-bold
+        height: 1.15,
+        letterSpacing: -0.3,
         color: BukeerColors.textPrimary,
       );
 
   /// Display Small - Used for section headlines
   static TextStyle get displaySmall => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 36.0,
-        fontWeight: FontWeight.w400,
-        height: 1.22,
+        fontSize: displaySmallSize,
+        fontWeight: FontWeight.w600, // Semi-bold
+        height: 1.2,
+        letterSpacing: -0.2,
         color: BukeerColors.textPrimary,
       );
 
-  /// Headline Large - Primary page titles
+  /// Headline Large - Primary page titles (Stripe-style)
   static TextStyle get headlineLarge => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 32.0,
-        fontWeight: FontWeight.w700, // Bold - Updated from itinerary design
-        height: 1.25,
+        fontSize: headlineLargeSize,
+        fontWeight: FontWeight.w700, // Bold like Stripe headers
+        height: 1.3,
+        letterSpacing: -0.2,
         color: BukeerColors.textPrimary,
       );
 
   /// Headline Medium - Secondary page titles
   static TextStyle get headlineMedium => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 24.0, // Updated from itinerary design
-        fontWeight: FontWeight.w700, // Bold - Updated from itinerary design
-        height: 1.29,
+        fontSize: headlineMediumSize,
+        fontWeight: FontWeight.w600, // Semi-bold for secondary
+        height: 1.3,
+        letterSpacing: -0.1,
         color: BukeerColors.textPrimary,
       );
 
   /// Headline Small - Section titles
   static TextStyle get headlineSmall => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 20.0, // Updated from itinerary design
-        fontWeight: FontWeight.w700, // Bold - Updated from itinerary design
-        height: 1.33,
+        fontSize: headlineSmallSize,
+        fontWeight: FontWeight.w600, // Semi-bold
+        height: 1.35,
         color: BukeerColors.textPrimary,
       );
 
@@ -100,29 +105,27 @@ class BukeerTypography {
   /// Title Large - Card titles, modal headers
   static TextStyle get titleLarge => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 22.0,
-        fontWeight: FontWeight.w600, // SemiBold - Updated from itinerary design
-        height: 1.27,
+        fontSize: titleLargeSize,
+        fontWeight: FontWeight.w600, // Semi-bold
+        height: 1.4,
         color: BukeerColors.textPrimary,
       );
 
   /// Title Medium - Subsection titles
   static TextStyle get titleMedium => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 18.0, // Updated from itinerary design
-        fontWeight: FontWeight.w600, // SemiBold - Updated from itinerary design
-        height: 1.50,
-        letterSpacing: 0.15,
+        fontSize: titleMediumSize,
+        fontWeight: FontWeight.w500, // Medium weight
+        height: 1.45,
         color: BukeerColors.textPrimary,
       );
 
   /// Title Small - Small section headers
   static TextStyle get titleSmall => GoogleFonts.getFont(
         _primaryFont,
-        fontSize: 16.0, // Updated from itinerary design
+        fontSize: titleSmallSize,
         fontWeight: FontWeight.w500, // Medium
-        height: 1.43,
-        letterSpacing: 0.1,
+        height: 1.5,
         color: BukeerColors.textPrimary,
       );
 
@@ -132,31 +135,28 @@ class BukeerTypography {
 
   /// Body Large - Main content text
   static TextStyle get bodyLarge => GoogleFonts.getFont(
-        _fallbackFont,
-        fontSize: 16.0,
-        fontWeight: FontWeight.w400,
-        height: 1.50,
-        letterSpacing: 0.5,
+        _primaryFont, // Use primary font for consistency
+        fontSize: bodyLargeSize,
+        fontWeight: FontWeight.w400, // Regular
+        height: 1.5,
         color: BukeerColors.textPrimary,
       );
 
-  /// Body Medium - Secondary content text
+  /// Body Medium - Secondary content text (Stripe standard)
   static TextStyle get bodyMedium => GoogleFonts.getFont(
-        _fallbackFont,
-        fontSize: 14.0,
-        fontWeight: FontWeight.w400,
-        height: 1.43,
-        letterSpacing: 0.25,
+        _primaryFont,
+        fontSize: bodyMediumSize,
+        fontWeight: FontWeight.w400, // Regular
+        height: 1.5,
         color: BukeerColors.textPrimary,
       );
 
   /// Body Small - Supporting text, captions
   static TextStyle get bodySmall => GoogleFonts.getFont(
-        _fallbackFont,
-        fontSize: 13.0, // Updated from itinerary design
-        fontWeight: FontWeight.w400,
-        height: 1.33,
-        letterSpacing: 0.4,
+        _primaryFont,
+        fontSize: bodySmallSize,
+        fontWeight: FontWeight.w400, // Regular
+        height: 1.4,
         color: BukeerColors.textSecondary,
       );
 
@@ -288,12 +288,12 @@ class BukeerTypography {
   // BUTTON STYLES
   // ================================
 
-  /// Primary button text
+  /// Primary button text (Stripe-style)
   static TextStyle get buttonPrimary => GoogleFonts.getFont(
         _primaryFont,
         fontSize: 14.0,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.1,
+        fontWeight: FontWeight.w500, // Medium weight like Stripe buttons
+        letterSpacing: 0,
         color: BukeerColors.textInverse,
       );
 
@@ -314,8 +314,8 @@ class BukeerTypography {
 
   /// Form field text
   static TextStyle get formField => GoogleFonts.getFont(
-        _fallbackFont,
-        fontSize: 16.0,
+        _primaryFont, // Consistent font family
+        fontSize: 15.0, // Slightly smaller for forms
         fontWeight: FontWeight.w400,
         color: BukeerColors.textPrimary,
       );
@@ -334,11 +334,101 @@ class BukeerTypography {
       );
 
   // ================================
+  // STRIPE-INSPIRED STYLES
+  // ================================
+
+  /// Large metric display (like Stripe's revenue numbers)
+  static TextStyle get metricLarge => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 32.0,
+        fontWeight: FontWeight.w500, // Medium weight for numbers
+        height: 1.2,
+        letterSpacing: -0.5,
+        color: BukeerColors.textPrimary,
+      );
+
+  /// Medium metric display
+  static TextStyle get metricMedium => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w500,
+        height: 1.25,
+        letterSpacing: -0.3,
+        color: BukeerColors.textPrimary,
+      );
+
+  /// Small metric display
+  static TextStyle get metricSmall => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w500,
+        height: 1.3,
+        color: BukeerColors.textPrimary,
+      );
+
+  /// Metric label (like "Gross volume", "Yesterday")
+  static TextStyle get metricLabel => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 13.0,
+        fontWeight: FontWeight.w400,
+        height: 1.4,
+        color: BukeerColors.textSecondary,
+      );
+
+  /// Card header text (like "Your overview")
+  static TextStyle get cardHeader => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+        height: 1.4,
+        color: BukeerColors.textPrimary,
+      );
+
+  /// Sidebar menu item
+  static TextStyle get sidebarItem => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
+        color: BukeerColors.textSecondary,
+      );
+
+  /// Active sidebar menu item
+  static TextStyle get sidebarItemActive => sidebarItem.copyWith(
+        fontWeight: FontWeight.w500,
+        color: BukeerColors.primary,
+      );
+
+  /// Data table header
+  static TextStyle get tableHeader => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 12.0,
+        fontWeight: FontWeight.w500,
+        height: 1.5,
+        letterSpacing: 0.5,
+        color: BukeerColors.textSecondary,
+        textStyle: const TextStyle(
+          textBaseline: TextBaseline.alphabetic,
+        ),
+      ).copyWith(
+        fontFeatures: [const FontFeature.tabularFigures()],
+      );
+
+  /// Data table cell
+  static TextStyle get tableCell => GoogleFonts.getFont(
+        _primaryFont,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
+        color: BukeerColors.textPrimary,
+      );
+
+  // ================================
   // HELPER METHODS
   // ================================
 
-  /// Create custom text style with Outfit font
-  static TextStyle outfit({
+  /// Create custom text style with Inter font (Stripe-like)
+  static TextStyle inter({
     double? fontSize,
     FontWeight? fontWeight,
     Color? color,
@@ -355,8 +445,8 @@ class BukeerTypography {
     );
   }
 
-  /// Create custom text style with Readex Pro font
-  static TextStyle readexPro({
+  /// Create custom text style with Outfit font (fallback)
+  static TextStyle outfit({
     double? fontSize,
     FontWeight? fontWeight,
     Color? color,

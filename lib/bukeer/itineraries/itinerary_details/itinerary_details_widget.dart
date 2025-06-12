@@ -10,6 +10,7 @@ import '../../../services/app_services.dart';
 import '../../../services/itinerary_service.dart';
 import '../../../components/service_builder.dart';
 import '../../../backend/supabase/supabase.dart';
+import '../../../backend/api_requests/api_calls.dart';
 import 'sections/itinerary_passengers_section.dart';
 import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import '../servicios/add_hotel/add_hotel_widget.dart';
@@ -21,6 +22,7 @@ import '../../core/widgets/payments/payment_add/payment_add_widget.dart';
 import '../proveedores/reservation_message/reservation_message_widget.dart';
 import '../proveedores/show_reservation_message/show_reservation_message_widget.dart';
 import '../main_itineraries/main_itineraries_widget.dart';
+import '../../core/widgets/modals/itinerary/change_owner/modal_change_owner_widget.dart';
 import 'itinerary_details_model.dart';
 
 export 'itinerary_details_model.dart';
@@ -143,6 +145,245 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     super.dispose();
   }
 
+  // Handle delete service
+  Future<void> _handleDeleteService(dynamic item, String serviceType) async {
+    final itemId = getJsonField(item, r'$.id')?.toString();
+    if (itemId == null) return;
+
+    try {
+      // Show loading
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+          child: CircularProgressIndicator(
+            color: BukeerColors.primary,
+          ),
+        ),
+      );
+
+      // Delete from backend
+      await SupaFlow.client.from('itinerary_items').delete().eq('id', itemId);
+
+      // Close loading
+      Navigator.pop(context);
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Servicio eliminado exitosamente'),
+          backgroundColor: BukeerColors.success,
+        ),
+      );
+
+      // Reload itinerary data
+      if (_itineraryId != null) {
+        await appServices.itinerary
+            .loadItineraryDetailsOptimized(_itineraryId!);
+        setState(() {});
+      }
+    } catch (e) {
+      // Close loading if still open
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al eliminar el servicio: $e'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+    }
+  }
+
+  // Handle edit service
+  void _handleEditService(dynamic item, String serviceType) async {
+    // Navigate to edit screen based on service type
+    final itemId = getJsonField(item, r'$.id')?.toString();
+    if (itemId == null) return;
+
+    bool? result;
+
+    switch (serviceType) {
+      case 'flight':
+        result = await showModalBottomSheet<bool>(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => AddFlightsWidget(
+            itineraryId: _itineraryId,
+            isEdit: true,
+            itemId: itemId,
+          ),
+        );
+        break;
+      case 'hotel':
+        context.pushNamed(
+          'AddHotel',
+          queryParameters: {
+            'itineraryId': _itineraryId,
+            'itemId': itemId,
+            'isEdit': 'true',
+          },
+        );
+        break;
+      case 'activity':
+        context.pushNamed(
+          'AddActivities',
+          queryParameters: {
+            'itineraryId': _itineraryId,
+            'itemId': itemId,
+            'isEdit': 'true',
+          },
+        );
+        break;
+      case 'transfer':
+        context.pushNamed(
+          'AddTransfer',
+          queryParameters: {
+            'itineraryId': _itineraryId,
+            'itemId': itemId,
+            'isEdit': 'true',
+          },
+        );
+        break;
+    }
+
+    // Reload data if edited
+    if (result == true && _itineraryId != null) {
+      await appServices.itinerary.loadItineraryDetailsOptimized(_itineraryId!);
+      setState(() {});
+    }
+  }
+
+  // Show delete confirmation dialog
+  Future<void> _showDeleteConfirmationDialog(
+      dynamic item, String serviceType) async {
+    final serviceName = _getServiceDisplayName(item, serviceType);
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(BukeerSpacing.m),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                color: FlutterFlowTheme.of(context).error,
+                size: 28,
+              ),
+              SizedBox(width: BukeerSpacing.s),
+              Expanded(
+                child: Text(
+                  'Confirmar eliminación',
+                  style: FlutterFlowTheme.of(context).headlineSmall.override(
+                        fontFamily: 'Outfit',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '¿Estás seguro de que deseas eliminar este servicio?',
+                style: FlutterFlowTheme.of(context).bodyMedium,
+              ),
+              SizedBox(height: BukeerSpacing.m),
+              Container(
+                padding: EdgeInsets.all(BukeerSpacing.m),
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  borderRadius: BorderRadius.circular(BukeerSpacing.s),
+                  border: Border.all(
+                    color: FlutterFlowTheme.of(context).alternate,
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  serviceName,
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Readex Pro',
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+              SizedBox(height: BukeerSpacing.s),
+              Text(
+                'Esta acción no se puede deshacer.',
+                style: FlutterFlowTheme.of(context).bodySmall.override(
+                      fontFamily: 'Readex Pro',
+                      color: FlutterFlowTheme.of(context).error,
+                      fontSize: 12,
+                    ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            BukeerButton(
+              text: 'Cancelar',
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              variant: BukeerButtonVariant.secondary,
+              size: BukeerButtonSize.small,
+            ),
+            BukeerButton(
+              text: 'Eliminar',
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _handleDeleteService(item, serviceType);
+              },
+              variant: BukeerButtonVariant.primary,
+              backgroundColor: BukeerColors.error,
+              size: BukeerButtonSize.small,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Get service display name for dialogs
+  String _getServiceDisplayName(dynamic item, String serviceType) {
+    switch (serviceType) {
+      case 'flight':
+        final origin =
+            getJsonField(item, r'$.departure_airport')?.toString() ?? '';
+        final destination =
+            getJsonField(item, r'$.arrival_airport')?.toString() ?? '';
+        final flightNumber =
+            getJsonField(item, r'$.flight_number')?.toString() ?? '';
+        return 'Vuelo $flightNumber: $origin - $destination';
+      case 'hotel':
+        final hotelName =
+            getJsonField(item, r'$.product_name')?.toString() ?? 'Hotel';
+        final roomType = getJsonField(item, r'$.rate_name')?.toString() ?? '';
+        return '$hotelName - $roomType';
+      case 'activity':
+        final activityName =
+            getJsonField(item, r'$.product_name')?.toString() ?? 'Actividad';
+        return activityName;
+      case 'transfer':
+        final transferName =
+            getJsonField(item, r'$.product_name')?.toString() ?? 'Traslado';
+        return transferName;
+      default:
+        return 'Servicio';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -158,18 +399,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       )
           ? SidebarDrawer(currentRoute: ItineraryDetailsWidget.routeName)
           : null,
-      floatingActionButton:
-          _mainTabController.index == 0 // Only show FAB on Items tab
-              ? FloatingActionButton.extended(
-                  onPressed: () => _showAddServiceMenu(),
-                  backgroundColor: BukeerColors.primary,
-                  icon: Icon(Icons.add, color: Colors.white),
-                  label: Text(
-                    'Agregar servicio',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              : null,
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -645,7 +874,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   Widget _buildFlightCard(dynamic item) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final airline = getJsonField(item, r'$.airline')?.toString() ?? 'Aerolínea';
+    // Extract airline data - we need to load it separately if not included
+    final airlineId = getJsonField(item, r'$.airline')?.toString();
+    final airlineName = getJsonField(item, r'$.airline_name')?.toString() ??
+        getJsonField(item, r'$.airline_data.name')?.toString() ??
+        'Aerolínea';
+    final airlineCode =
+        getJsonField(item, r'$.airline_data.iata_code')?.toString() ?? '';
+    final airlineLogo =
+        getJsonField(item, r'$.airline_data.logo_png')?.toString();
+
     final flightNumber =
         getJsonField(item, r'$.flight_number')?.toString() ?? '';
     final departure =
@@ -658,51 +896,324 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
     final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
     final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
-    final reservationStatus =
-        getJsonField(item, r'$.reservation_status') ?? false;
+
+    // Extract city codes from departure/arrival strings (e.g., "BOG - Bogotá" -> "BOG")
+    final departureCode = departure.split(' - ').first.trim();
+    final arrivalCode = arrival.split(' - ').first.trim();
+    final departureCity = departure.contains(' - ')
+        ? departure.split(' - ').last.trim()
+        : departure;
+    final arrivalCity =
+        arrival.contains(' - ') ? arrival.split(' - ').last.trim() : arrival;
 
     return Container(
-      padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
             ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            : BukeerColors.surfacePrimary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderSecondaryDark
+              : BukeerColors.borderSecondary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.flight,
-                    size: 24,
-                    color: BukeerColors.primary,
+          // Compact header with airline info and status
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: BukeerSpacing.m,
+              vertical: BukeerSpacing.s,
+            ),
+            decoration: BoxDecoration(
+              color: isDark
+                  ? BukeerColors.surfacePrimaryDark.withOpacity(0.5)
+                  : BukeerColors.backgroundSecondary.withOpacity(0.3),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(BukeerBorders.radiusMedium.topLeft.x),
+                topRight:
+                    Radius.circular(BukeerBorders.radiusMedium.topRight.x),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      // Airline logo - smaller
+                      FutureBuilder<List<AirlinesRow>>(
+                        future: airlineId != null
+                            ? AirlinesTable().queryRows(
+                                queryFn: (q) => q.eq('id', airlineId),
+                                limit: 1,
+                              )
+                            : Future.value([]),
+                        builder: (context, snapshot) {
+                          String? logoUrl;
+                          String? name;
+
+                          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                            final airline = snapshot.data!.first;
+                            logoUrl = airline.logoPng;
+                            name = airline.name;
+                          }
+
+                          return Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BukeerBorders.radiusSmall,
+                              border: Border.all(
+                                color: isDark
+                                    ? BukeerColors.dividerDark
+                                    : BukeerColors.divider,
+                                width: 0.5,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BukeerBorders.radiusSmall,
+                              child: (logoUrl ?? airlineLogo) != null &&
+                                      (logoUrl ?? airlineLogo)!.isNotEmpty
+                                  ? Image.network(
+                                      logoUrl ?? airlineLogo!,
+                                      width: 36,
+                                      height: 36,
+                                      fit: BoxFit.contain,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Icon(
+                                          Icons.airlines,
+                                          size: 20,
+                                          color: BukeerColors.primary,
+                                        );
+                                      },
+                                    )
+                                  : Icon(
+                                      Icons.airlines,
+                                      size: 20,
+                                      color: BukeerColors.primary,
+                                    ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(width: BukeerSpacing.s),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                airlineName,
+                                style: BukeerTypography.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? BukeerColors.textPrimaryDark
+                                      : BukeerColors.textPrimary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (flightNumber.isNotEmpty) ...[
+                              SizedBox(width: BukeerSpacing.s),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: BukeerSpacing.xs,
+                                  vertical: 1,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: BukeerColors.primary.withOpacity(0.1),
+                                  borderRadius: BukeerBorders.radiusSmall,
+                                ),
+                                child: Text(
+                                  flightNumber,
+                                  style: BukeerTypography.labelSmall.copyWith(
+                                    color: BukeerColors.primary,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            SizedBox(width: BukeerSpacing.s),
+                            Icon(
+                              Icons.calendar_today,
+                              size: 12,
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                            SizedBox(width: BukeerSpacing.xs),
+                            Text(
+                              _formatDate(date),
+                              style: BukeerTypography.labelSmall.copyWith(
+                                color: isDark
+                                    ? BukeerColors.textSecondaryDark
+                                    : BukeerColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: BukeerSpacing.s),
-                  Column(
+                ),
+                // Actions
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: () => _handleEditService(item, 'flight'),
+                      borderRadius: BorderRadius.circular(20),
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.edit,
+                          size: 16,
+                          color: BukeerColors.primary,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: BukeerSpacing.xs),
+                    InkWell(
+                      onTap: () =>
+                          _showDeleteConfirmationDialog(item, 'flight'),
+                      borderRadius: BorderRadius.circular(20),
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.delete,
+                          size: 16,
+                          color: BukeerColors.error,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          // Compact route information
+          Container(
+            padding: EdgeInsets.all(BukeerSpacing.m),
+            child: Row(
+              children: [
+                // Departure
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '$airline ${flightNumber.isNotEmpty ? "- $flightNumber" : ""}',
-                        style: BukeerTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w600,
+                        departureCode,
+                        style: BukeerTypography.headlineSmall.copyWith(
+                          fontWeight: FontWeight.w700,
                           color: isDark
                               ? BukeerColors.textPrimaryDark
                               : BukeerColors.textPrimary,
                         ),
                       ),
                       Text(
-                        _formatDate(date),
-                        style: BukeerTypography.bodySmall.copyWith(
+                        departureCity,
+                        style: BukeerTypography.labelSmall.copyWith(
+                          color: isDark
+                              ? BukeerColors.textSecondaryDark
+                              : BukeerColors.textSecondary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: BukeerSpacing.xs),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: BukeerSpacing.xs,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? BukeerColors.backgroundDarkSecondary
+                              : BukeerColors.backgroundSecondary,
+                          borderRadius: BukeerBorders.radiusSmall,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.schedule,
+                              size: 12,
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              departureTime.isEmpty ? '--:--' : departureTime,
+                              style: BukeerTypography.labelSmall.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: isDark
+                                    ? BukeerColors.textPrimaryDark
+                                    : BukeerColors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Compact flight path
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.s),
+                  child: Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 1,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  BukeerColors.primary.withOpacity(0.3),
+                                  BukeerColors.primary,
+                                  BukeerColors.primary.withOpacity(0.3),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? BukeerColors.surfaceSecondaryDark
+                                  : BukeerColors.surfacePrimary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.flight_takeoff,
+                              size: 16,
+                              color: BukeerColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Directo',
+                        style: BukeerTypography.labelSmall.copyWith(
+                          fontSize: 10,
                           color: isDark
                               ? BukeerColors.textSecondaryDark
                               : BukeerColors.textSecondary,
@@ -710,108 +1221,89 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       ),
                     ],
                   ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: BukeerSpacing.m,
-                  vertical: BukeerSpacing.xs,
                 ),
-                decoration: BoxDecoration(
-                  color: reservationStatus
-                      ? BukeerColors.success.withOpacity(0.1)
-                      : BukeerColors.warning.withOpacity(0.1),
-                  borderRadius: BukeerBorders.radiusLarge,
-                ),
-                child: Text(
-                  reservationStatus ? 'Confirmado' : 'Pendiente',
-                  style: BukeerTypography.labelSmall.copyWith(
-                    color: reservationStatus
-                        ? BukeerColors.success
-                        : BukeerColors.warning,
-                    fontWeight: FontWeight.w500,
+
+                // Arrival
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        arrivalCode,
+                        style: BukeerTypography.headlineSmall.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        arrivalCity,
+                        style: BukeerTypography.labelSmall.copyWith(
+                          color: isDark
+                              ? BukeerColors.textSecondaryDark
+                              : BukeerColors.textSecondary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: BukeerSpacing.xs),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: BukeerSpacing.xs,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? BukeerColors.backgroundDarkSecondary
+                              : BukeerColors.backgroundSecondary,
+                          borderRadius: BukeerBorders.radiusSmall,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.schedule,
+                              size: 12,
+                              color: isDark
+                                  ? BukeerColors.textSecondaryDark
+                                  : BukeerColors.textSecondary,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              arrivalTime.isEmpty ? '--:--' : arrivalTime,
+                              style: BukeerTypography.labelSmall.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: isDark
+                                    ? BukeerColors.textPrimaryDark
+                                    : BukeerColors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: BukeerSpacing.m),
-
-          // Route
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      departure,
-                      style: BukeerTypography.bodyMedium.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? BukeerColors.textPrimaryDark
-                            : BukeerColors.textPrimary,
-                      ),
-                    ),
-                    Text(
-                      departureTime,
-                      style: BukeerTypography.bodySmall.copyWith(
-                        color: isDark
-                            ? BukeerColors.textSecondaryDark
-                            : BukeerColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: BukeerSpacing.m),
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                  color: isDark
-                      ? BukeerColors.textTertiaryDark
-                      : BukeerColors.textTertiary,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      arrival,
-                      style: BukeerTypography.bodyMedium.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? BukeerColors.textPrimaryDark
-                            : BukeerColors.textPrimary,
-                      ),
-                    ),
-                    Text(
-                      arrivalTime,
-                      style: BukeerTypography.bodySmall.copyWith(
-                        color: isDark
-                            ? BukeerColors.textSecondaryDark
-                            : BukeerColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
 
-          // Pricing
+          // Compact pricing footer
           Container(
-            margin: EdgeInsets.only(top: BukeerSpacing.m),
-            padding: EdgeInsets.only(top: BukeerSpacing.m),
+            padding: EdgeInsets.symmetric(
+              horizontal: BukeerSpacing.m,
+              vertical: BukeerSpacing.s,
+            ),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color:
-                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
-                  width: BukeerBorders.widthThin,
-                ),
+              color: isDark
+                  ? BukeerColors.backgroundDark.withOpacity(0.3)
+                  : BukeerColors.backgroundSecondary.withOpacity(0.2),
+              borderRadius: BorderRadius.only(
+                bottomLeft:
+                    Radius.circular(BukeerBorders.radiusMedium.bottomLeft.x),
+                bottomRight:
+                    Radius.circular(BukeerBorders.radiusMedium.bottomRight.x),
               ),
             ),
             child: Row(
@@ -819,26 +1311,31 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
               children: [
                 Row(
                   children: [
-                    Icon(
-                      Icons.person,
-                      size: 16,
-                      color: isDark
-                          ? BukeerColors.textTertiaryDark
-                          : BukeerColors.textTertiary,
+                    Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: BukeerColors.primary.withOpacity(0.1),
+                        borderRadius: BukeerBorders.radiusSmall,
+                      ),
+                      child: Icon(
+                        Icons.people,
+                        size: 14,
+                        color: BukeerColors.primary,
+                      ),
                     ),
                     SizedBox(width: BukeerSpacing.xs),
                     Text(
-                      '$quantity ${quantity > 1 ? "pasajeros" : "pasajero"}',
+                      '$quantity ${quantity > 1 ? "pax" : "pax"}',
                       style: BukeerTypography.bodySmall.copyWith(
+                        fontWeight: FontWeight.w600,
                         color: isDark
-                            ? BukeerColors.textSecondaryDark
-                            : BukeerColors.textSecondary,
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
                       ),
                     ),
-                    SizedBox(width: BukeerSpacing.m),
                     Text(
-                      '${_formatCurrency(unitPrice)} c/u',
-                      style: BukeerTypography.bodySmall.copyWith(
+                      ' • ${_formatCurrency(unitPrice)} c/u',
+                      style: BukeerTypography.labelSmall.copyWith(
                         color: isDark
                             ? BukeerColors.textSecondaryDark
                             : BukeerColors.textSecondary,
@@ -846,12 +1343,24 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                     ),
                   ],
                 ),
-                Text(
-                  _formatCurrency(totalPrice),
-                  style: BukeerTypography.titleMedium.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: BukeerColors.primary,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      'Total: ',
+                      style: BukeerTypography.labelSmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                    Text(
+                      _formatCurrency(totalPrice),
+                      style: BukeerTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: BukeerColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -877,8 +1386,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         getJsonField(item, r'$.profit_percentage')?.toDouble() ?? 0;
     final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
     final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
-    final reservationStatus =
-        getJsonField(item, r'$.reservation_status') ?? false;
 
     // Calculate check-out date
     DateTime checkIn = DateTime.parse(date);
@@ -1014,26 +1521,37 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: BukeerSpacing.m,
-                        vertical: BukeerSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: reservationStatus
-                            ? BukeerColors.success.withOpacity(0.1)
-                            : BukeerColors.warning.withOpacity(0.1),
-                        borderRadius: BukeerBorders.radiusLarge,
-                      ),
-                      child: Text(
-                        reservationStatus ? 'Confirmado' : 'Pendiente',
-                        style: BukeerTypography.labelSmall.copyWith(
-                          color: reservationStatus
-                              ? BukeerColors.success
-                              : BukeerColors.warning,
-                          fontWeight: FontWeight.w500,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Actions
+                        InkWell(
+                          onTap: () => _handleEditService(item, 'hotel'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.edit,
+                              size: 18,
+                              color: BukeerColors.primary,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        InkWell(
+                          onTap: () =>
+                              _showDeleteConfirmationDialog(item, 'hotel'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.delete,
+                              size: 18,
+                              color: BukeerColors.error,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -1329,26 +1847,37 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: BukeerSpacing.m,
-                        vertical: BukeerSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: reservationStatus
-                            ? BukeerColors.success.withOpacity(0.1)
-                            : BukeerColors.warning.withOpacity(0.1),
-                        borderRadius: BukeerBorders.radiusLarge,
-                      ),
-                      child: Text(
-                        reservationStatus ? 'Confirmado' : 'Pendiente',
-                        style: BukeerTypography.labelSmall.copyWith(
-                          color: reservationStatus
-                              ? BukeerColors.success
-                              : BukeerColors.warning,
-                          fontWeight: FontWeight.w500,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Actions
+                        InkWell(
+                          onTap: () => _handleEditService(item, 'activity'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.edit,
+                              size: 18,
+                              color: BukeerColors.primary,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        InkWell(
+                          onTap: () =>
+                              _showDeleteConfirmationDialog(item, 'activity'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.delete,
+                              size: 18,
+                              color: BukeerColors.error,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -1503,8 +2032,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final quantity = getJsonField(item, r'$.quantity')?.toInt() ?? 1;
     final unitPrice = getJsonField(item, r'$.unit_price')?.toDouble() ?? 0;
     final totalPrice = getJsonField(item, r'$.total_price')?.toDouble() ?? 0;
-    final reservationStatus =
-        getJsonField(item, r'$.reservation_status') ?? false;
 
     return Container(
       padding: EdgeInsets.all(BukeerSpacing.m),
@@ -1608,26 +2135,37 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: BukeerSpacing.m,
-                        vertical: BukeerSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: reservationStatus
-                            ? BukeerColors.success.withOpacity(0.1)
-                            : BukeerColors.warning.withOpacity(0.1),
-                        borderRadius: BukeerBorders.radiusLarge,
-                      ),
-                      child: Text(
-                        reservationStatus ? 'Confirmado' : 'Pendiente',
-                        style: BukeerTypography.labelSmall.copyWith(
-                          color: reservationStatus
-                              ? BukeerColors.success
-                              : BukeerColors.warning,
-                          fontWeight: FontWeight.w500,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Actions
+                        InkWell(
+                          onTap: () => _handleEditService(item, 'transfer'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.edit,
+                              size: 18,
+                              color: BukeerColors.primary,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(width: BukeerSpacing.xs),
+                        InkWell(
+                          onTap: () =>
+                              _showDeleteConfirmationDialog(item, 'transfer'),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.delete,
+                              size: 18,
+                              color: BukeerColors.error,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -2362,8 +2900,251 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildUserInfoBox(dynamic itineraryData) {
-    final travelPlannerName =
-        getJsonField(itineraryData, r'$.agent')?.toString() ?? 'Sin asignar';
+    final createdById =
+        getJsonField(itineraryData, r'$.id_created_by')?.toString();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    if (createdById == null || createdById.isEmpty) {
+      return _buildUserInfoBoxPlaceholder('Sin asignar', itineraryData);
+    }
+
+    return FutureBuilder<ApiCallResponse>(
+      future: GetAgentCall.call(
+        authToken: currentJwtToken,
+        id: createdById,
+        accountIdParam: appServices.account.accountId ?? '',
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _buildUserInfoBoxLoading();
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.succeeded) {
+          return _buildUserInfoBoxPlaceholder('Error al cargar', itineraryData);
+        }
+
+        final agentData = snapshot.data!.jsonBody;
+        final agentsList = getJsonField(agentData, r'$[:]');
+
+        if (agentsList == null || (agentsList is List && agentsList.isEmpty)) {
+          return _buildUserInfoBoxPlaceholder(
+              'Usuario no encontrado', itineraryData);
+        }
+
+        // Get first agent from the list
+        final agent = agentsList is List ? agentsList.first : agentsList;
+        final name = getJsonField(agent, r'$.name')?.toString() ?? '';
+        final lastName = getJsonField(agent, r'$.last_name')?.toString() ?? '';
+        final fullName = '$name $lastName'.trim();
+        final mainImage = getJsonField(agent, r'$.main_image')?.toString();
+        final email = getJsonField(agent, r'$.email')?.toString() ?? '';
+
+        return Container(
+          padding: EdgeInsets.all(BukeerSpacing.m),
+          decoration: BoxDecoration(
+            color: isDark
+                ? BukeerColors.surfacePrimaryDark
+                : BukeerColors.surfacePrimary,
+            borderRadius: BukeerBorders.radiusLarge,
+            boxShadow: BukeerShadows.small,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Travel Planner',
+                style: BukeerTypography.labelMedium.copyWith(
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                ),
+              ),
+              SizedBox(height: BukeerSpacing.s),
+              Row(
+                children: [
+                  // Profile image or placeholder
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BukeerBorders.radiusFull,
+                      border: Border.all(
+                        color: BukeerColors.primary,
+                        width: BukeerBorders.widthMedium,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BukeerBorders.radiusFull,
+                      child: mainImage != null && mainImage.isNotEmpty
+                          ? Image.network(
+                              mainImage,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: BukeerColors.primary.withOpacity(0.1),
+                                  child: Center(
+                                    child: Text(
+                                      fullName.isNotEmpty
+                                          ? fullName[0].toUpperCase()
+                                          : 'U',
+                                      style:
+                                          BukeerTypography.titleMedium.copyWith(
+                                        color: BukeerColors.primary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(
+                              color: BukeerColors.primary.withOpacity(0.1),
+                              child: Center(
+                                child: Text(
+                                  fullName.isNotEmpty
+                                      ? fullName[0].toUpperCase()
+                                      : 'U',
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    color: BukeerColors.primary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                  ),
+                  SizedBox(width: BukeerSpacing.m),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          fullName.isNotEmpty ? fullName : 'Sin nombre',
+                          style: BukeerTypography.titleMedium.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? BukeerColors.textPrimaryDark
+                                : BukeerColors.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: BukeerSpacing.xs),
+                        Text(
+                          email,
+                          style: BukeerTypography.bodySmall.copyWith(
+                            color: isDark
+                                ? BukeerColors.textSecondaryDark
+                                : BukeerColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              // Change owner button
+              BukeerIconButton(
+                icon: Icon(Icons.swap_horiz),
+                onPressed: () => _handleChangeOwner(itineraryData),
+                variant: BukeerIconButtonVariant.ghost,
+                size: BukeerIconButtonSize.small,
+                tooltip: 'Cambiar propietario',
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildUserInfoBoxPlaceholder(String message, dynamic itineraryData) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.all(BukeerSpacing.m),
+      decoration: BoxDecoration(
+        color: isDark
+            ? BukeerColors.surfacePrimaryDark
+            : BukeerColors.surfacePrimary,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Travel Planner',
+            style: BukeerTypography.labelMedium.copyWith(
+              color: isDark
+                  ? BukeerColors.textSecondaryDark
+                  : BukeerColors.textSecondary,
+            ),
+          ),
+          SizedBox(height: BukeerSpacing.s),
+          Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BukeerBorders.radiusFull,
+                  border: Border.all(
+                    color: BukeerColors.textTertiary,
+                    width: BukeerBorders.widthMedium,
+                  ),
+                  color: BukeerColors.textTertiary.withOpacity(0.1),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.person,
+                    color: BukeerColors.textTertiary,
+                    size: 24,
+                  ),
+                ),
+              ),
+              SizedBox(width: BukeerSpacing.m),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      message,
+                      style: BukeerTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDark
+                            ? BukeerColors.textPrimaryDark
+                            : BukeerColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: BukeerSpacing.xs),
+                    Text(
+                      'No hay propietario asignado',
+                      style: BukeerTypography.bodySmall.copyWith(
+                        color: isDark
+                            ? BukeerColors.textSecondaryDark
+                            : BukeerColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          // Change owner button
+          BukeerIconButton(
+            icon: Icon(Icons.person_add),
+            onPressed: () => _handleChangeOwner(itineraryData),
+            variant: BukeerIconButtonVariant.ghost,
+            size: BukeerIconButtonSize.small,
+            tooltip: 'Asignar propietario',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserInfoBoxLoading() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -2382,20 +3163,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             height: 40,
             decoration: BoxDecoration(
               borderRadius: BukeerBorders.radiusFull,
-              border: Border.all(
-                color: BukeerColors.primary,
-                width: BukeerBorders.widthMedium,
-              ),
               color: BukeerColors.primary.withOpacity(0.1),
             ),
             child: Center(
-              child: Text(
-                travelPlannerName.isNotEmpty
-                    ? travelPlannerName[0].toUpperCase()
-                    : 'U',
-                style: BukeerTypography.bodyMedium.copyWith(
-                  color: BukeerColors.primary,
-                  fontWeight: FontWeight.w600,
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(BukeerColors.primary),
                 ),
               ),
             ),
@@ -2405,21 +3182,25 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  travelPlannerName,
-                  style: BukeerTypography.titleMedium.copyWith(
-                    fontWeight: FontWeight.w600,
+                Container(
+                  width: 120,
+                  height: 14,
+                  decoration: BoxDecoration(
                     color: isDark
-                        ? BukeerColors.textPrimaryDark
-                        : BukeerColors.textPrimary,
+                        ? BukeerColors.dividerDark
+                        : BukeerColors.divider,
+                    borderRadius: BukeerBorders.radiusSmall,
                   ),
                 ),
-                Text(
-                  'Travel Planner',
-                  style: BukeerTypography.bodySmall.copyWith(
+                SizedBox(height: BukeerSpacing.xs),
+                Container(
+                  width: 80,
+                  height: 12,
+                  decoration: BoxDecoration(
                     color: isDark
-                        ? BukeerColors.textSecondaryDark
-                        : BukeerColors.textSecondary,
+                        ? BukeerColors.dividerDark
+                        : BukeerColors.divider,
+                    borderRadius: BukeerBorders.radiusSmall,
                   ),
                 ),
               ],
@@ -3741,93 +4522,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   // Action handlers
-  void _showAddServiceMenu() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: BoxDecoration(
-          color: isDark
-              ? BukeerColors.surfacePrimaryDark
-              : BukeerColors.surfacePrimary,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-        ),
-        padding: EdgeInsets.all(BukeerSpacing.l),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Agregar servicio',
-              style: BukeerTypography.headlineSmall.copyWith(
-                fontWeight: FontWeight.w600,
-                color: isDark
-                    ? BukeerColors.textPrimaryDark
-                    : BukeerColors.textPrimary,
-              ),
-            ),
-            SizedBox(height: BukeerSpacing.l),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildServiceOption(Icons.flight, 'Vuelo', 'vuelos'),
-                _buildServiceOption(Icons.hotel, 'Hotel', 'hoteles'),
-                _buildServiceOption(
-                    Icons.local_activity, 'Actividad', 'servicios'),
-                _buildServiceOption(
-                    Icons.directions_car, 'Traslado', 'transporte'),
-              ],
-            ),
-            SizedBox(height: BukeerSpacing.l),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildServiceOption(IconData icon, String label, String serviceType) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context); // Close menu
-        _handleAddService(serviceType);
-      },
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: EdgeInsets.all(BukeerSpacing.m),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(BukeerSpacing.m),
-              decoration: BoxDecoration(
-                color: BukeerColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                icon,
-                size: 32,
-                color: BukeerColors.primary,
-              ),
-            ),
-            SizedBox(height: BukeerSpacing.s),
-            Text(
-              label,
-              style: BukeerTypography.bodyMedium.copyWith(
-                color: isDark
-                    ? BukeerColors.textPrimaryDark
-                    : BukeerColors.textPrimary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   void _handleAddService(String serviceType) async {
     final result = await showModalBottomSheet<bool>(
@@ -4336,6 +5030,49 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           ),
         );
       }
+    }
+  }
+
+  void _handleChangeOwner(dynamic itineraryData) async {
+    final currentOwnerId =
+        getJsonField(itineraryData, r'$.id_created_by')?.toString();
+    final itineraryName =
+        getJsonField(itineraryData, r'$.name')?.toString() ?? 'Sin nombre';
+
+    if (currentOwnerId == null || _itineraryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('No se puede cambiar el propietario en este momento'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+      return;
+    }
+
+    final result = await showModalBottomSheet<bool>(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      context: context,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: MediaQuery.viewInsetsOf(context),
+            child: ModalChangeOwnerWidget(
+              itineraryId: _itineraryId!,
+              currentOwnerId: currentOwnerId,
+              itineraryName: itineraryName,
+            ),
+          ),
+        );
+      },
+    );
+
+    // Refresh if owner was changed
+    if (result == true && _itineraryId != null) {
+      await appServices.itinerary.loadItineraryDetailsOptimized(_itineraryId!);
+      setState(() {});
     }
   }
 }

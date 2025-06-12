@@ -199,22 +199,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
                                                             ),
                                                             Text(
                                                               'Reporte de ventas',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .headlineMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .headlineMediumFamily,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    useGoogleFonts:
-                                                                        !FlutterFlowTheme.of(context)
-                                                                            .headlineMediumIsCustom,
-                                                                  ),
+                                                              style: BukeerTypography
+                                                                  .headlineMedium,
                                                             ),
                                                           ].divide(SizedBox(
                                                               width:
@@ -547,21 +533,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
                                                                 children: [
                                                                   Text(
                                                                     'Margen Total',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                          color:
-                                                                              BukeerColors.primaryText,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          useGoogleFonts:
-                                                                              !FlutterFlowTheme.of(context).titleSmallIsCustom,
-                                                                        ),
+                                                                    style: BukeerTypography
+                                                                        .metricLabel,
                                                                   ),
                                                                   Text(
                                                                     formatNumber(
@@ -584,21 +557,12 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
                                                                       currency:
                                                                           '',
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .headlineSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                          color:
-                                                                              BukeerColors.primary,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          useGoogleFonts:
-                                                                              !FlutterFlowTheme.of(context).headlineSmallIsCustom,
-                                                                        ),
+                                                                    style: BukeerTypography
+                                                                        .metricLarge
+                                                                        .copyWith(
+                                                                      color: BukeerColors
+                                                                          .primary,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -647,21 +611,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
                                                                 children: [
                                                                   Text(
                                                                     'Ventas Totales',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).titleSmallFamily,
-                                                                          color:
-                                                                              BukeerColors.primaryText,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          useGoogleFonts:
-                                                                              !FlutterFlowTheme.of(context).titleSmallIsCustom,
-                                                                        ),
+                                                                    style: BukeerTypography
+                                                                        .metricLabel,
                                                                   ),
                                                                   Text(
                                                                     formatNumber(
@@ -684,21 +635,12 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
                                                                       currency:
                                                                           '',
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .headlineSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).headlineSmallFamily,
-                                                                          color:
-                                                                              BukeerColors.primary,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          useGoogleFonts:
-                                                                              !FlutterFlowTheme.of(context).headlineSmallIsCustom,
-                                                                        ),
+                                                                    style: BukeerTypography
+                                                                        .metricLarge
+                                                                        .copyWith(
+                                                                      color: BukeerColors
+                                                                          .primary,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),

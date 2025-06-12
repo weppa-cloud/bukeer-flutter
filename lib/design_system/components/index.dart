@@ -45,6 +45,7 @@ export 'buttons/bukeer_icon_button.dart';
 
 // Cards
 export 'cards/bukeer_service_card.dart';
+export 'cards/bukeer_itinerary_card.dart';
 
 // Chips
 export 'chips/bukeer_meta_chip.dart';

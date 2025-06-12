@@ -5,16 +5,19 @@ import '/legacy/flutter_flow/flutter_flow_widgets.dart';
 import '/legacy/flutter_flow/flutter_flow_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/design_system/index.dart';
+import '/services/app_services.dart';
 
 class AddFlightsWidget extends StatefulWidget {
   const AddFlightsWidget({
     Key? key,
     required this.itineraryId,
     this.isEdit = false,
+    this.itemId,
   }) : super(key: key);
 
   final String? itineraryId;
   final bool isEdit;
+  final String? itemId;
 
   static String routeName = 'add_flights';
   static String routePath = 'addFlights';
@@ -64,12 +67,20 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
   double _total = 0.0;
   bool _isCalculating = false;
 
+  // Services
+  final appServices = AppServices();
+
   @override
   void initState() {
     super.initState();
     _loadProviders();
     _loadAirlines();
     _loadAirports();
+
+    // Load data if editing
+    if (widget.isEdit && widget.itemId != null) {
+      _loadFlightData();
+    }
 
     // Add listeners for calculations
     _unitCostController.addListener(_calculateFromCostAndMarkup);
@@ -192,9 +203,26 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
       // First, let's check if there's a limit being applied
       print('🔍 Loading ALL airports without any limit...');
 
-      // Use direct Supabase client to ensure NO LIMIT
-      final allAirports =
-          await SupaFlow.client.from('airports').select('*').order('city_name');
+      // Load airports in batches to avoid the 1000 limit
+      List<dynamic> allAirports = [];
+      int offset = 0;
+      const int batchSize = 1000;
+
+      while (true) {
+        final batch = await SupaFlow.client
+            .from('airports')
+            .select('*')
+            .order('city_name')
+            .range(offset, offset + batchSize - 1);
+
+        if (batch.isEmpty) break;
+
+        allAirports.addAll(batch);
+        offset += batchSize;
+
+        // If we got less than batchSize, we've reached the end
+        if (batch.length < batchSize) break;
+      }
 
       print('✈️ Loaded ${allAirports.length} airports from database');
 
@@ -228,13 +256,25 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
       setState(() {
         _airports = List<Map<String, dynamic>>.from(allAirports);
 
-        // Initially show Colombian airports
-        _filteredOriginAirports = _airports
+        // Initially show popular airports (mix of Colombian and international)
+        // Prioritize Colombian airports but include some international ones
+        final colombianAirports = _airports
             .where((airport) => airport['iata_country_code'] == 'CO')
+            .take(10)
             .toList();
-        _filteredDestinationAirports = _airports
-            .where((airport) => airport['iata_country_code'] == 'CO')
+        final internationalAirports = _airports
+            .where((airport) => airport['iata_country_code'] != 'CO')
+            .take(10)
             .toList();
+
+        _filteredOriginAirports = [
+          ...colombianAirports,
+          ...internationalAirports
+        ];
+        _filteredDestinationAirports = [
+          ...colombianAirports,
+          ...internationalAirports
+        ];
 
         print('🌍 Total airports available for search: ${_airports.length}');
       });
@@ -247,6 +287,15 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
   Future<void> _addFlightToItinerary() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedProvider == null || _selectedAirline == null) return;
+    if (_selectedOriginAirport == null || _selectedDestinationAirport == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Por favor selecciona origen y destino'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+      return;
+    }
 
     setState(() => _isLoading = true);
 
@@ -260,8 +309,10 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
       final profit = totalPrice - totalCost;
       final profitPercentage = totalCost > 0 ? (profit / totalCost) * 100 : 0;
 
-      // Add to itinerary
-      await ItineraryItemsTable().insert({
+      // Get account ID from AppServices
+      final accountId = appServices.account.accountId;
+
+      final data = {
         'id_itinerary': widget.itineraryId,
         'id_product': _selectedProvider['id'], // Provider ID as product
         'product_type': 'Vuelos',
@@ -274,7 +325,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
         'departure_time': _departureTimeController.text,
         'arrival_time': _arrivalTimeController.text,
         'flight_number': _flightNumberController.text,
-        'airline': _selectedAirline['name'],
+        'airline': _selectedAirline['id'],
         'quantity': quantity,
         'unit_cost': unitCost,
         'unit_price': unitPrice,
@@ -283,19 +334,32 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
         'profit': profit,
         'profit_percentage': profitPercentage,
         'personalized_message': _notesController.text,
-        'reservation_status': false,
-      });
+        'account_id': accountId,
+      };
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Vuelo agregado exitosamente'),
-          backgroundColor: BukeerColors.success,
-        ),
-      );
+      if (widget.isEdit && widget.itemId != null) {
+        // Update existing
+        await SupaFlow.client
+            .from('itinerary_items')
+            .update(data)
+            .eq('id', widget.itemId!);
+      } else {
+        // Insert new
+        await ItineraryItemsTable().insert(data);
+      }
 
-      // Close modal
+      // Close modal first
       Navigator.of(context).pop(true);
+
+      // Show success message after a short delay to ensure modal is closed
+      Future.delayed(Duration(milliseconds: 100), () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Vuelo agregado exitosamente'),
+            backgroundColor: BukeerColors.success,
+          ),
+        );
+      });
     } catch (e) {
       print('Error adding flight: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -383,7 +447,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                     ],
                   ),
                 ),
-                IconButton(
+                BukeerIconButton(
                   icon: Icon(Icons.edit, size: 16),
                   onPressed: () {
                     setState(() {
@@ -394,9 +458,8 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                       }
                     });
                   },
-                  padding: EdgeInsets.all(BukeerSpacing.xs),
-                  constraints: BoxConstraints(),
-                  iconSize: 16,
+                  variant: BukeerIconButtonVariant.ghost,
+                  size: BukeerIconButtonSize.small,
                 ),
               ],
             ),
@@ -457,22 +520,6 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
               },
             ),
           ),
-
-          // Show "more results" indicator if there are more than 3 items
-          if (items.length > 3)
-            Padding(
-              padding: EdgeInsets.only(top: BukeerSpacing.xs),
-              child: Text(
-                'y ${items.length - 3} más...',
-                style: BukeerTypography.bodySmall.copyWith(
-                  color: isDark
-                      ? BukeerColors.textSecondaryDark
-                      : BukeerColors.textSecondary,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
         ],
       ],
     );
@@ -547,64 +594,75 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                     child: ListView(
                       padding: EdgeInsets.all(BukeerSpacing.l),
                       children: [
-                        // Provider selector
-                        _buildSearchableList(
-                          title: 'Seleccionar Proveedor de Vuelos',
-                          items: _filteredProviders,
-                          selectedItem: _selectedProvider,
-                          onItemSelected: (provider) {
-                            setState(() => _selectedProvider = provider);
-                          },
-                          searchHint: 'Buscar proveedor...',
-                          searchController: _searchProviderController,
-                          onSearchChanged: (value) {
-                            setState(() {
-                              _filteredProviders = _providers.where((provider) {
-                                final name =
-                                    provider['name']?.toLowerCase() ?? '';
-                                final searchLower = value.toLowerCase();
-                                return name.contains(searchLower);
-                              }).toList();
-                            });
-                          },
-                          getItemTitle: (provider) => provider['name'] ?? '',
-                          getItemSubtitle: (provider) =>
-                              provider['email'] ?? '',
+                        // Provider and Airline selectors in a row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildSearchableList(
+                                title: 'Proveedor de Vuelos',
+                                items: _filteredProviders,
+                                selectedItem: _selectedProvider,
+                                onItemSelected: (provider) {
+                                  setState(() => _selectedProvider = provider);
+                                },
+                                searchHint: 'Buscar proveedor...',
+                                searchController: _searchProviderController,
+                                onSearchChanged: (value) {
+                                  setState(() {
+                                    _filteredProviders =
+                                        _providers.where((provider) {
+                                      final name =
+                                          provider['name']?.toLowerCase() ?? '';
+                                      final searchLower = value.toLowerCase();
+                                      return name.contains(searchLower);
+                                    }).toList();
+                                  });
+                                },
+                                getItemTitle: (provider) =>
+                                    provider['name'] ?? '',
+                                getItemSubtitle: (provider) =>
+                                    provider['email'] ?? '',
+                              ),
+                            ),
+                            if (_selectedProvider != null) ...[
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                child: _buildSearchableList(
+                                  title: 'Aerolínea',
+                                  items: _filteredAirlines,
+                                  selectedItem: _selectedAirline,
+                                  onItemSelected: (airline) {
+                                    setState(() => _selectedAirline = airline);
+                                  },
+                                  searchHint: 'Buscar aerolínea...',
+                                  searchController: _searchAirlineController,
+                                  onSearchChanged: (value) {
+                                    setState(() {
+                                      _filteredAirlines =
+                                          _airlines.where((airline) {
+                                        final name =
+                                            airline['name']?.toLowerCase() ??
+                                                '';
+                                        final code = airline['iata_code']
+                                                ?.toLowerCase() ??
+                                            '';
+                                        final searchLower = value.toLowerCase();
+                                        return name.contains(searchLower) ||
+                                            code.contains(searchLower);
+                                      }).toList();
+                                    });
+                                  },
+                                  getItemTitle: (airline) =>
+                                      airline['name'] ?? '',
+                                  getItemSubtitle: (airline) =>
+                                      'Código: ${airline['iata_code'] ?? 'N/A'}',
+                                  itemIcon: Icons.airlines,
+                                  isAirline: true,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-
-                        if (_selectedProvider != null) ...[
-                          SizedBox(height: BukeerSpacing.xl),
-
-                          // Airline selector
-                          _buildSearchableList(
-                            title: 'Seleccionar Aerolínea',
-                            items: _filteredAirlines,
-                            selectedItem: _selectedAirline,
-                            onItemSelected: (airline) {
-                              setState(() => _selectedAirline = airline);
-                            },
-                            searchHint: 'Buscar aerolínea...',
-                            searchController: _searchAirlineController,
-                            onSearchChanged: (value) {
-                              setState(() {
-                                _filteredAirlines = _airlines.where((airline) {
-                                  final name =
-                                      airline['name']?.toLowerCase() ?? '';
-                                  final code =
-                                      airline['iata_code']?.toLowerCase() ?? '';
-                                  final searchLower = value.toLowerCase();
-                                  return name.contains(searchLower) ||
-                                      code.contains(searchLower);
-                                }).toList();
-                              });
-                            },
-                            getItemTitle: (airline) => airline['name'] ?? '',
-                            getItemSubtitle: (airline) =>
-                                'Código: ${airline['iata_code'] ?? 'N/A'}',
-                            itemIcon: Icons.airlines,
-                            isAirline: true,
-                          ),
-                        ],
 
                         if (_selectedAirline != null) ...[
                           SizedBox(height: BukeerSpacing.xl),
@@ -618,21 +676,6 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                                   ? BukeerColors.textPrimaryDark
                                   : BukeerColors.textPrimary,
                             ),
-                          ),
-                          SizedBox(height: BukeerSpacing.m),
-
-                          // Flight number
-                          BukeerTextField(
-                            controller: _flightNumberController,
-                            label: 'Número de Vuelo',
-                            hintText: 'Ej: AA1234',
-                            required: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Número de vuelo requerido';
-                              }
-                              return null;
-                            },
                           ),
                           SizedBox(height: BukeerSpacing.m),
 
@@ -656,12 +699,23 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                                   onSearchChanged: (value) {
                                     setState(() {
                                       if (value.isEmpty) {
-                                        // Show only Colombian airports when search is empty
-                                        _filteredOriginAirports = _airports
+                                        // Show mix of Colombian and international airports when search is empty
+                                        final colombianAirports = _airports
                                             .where((airport) =>
                                                 airport['iata_country_code'] ==
                                                 'CO')
+                                            .take(10)
                                             .toList();
+                                        final internationalAirports = _airports
+                                            .where((airport) =>
+                                                airport['iata_country_code'] !=
+                                                'CO')
+                                            .take(10)
+                                            .toList();
+                                        _filteredOriginAirports = [
+                                          ...colombianAirports,
+                                          ...internationalAirports
+                                        ];
                                       } else {
                                         // Search in ALL airports when user types
                                         _filteredOriginAirports = _airports
@@ -713,12 +767,23 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                                   onSearchChanged: (value) {
                                     setState(() {
                                       if (value.isEmpty) {
-                                        // Show only Colombian airports when search is empty
-                                        _filteredDestinationAirports = _airports
+                                        // Show mix of Colombian and international airports when search is empty
+                                        final colombianAirports = _airports
                                             .where((airport) =>
                                                 airport['iata_country_code'] ==
                                                 'CO')
+                                            .take(10)
                                             .toList();
+                                        final internationalAirports = _airports
+                                            .where((airport) =>
+                                                airport['iata_country_code'] !=
+                                                'CO')
+                                            .take(10)
+                                            .toList();
+                                        _filteredDestinationAirports = [
+                                          ...colombianAirports,
+                                          ...internationalAirports
+                                        ];
                                       } else {
                                         // Search in ALL airports when user types
                                         _filteredDestinationAirports = _airports
@@ -755,11 +820,11 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                           ),
                           SizedBox(height: BukeerSpacing.m),
 
-                          // Date and quantity FIRST
+                          // Date, Quantity and Flight Number in a row
                           Row(
                             children: [
                               Expanded(
-                                flex: 3,
+                                flex: 2,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -831,37 +896,38 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                               ),
                               SizedBox(width: BukeerSpacing.m),
                               Expanded(
+                                flex: 1,
+                                child: BukeerTextField(
+                                  controller: _quantityController,
+                                  label: 'Cantidad',
+                                  type: BukeerTextFieldType.number,
+                                  required: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Requerido';
+                                    }
+                                    if (int.tryParse(value) == null ||
+                                        int.parse(value) < 1) {
+                                      return 'Cantidad inválida';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
                                 flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Cantidad de Pasajeros',
-                                      style:
-                                          BukeerTypography.titleSmall.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: isDark
-                                            ? BukeerColors.textPrimaryDark
-                                            : BukeerColors.textPrimary,
-                                      ),
-                                    ),
-                                    SizedBox(height: BukeerSpacing.s),
-                                    BukeerTextField(
-                                      controller: _quantityController,
-                                      type: BukeerTextFieldType.number,
-                                      required: true,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Requerido';
-                                        }
-                                        if (int.tryParse(value) == null ||
-                                            int.parse(value) < 1) {
-                                          return 'Cantidad inválida';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                  ],
+                                child: BukeerTextField(
+                                  controller: _flightNumberController,
+                                  label: 'Número de Vuelo',
+                                  hintText: 'AA1234',
+                                  required: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Número de vuelo requerido';
+                                    }
+                                    return null;
+                                  },
                                 ),
                               ),
                             ],
@@ -918,283 +984,97 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                           ),
                           SizedBox(height: BukeerSpacing.m),
 
-                          // Visual Calculator Section
+                          // Pricing fields in a row
+                          Row(
+                            children: [
+                              Expanded(
+                                child: BukeerTextField(
+                                  controller: _unitCostController,
+                                  label: 'Costo Unitario',
+                                  hintText: '0.00',
+                                  type: BukeerTextFieldType.decimal,
+                                  required: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Costo requerido';
+                                    }
+                                    if (double.tryParse(value) == null) {
+                                      return 'Valor inválido';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                child: BukeerTextField(
+                                  controller: _markupController,
+                                  label: 'Markup (%)',
+                                  hintText: '0',
+                                  type: BukeerTextFieldType.decimal,
+                                ),
+                              ),
+                              SizedBox(width: BukeerSpacing.m),
+                              Expanded(
+                                child: BukeerTextField(
+                                  controller: _unitPriceController,
+                                  label: 'Tarifa Unitaria',
+                                  hintText: '0.00',
+                                  type: BukeerTextFieldType.decimal,
+                                  required: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Tarifa requerida';
+                                    }
+                                    if (double.tryParse(value) == null) {
+                                      return 'Valor inválido';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          // Compact total display box
+                          SizedBox(height: BukeerSpacing.m),
                           Container(
-                            padding: EdgeInsets.all(BukeerSpacing.m),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: BukeerSpacing.m,
+                              vertical: BukeerSpacing.s,
+                            ),
                             decoration: BoxDecoration(
-                              color: isDark
-                                  ? BukeerColors.backgroundDarkSecondary
-                                      .withOpacity(0.7)
-                                  : BukeerColors.surfaceSecondary
-                                      .withOpacity(0.5),
+                              color: BukeerColors.primary.withOpacity(0.1),
                               borderRadius: BukeerBorders.radiusMedium,
                               border: Border.all(
-                                color: isDark
-                                    ? BukeerColors.borderPrimaryDark
-                                    : BukeerColors.divider,
-                                width: BukeerBorders.widthThin,
+                                color: BukeerColors.primary,
+                                width: BukeerBorders.widthMedium,
                               ),
                             ),
-                            child: Column(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Cost, Markup, and Price
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          BukeerTextField(
-                                            controller: _unitCostController,
-                                            label: 'Costo Unitario',
-                                            hintText: '0.00',
-                                            type: BukeerTextFieldType.decimal,
-                                            required: true,
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Costo requerido';
-                                              }
-                                              if (double.tryParse(value) ==
-                                                  null) {
-                                                return 'Valor inválido';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          SizedBox(height: BukeerSpacing.xs),
-                                          Text(
-                                            'Base',
-                                            style: BukeerTypography.labelSmall
-                                                .copyWith(
-                                              color: isDark
-                                                  ? BukeerColors.textPrimaryDark
-                                                      .withOpacity(0.7)
-                                                  : BukeerColors.textSecondary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: BukeerSpacing.s),
-                                      child: Column(
-                                        children: [
-                                          Icon(Icons.add,
-                                              size: 24,
-                                              color: BukeerColors.primary),
-                                          SizedBox(height: BukeerSpacing.xs),
-                                          Text('+',
-                                              style:
-                                                  BukeerTypography.titleMedium),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          BukeerTextField(
-                                            controller: _markupController,
-                                            label: 'Markup (%)',
-                                            hintText: '0',
-                                            type: BukeerTextFieldType.decimal,
-                                          ),
-                                          SizedBox(height: BukeerSpacing.xs),
-                                          Text(
-                                            'Ganancia',
-                                            style: BukeerTypography.labelSmall
-                                                .copyWith(
-                                              color: isDark
-                                                  ? BukeerColors.textPrimaryDark
-                                                      .withOpacity(0.7)
-                                                  : BukeerColors.textSecondary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: BukeerSpacing.s),
-                                      child: Column(
-                                        children: [
-                                          Icon(Icons.arrow_forward,
-                                              size: 24,
-                                              color: BukeerColors.primary),
-                                          SizedBox(height: BukeerSpacing.xs),
-                                          Text('=',
-                                              style:
-                                                  BukeerTypography.titleMedium),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          BukeerTextField(
-                                            controller: _unitPriceController,
-                                            label: 'Tarifa Unitaria',
-                                            hintText: '0.00',
-                                            type: BukeerTextFieldType.decimal,
-                                            required: true,
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Tarifa requerida';
-                                              }
-                                              if (double.tryParse(value) ==
-                                                  null) {
-                                                return 'Valor inválido';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          SizedBox(height: BukeerSpacing.xs),
-                                          Text(
-                                            'Final',
-                                            style: BukeerTypography.labelSmall
-                                                .copyWith(
-                                              color: isDark
-                                                  ? BukeerColors.textPrimaryDark
-                                                      .withOpacity(0.7)
-                                                  : BukeerColors.textSecondary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                // Visual formula
-                                SizedBox(height: BukeerSpacing.m),
-                                Container(
-                                  padding: EdgeInsets.all(BukeerSpacing.s),
-                                  decoration: BoxDecoration(
+                                Text(
+                                  'Total:',
+                                  style: BukeerTypography.titleMedium.copyWith(
+                                    fontWeight: FontWeight.w600,
                                     color: isDark
-                                        ? BukeerColors.backgroundDark
-                                        : BukeerColors.backgroundPrimary,
-                                    borderRadius: BukeerBorders.radiusSmall,
-                                    border: Border.all(
-                                      color: isDark
-                                          ? BukeerColors.borderPrimaryDark
-                                              .withOpacity(0.5)
-                                          : BukeerColors.borderPrimary
-                                              .withOpacity(0.5),
-                                      width: 1,
-                                    ),
+                                        ? BukeerColors.textPrimaryDark
+                                        : BukeerColors.textPrimary,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      // Unit price formula
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '\$${(double.tryParse(_unitCostController.text) ?? 0).toStringAsFixed(2)}',
-                                            style: BukeerTypography.bodyMedium
-                                                .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: isDark
-                                                  ? BukeerColors.textPrimaryDark
-                                                  : BukeerColors.textPrimary,
-                                            ),
-                                          ),
-                                          Text(' + ',
-                                              style: BukeerTypography.bodyMedium
-                                                  .copyWith(
-                                                color: isDark
-                                                    ? BukeerColors
-                                                        .textPrimaryDark
-                                                    : BukeerColors.textPrimary,
-                                              )),
-                                          Text(
-                                            '${(double.tryParse(_markupController.text) ?? 0).toStringAsFixed(2)}%',
-                                            style: BukeerTypography.bodyMedium
-                                                .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: isDark
-                                                  ? BukeerColors.successLight
-                                                  : BukeerColors.success,
-                                            ),
-                                          ),
-                                          Text(' = ',
-                                              style: BukeerTypography.bodyMedium
-                                                  .copyWith(
-                                                color: isDark
-                                                    ? BukeerColors
-                                                        .textPrimaryDark
-                                                    : BukeerColors.textPrimary,
-                                              )),
-                                          Text(
-                                            '\$${(double.tryParse(_unitPriceController.text) ?? 0).toStringAsFixed(2)}',
-                                            style: BukeerTypography.bodyMedium
-                                                .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: isDark
-                                                  ? BukeerColors.primaryLight
-                                                  : BukeerColors.primary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: BukeerSpacing.xs),
-                                      Divider(height: 1),
-                                      SizedBox(height: BukeerSpacing.xs),
-                                      // Total formula
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '\$${(double.tryParse(_unitPriceController.text) ?? 0).toStringAsFixed(2)}',
-                                            style: BukeerTypography.bodyMedium
-                                                .copyWith(
-                                              color: isDark
-                                                  ? BukeerColors.primaryLight
-                                                  : BukeerColors.primary,
-                                            ),
-                                          ),
-                                          Text(' × ',
-                                              style: BukeerTypography.bodyMedium
-                                                  .copyWith(
-                                                color: isDark
-                                                    ? BukeerColors
-                                                        .textPrimaryDark
-                                                    : BukeerColors.textPrimary,
-                                              )),
-                                          Text(
-                                            '${_quantityController.text} pax',
-                                            style: BukeerTypography.bodyMedium
-                                                .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: isDark
-                                                  ? BukeerColors.textPrimaryDark
-                                                  : BukeerColors.textPrimary,
-                                            ),
-                                          ),
-                                          Text(' = ',
-                                              style: BukeerTypography.bodyMedium
-                                                  .copyWith(
-                                                color: isDark
-                                                    ? BukeerColors
-                                                        .textPrimaryDark
-                                                    : BukeerColors.textPrimary,
-                                              )),
-                                          Text(
-                                            '\$${_total.toStringAsFixed(2)}',
-                                            style: BukeerTypography.bodyLarge
-                                                .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: isDark
-                                                  ? BukeerColors.primaryLight
-                                                  : BukeerColors.primary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                ),
+                                Text(
+                                  NumberFormat.currency(
+                                    symbol: '\$',
+                                    decimalDigits: 2,
+                                    locale: 'es_CO',
+                                  ).format(_total),
+                                  style:
+                                      BukeerTypography.headlineSmall.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: isDark
+                                        ? BukeerColors.primaryLight
+                                        : BukeerColors.primary,
                                   ),
                                 ),
                               ],
@@ -1209,245 +1089,6 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                             label: 'Notas',
                             hintText: 'Información adicional del vuelo...',
                             maxLines: 3,
-                          ),
-
-                          // Total display box - ALWAYS VISIBLE
-                          SizedBox(height: BukeerSpacing.xl),
-                          Container(
-                            padding: EdgeInsets.all(BukeerSpacing.l),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  BukeerColors.primary.withOpacity(0.1),
-                                  BukeerColors.primary.withOpacity(0.05),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BukeerBorders.radiusMedium,
-                              border: Border.all(
-                                color: BukeerColors.primary,
-                                width: BukeerBorders.widthMedium,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'VALOR TOTAL DEL VUELO',
-                                      style:
-                                          BukeerTypography.titleSmall.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: isDark
-                                            ? BukeerColors.textPrimaryDark
-                                                .withOpacity(0.9)
-                                            : BukeerColors.textSecondary,
-                                        letterSpacing: 1.2,
-                                      ),
-                                    ),
-                                    SizedBox(height: BukeerSpacing.xs),
-                                    Text(
-                                      '\$${_total.toStringAsFixed(2)}',
-                                      style: BukeerTypography.displaySmall
-                                          .copyWith(
-                                        fontWeight: FontWeight.w800,
-                                        color: isDark
-                                            ? BukeerColors.primaryLight
-                                            : BukeerColors.primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.flight,
-                                  size: 48,
-                                  color: BukeerColors.primary.withOpacity(0.3),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // Summary details
-                          SizedBox(height: BukeerSpacing.m),
-                          Container(
-                            padding: EdgeInsets.all(BukeerSpacing.l),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? BukeerColors.surfaceSecondaryDark
-                                  : BukeerColors.surfaceSecondary,
-                              borderRadius: BukeerBorders.radiusMedium,
-                              border: Border.all(
-                                color: isDark
-                                    ? BukeerColors.dividerDark
-                                    : BukeerColors.divider,
-                                width: BukeerBorders.widthThin,
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Resumen del Vuelo',
-                                  style: BukeerTypography.titleMedium.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: isDark
-                                        ? BukeerColors.textPrimaryDark
-                                        : BukeerColors.textPrimary,
-                                  ),
-                                ),
-                                SizedBox(height: BukeerSpacing.m),
-                                // Flight details
-                                if (_selectedAirline != null &&
-                                    _flightNumberController
-                                        .text.isNotEmpty) ...[
-                                  Row(
-                                    children: [
-                                      Icon(Icons.airlines,
-                                          size: 16,
-                                          color: BukeerColors.textSecondary),
-                                      SizedBox(width: BukeerSpacing.xs),
-                                      Text(
-                                        '${_selectedAirline['name']} - ${_flightNumberController.text}',
-                                        style: BukeerTypography.bodyMedium,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: BukeerSpacing.s),
-                                ],
-                                if (_originController.text.isNotEmpty &&
-                                    _destinationController.text.isNotEmpty) ...[
-                                  Row(
-                                    children: [
-                                      Icon(Icons.route,
-                                          size: 16,
-                                          color: BukeerColors.textSecondary),
-                                      SizedBox(width: BukeerSpacing.xs),
-                                      Expanded(
-                                        child: Text(
-                                          '${_originController.text} → ${_destinationController.text}',
-                                          style: BukeerTypography.bodyMedium,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: BukeerSpacing.s),
-                                ],
-                                if (_selectedDate != null) ...[
-                                  Row(
-                                    children: [
-                                      Icon(Icons.calendar_today,
-                                          size: 16,
-                                          color: BukeerColors.textSecondary),
-                                      SizedBox(width: BukeerSpacing.xs),
-                                      Text(
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(_selectedDate),
-                                        style: BukeerTypography.bodyMedium,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: BukeerSpacing.m),
-                                ],
-                                Divider(
-                                    color: isDark
-                                        ? BukeerColors.dividerDark
-                                        : BukeerColors.divider),
-                                SizedBox(height: BukeerSpacing.m),
-                                // Pricing details
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Costo unitario:',
-                                        style: BukeerTypography.bodyMedium),
-                                    Text(
-                                      '\$${(double.tryParse(_unitCostController.text) ?? 0).toStringAsFixed(2)}',
-                                      style: BukeerTypography.bodyMedium
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: BukeerSpacing.xs),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Markup:',
-                                        style: BukeerTypography.bodyMedium),
-                                    Text(
-                                      '${(double.tryParse(_markupController.text) ?? 0).toStringAsFixed(2)}%',
-                                      style: BukeerTypography.bodyMedium
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: BukeerSpacing.xs),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Tarifa unitaria:',
-                                        style: BukeerTypography.bodyMedium),
-                                    Text(
-                                      '\$${(double.tryParse(_unitPriceController.text) ?? 0).toStringAsFixed(2)}',
-                                      style: BukeerTypography.bodyMedium
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: BukeerSpacing.xs),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Cantidad:',
-                                        style: BukeerTypography.bodyMedium),
-                                    Text(
-                                      _quantityController.text,
-                                      style: BukeerTypography.bodyMedium
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                Divider(
-                                    color: isDark
-                                        ? BukeerColors.dividerDark
-                                        : BukeerColors.divider),
-                                SizedBox(height: BukeerSpacing.s),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Total:',
-                                      style:
-                                          BukeerTypography.titleLarge.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: isDark
-                                            ? BukeerColors.textPrimaryDark
-                                            : BukeerColors.textPrimary,
-                                      ),
-                                    ),
-                                    Text(
-                                      '\$${_total.toStringAsFixed(2)}',
-                                      style: BukeerTypography.headlineSmall
-                                          .copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: BukeerColors.primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ],
@@ -1612,7 +1253,7 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                     ],
                   ),
                 ),
-                IconButton(
+                BukeerIconButton(
                   icon: Icon(Icons.close, size: 16),
                   onPressed: () {
                     setState(() {
@@ -1625,9 +1266,8 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                       }
                     });
                   },
-                  padding: EdgeInsets.all(BukeerSpacing.xs),
-                  constraints: BoxConstraints(),
-                  iconSize: 16,
+                  variant: BukeerIconButtonVariant.ghost,
+                  size: BukeerIconButtonSize.small,
                 ),
               ],
             ),
@@ -1723,24 +1363,92 @@ class _AddFlightsWidgetState extends State<AddFlightsWidget> {
                     },
                   ),
           ),
-
-          // Show "more results" indicator if there are more than 3 items
-          if (items.length > 3)
-            Padding(
-              padding: EdgeInsets.only(top: BukeerSpacing.xs),
-              child: Text(
-                'y ${items.length - 3} aeropuertos más...',
-                style: BukeerTypography.bodySmall.copyWith(
-                  color: isDark
-                      ? BukeerColors.textSecondaryDark
-                      : BukeerColors.textSecondary,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
         ],
       ],
     );
+  }
+
+  // Load flight data for editing
+  Future<void> _loadFlightData() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final response = await SupaFlow.client.from('itinerary_items').select('''
+            *,
+            contacts!provider(*),
+            airlines!airline(*)
+          ''').eq('id', widget.itemId!).single();
+
+      if (response != null) {
+        // Set provider
+        _selectedProvider = response['contacts'];
+
+        // Set airline
+        _selectedAirline = response['airlines'];
+
+        // Set flight details
+        _flightNumberController.text = response['flight_number'] ?? '';
+        _departureTimeController.text = response['departure_time'] ?? '';
+        _arrivalTimeController.text = response['arrival_time'] ?? '';
+
+        // Set airports
+        final departure = response['flight_departure'] ?? '';
+        final arrival = response['flight_arrival'] ?? '';
+
+        // Extract airport codes and search for them
+        if (departure.contains(' - ')) {
+          final code = departure.split(' - ').first;
+          final airport = _airports.firstWhere(
+            (a) => a['iata_code'] == code,
+            orElse: () => null,
+          );
+          if (airport != null) {
+            _selectedOriginAirport = airport;
+            _originController.text = departure;
+          }
+        }
+
+        if (arrival.contains(' - ')) {
+          final code = arrival.split(' - ').first;
+          final airport = _airports.firstWhere(
+            (a) => a['iata_code'] == code,
+            orElse: () => null,
+          );
+          if (airport != null) {
+            _selectedDestinationAirport = airport;
+            _destinationController.text = arrival;
+          }
+        }
+
+        // Set date
+        if (response['date'] != null) {
+          _selectedDate = DateTime.parse(response['date']);
+          _dateController.text = DateFormat('dd/MM/yyyy').format(_selectedDate);
+        }
+
+        // Set pricing
+        _quantityController.text = (response['quantity'] ?? 1).toString();
+        _unitCostController.text = (response['unit_cost'] ?? 0.0).toString();
+        _markupController.text =
+            (response['profit_percentage'] ?? 0.0).toString();
+        _unitPriceController.text = (response['unit_price'] ?? 0.0).toString();
+
+        // Set notes
+        _notesController.text = response['personalized_message'] ?? '';
+
+        // Calculate total
+        _updateTotal();
+      }
+    } catch (e) {
+      print('Error loading flight data: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al cargar los datos del vuelo'),
+          backgroundColor: BukeerColors.error,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 }
