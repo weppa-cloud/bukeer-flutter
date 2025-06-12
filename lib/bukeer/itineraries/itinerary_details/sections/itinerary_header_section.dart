@@ -335,7 +335,7 @@ class _ItineraryHeaderSectionState extends State<ItineraryHeaderSection> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0x0D4B39EF),
+                color: BukeerColors.primary.withOpacity(0.05),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(

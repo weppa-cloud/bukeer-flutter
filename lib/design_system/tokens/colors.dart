@@ -8,27 +8,28 @@ class BukeerColors {
   // ================================
   // PRIMARY COLORS
   // ================================
-  static const Color primary = Color(0xFF4B39EF); // Bukeer primary purple
-  static const Color primaryAccent = Color(0xFF6F61EF);
-  static const Color primaryLight = Color(0xFF9A8FF0);
-  static const Color primaryDark = Color(0xFF3730C1);
+  static const Color primary = Color(0xFF7c57b3); // Bukeer primary purple
+  static const Color primaryAccent = Color(0xFF9A7DC7);
+  static const Color primaryLight = Color(0xFFB8A3DB);
+  static const Color primaryDark = Color(0xFF5E3F8F);
 
   // ================================
   // SECONDARY COLORS
   // ================================
   static const Color secondary =
-      Color(0xFF39D2C0); // Bukeer secondary turquoise
-  static const Color secondaryAccent = Color(0xFF4DDAC6);
-  static const Color secondaryLight = Color(0xFF39D2C0); // Light mode
-  static const Color secondaryDark = Color(0xFF68E0F8); // Dark mode cyan
+      Color(0xFF102877); // Bukeer secondary blue (light mode)
+  static const Color secondaryAccent = Color(0xFF1A3A99);
+  static const Color secondaryLight = Color(0xFF102877); // Light mode
+  static const Color secondaryDark = Color(0xFF68e0f8); // Dark mode cyan
 
   // ================================
   // FLUTTERFLOW ADDITIONAL COLORS
   // ================================
-  static const Color tertiary = Color(0xFFEE8B60); // Bukeer tertiary orange
-  static const Color tertiaryDark = Color(0xFFEE8B60);
-  static const Color alternate = Color(0xFFE0E3E7); // Light gray for borders
-  static const Color alternateDark = Color(0xFF404449); // Dark mode borders
+  static const Color tertiary = Color(0xFF4098f8); // Bukeer tertiary blue
+  static const Color tertiaryDark = Color(0xFF4098f8);
+  static const Color alternate =
+      Color(0xFFb7bac3); // Light gray for borders (light mode)
+  static const Color alternateDark = Color(0xFF313442); // Dark mode borders
   static const Color accent1 = Color(0x4D9489F5);
   static const Color accent2 = Color(0x4C39D2C0);
   static const Color accent3 = Color(0x4CEE8B60);
@@ -69,9 +70,9 @@ class BukeerColors {
   static const Color errorLight = Color(0xFFF87171);
   static const Color errorDark = Color(0xFFDC2626);
 
-  static const Color info = Color(0xFF4B39EF);
-  static const Color infoLight = Color(0xFF60A5FA);
-  static const Color infoDark = Color(0xFF2563EB);
+  static const Color info = Color(0xFF7c57b3);
+  static const Color infoLight = Color(0xFF9A7DC7);
+  static const Color infoDark = Color(0xFF5E3F8F);
 
   // ================================
   // BACKGROUND COLORS

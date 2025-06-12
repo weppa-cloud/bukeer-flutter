@@ -566,22 +566,31 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildContentColumn(dynamic itineraryData) {
-    return Column(
-      children: [
-        // Main tabs
-        _buildMainTabs(),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-        // Financial info box (only for Items tab)
-        if (_selectedMainTab == 0) _buildFinancialInfoBox(itineraryData),
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? BukeerColors.surfacePrimaryDark : BukeerColors.white,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      child: Column(
+        children: [
+          // Main tabs
+          _buildMainTabs(),
 
-        // Service buttons (only for Items tab)
-        if (_selectedMainTab == 0) _buildServiceButtons(),
+          // Financial info box (only for Items tab)
+          if (_selectedMainTab == 0) _buildFinancialInfoBox(itineraryData),
 
-        // Content section
-        Expanded(
-          child: _buildContentSection(itineraryData),
-        ),
-      ],
+          // Service buttons (only for Items tab)
+          if (_selectedMainTab == 0) _buildServiceButtons(),
+
+          // Content section
+          Expanded(
+            child: _buildContentSection(itineraryData),
+          ),
+        ],
+      ),
     );
   }
 
@@ -590,14 +599,10 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark
-            ? BukeerColors.surfacePrimaryDark
-            : BukeerColors.surfacePrimary,
         borderRadius: BorderRadius.only(
           topLeft: BukeerBorders.radiusLarge.topLeft,
           topRight: BukeerBorders.radiusLarge.topRight,
         ),
-        boxShadow: BukeerShadows.small,
       ),
       child: TabBar(
         controller: _mainTabController,
@@ -642,12 +647,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     return Container(
       padding: EdgeInsets.fromLTRB(
           BukeerSpacing.l, BukeerSpacing.l, BukeerSpacing.l, 0),
-      decoration: BoxDecoration(
-        color: isDark
-            ? BukeerColors.surfacePrimaryDark
-            : BukeerColors.surfacePrimary,
-        boxShadow: BukeerShadows.subtle,
-      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -734,16 +733,6 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      decoration: BoxDecoration(
-        color: isDark
-            ? BukeerColors.surfacePrimaryDark
-            : BukeerColors.surfacePrimary,
-        borderRadius: BorderRadius.only(
-          bottomLeft: BukeerBorders.radiusLarge.bottomLeft,
-          bottomRight: BukeerBorders.radiusLarge.bottomRight,
-        ),
-        boxShadow: BukeerShadows.small,
-      ),
       padding: EdgeInsets.all(BukeerSpacing.l),
       child: TabBarView(
         controller: _mainTabController,
@@ -2883,18 +2872,318 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
   }
 
   Widget _buildInfoColumn(dynamic itineraryData) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? BukeerColors.surfacePrimaryDark : BukeerColors.white,
+        borderRadius: BukeerBorders.radiusLarge,
+        boxShadow: BukeerShadows.small,
+      ),
+      padding: EdgeInsets.all(BukeerSpacing.l),
+      child: Column(
+        children: [
+          // User info
+          _buildUserInfoSection(itineraryData),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: BukeerSpacing.l),
+            height: 1,
+            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          ),
+
+          // Itinerary info
+          _buildItineraryInfoSection(itineraryData),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: BukeerSpacing.l),
+            height: 1,
+            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          ),
+
+          // Actions
+          _buildActionsSection(itineraryData),
+        ],
+      ),
+    );
+  }
+
+  // New section methods without individual decorations
+  Widget _buildUserInfoSection(dynamic itineraryData) {
+    final createdById =
+        getJsonField(itineraryData, r'$.id_created_by')?.toString();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    if (createdById == null || createdById.isEmpty) {
+      return _buildUserInfoSectionPlaceholder('Sin asignar', itineraryData);
+    }
+
+    return FutureBuilder<ApiCallResponse>(
+      future: GetAgentCall.call(
+        authToken: currentJwtToken,
+        id: createdById,
+        accountIdParam: appServices.account.accountId ?? '',
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _buildUserInfoSectionLoading();
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.succeeded) {
+          return _buildUserInfoSectionPlaceholder(
+              'Error al cargar', itineraryData);
+        }
+
+        final agentData = snapshot.data!.jsonBody;
+        final agentsList = getJsonField(agentData, r'$[:]');
+
+        if (agentsList == null || (agentsList is List && agentsList.isEmpty)) {
+          return _buildUserInfoSectionPlaceholder(
+              'Usuario no encontrado', itineraryData);
+        }
+
+        // Get first agent from the list
+        final agent = agentsList is List ? agentsList.first : agentsList;
+        final name = getJsonField(agent, r'$.name')?.toString() ?? '';
+        final lastName = getJsonField(agent, r'$.last_name')?.toString() ?? '';
+        final fullName = '$name $lastName'.trim();
+        final mainImage = getJsonField(agent, r'$.main_image')?.toString();
+        final email = getJsonField(agent, r'$.email')?.toString() ?? '';
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Travel Planner',
+              style: BukeerTypography.labelMedium.copyWith(
+                color: isDark
+                    ? BukeerColors.textSecondaryDark
+                    : BukeerColors.textSecondary,
+              ),
+            ),
+            SizedBox(height: BukeerSpacing.s),
+            Row(
+              children: [
+                // Profile image or placeholder
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BukeerBorders.radiusFull,
+                    border: Border.all(
+                      color: BukeerColors.primary,
+                      width: BukeerBorders.widthMedium,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BukeerBorders.radiusFull,
+                    child: mainImage != null && mainImage.isNotEmpty
+                        ? Image.network(
+                            mainImage,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: BukeerColors.primary.withOpacity(0.1),
+                                child: Center(
+                                  child: Text(
+                                    fullName.isNotEmpty
+                                        ? fullName[0].toUpperCase()
+                                        : 'U',
+                                    style:
+                                        BukeerTypography.titleMedium.copyWith(
+                                      color: BukeerColors.primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : Container(
+                            color: BukeerColors.primary.withOpacity(0.1),
+                            child: Center(
+                              child: Text(
+                                fullName.isNotEmpty
+                                    ? fullName[0].toUpperCase()
+                                    : 'U',
+                                style: BukeerTypography.titleMedium.copyWith(
+                                  color: BukeerColors.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+                SizedBox(width: BukeerSpacing.m),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        fullName.isNotEmpty ? fullName : 'Sin nombre',
+                        style: BukeerTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? BukeerColors.textPrimaryDark
+                              : BukeerColors.textPrimary,
+                        ),
+                      ),
+                      SizedBox(height: BukeerSpacing.xs),
+                      Text(
+                        email,
+                        style: BukeerTypography.bodySmall.copyWith(
+                          color: isDark
+                              ? BukeerColors.textSecondaryDark
+                              : BukeerColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // Change owner button
+            BukeerIconButton(
+              icon: Icon(Icons.person_add),
+              onPressed: () => _handleChangeOwner(itineraryData),
+              variant: BukeerIconButtonVariant.ghost,
+              size: BukeerIconButtonSize.small,
+              tooltip: 'Asignar propietario',
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildUserInfoSectionPlaceholder(
+      String message, dynamic itineraryData) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // User info
-        _buildUserInfoBox(itineraryData),
-        SizedBox(height: BukeerSpacing.m),
+        Text(
+          'Travel Planner',
+          style: BukeerTypography.labelMedium.copyWith(
+            color: isDark
+                ? BukeerColors.textSecondaryDark
+                : BukeerColors.textSecondary,
+          ),
+        ),
+        SizedBox(height: BukeerSpacing.s),
+        Row(
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BukeerBorders.radiusFull,
+                border: Border.all(
+                  color: BukeerColors.textTertiary,
+                  width: BukeerBorders.widthMedium,
+                ),
+                color: BukeerColors.textTertiary.withOpacity(0.1),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.person,
+                  color: BukeerColors.textTertiary,
+                  size: 24,
+                ),
+              ),
+            ),
+            SizedBox(width: BukeerSpacing.m),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    message,
+                    style: BukeerTypography.titleMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: isDark
+                          ? BukeerColors.textPrimaryDark
+                          : BukeerColors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: BukeerSpacing.xs),
+                  Text(
+                    'No hay propietario asignado',
+                    style: BukeerTypography.bodySmall.copyWith(
+                      color: isDark
+                          ? BukeerColors.textSecondaryDark
+                          : BukeerColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        // Change owner button
+        BukeerIconButton(
+          icon: Icon(Icons.person_add),
+          onPressed: () => _handleChangeOwner(itineraryData),
+          variant: BukeerIconButtonVariant.ghost,
+          size: BukeerIconButtonSize.small,
+          tooltip: 'Asignar propietario',
+        ),
+      ],
+    );
+  }
 
-        // Itinerary info
-        _buildItineraryInfoBox(itineraryData),
-        SizedBox(height: BukeerSpacing.m),
+  Widget _buildUserInfoSectionLoading() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-        // Actions (previously Financial info)
-        _buildActionsBox(itineraryData),
+    return Row(
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BukeerBorders.radiusFull,
+            color: BukeerColors.primary.withOpacity(0.1),
+          ),
+          child: Center(
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(BukeerColors.primary),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: BukeerSpacing.m),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 120,
+                height: 14,
+                decoration: BoxDecoration(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  borderRadius: BukeerBorders.radiusSmall,
+                ),
+              ),
+              SizedBox(height: BukeerSpacing.xs),
+              Container(
+                width: 80,
+                height: 12,
+                decoration: BoxDecoration(
+                  color:
+                      isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                  borderRadius: BukeerBorders.radiusSmall,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -3416,17 +3705,13 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
     return Container(
       padding: EdgeInsets.fromLTRB(
           BukeerSpacing.l, BukeerSpacing.m, BukeerSpacing.l, 0),
-      decoration: BoxDecoration(
-        color: isDark
-            ? BukeerColors.surfacePrimaryDark
-            : BukeerColors.surfacePrimary,
-        boxShadow: BukeerShadows.subtle,
-      ),
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: BukeerSpacing.xl, vertical: BukeerSpacing.m),
         decoration: BoxDecoration(
-          color: BukeerColors.info.withOpacity(0.1),
+          color: isDark
+              ? BukeerColors.backgroundDarkSecondary.withOpacity(0.5)
+              : BukeerColors.primary.withOpacity(0.05),
           borderRadius: BukeerBorders.radiusMedium,
         ),
         child: LayoutBuilder(
@@ -3450,7 +3735,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                     margin: EdgeInsets.symmetric(vertical: BukeerSpacing.s),
                     height: 1,
                     width: double.infinity,
-                    color: BukeerColors.info.withOpacity(0.3),
+                    color: isDark
+                        ? BukeerColors.dividerDark
+                        : BukeerColors.divider,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -3470,7 +3757,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                       Container(
                         width: 1,
                         height: 40,
-                        color: BukeerColors.info.withOpacity(0.3),
+                        color: isDark
+                            ? BukeerColors.dividerDark
+                            : BukeerColors.divider,
                       ),
                       _buildFinancialItem(
                         'Margen',
@@ -3506,7 +3795,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   Container(
                     width: 1,
                     height: 40,
-                    color: BukeerColors.info.withOpacity(0.3),
+                    color: isDark
+                        ? BukeerColors.dividerDark
+                        : BukeerColors.divider,
                   ),
                   Expanded(
                     child: _buildFinancialItem(
@@ -3525,7 +3816,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   Container(
                     width: 1,
                     height: 40,
-                    color: BukeerColors.info.withOpacity(0.3),
+                    color: isDark
+                        ? BukeerColors.dividerDark
+                        : BukeerColors.divider,
                   ),
                   Expanded(
                     child: _buildFinancialItem(
@@ -3636,6 +3929,237 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
                   _handleVisibilityToggle('itinerary_visibility', value)),
         ],
       ),
+    );
+  }
+
+  Widget _buildItineraryInfoSection(dynamic itineraryData) {
+    // Try to get client name from different possible fields
+    final clientName =
+        getJsonField(itineraryData, r'$.contact_name')?.toString() ??
+            getJsonField(itineraryData, r'$.client_name')?.toString() ??
+            'Cliente no especificado';
+    final startDate =
+        getJsonField(itineraryData, r'$.start_date')?.toString() ?? '';
+    final endDate =
+        getJsonField(itineraryData, r'$.end_date')?.toString() ?? '';
+    final status =
+        getJsonField(itineraryData, r'$.status')?.toString() ?? 'budget';
+    final passengers =
+        getJsonField(itineraryData, r'$.passenger_count')?.toInt() ?? 0;
+    final idFm = getJsonField(itineraryData, r'$.id_fm')?.toString() ?? '';
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Información del Itinerario',
+              style: BukeerTypography.titleMedium.copyWith(
+                fontWeight: FontWeight.w600,
+                color: isDark
+                    ? BukeerColors.textPrimaryDark
+                    : BukeerColors.textPrimary,
+              ),
+            ),
+            Row(
+              children: [
+                BukeerIconButton(
+                  icon: const Icon(Icons.file_copy),
+                  onPressed: () {},
+                  variant: BukeerIconButtonVariant.ghost,
+                  size: BukeerIconButtonSize.small,
+                ),
+                SizedBox(width: BukeerSpacing.s),
+                BukeerIconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: _handleEditItinerary,
+                  variant: BukeerIconButtonVariant.ghost,
+                  size: BukeerIconButtonSize.small,
+                ),
+              ],
+            ),
+          ],
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
+          height: 1,
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+        ),
+
+        // Info items
+        _buildInfoItem(Icons.tag, 'ID:', idFm.isNotEmpty ? idFm : 'N/A'),
+        _buildInfoItem(Icons.person_outline, 'Cliente:', clientName),
+        if (getJsonField(itineraryData, r'$.contact_email') != null)
+          _buildInfoItem(
+              Icons.email,
+              'Email:',
+              getJsonField(itineraryData, r'$.contact_email')?.toString() ??
+                  ''),
+        if (getJsonField(itineraryData, r'$.contact_phone') != null)
+          _buildInfoItem(
+              Icons.phone,
+              'Teléfono:',
+              getJsonField(itineraryData, r'$.contact_phone')?.toString() ??
+                  ''),
+        Row(
+          children: [
+            Icon(Icons.label,
+                size: 19,
+                color: isDark
+                    ? BukeerColors.textTertiaryDark
+                    : BukeerColors.textTertiary),
+            SizedBox(width: BukeerSpacing.m),
+            Text(
+              'Estado:',
+              style: BukeerTypography.bodyMedium.copyWith(
+                color: isDark
+                    ? BukeerColors.textSecondaryDark
+                    : BukeerColors.textSecondary,
+              ),
+            ),
+            SizedBox(width: BukeerSpacing.xs),
+            Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: BukeerSpacing.m, vertical: BukeerSpacing.xs),
+              decoration: BoxDecoration(
+                color: status == 'confirmed'
+                    ? BukeerColors.success.withOpacity(0.1)
+                    : BukeerColors.info.withOpacity(0.1),
+                borderRadius: BukeerBorders.radiusLarge,
+              ),
+              child: Text(
+                status == 'confirmed' ? 'Confirmado' : 'Presupuesto',
+                style: BukeerTypography.labelSmall.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: status == 'confirmed'
+                      ? BukeerColors.success
+                      : BukeerColors.info,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: BukeerSpacing.m),
+        _buildInfoItem(Icons.date_range, 'Fechas:',
+            '${_formatDate(startDate)} - ${_formatDate(endDate)}'),
+        _buildInfoItem(Icons.people_alt, 'Pasajeros:',
+            passengers > 0 ? '$passengers personas' : 'No especificado'),
+        _buildInfoItem(
+            Icons.translate,
+            'Idioma:',
+            getJsonField(itineraryData, r'$.language')?.toString() ??
+                'Español'),
+        _buildInfoItem(
+            Icons.attach_money,
+            'Moneda:',
+            getJsonField(itineraryData, r'$.currency_type')?.toString() ??
+                'COP'),
+        _buildInfoItem(
+            Icons.event_available,
+            'Creado:',
+            _formatDate(
+                getJsonField(itineraryData, r'$.created_at')?.toString() ??
+                    '')),
+        if (getJsonField(itineraryData, r'$.valid_until') != null)
+          _buildInfoItem(
+              Icons.timer,
+              'Válido hasta:',
+              _formatDate(
+                  getJsonField(itineraryData, r'$.valid_until')?.toString() ??
+                      '')),
+
+        // Status toggle
+        Container(
+          margin: EdgeInsets.only(top: BukeerSpacing.m),
+          padding: EdgeInsets.only(top: BukeerSpacing.m),
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                width: BukeerBorders.widthThin,
+              ),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                status == 'confirmed'
+                    ? 'Bloqueado (Confirmado)'
+                    : 'Desbloqueado (Presupuesto)',
+                style: BukeerTypography.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: isDark
+                      ? BukeerColors.textSecondaryDark
+                      : BukeerColors.textSecondary,
+                ),
+              ),
+              Switch(
+                value: status == 'confirmed',
+                onChanged: (value) {
+                  _handleStatusChange(value);
+                },
+                activeColor: BukeerColors.primary,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionsSection(dynamic itineraryData) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Acciones',
+          style: BukeerTypography.titleMedium.copyWith(
+            fontWeight: FontWeight.w600,
+            color: isDark
+                ? BukeerColors.textPrimaryDark
+                : BukeerColors.textPrimary,
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
+          height: 1,
+          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+        ),
+        BukeerButton(
+          text: 'Exportar Itinerario (PDF)',
+          onPressed: () {},
+          variant: BukeerButtonVariant.secondary,
+          size: BukeerButtonSize.medium,
+          icon: Icons.picture_as_pdf,
+        ),
+        SizedBox(height: BukeerSpacing.m),
+        BukeerButton(
+          text: 'Ver en la Web',
+          onPressed: () {},
+          variant: BukeerButtonVariant.secondary,
+          size: BukeerButtonSize.medium,
+          icon: Icons.visibility,
+        ),
+        SizedBox(height: BukeerSpacing.m),
+
+        // Toggles from financial info
+        _buildToggleItem(
+            'Ocultar Tarifas',
+            getJsonField(itineraryData, r'$.rates_visibility') ?? false,
+            (value) => _handleVisibilityToggle('rates_visibility', value)),
+        SizedBox(height: BukeerSpacing.m),
+        _buildToggleItem(
+            'Publicar en la Web',
+            getJsonField(itineraryData, r'$.itinerary_visibility') ?? false,
+            (value) => _handleVisibilityToggle('itinerary_visibility', value)),
+      ],
     );
   }
 
