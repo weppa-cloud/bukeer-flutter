@@ -1,21 +1,38 @@
 # Arquitectura del Proyecto Bukeer
 
+## Visión General
+
+Bukeer es una plataforma integral de gestión de viajes y turismo desarrollada con Flutter. Es un sistema diseñado para agencias de viajes que permite gestionar itinerarios personalizados, productos turísticos, clientes, reservas y pagos.
+
+### Stack Tecnológico
+- **Frontend**: Flutter 3.32.0 (Web, iOS, Android, macOS)
+- **Backend**: Supabase (PostgreSQL + Auth + Storage + Edge Functions)
+- **Navegación**: GoRouter 13.2.0
+- **Estado**: Provider 6.0 + Servicios modulares
+- **UI/UX**: Sistema de diseño propio + FlutterFlow (legacy)
+- **PWA**: Service Workers + Web APIs modernas
+
 ## Índice
 
 1. [Estructura de Carpetas](#estructura-de-carpetas)
-2. [Convenciones de Nomenclatura](#convenciones-de-nomenclatura)
-3. [Arquitectura de Servicios](#arquitectura-de-servicios)
-4. [Plan de Reorganización](#plan-de-reorganización)
-5. [Principios de Diseño](#principios-de-diseño)
-6. [Patrones de Desarrollo](#patrones-de-desarrollo)
-7. [Flujo de Datos](#flujo-de-datos)
-8. [Testing](#testing)
-9. [Performance](#performance)
-10. [Seguridad](#seguridad)
+2. [Arquitectura de Servicios](#arquitectura-de-servicios)
+3. [Sistema de Diseño](#sistema-de-diseño)
+4. [Gestión de Estado](#gestión-de-estado)
+5. [Sistema de Navegación](#sistema-de-navegación)
+6. [Sistema de Errores](#sistema-de-errores)
+7. [Optimización de Performance](#optimización-de-performance)
+8. [Progressive Web App (PWA)](#progressive-web-app-pwa)
+9. [Integración con Supabase](#integración-con-supabase)
+10. [Testing](#testing)
+11. [Deployment](#deployment)
+12. [Flujo de Desarrollo](#flujo-de-desarrollo)
+13. [Convenciones y Patrones](#convenciones-y-patrones)
+14. [Seguridad](#seguridad)
+15. [Migraciones Completadas](#migraciones-completadas)
 
 ## Estructura de Carpetas
 
-### Estructura Actual (2024)
+### Estructura Actual (2025)
 
 ```
 lib/
@@ -34,127 +51,464 @@ lib/
 ├── components/               # Componentes nuevos del sistema
 ├── config/                   # Configuración de la app
 ├── custom_code/              # Acciones y widgets personalizados
-├── design_system/            # Sistema de diseño unificado
-├── flutter_flow/             # Utilidades de FlutterFlow
-├── navigation/               # Navegación con GoRouter
+├── design_system/            # Sistema de diseño Bukeer v2.0
+├── legacy/                   # Código legacy de FlutterFlow (en desuso)
+│   └── flutter_flow/         # Utilidades FlutterFlow originales
+├── navigation/               # Navegación con GoRouter + guards
 ├── providers/                # Providers de la aplicación
-└── services/                 # NUEVA ARQUITECTURA - Servicios modulares
+├── services/                 # Arquitectura de servicios modular
+└── components/               # Componentes compartidos globales
+    ├── pwa/                  # Componentes PWA
+    └── error_handling/       # Componentes de manejo de errores
 ```
 
-## Convenciones de Nomenclatura
+## Arquitectura de Servicios
 
-### Carpetas
-- **snake_case**: Todas las carpetas usan snake_case
-- **Prefijos por tipo**:
-  - `main_` - Páginas principales
-  - `modal_` - Componentes modales
-  - `component_` - Componentes reutilizables
-  - `dropdown_` - Componentes de selección
+### Servicios Core
 
-### Archivos
-- **Patrón estándar**: `[nombre]_widget.dart` y `[nombre]_model.dart`
-- **Un componente por carpeta**: Cada componente tiene su propia carpeta
-
-## Arquitectura de Servicios (Nueva)
-
-### Servicios Principales
+La aplicación utiliza una arquitectura basada en servicios que centraliza la lógica de negocio y el estado:
 
 ```dart
-// Acceso centralizado a servicios
 final appServices = AppServices();
 
 // Servicios disponibles:
-- appServices.ui           // Estado temporal de UI
-- appServices.user         // Gestión de usuarios
-- appServices.itinerary    // Gestión de itinerarios
-- appServices.product      // Gestión de productos
-- appServices.contact      // Gestión de contactos
-- appServices.authorization // Control de acceso
-- appServices.error        // Manejo de errores
+appServices.ui           // UiStateService - Estado temporal de UI
+appServices.user         // UserService - Gestión de usuarios
+appServices.itinerary    // ItineraryService - Gestión de itinerarios
+appServices.product      // ProductService - Gestión de productos
+appServices.contact      // ContactService - Gestión de contactos
+appServices.authorization // AuthorizationService - Control de acceso
+appServices.error        // ErrorService - Manejo centralizado de errores
+appServices.performance  // PerformanceService - Monitoreo y optimización
+appServices.cache        // SmartCacheService - Cache inteligente
+appServices.pwa          // PWAService - Funcionalidades PWA
 ```
 
-### Migración de FFAppState
+### Performance Optimized Service
 
-El proyecto migró de un estado global monolítico (FFAppState) a servicios especializados:
+Mixin que proporciona optimización automática a los servicios:
 
-- **Antes**: `FFAppState().searchStringState`
-- **Ahora**: `appServices.ui.searchQuery`
-
-## Plan de Reorganización Futura
-
-### Fase 1: Cambios Inmediatos (Completados ✓)
-- [x] Eliminar archivos .bak
-- [x] Mover `component_container_activities` → `productos/widgets/`
-- [x] Mover `modal_add_edit_itinerary` → `itinerarios/modals/`
-
-### Fase 2: Estructura Core (Completada ✅)
-Crear estructura para componentes compartidos:
-
-#### Progreso de Migración:
-- [x] Crear estructura `/core/widgets/`
-- [x] Implementar sistema de exports centralizados
-- [x] Migrar todos los botones → `/core/widgets/buttons/`
-- [x] Migrar componentes de navegación → `/core/widgets/navigation/`
-- [x] Migrar componentes de formularios → `/core/widgets/forms/`
-- [x] Crear archivo de compatibilidad en `/componentes/index.dart`
-
-```
-lib/bukeer/
-├── core/                     # Nuevo: componentes compartidos
-│   ├── widgets/
-│   │   ├── navigation/       # web_nav, mobile_nav
-│   │   ├── forms/           # date_picker, place_picker
-│   │   ├── buttons/         # back, create, menu
-│   │   └── containers/      # contenedores genéricos
-│   └── utils/
+```dart
+// Características:
+- Batched notifications (agrupa notifyListeners)
+- Rate limiting configurable
+- Widget rebuild tracking
+- Memory monitoring
+- Performance metrics
 ```
 
-### Fase 3: Limpieza y Optimización (Completada ✅)
-- [x] Consolidar carpetas "demo" → `/examples/`
-- [x] Simplificar nombres redundantes:
-  - component_container_activities → activities_container
-  - component_container_accounts → accounts_container
-  - component_container_contacts → contacts_container
-  - component_container_itineraries → itineraries_container
-  - component_container_flights → flights_container
-  - component_container_hotels → hotels_container
-  - component_container_transfers → transfers_container
-- [x] Verificar rutas y navegación
+## Sistema de Diseño
 
-### Fase 4: Estandarización (Pendiente - Largo Plazo)
-- [ ] Migración gradual a nombres en inglés
-- [ ] Unificar convenciones de nomenclatura
-- [ ] Documentar patrones de desarrollo
+### Design System v2.0
 
-## Principios de Diseño
+Sistema completo de design tokens y componentes reutilizables:
 
-1. **Modularidad**: Cada módulo de negocio es independiente
-2. **Reutilización**: Componentes compartidos en `/core/`
-3. **Escalabilidad**: Estructura que permite crecimiento sin refactoring mayor
-4. **Claridad**: Nombres descriptivos y organización lógica
-5. **Consistencia**: Patrones uniformes en toda la aplicación
-
-## Flujo de Datos
-
+#### Estructura
 ```
-Usuario → UI Component → Service → Supabase → PostgreSQL
-            ↓               ↓
-         UI Model      App State
+design_system/
+├── tokens/              # Design tokens
+│   ├── colors.dart      # Paleta de colores + modo oscuro
+│   ├── typography.dart  # Sistema tipográfico
+│   ├── spacing.dart     # Sistema de espaciado (4px base)
+│   ├── elevation.dart   # Sombras y elevación
+│   ├── borders.dart     # Radios y bordes
+│   └── animations.dart  # Duraciones y curvas
+├── components/          # Componentes del sistema
+│   ├── buttons/         # BukeerButton, BukeerIconButton, BukeerFAB
+│   ├── cards/           # BukeerServiceCard, BukeerItineraryCard
+│   ├── forms/           # BukeerTextField, validadores
+│   └── navigation/      # BukeerNavigation responsive
+└── themes/              # Temas light/dark
 ```
 
+#### Uso
+```dart
+import 'package:bukeer/design_system/index.dart';
+
+// Tokens
+BukeerColors.primary
+BukeerTypography.headlineLarge
+BukeerSpacing.m  // 16px
+BukeerElevation.shadow1
+BukeerBorderRadius.md  // 8px
+
+// Responsive
+if (BukeerBreakpoints.isMobile(context)) { }
+```
+
+## Gestión de Estado
+
+### Arquitectura de Estado
+
+1. **Estado Global**: Servicios con ChangeNotifier
+2. **Estado Local**: FlutterFlowModel para componentes
+3. **Estado UI Temporal**: UiStateService
+4. **Cache**: SmartCacheService con TTL
+
+### Migración desde FFAppState
+
+Migración completada con 94% de reducción en estado global:
+
+```dart
+// ❌ Antiguo (evitar)
+FFAppState().searchStringState = 'query';
+
+// ✅ Nuevo
+appServices.ui.searchQuery = 'query';
+```
+
+### Performance
+
+- Batched notifications reduce rebuilds en 50-70%
+- Smart cache evita queries redundantes
+- Memory manager limpia recursos automáticamente
+
+## Sistema de Navegación
+
+### GoRouter Implementation
+
+```dart
+// Configuración en modern_router.dart
+final router = GoRouter(
+  initialLocation: '/',
+  debugLogDiagnostics: true,
+  observers: [NavigationObserver()],
+  redirect: (context, state) => authGuard(context, state),
+  routes: [
+    ShellRoute(
+      builder: (context, state, child) => NavigationShell(child: child),
+      routes: appRoutes,
+    ),
+  ],
+);
+```
+
+### Navegación Responsive
+
+- **Desktop**: Sidebar persistente
+- **Mobile**: Bottom navigation + drawer
+- **Tablet**: Sidebar colapsable
+
+### Guards y Redirecciones
+
+```dart
+// Auth guard
+if (!currentUser.loggedIn) return '/login';
+
+// Permission guard  
+if (!appServices.authorization.canAccess('admin')) {
+  return '/unauthorized';
+}
+```
+## Sistema de Errores
+
+### ErrorService Architecture
+
+```dart
+// Categorización de errores
+enum ErrorCategory {
+  network,      // Problemas de conexión
+  api,          // Errores de API/Supabase
+  validation,   // Validación de datos
+  permission,   // Permisos insuficientes
+  notFound,     // Recursos no encontrados
+  unknown       // Errores no categorizados
+}
+
+// Manejo centralizado
+appServices.error.handleError(
+  error,
+  context,
+  category: ErrorCategory.api,
+  severity: ErrorSeverity.medium,
+  userMessage: 'No se pudo cargar los productos',
+  suggestedAction: 'Verificar conexión',
+);
+```
+
+### UI Components
+
+- **ErrorAwareApp**: Wrapper global para catching
+- **ErrorHandlerWidget**: Display de errores inline
+- **ErrorFeedbackSystem**: Reporte de usuarios
+- **ErrorMonitoringDashboard**: Analytics en tiempo real
+
+## Optimización de Performance
+
+### PerformanceOptimizedService Mixin
+
+```dart
+// Features automáticas para servicios
+- Batched notifications (100ms default)
+- Rate limiting configurable
+- Memory leak detection
+- Widget rebuild tracking
+- Performance metrics collection
+```
+
+### BoundedCache Implementation
+
+```dart
+// Cache con límite de memoria
+class BoundedCache<K, V> {
+  final int maxEntries;
+  final Duration? ttl;
+  
+  // LRU eviction cuando se alcanza límite
+  // TTL automático para entradas
+  // Memory-aware sizing
+}
+```
+
+### Memory Manager
+
+```dart
+// Monitoreo y limpieza automática
+- Tracking de memoria por servicio
+- Cleanup automático en dispose
+- Alertas de memory leaks
+- GC hints optimization
+```
+## Progressive Web App (PWA)
+
+### Capacidades Implementadas
+
+```dart
+// PWAService features
+- Install prompts (A2HS)
+- Update notifications
+- Push notifications
+- Offline mode
+- Web Share API
+- File System Access
+- Clipboard API
+- Screen Wake Lock
+```
+
+### Service Worker
+
+```javascript
+// sw_custom.js estrategias
+- Cache First: Assets estáticos
+- Network First: API calls
+- Stale While Revalidate: Imágenes
+- Background Sync: Offline actions
+```
+
+### Components
+
+- **PWAWrapper**: Container principal
+- **PWAInstallBanner**: Prompt de instalación
+- **PWAUpdateBanner**: Notificación de updates
+
+## Integración con Supabase
+
+### Arquitectura
+
+```dart
+// Cliente singleton
+final supabase = Supabase.instance.client;
+
+// RPC optimizadas
+final response = await supabase
+  .rpc('get_complete_itinerary_details', params: {
+    'itinerary_id': id,
+  });
+```
+
+### RPC Functions
+
+1. **get_complete_itinerary_details**
+   - Join optimizado de 15+ tablas
+   - Datos paralelos en una query
+   - 80% reducción en latencia
+
+2. **get_dashboard_metrics**
+   - Agregaciones precalculadas
+   - Cache en DB por 5 minutos
+
+### Storage
+
+```dart
+// Buckets organizados
+- images/products/
+- images/itineraries/
+- documents/invoices/
+- documents/vouchers/
+```
 ## Testing
 
-- Tests unitarios en `/test/`
-- Estructura espejo de `/lib/`
-- Mocks generados con Mockito
-- Coverage mínimo esperado: 70%
+### Estructura de Tests
 
-## Performance
+```
+test/
+├── unit/           # Tests unitarios
+├── widget/         # Tests de widgets
+├── integration/    # Tests E2E
+├── services/       # Tests de servicios
+└── mocks/          # Mocks compartidos
+```
 
-- Lazy loading de módulos
-- Smart caching en servicios
-- Gestión de memoria con cleanup automático
-- Optimización de rebuilds con state management eficiente
+### Stack de Testing
+
+- **Unit**: Flutter test + Mockito
+- **Widget**: WidgetTester + golden tests
+- **Integration**: Patrol (mobile) + integration_test
+- **E2E Web**: Playwright
+- **E2E Mobile**: Maestro
+
+### Coverage
+
+- Objetivo: 80% coverage
+- CI/CD: Tests obligatorios en PR
+- Reporte: LCOV + Codecov
+
+## Deployment
+
+### CapRover Configuration
+
+```dockerfile
+# Multi-stage build
+FROM debian:latest AS build
+# Build Flutter web
+
+FROM nginx:alpine
+# Serve static files
+# Runtime config injection
+```
+
+### Environments
+
+1. **Development**: Local con hot reload
+2. **Staging**: CapRover staging instance
+3. **Production**: CapRover production cluster
+
+### CI/CD Pipeline
+
+```bash
+flow.sh deploy  # Deploy automático
+- Build optimization
+- Test execution
+- Docker build
+- CapRover deploy
+- Health check
+```
+
+## Flujo de Desarrollo
+
+### flow.sh Script
+
+```bash
+# Comandos principales
+flow dev     # Hot reload desarrollo
+flow save    # Auto-commit + push
+flow test    # Run all tests
+flow pr      # Create pull request
+flow deploy  # Deploy a producción
+```
+
+### Git Workflow
+
+1. **Feature branches**: `feature/nombre-feature`
+2. **Auto-commit**: Mensajes descriptivos automáticos
+3. **PR template**: Checklist obligatorio
+4. **Protected main**: Reviews requeridos
+
+## Convenciones y Patrones
+
+### Convenciones de Nomenclatura
+
+#### Carpetas
+- **snake_case**: Todas las carpetas
+- **Prefijos**: `main_`, `modal_`, `component_`
+
+#### Archivos  
+- **Widgets**: `nombre_widget.dart`
+- **Models**: `nombre_model.dart`
+- **Services**: `nombre_service.dart`
+
+#### Clases
+- **PascalCase**: `BukeerButton`
+- **Sufijos**: `Widget`, `Model`, `Service`
+
+### Principios de Diseño
+
+1. **Modularidad**: Servicios independientes
+2. **Reutilización**: Design system components
+3. **Performance**: Optimización by default
+4. **Accesibilidad**: WCAG AA compliance
+5. **Responsive**: Mobile-first approach
+
+### Patrones de Código
+
+```dart
+// Service pattern
+class ProductService extends ChangeNotifier 
+    with PerformanceOptimizedService {
+  // Estado privado
+  List<Product> _products = [];
+  
+  // Getters públicos
+  List<Product> get products => List.unmodifiable(_products);
+  
+  // Métodos async
+  Future<void> loadProducts() async {
+    try {
+      _products = await _fetchProducts();
+      notifyListeners(); // Batched automáticamente
+    } catch (e) {
+      appServices.error.handleError(e, context);
+    }
+  }
+}
+```
+
+## Seguridad
+
+### Autenticación y Autorización
+
+```dart
+// Multi-layer security
+1. Supabase Auth (JWT)
+2. Row Level Security (RLS) 
+3. AuthorizationService (permisos locales)
+4. Route Guards (navegación)
+```
+
+### Mejores Prácticas
+
+- No hardcodear API keys
+- Usar web/config.js para runtime config
+- Validación en cliente y servidor
+- Sanitización de inputs
+- HTTPS obligatorio
+- CSP headers configurados
+
+## Migraciones Completadas
+
+### 2024-2025 Timeline
+
+1. **FFAppState → Services** (Completado)
+   - 94% reducción estado global
+   - 50-70% mejora performance
+
+2. **IDs Integer → String** (Completado)
+   - Itinerarios migrados a UUIDs
+   - Consistencia con Supabase
+
+3. **FlutterFlow → Native** (En progreso)
+   - 80% widgets migrados
+   - Design system implementado
+
+4. **Performance Optimization** (Completado)
+   - Batched notifications
+   - Smart caching
+   - Memory management
+
+5. **PWA Implementation** (Completado)
+   - Instalable
+   - Offline mode
+   - Push notifications
 
 ## Patrones de Desarrollo
 
