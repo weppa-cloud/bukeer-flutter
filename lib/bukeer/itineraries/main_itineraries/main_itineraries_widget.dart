@@ -97,8 +97,8 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
+                                  color: BukeerColors.getBackground(context,
+                                      secondary: true),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -113,8 +113,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                             maxWidth: 852.0,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
+                                            color: BukeerColors.getBackground(
+                                                context,
+                                                secondary: true),
                                           ),
                                           child: Padding(
                                             padding:
@@ -230,9 +231,8 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                               .width *
                                                           1.0,
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
+                                                    color: BukeerColors
+                                                        .getBackground(context),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             BukeerSpacing.s),
@@ -460,9 +460,9 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                         width: 180.0,
                                                         decoration:
                                                             BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
+                                                          color: BukeerColors
+                                                              .getBackground(
+                                                                  context),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
@@ -567,8 +567,8 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                                       filled:
                                                                           true,
                                                                       fillColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primaryBackground,
+                                                                          BukeerColors.getBackground(
+                                                                              context),
                                                                       contentPadding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
@@ -750,9 +750,10 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                                                             .width *
                                                         1.0,
                                                     decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
+                                                      color: BukeerColors
+                                                          .getBackground(
+                                                              context,
+                                                              secondary: true),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               BukeerSpacing.sm),

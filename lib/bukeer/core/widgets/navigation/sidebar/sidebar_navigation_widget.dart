@@ -12,6 +12,7 @@ import 'package:bukeer/bukeer/users/main_users/main_users_widget.dart';
 import 'package:bukeer/bukeer/users/profile/main_account/main_profile_account_widget.dart';
 import 'package:bukeer/bukeer/users/profile/main_page/main_profile_page_widget.dart';
 import '/legacy/flutter_flow/flutter_flow_util.dart';
+import 'package:bukeer/config/app_config.dart';
 
 /// Sidebar navigation component following Bukeer design system
 class SidebarNavigationWidget extends StatelessWidget {
@@ -44,12 +45,32 @@ class SidebarNavigationWidget extends StatelessWidget {
       userName = '${user['name'] ?? ''} ${user['last_name'] ?? ''}'.trim();
       if (userName.isEmpty) userName = 'Usuario';
       userRole = user['role_name']?.toString() ?? 'Team Member';
-      userPhoto = user['main_image']?.toString();
+
+      // Get user photo URL - check both user_image and main_image fields
+      final photoUrl =
+          user['user_image']?.toString() ?? user['main_image']?.toString();
+      if (photoUrl != null && photoUrl.isNotEmpty) {
+        // Ensure the URL is complete
+        if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
+          userPhoto = photoUrl;
+        } else if (photoUrl.startsWith('/')) {
+          // If it's a relative path, prepend the base URL
+          userPhoto = '${AppConfig.apiBaseUrl}$photoUrl';
+        } else {
+          userPhoto = photoUrl;
+        }
+      }
 
       debugPrint(
-          'SidebarNav: User data loaded - Name: $userName, Email: $userEmail, Photo: $userPhoto');
+          'SidebarNav: User data loaded - Name: $userName, Email: $userEmail');
+      debugPrint(
+          'SidebarNav: Photo URL raw: ${user['user_image'] ?? user['main_image']}');
+      debugPrint('SidebarNav: Photo URL processed: $userPhoto');
+      debugPrint('SidebarNav: Full user data: $user');
     } else {
       debugPrint('SidebarNav: No user data available');
+      debugPrint('SidebarNav: userData type: ${userData.runtimeType}');
+      debugPrint('SidebarNav: userData content: $userData');
     }
 
     return Container(
@@ -167,17 +188,21 @@ class SidebarNavigationWidget extends StatelessWidget {
       debugPrint('Using account logo: $logoUrl');
 
       logoWidget = Container(
-        height: 40,
+        height:
+            BukeerSpacing.xxl + BukeerSpacing.m, // 40px using spacing tokens
         alignment: Alignment.centerLeft,
         child: Image.network(
           logoUrl,
-          height: 40,
+          height:
+              BukeerSpacing.xxl + BukeerSpacing.m, // 40px using spacing tokens
           fit: BoxFit.contain,
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 40,
-              width: 40,
+              height: BukeerSpacing.xxl +
+                  BukeerSpacing.m, // 40px using spacing tokens
+              width: BukeerSpacing.xxl +
+                  BukeerSpacing.m, // 40px using spacing tokens
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
@@ -195,7 +220,8 @@ class SidebarNavigationWidget extends StatelessWidget {
             // Fallback to default Bukeer logo
             return Image.asset(
               'assets/images/Logo-Bukeer-FullBlanco-03.png',
-              height: 40,
+              height: BukeerSpacing.xxl +
+                  BukeerSpacing.m, // 40px using spacing tokens
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 return _buildTextLogo(accountName);
@@ -208,11 +234,13 @@ class SidebarNavigationWidget extends StatelessWidget {
       // Use default Bukeer logo
       debugPrint('No account logo, using default Bukeer logo');
       logoWidget = Container(
-        height: 40,
+        height:
+            BukeerSpacing.xxl + BukeerSpacing.m, // 40px using spacing tokens
         alignment: Alignment.centerLeft,
         child: Image.asset(
           'assets/images/Logo-Bukeer-FullBlanco-03.png',
-          height: 40,
+          height:
+              BukeerSpacing.xxl + BukeerSpacing.m, // 40px using spacing tokens
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             // Final fallback to text logo
@@ -239,11 +267,9 @@ class SidebarNavigationWidget extends StatelessWidget {
   Widget _buildTextLogo(String accountName) {
     return Text(
       accountName.toUpperCase(),
-      style: TextStyle(
-        fontSize: 30,
-        fontWeight: FontWeight.w700,
+      style: BukeerTypography.displaySmall.copyWith(
         color: BukeerColors.primary,
-        letterSpacing: -0.5,
+        fontWeight: FontWeight.w700,
       ),
     );
   }
@@ -284,7 +310,7 @@ class SidebarNavigationWidget extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  size: 24,
+                  size: BukeerSpacing.xl, // Use spacing token for icon size
                   color: isActive
                       ? Colors.white
                       : (isDark
@@ -295,20 +321,20 @@ class SidebarNavigationWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     label,
-                    style: BukeerTypography.bodyLarge.copyWith(
-                      fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                      color: isActive
-                          ? Colors.white
-                          : (isDark
-                              ? BukeerColors.textPrimaryDark
-                              : BukeerColors.textPrimary),
-                    ),
+                    style: isActive
+                        ? BukeerTypography.sidebarItemActive
+                            .copyWith(color: Colors.white)
+                        : BukeerTypography.sidebarItem.copyWith(
+                            color: isDark
+                                ? BukeerColors.textPrimaryDark
+                                : BukeerColors.textPrimary,
+                          ),
                   ),
                 ),
                 if (hasChevron)
                   Icon(
                     Icons.chevron_right,
-                    size: 24,
+                    size: BukeerSpacing.xl, // Use spacing token for icon size
                     color: isActive
                         ? Colors.white
                         : (isDark
@@ -335,8 +361,8 @@ class SidebarNavigationWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 36.0, // Standard profile image size
+              height: 36.0, // Standard profile image size
               decoration: BoxDecoration(
                 borderRadius: BukeerBorders.radiusFull,
                 color: BukeerColors.primary.withOpacity(0.1),
@@ -350,10 +376,26 @@ class SidebarNavigationWidget extends StatelessWidget {
                 child: userPhoto != null && userPhoto.isNotEmpty
                     ? Image.network(
                         userPhoto,
-                        width: 44,
-                        height: 44,
+                        width: 36.0, // Standard profile image size
+                        height: 36.0, // Standard profile image size
                         fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                              strokeWidth: 2,
+                              color: BukeerColors.primary,
+                            ),
+                          );
+                        },
                         errorBuilder: (context, error, stackTrace) {
+                          debugPrint(
+                              'SidebarNav: Error loading user photo: $error');
+                          debugPrint('SidebarNav: Failed URL: $userPhoto');
                           return Center(
                             child: Text(
                               userName.isNotEmpty
@@ -361,7 +403,6 @@ class SidebarNavigationWidget extends StatelessWidget {
                                   : 'U',
                               style: BukeerTypography.titleMedium.copyWith(
                                 color: BukeerColors.primary,
-                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           );
@@ -372,7 +413,6 @@ class SidebarNavigationWidget extends StatelessWidget {
                           userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
                           style: BukeerTypography.titleMedium.copyWith(
                             color: BukeerColors.primary,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -385,15 +425,19 @@ class SidebarNavigationWidget extends StatelessWidget {
                 children: [
                   Text(
                     userName,
-                    style: BukeerTypography.bodyMedium.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: BukeerTypography.titleSmall.copyWith(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? BukeerColors.textPrimaryDark
+                          : BukeerColors.textPrimary,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     userRole,
                     style: BukeerTypography.bodySmall.copyWith(
-                      color: BukeerColors.textSecondary,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? BukeerColors.textSecondaryDark
+                          : BukeerColors.textSecondary,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

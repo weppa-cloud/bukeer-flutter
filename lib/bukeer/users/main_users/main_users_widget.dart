@@ -56,7 +56,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.getBackground(context, secondary: true),
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Column(
@@ -77,8 +77,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
+                                color: BukeerColors.getBackground(context,
+                                    secondary: true),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -93,8 +93,9 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                           maxWidth: 852.0,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
+                                          color: BukeerColors.getBackground(
+                                              context,
+                                              secondary: true),
                                         ),
                                         child: Padding(
                                           padding:
@@ -197,9 +198,9 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                     child: Container(
                                                       width: 180.0,
                                                       decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
+                                                        color: BukeerColors
+                                                            .getBackground(
+                                                                context),
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(8.0),
@@ -223,9 +224,8 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                             .width *
                                                         1.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryBackground,
+                                                  color: BukeerColors
+                                                      .getBackground(context),
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           BukeerSpacing.s),
@@ -334,8 +334,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                   maxWidth: 852.0,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color: BukeerColors.getBackground(context),
                                   shape: BoxShape.rectangle,
                                 ),
                                 child: FutureBuilder<ApiCallResponse>(
@@ -443,9 +442,9 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
                                                     minHeight: 70.0,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                    color: BukeerColors
+                                                        .getBackground(context,
+                                                            secondary: true),
                                                     boxShadow: [
                                                       BoxShadow(
                                                         blurRadius: 3.0,

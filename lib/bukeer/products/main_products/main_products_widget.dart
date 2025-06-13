@@ -111,8 +111,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                       MediaQuery.sizeOf(context).width * 8.52,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color: BukeerColors.getBackground(context),
                                 ),
                                 child: SingleChildScrollView(
                                   primary: false,
@@ -123,8 +122,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
+                                          color: BukeerColors.getBackground(
+                                              context,
+                                              secondary: true),
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
@@ -141,9 +141,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                     maxWidth: 852.0,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                    color: BukeerColors
+                                                        .getBackground(context,
+                                                            secondary: true),
                                                   ),
                                                   child: Padding(
                                                     padding: EdgeInsets.all(
@@ -210,9 +210,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                   1.0,
                                                           decoration:
                                                               BoxDecoration(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryBackground,
+                                                            color: BukeerColors
+                                                                .getBackground(
+                                                                    context),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -469,9 +469,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                 width: 160.0,
                                                                 decoration:
                                                                     BoxDecoration(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryBackground,
+                                                                  color: BukeerColors
+                                                                      .getBackground(
+                                                                          context),
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
@@ -609,9 +609,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                     .secondaryText,
                                                                 size: 24.0,
                                                               ),
-                                                              fillColor: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
+                                                              fillColor: BukeerColors
+                                                                  .getBackground(
+                                                                      context,
+                                                                      secondary:
+                                                                          true),
                                                               elevation: 2.0,
                                                               borderColor: Colors
                                                                   .transparent,

@@ -45,7 +45,7 @@ class MainItinerariesModel extends FlutterFlowModel<MainItinerariesWidget> {
   @override
   void dispose() {
     btnCreateModel.dispose();
-    textFieldFocusNode?.dispose();
+    // Don't dispose textFieldFocusNode here as it's managed by Autocomplete widget
     textController?.dispose();
 
     listViewItinerariesPagingController?.dispose();

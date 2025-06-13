@@ -59,7 +59,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.getBackground(context, secondary: true),
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Column(
@@ -88,8 +88,8 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
+                                  color: BukeerColors.getBackground(context,
+                                      secondary: true),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -104,8 +104,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                             maxWidth: 852.0,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
+                                            color: BukeerColors.getBackground(
+                                                context,
+                                                secondary: true),
                                           ),
                                           child: Padding(
                                             padding:
@@ -213,9 +214,8 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                               .width *
                                                           1.0,
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
+                                                    color: BukeerColors
+                                                        .getBackground(context),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             BukeerSpacing.s),
@@ -379,9 +379,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                                         width: 180.0,
                                                         decoration:
                                                             BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
+                                                          color: BukeerColors
+                                                              .getBackground(
+                                                                  context),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
@@ -529,8 +529,9 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                                               ),
                                               decoration: BoxDecoration(
                                                 color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
+                                                    BukeerColors.getBackground(
+                                                        context,
+                                                        secondary: true),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     blurRadius: 3.0,

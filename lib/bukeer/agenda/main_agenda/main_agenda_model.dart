@@ -44,7 +44,8 @@ class MainAgendaModel extends FlutterFlowModel<MainAgendaWidget> {
 
   @override
   void dispose() {
-    textFieldFocusNode?.dispose();
+    // Don't dispose textFieldFocusNode here as it's managed by Autocomplete widget
+    textController?.dispose();
 
     listViewAgendaPagingController?.dispose();
   }

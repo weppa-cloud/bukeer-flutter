@@ -6,9 +6,9 @@ class BukeerColors {
   BukeerColors._();
 
   // ================================
-  // PRIMARY COLORS
+  // BRAND COLORS
   // ================================
-  static const Color primary = Color(0xFF7c57b3); // Bukeer primary purple
+  static const Color primary = Color(0xFF6f61ef); // Bukeer primary purple
   static const Color primaryAccent = Color(0xFF9A7DC7);
   static const Color primaryLight = Color(0xFFB8A3DB);
   static const Color primaryDark = Color(0xFF5E3F8F);
@@ -16,25 +16,29 @@ class BukeerColors {
   // ================================
   // SECONDARY COLORS
   // ================================
-  static const Color secondary =
-      Color(0xFF102877); // Bukeer secondary blue (light mode)
-  static const Color secondaryAccent = Color(0xFF1A3A99);
-  static const Color secondaryLight = Color(0xFF102877); // Light mode
-  static const Color secondaryDark = Color(0xFF68e0f8); // Dark mode cyan
+  static const Color secondary = Color(0xFF39d2c0); // Bukeer secondary teal
+  static const Color secondaryAccent = Color(0xFF39d2c0);
+  static const Color secondaryLight = Color(0xFF39d2c0); // Light mode
+  static const Color secondaryDark = Color(0xFF39d2c0); // Same in dark mode
 
   // ================================
-  // FLUTTERFLOW ADDITIONAL COLORS
+  // ADDITIONAL BRAND COLORS
   // ================================
-  static const Color tertiary = Color(0xFF4098f8); // Bukeer tertiary blue
-  static const Color tertiaryDark = Color(0xFF4098f8);
-  static const Color alternate =
-      Color(0xFFb7bac3); // Light gray for borders (light mode)
-  static const Color alternateDark = Color(0xFF313442); // Dark mode borders
-  static const Color accent1 = Color(0x4D9489F5);
-  static const Color accent2 = Color(0x4C39D2C0);
-  static const Color accent3 = Color(0x4CEE8B60);
-  static const Color accent4 = Color(0x9AFFFFFF);
-  static const Color accent4Dark = Color(0xFF2A2F3C);
+  static const Color tertiary = Color(0xFFee8b60); // Bukeer tertiary orange
+  static const Color tertiaryDark = Color(0xFFee8b60);
+  static const Color alternate = Color(0xFFe5e7eb); // Light mode alternate
+  static const Color alternateDark = Color(0xFF313442); // Dark mode alternate
+  // ================================
+  // ACCENT COLORS
+  // ================================
+  static const Color accent1 = Color(0xFF4d9489f5); // Light mode
+  static const Color accent1Dark = Color(0xFF4c9489f5); // Dark mode
+  static const Color accent2 = Color(0xFF4c39d2c0); // Light mode
+  static const Color accent2Dark = Color(0xFF4c39d2c0); // Dark mode
+  static const Color accent3 = Color(0xFF4cee8b60); // Light mode
+  static const Color accent3Dark = Color(0xFF4cee8b60); // Dark mode
+  static const Color accent4 = Color(0xFF9ffffff); // Light mode
+  static const Color accent4Dark = Color(0xFF981d2428); // Dark mode
   static const Color overlayFF = Color(0x9A1D2428); // FlutterFlow overlay
   static const Color overlay0 = Color(0x00FFFFFF);
   static const Color overlay0Dark = Color(0x000B191E);
@@ -58,21 +62,21 @@ class BukeerColors {
   // ================================
   // SEMANTIC COLORS
   // ================================
-  static const Color success = Color(0xFF04A24C);
+  static const Color success = Color(0xFF048178); // Light & Dark mode
   static const Color successLight = Color(0xFF34D399);
-  static const Color successDark = Color(0xFF047857);
+  static const Color successDark = Color(0xFF048178);
 
-  static const Color warning = Color(0xFFF9CF58);
-  static const Color warningLight = Color(0xFFFBBF24);
-  static const Color warningDark = Color(0xFFD97706);
+  static const Color warning = Color(0xFFfcdc0c); // Light & Dark mode
+  static const Color warningLight = Color(0xFFfcdc0c);
+  static const Color warningDark = Color(0xFFfcdc0c);
 
-  static const Color error = Color(0xFFFF5963);
-  static const Color errorLight = Color(0xFFF87171);
-  static const Color errorDark = Color(0xFFDC2626);
+  static const Color error = Color(0xFFff5963); // Light & Dark mode
+  static const Color errorLight = Color(0xFFff5963);
+  static const Color errorDark = Color(0xFFff5963);
 
-  static const Color info = Color(0xFF7c57b3);
-  static const Color infoLight = Color(0xFF9A7DC7);
-  static const Color infoDark = Color(0xFF5E3F8F);
+  static const Color info = Color(0xFFffffff); // Light & Dark mode
+  static const Color infoLight = Color(0xFFffffff);
+  static const Color infoDark = Color(0xFFffffff);
 
   // ================================
   // BACKGROUND COLORS
@@ -107,16 +111,16 @@ class BukeerColors {
   // ================================
   // TEXT COLORS
   // ================================
-  static const Color textPrimary = Color(0xFF14181B); // Light mode primary text
+  static const Color textPrimary = Color(0xFF15161e); // Light mode primary text
   static const Color textSecondary =
-      Color(0xFF57636C); // Light mode secondary text
+      Color(0xFF606a85); // Light mode secondary text
   static const Color textTertiary = Color(0xFF94A3B8);
   static const Color textInverse = Color(0xFFFFFFFF);
   static const Color textDisabled = Color(0xFFCBD5E1);
 
   // Dark mode text colors
-  static const Color textPrimaryDark = Color(0xFFFFFFFF);
-  static const Color textSecondaryDark = Color(0xFFB4BDC4);
+  static const Color textPrimaryDark = Color(0xFFffffff);
+  static const Color textSecondaryDark = Color(0xFFa9adc6);
   static const Color textTertiaryDark = Color(0xFF8B95A1);
 
   // FlutterFlow compatibility aliases
@@ -241,6 +245,29 @@ class BukeerColors {
       return secondary ? borderSecondaryDark : borderPrimaryDark;
     }
     return secondary ? borderSecondary : borderPrimary;
+  }
+
+  /// Get alternate color based on theme
+  static Color getAlternate(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return isDark ? alternateDark : alternate;
+  }
+
+  /// Get accent color based on theme
+  static Color getAccent(BuildContext context, int accentNumber) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    switch (accentNumber) {
+      case 1:
+        return isDark ? accent1Dark : accent1;
+      case 2:
+        return isDark ? accent2Dark : accent2;
+      case 3:
+        return isDark ? accent3Dark : accent3;
+      case 4:
+        return isDark ? accent4Dark : accent4;
+      default:
+        return isDark ? accent1Dark : accent1;
+    }
   }
 }
 

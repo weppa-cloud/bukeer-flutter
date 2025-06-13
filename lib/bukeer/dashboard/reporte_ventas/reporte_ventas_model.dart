@@ -45,7 +45,8 @@ class ReporteVentasModel extends FlutterFlowModel<ReporteVentasWidget> {
 
   @override
   void dispose() {
-    textFieldFocusNode?.dispose();
+    // Don't dispose textFieldFocusNode here as it's managed by Autocomplete widget
+    textController?.dispose();
   }
 
   /// Handle date range change from DateRangePickerWithPresets

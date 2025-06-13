@@ -610,8 +610,8 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                             width: MediaQuery.sizeOf(context).width * 1.0,
                             height: 110.0,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
+                              color: BukeerColors.getBackground(context,
+                                  secondary: true),
                             ),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -714,9 +714,10 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       maxWidth: 300.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
+                                                      color: BukeerColors
+                                                          .getBackground(
+                                                              context,
+                                                              secondary: true),
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
@@ -756,9 +757,9 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                             height: 60.0,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryBackground,
+                                                              color: BukeerColors
+                                                                  .getBackground(
+                                                                      context),
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
@@ -883,9 +884,10 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       maxWidth: 300.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
+                                                      color: BukeerColors
+                                                          .getBackground(
+                                                              context,
+                                                              secondary: true),
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
@@ -925,9 +927,9 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                             height: 60.0,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryBackground,
+                                                              color: BukeerColors
+                                                                  .getBackground(
+                                                                      context),
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
@@ -1105,9 +1107,10 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       maxWidth: 300.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
+                                                      color: BukeerColors
+                                                          .getBackground(
+                                                              context,
+                                                              secondary: true),
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
@@ -1147,9 +1150,9 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                             height: 60.0,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryBackground,
+                                                              color: BukeerColors
+                                                                  .getBackground(
+                                                                      context),
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
@@ -1276,9 +1279,10 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                       maxWidth: 300.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
+                                                      color: BukeerColors
+                                                          .getBackground(
+                                                              context,
+                                                              secondary: true),
                                                       boxShadow: [
                                                         BoxShadow(
                                                           blurRadius: 3.0,
@@ -1318,9 +1322,9 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                                                             height: 60.0,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryBackground,
+                                                              color: BukeerColors
+                                                                  .getBackground(
+                                                                      context),
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),

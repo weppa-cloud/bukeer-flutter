@@ -117,7 +117,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: BukeerColors.getBackground(context, secondary: true),
+        backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
           child: Column(
@@ -146,8 +146,8 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
+                                  color: BukeerColors.getBackground(context,
+                                      secondary: true),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -162,8 +162,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                             maxWidth: 852.0,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
+                                            color: BukeerColors.getBackground(
+                                                context,
+                                                secondary: true),
                                           ),
                                           child: Padding(
                                             padding:
@@ -213,9 +214,8 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                               .width *
                                                           1.0,
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
+                                                    color: BukeerColors
+                                                        .getBackground(context),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             BukeerSpacing.s),
@@ -296,13 +296,14 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                   elevation:
                                                                       4.0,
                                                                   optionBackgroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryBackground,
+                                                                      BukeerColors
+                                                                          .getBackground(
+                                                                              context),
                                                                   optionHighlightColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondaryBackground,
+                                                                      BukeerColors.getBackground(
+                                                                          context,
+                                                                          secondary:
+                                                                              true),
                                                                   maxHeight:
                                                                       200.0,
                                                                 );
@@ -529,9 +530,10 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                             !FlutterFlowTheme.of(context).headlineLargeIsCustom,
                                                                       ),
                                                                   pickerBackgroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondaryBackground,
+                                                                      BukeerColors.getBackground(
+                                                                          context,
+                                                                          secondary:
+                                                                              true),
                                                                   pickerForegroundColor:
                                                                       FlutterFlowTheme.of(
                                                                               context)
@@ -596,9 +598,11 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                             ),
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
+                                                              color: BukeerColors
+                                                                  .getBackground(
+                                                                      context,
+                                                                      secondary:
+                                                                          true),
                                                               boxShadow: [
                                                                 BoxShadow(
                                                                   blurRadius:
@@ -698,9 +702,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                   Card(
                                                                     clipBehavior:
                                                                         Clip.antiAliasWithSaveLayer,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryBackground,
+                                                                    color: BukeerColors
+                                                                        .getBackground(
+                                                                            context),
                                                                     elevation:
                                                                         1.0,
                                                                     shape:
@@ -781,9 +785,10 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                             !FlutterFlowTheme.of(context).headlineLargeIsCustom,
                                                                       ),
                                                                   pickerBackgroundColor:
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondaryBackground,
+                                                                      BukeerColors.getBackground(
+                                                                          context,
+                                                                          secondary:
+                                                                              true),
                                                                   pickerForegroundColor:
                                                                       FlutterFlowTheme.of(
                                                                               context)
@@ -848,9 +853,11 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                             ),
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
+                                                              color: BukeerColors
+                                                                  .getBackground(
+                                                                      context,
+                                                                      secondary:
+                                                                          true),
                                                               boxShadow: [
                                                                 BoxShadow(
                                                                   blurRadius:
@@ -950,9 +957,9 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                   Card(
                                                                     clipBehavior:
                                                                         Clip.antiAliasWithSaveLayer,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryBackground,
+                                                                    color: BukeerColors
+                                                                        .getBackground(
+                                                                            context),
                                                                     elevation:
                                                                         1.0,
                                                                     shape:
@@ -1008,8 +1015,8 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                       maxWidth: 852.0,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
+                                      color:
+                                          BukeerColors.getBackground(context),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -1260,8 +1267,10 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                           .infinity,
                                                                       decoration:
                                                                           BoxDecoration(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .secondaryBackground,
+                                                                        color: BukeerColors.getBackground(
+                                                                            context,
+                                                                            secondary:
+                                                                                true),
                                                                         borderRadius:
                                                                             BorderRadius.circular(BukeerSpacing.s),
                                                                       ),

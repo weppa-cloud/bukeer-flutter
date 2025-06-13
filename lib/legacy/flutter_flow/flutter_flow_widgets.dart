@@ -261,7 +261,7 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
 
 extension _WithoutColorExtension on TextStyle {
   TextStyle withoutColor() => TextStyle(
-        inherit: inherit,
+        inherit: inherit ?? true, // Ensure inherit has a default value
         color: null,
         backgroundColor: backgroundColor,
         fontSize: fontSize,
