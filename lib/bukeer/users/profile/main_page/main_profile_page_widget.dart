@@ -33,7 +33,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
     with TickerProviderStateMixin {
   late MainProfilePageModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -120,7 +120,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
     // context.watch<FFAppState>(); // Removed as part of FFAppState migration
 
     return Scaffold(
-      key: scaffoldKey,
+      // key removed to prevent GlobalKey conflicts
       backgroundColor: BukeerColors.getBackground(context),
       drawer: responsiveVisibility(
         context: context,

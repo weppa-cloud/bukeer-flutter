@@ -30,7 +30,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
     with TickerProviderStateMixin {
   late MainHomeModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -586,7 +586,7 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
+        // key removed to prevent GlobalKey conflicts
         backgroundColor: BukeerColors.getBackground(context),
         body: Column(
           mainAxisSize: MainAxisSize.max,

@@ -36,6 +36,7 @@ class DropdownAirportsWidget extends StatefulWidget {
 class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
     with TickerProviderStateMixin {
   late DropdownAirportsModel _model;
+  final GlobalKey _searchFieldKey = GlobalKey();
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -186,7 +187,7 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                       optionsViewBuilder:
                                           (context, onSelected, options) {
                                         return AutocompleteOptionsList(
-                                          textFieldKey: _model.searchFieldKey,
+                                          textFieldKey: _searchFieldKey,
                                           textController:
                                               _model.searchFieldTextController!,
                                           options: options.toList(),
@@ -232,7 +233,7 @@ class _DropdownAirportsWidgetState extends State<DropdownAirportsWidget>
                                         _model.searchFieldTextController =
                                             textEditingController;
                                         return TextFormField(
-                                          key: _model.searchFieldKey,
+                                          key: _searchFieldKey,
                                           controller: textEditingController,
                                           focusNode: focusNode,
                                           onEditingComplete: onEditingComplete,

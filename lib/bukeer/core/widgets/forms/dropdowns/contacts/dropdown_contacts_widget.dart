@@ -41,6 +41,8 @@ class DropdownContactsWidget extends StatefulWidget {
 class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
     with TickerProviderStateMixin {
   late DropdownContactsModel _model;
+  final GlobalKey _searchFieldKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -193,7 +195,7 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                                   optionsViewBuilder:
                                       (context, onSelected, options) {
                                     return AutocompleteOptionsList(
-                                      textFieldKey: _model.searchFieldKey,
+                                      textFieldKey: _searchFieldKey,
                                       textController:
                                           _model.searchFieldTextController!,
                                       options: options.toList(),
@@ -236,7 +238,7 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                                     _model.searchFieldTextController =
                                         textEditingController;
                                     return TextFormField(
-                                      key: _model.searchFieldKey,
+                                      key: _searchFieldKey,
                                       controller: textEditingController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,
@@ -397,7 +399,7 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Form(
-                                key: _model.formKey,
+                                key: _formKey,
                                 autovalidateMode: AutovalidateMode.always,
                                 child: Visibility(
                                   visible: _model.createContact == true,
@@ -1091,10 +1093,9 @@ class _DropdownContactsWidgetState extends State<DropdownContactsWidget>
                                                           false;
                                                       _model.responseFormAddContact =
                                                           true;
-                                                      if (_model.formKey
-                                                                  .currentState ==
+                                                      if (_formKey.currentState ==
                                                               null ||
-                                                          !_model.formKey
+                                                          !_formKey
                                                               .currentState!
                                                               .validate()) {
                                                         _model.responseFormAddContact =

@@ -37,6 +37,7 @@ class DropdownAccountsWidget extends StatefulWidget {
 class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
     with TickerProviderStateMixin {
   late DropdownAccountsModel _model;
+  final GlobalKey _searchFieldKey = GlobalKey();
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -179,7 +180,7 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                   optionsViewBuilder:
                                       (context, onSelected, options) {
                                     return AutocompleteOptionsList(
-                                      textFieldKey: _model.searchFieldKey,
+                                      textFieldKey: _searchFieldKey,
                                       textController:
                                           _model.searchFieldTextController!,
                                       options: options.toList(),
@@ -222,7 +223,7 @@ class _DropdownAccountsWidgetState extends State<DropdownAccountsWidget>
                                     _model.searchFieldTextController =
                                         textEditingController;
                                     return TextFormField(
-                                      key: _model.searchFieldKey,
+                                      key: _searchFieldKey,
                                       controller: textEditingController,
                                       focusNode: focusNode,
                                       onEditingComplete: onEditingComplete,

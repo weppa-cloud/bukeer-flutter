@@ -31,7 +31,7 @@ class MainContactsWidget extends StatefulWidget {
 class _MainContactsWidgetState extends State<MainContactsWidget> {
   late MainContactsModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
+        // key removed to prevent GlobalKey conflicts
         backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,

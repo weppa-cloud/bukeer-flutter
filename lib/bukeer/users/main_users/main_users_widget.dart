@@ -28,7 +28,7 @@ class MainUsersWidget extends StatefulWidget {
 class _MainUsersWidgetState extends State<MainUsersWidget> {
   late MainUsersModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _MainUsersWidgetState extends State<MainUsersWidget> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
+        // key removed to prevent GlobalKey conflicts
         backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,

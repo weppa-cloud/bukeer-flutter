@@ -27,7 +27,7 @@ class ReporteCuentasPorCobrarModel
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for TextField widget.
-  final textFieldKey = GlobalKey();
+  // GlobalKey removed to prevent duplicate key errors
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? textFieldSelectedOption;

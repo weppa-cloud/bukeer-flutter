@@ -31,7 +31,7 @@ class EditPersonalProfileWidget extends StatefulWidget {
 class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
   late EditPersonalProfileModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   @override
   void initState() {
@@ -67,7 +67,7 @@ class _EditPersonalProfileWidgetState extends State<EditPersonalProfileWidget> {
     // context.watch<FFAppState>(); // Removed - using services instead
 
     return Scaffold(
-      key: scaffoldKey,
+      // key removed to prevent GlobalKey conflicts
       backgroundColor: BukeerColors.getBackground(context, secondary: true),
       appBar: responsiveVisibility(
         context: context,

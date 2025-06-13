@@ -34,9 +34,11 @@ class DropdownContactsModel extends FlutterFlowModel<DropdownContactsWidget> {
 
   ///  State fields for stateful widgets in this component.
 
-  final formKey = GlobalKey<FormState>();
+  // GlobalKey removed to prevent duplicate key errors
+  // final formKey = GlobalKey<FormState>();
   // State field(s) for search_field widget.
-  final searchFieldKey = GlobalKey();
+  // GlobalKey removed to prevent duplicate key errors
+  // final searchFieldKey = GlobalKey();
   FocusNode? searchFieldFocusNode;
   TextEditingController? searchFieldTextController;
   String? searchFieldSelectedOption;

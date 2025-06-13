@@ -37,8 +37,9 @@ class MainAgendaWidget extends StatefulWidget {
 class _MainAgendaWidgetState extends State<MainAgendaWidget>
     with TickerProviderStateMixin {
   late MainAgendaModel _model;
+  final GlobalKey _textFieldKey = GlobalKey();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -116,7 +117,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
+        // key removed to prevent GlobalKey conflicts
         backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
@@ -271,8 +272,7 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                       options) {
                                                                 return AutocompleteOptionsList(
                                                                   textFieldKey:
-                                                                      _model
-                                                                          .textFieldKey,
+                                                                      _textFieldKey,
                                                                   textController:
                                                                       _model
                                                                           .textController!,
@@ -330,8 +330,8 @@ class _MainAgendaWidgetState extends State<MainAgendaWidget>
                                                                 _model.textController =
                                                                     textEditingController;
                                                                 return TextFormField(
-                                                                  key: _model
-                                                                      .textFieldKey,
+                                                                  key:
+                                                                      _textFieldKey,
                                                                   controller:
                                                                       textEditingController,
                                                                   focusNode:

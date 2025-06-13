@@ -27,7 +27,7 @@ class DropdownAirportsModel extends FlutterFlowModel<DropdownAirportsWidget> {
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for search_field widget.
-  final searchFieldKey = GlobalKey();
+  // GlobalKey removed to prevent duplicate key errors
   FocusNode? searchFieldFocusNode;
   TextEditingController? searchFieldTextController;
   String? searchFieldSelectedOption;

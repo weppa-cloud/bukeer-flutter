@@ -36,8 +36,9 @@ class ReporteCuentasPorCobrarWidget extends StatefulWidget {
 class _ReporteCuentasPorCobrarWidgetState
     extends State<ReporteCuentasPorCobrarWidget> with TickerProviderStateMixin {
   late ReporteCuentasPorCobrarModel _model;
+  final GlobalKey _textFieldKey = GlobalKey();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -113,7 +114,7 @@ class _ReporteCuentasPorCobrarWidgetState
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
+        // key removed to prevent GlobalKey conflicts
         backgroundColor: BukeerColors.getBackground(context, secondary: true),
         drawer: responsiveVisibility(
           context: context,
@@ -350,8 +351,7 @@ class _ReporteCuentasPorCobrarWidgetState
                                                                           options) {
                                                                     return AutocompleteOptionsList(
                                                                       textFieldKey:
-                                                                          _model
-                                                                              .textFieldKey,
+                                                                          _textFieldKey,
                                                                       textController:
                                                                           _model
                                                                               .textController!,
@@ -408,8 +408,8 @@ class _ReporteCuentasPorCobrarWidgetState
                                                                     _model.textController =
                                                                         textEditingController;
                                                                     return TextFormField(
-                                                                      key: _model
-                                                                          .textFieldKey,
+                                                                      key:
+                                                                          _textFieldKey,
                                                                       controller:
                                                                           textEditingController,
                                                                       focusNode:

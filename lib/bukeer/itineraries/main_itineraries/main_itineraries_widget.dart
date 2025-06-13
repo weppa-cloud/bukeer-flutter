@@ -36,7 +36,7 @@ class MainItinerariesWidget extends StatefulWidget {
 class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
   late MainItinerariesModel _model;
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // Removed scaffoldKey to prevent GlobalKey conflicts
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        key: scaffoldKey,
+        // key removed to prevent GlobalKey conflicts
         backgroundColor: BukeerColors.getBackground(context),
         body: SafeArea(
           top: true,
