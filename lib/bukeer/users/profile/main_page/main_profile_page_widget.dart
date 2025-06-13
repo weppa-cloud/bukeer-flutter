@@ -1,5 +1,5 @@
 import 'package:bukeer/auth/supabase_auth/auth_util.dart';
-import '../../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../../core/widgets/navigation/sidebar/sidebar_navigation_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
@@ -122,6 +122,15 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: BukeerColors.getBackground(context),
+      drawer: responsiveVisibility(
+        context: context,
+        tabletLandscape: false,
+        desktop: false,
+      )
+          ? SidebarDrawer(
+              currentRoute: MainProfilePageWidget.routeName,
+            )
+          : null,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,18 +139,7 @@ class _MainProfilePageWidgetState extends State<MainProfilePageWidget>
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                if (responsiveVisibility(
-                  context: context,
-                  phone: false,
-                  tablet: false,
-                ))
-                  wrapWithModel(
-                    model: _model.webNavModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: WebNavWidget(
-                      selectedNav: 7,
-                    ),
-                  ),
+                // Sidebar is now handled by AppShell, no need to add it here
                 Expanded(
                   child: Container(
                     width: 100.0,

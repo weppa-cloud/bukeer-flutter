@@ -9,6 +9,8 @@ import 'package:bukeer/bukeer/contacts/main_contacts/main_contacts_widget.dart';
 import 'package:bukeer/bukeer/products/main_products/main_products_widget.dart';
 import 'package:bukeer/bukeer/agenda/main_agenda/main_agenda_widget.dart';
 import 'package:bukeer/bukeer/users/main_users/main_users_widget.dart';
+import 'package:bukeer/bukeer/users/profile/main_account/main_profile_account_widget.dart';
+import 'package:bukeer/bukeer/users/profile/main_page/main_profile_page_widget.dart';
 import '/legacy/flutter_flow/flutter_flow_util.dart';
 
 /// Sidebar navigation component following Bukeer design system
@@ -30,20 +32,29 @@ class SidebarNavigationWidget extends StatelessWidget {
     final accountName = accountData?['name'] as String? ?? 'BUKEER';
 
     // Get current user data
-    final userData = appServices.user.selectedUser;
-    final userEmail = userData != null
-        ? getJsonField(userData, r'$[:].email')?.toString() ??
-            'usuario@bukeer.com'
-        : 'usuario@bukeer.com';
-    final userName = userData != null
-        ? getJsonField(userData, r'$[:].full_name')?.toString() ?? 'Usuario'
-        : 'Usuario';
-    final userRole = userData != null
-        ? getJsonField(userData, r'$[:].role_name')?.toString() ?? 'Team Member'
-        : 'Team Member';
+    final userData = appServices.user.agentData;
+    String userEmail = 'usuario@bukeer.com';
+    String userName = 'Usuario';
+    String userRole = 'Team Member';
+    String? userPhoto;
+
+    if (userData != null && userData is List && userData.isNotEmpty) {
+      final user = userData[0];
+      userEmail = user['email']?.toString() ?? 'usuario@bukeer.com';
+      userName = '${user['name'] ?? ''} ${user['last_name'] ?? ''}'.trim();
+      if (userName.isEmpty) userName = 'Usuario';
+      userRole = user['role_name']?.toString() ?? 'Team Member';
+      userPhoto = user['main_image']?.toString();
+
+      debugPrint(
+          'SidebarNav: User data loaded - Name: $userName, Email: $userEmail, Photo: $userPhoto');
+    } else {
+      debugPrint('SidebarNav: No user data available');
+    }
 
     return Container(
-      width: 260,
+      width:
+          260, // TODO: Move to design tokens as BukeerDimensions.sidebarWidth
       padding: EdgeInsets.all(BukeerSpacing.l),
       decoration: BoxDecoration(
         color: isDark ? BukeerColors.surfacePrimaryDark : Colors.white,
@@ -58,7 +69,7 @@ class SidebarNavigationWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Logo or Brand Name
-          _buildLogo(logoUrl, accountName),
+          _buildLogo(context, logoUrl, accountName),
           SizedBox(height: BukeerSpacing.xxl),
 
           // Navigation Items
@@ -132,13 +143,14 @@ class SidebarNavigationWidget extends StatelessWidget {
                   context: context,
                   icon: Icons.settings,
                   label: 'Ajustes',
-                  route: 'settings',
-                  isActive: false,
+                  route: MainProfileAccountWidget.routeName,
+                  isActive: currentRoute == MainProfileAccountWidget.routeName,
                   hasChevron: true,
                 ),
                 SizedBox(height: BukeerSpacing.m),
                 // Profile Section
-                _buildProfileSection(userName, userEmail, userRole),
+                _buildProfileSection(
+                    context, userName, userEmail, userRole, userPhoto),
               ],
             ),
           ),
@@ -147,22 +159,81 @@ class SidebarNavigationWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildLogo(String? logoUrl, String accountName) {
+  Widget _buildLogo(BuildContext context, String? logoUrl, String accountName) {
+    Widget logoWidget;
+
     if (logoUrl != null && logoUrl.isNotEmpty) {
-      return Container(
+      // Use provided logo URL
+      debugPrint('Using account logo: $logoUrl');
+
+      logoWidget = Container(
         height: 40,
         alignment: Alignment.centerLeft,
         child: Image.network(
           logoUrl,
           height: 40,
           fit: BoxFit.contain,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              height: 40,
+              width: 40,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                  strokeWidth: 2,
+                  color: BukeerColors.primary,
+                ),
+              ),
+            );
+          },
           errorBuilder: (context, error, stackTrace) {
+            debugPrint('Error loading account logo: $error');
+            // Fallback to default Bukeer logo
+            return Image.asset(
+              'assets/images/Logo-Bukeer-FullBlanco-03.png',
+              height: 40,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return _buildTextLogo(accountName);
+              },
+            );
+          },
+        ),
+      );
+    } else {
+      // Use default Bukeer logo
+      debugPrint('No account logo, using default Bukeer logo');
+      logoWidget = Container(
+        height: 40,
+        alignment: Alignment.centerLeft,
+        child: Image.asset(
+          'assets/images/Logo-Bukeer-FullBlanco-03.png',
+          height: 40,
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) {
+            // Final fallback to text logo
             return _buildTextLogo(accountName);
           },
         ),
       );
     }
-    return _buildTextLogo(accountName);
+
+    return InkWell(
+      borderRadius: BukeerBorders.radiusMedium,
+      onTap: () {
+        if (currentRoute != MainHomeWidget.routeName) {
+          context.goNamed(MainHomeWidget.routeName);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.all(BukeerSpacing.xs),
+        child: logoWidget,
+      ),
+    );
   }
 
   Widget _buildTextLogo(String accountName) {
@@ -194,7 +265,7 @@ class SidebarNavigationWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BukeerBorders.radiusMedium,
           onTap: () {
-            if (route != 'settings' && route != currentRoute) {
+            if (route != currentRoute) {
               context.goNamed(route);
             }
           },
@@ -252,54 +323,86 @@ class SidebarNavigationWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileSection(
-      String userName, String userEmail, String userRole) {
-    return Row(
-      children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            borderRadius: BukeerBorders.radiusFull,
-            color: BukeerColors.primary.withOpacity(0.1),
-            border: Border.all(
-              color: BukeerColors.primary.withOpacity(0.3),
-              width: BukeerBorders.widthMedium,
-            ),
-          ),
-          child: Center(
-            child: Text(
-              userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
-              style: BukeerTypography.titleMedium.copyWith(
-                color: BukeerColors.primary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: BukeerSpacing.m),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                userName,
-                style: BukeerTypography.bodyMedium.copyWith(
-                  fontWeight: FontWeight.w600,
+  Widget _buildProfileSection(BuildContext context, String userName,
+      String userEmail, String userRole, String? userPhoto) {
+    return InkWell(
+      borderRadius: BukeerBorders.radiusMedium,
+      onTap: () {
+        context.goNamed(MainProfilePageWidget.routeName);
+      },
+      child: Padding(
+        padding: EdgeInsets.all(BukeerSpacing.xs),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                borderRadius: BukeerBorders.radiusFull,
+                color: BukeerColors.primary.withOpacity(0.1),
+                border: Border.all(
+                  color: BukeerColors.primary.withOpacity(0.3),
+                  width: BukeerBorders.widthMedium,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                userRole,
-                style: BukeerTypography.bodySmall.copyWith(
-                  color: BukeerColors.textSecondary,
-                ),
-                overflow: TextOverflow.ellipsis,
+              child: ClipRRect(
+                borderRadius: BukeerBorders.radiusFull,
+                child: userPhoto != null && userPhoto.isNotEmpty
+                    ? Image.network(
+                        userPhoto,
+                        width: 44,
+                        height: 44,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Text(
+                              userName.isNotEmpty
+                                  ? userName[0].toUpperCase()
+                                  : 'U',
+                              style: BukeerTypography.titleMedium.copyWith(
+                                color: BukeerColors.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
+                          style: BukeerTypography.titleMedium.copyWith(
+                            color: BukeerColors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(width: BukeerSpacing.m),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userName,
+                    style: BukeerTypography.bodyMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    userRole,
+                    style: BukeerTypography.bodySmall.copyWith(
+                      color: BukeerColors.textSecondary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../core/widgets/modals/contact/add_edit/modal_add_edit_contact_widget.dart';
 import '../../core/widgets/modals/contact/details/modal_details_contact_widget.dart';
 import '../../core/widgets/forms/search_box/search_box_widget.dart';
@@ -71,19 +70,6 @@ class _MainContactsWidgetState extends State<MainContactsWidget> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (responsiveVisibility(
-                      context: context,
-                      phone: false,
-                      tablet: false,
-                    ))
-                      wrapWithModel(
-                        model: _model.webNavModel,
-                        updateCallback: () => safeSetState(() {}),
-                        updateOnChange: true,
-                        child: WebNavWidget(
-                          selectedNav: 3,
-                        ),
-                      ),
                     Expanded(
                       child: Align(
                         alignment: AlignmentDirectional(0.0, -1.0),

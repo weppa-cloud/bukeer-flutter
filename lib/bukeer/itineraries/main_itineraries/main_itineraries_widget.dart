@@ -1,7 +1,6 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
@@ -80,18 +79,6 @@ class _MainItinerariesWidgetState extends State<MainItinerariesWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (responsiveVisibility(
-                      context: context,
-                      phone: false,
-                      tablet: false,
-                    ))
-                      wrapWithModel(
-                        model: _model.webNavModel,
-                        updateCallback: () => safeSetState(() {}),
-                        child: WebNavWidget(
-                          selectedNav: 2,
-                        ),
-                      ),
                     Expanded(
                       child: Align(
                         alignment: AlignmentDirectional(0.0, -1.0),

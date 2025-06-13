@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -12,6 +13,8 @@ import 'legacy/flutter_flow/flutter_flow_theme.dart';
 import 'legacy/flutter_flow/flutter_flow_util.dart';
 import 'legacy/flutter_flow/internationalization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'bukeer/core/layouts/main_layout.dart';
+import 'bukeer/core/navigation/bukeer_router.dart';
 import 'services/app_services.dart';
 import 'providers/app_providers.dart';
 import 'config/app_config.dart';
@@ -32,8 +35,6 @@ void main() async {
   }
 
   await SupaFlow.initialize();
-
-  await FlutterFlowTheme.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
@@ -64,7 +65,7 @@ class MyAppScrollBehavior extends MaterialScrollBehavior {
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
 
-  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
+  ThemeMode _themeMode = ThemeMode.system;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
@@ -89,7 +90,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     _appStateNotifier = AppStateNotifier.instance;
-    _router = createRouter(_appStateNotifier);
+    // Use new router with ShellRoute for persistent navigation
+    _router = BukeerRouterExtension.createWithShell(_appStateNotifier);
+
+    // Load saved theme preference
+    _loadThemeMode();
     userStream = bukeerSupabaseUserStream()
       ..listen((user) {
         _appStateNotifier.update(user);
@@ -116,8 +121,23 @@ class _MyAppState extends State<MyApp> {
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {
         _themeMode = mode;
-        FlutterFlowTheme.saveThemeMode(mode);
       });
+
+  Future<void> _loadThemeMode() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedMode = prefs.getString('themeMode');
+      if (savedMode != null) {
+        final mode = ThemeMode.values.firstWhere(
+          (e) => e.name == savedMode,
+          orElse: () => ThemeMode.system,
+        );
+        setThemeMode(mode);
+      }
+    } catch (e) {
+      debugPrint('Failed to load theme mode: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +201,35 @@ class _NavBarPageState extends State<NavBarPage> {
       'main_contacts': MainContactsWidget(),
       'main_products': MainProductsWidget(),
       'main_itineraries': MainItinerariesWidget(),
+      'Main_Agenda': MainAgendaWidget(),
+      'Main_Users': MainUsersWidget(),
     };
+
+    // Map current page name to route name for navigation
+    final routeMap = {
+      'Main_Home': MainHomeWidget.routeName,
+      'Main_profilePage': MainProfilePageWidget.routeName,
+      'main_contacts': MainContactsWidget.routeName,
+      'main_products': MainProductsWidget.routeName,
+      'main_itineraries': MainItinerariesWidget.routeName,
+      'Main_Agenda': MainAgendaWidget.routeName,
+      'Main_Users': MainUsersWidget.routeName,
+    };
+
+    final currentRoute = routeMap[_currentPageName] ?? MainHomeWidget.routeName;
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
+
+    // Use MainLayout for desktop, regular Scaffold for mobile
+    if (responsiveVisibility(
+      context: context,
+      phone: false,
+      tablet: false,
+    )) {
+      return MainLayout(
+        currentRoute: currentRoute,
+        child: _currentPage ?? tabs[_currentPageName]!,
+      );
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,

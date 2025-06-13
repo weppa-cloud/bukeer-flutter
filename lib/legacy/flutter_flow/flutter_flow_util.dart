@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'dart:math' show pow, pi, sin;
@@ -422,8 +423,23 @@ extension IterableExt<T> on Iterable<T> {
 void setAppLanguage(BuildContext context, String language) =>
     MyApp.of(context).setLocale(language);
 
-void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
+Future<void> setDarkModeSetting(
+    BuildContext context, ThemeMode themeMode) async {
+  try {
+    // Update the theme directly
     MyApp.of(context).setThemeMode(themeMode);
+
+    // Save theme preference using shared_preferences
+    final prefs = await SharedPreferences.getInstance();
+    if (themeMode == ThemeMode.system) {
+      await prefs.remove('themeMode');
+    } else {
+      await prefs.setString('themeMode', themeMode.name);
+    }
+  } catch (e) {
+    debugPrint('Failed to set dark mode: $e');
+  }
+}
 
 void showSnackbar(
   BuildContext context,

@@ -2,7 +2,6 @@ import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/containers/activities/activities_container_widget.dart';
 import '../../core/widgets/buttons/btn_mobile_menu/btn_mobile_menu_widget.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../core/widgets/forms/search_box/search_box_widget.dart';
 import '../../core/widgets/modals/product/details/modal_details_product_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
@@ -23,8 +22,6 @@ import 'package:provider/provider.dart';
 class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Model for webNav component.
-  late WebNavModel webNavModel;
   // Model for BtnMobileMenu component.
   late BtnMobileMenuModel btnMobileMenuModel;
   // Model for SearchBox component.
@@ -39,14 +36,12 @@ class MainProductsModel extends FlutterFlowModel<MainProductsWidget> {
 
   @override
   void initState(BuildContext context) {
-    webNavModel = createModel(context, () => WebNavModel());
     btnMobileMenuModel = createModel(context, () => BtnMobileMenuModel());
     searchBoxModel = createModel(context, () => SearchBoxModel());
   }
 
   @override
   void dispose() {
-    webNavModel.dispose();
     btnMobileMenuModel.dispose();
     searchBoxModel.dispose();
 

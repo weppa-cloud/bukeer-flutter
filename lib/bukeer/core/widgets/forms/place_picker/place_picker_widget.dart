@@ -127,44 +127,46 @@ class _PlacePickerWidgetState extends State<PlacePickerWidget>
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(2.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          valueOrDefault<String>(
-                            () {
-                              if (_model.placePickerValue.address != null &&
-                                  _model.placePickerValue.address != '') {
-                                return _model.placePickerValue.address;
-                              } else if (widget!.location != null &&
-                                  widget!.location != '') {
-                                return valueOrDefault<String>(
-                                  widget!.location,
-                                  'Seleccionar ubicación',
-                                );
-                              } else if (widget!.locationName != null &&
-                                  widget!.locationName != '') {
-                                return widget!.locationName;
-                              } else {
-                                return _model.placePickerValue.address;
-                              }
-                            }(),
-                            'Seleccionar ubicación',
-                          ).maybeHandleOverflow(
-                            maxChars: 25,
-                            replacement: '…',
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              2.0, 0.0, 0.0, 0.0),
+                          child: Text(
+                            valueOrDefault<String>(
+                              () {
+                                if (_model.placePickerValue.address != null &&
+                                    _model.placePickerValue.address != '') {
+                                  return _model.placePickerValue.address;
+                                } else if (widget!.location != null &&
+                                    widget!.location != '') {
+                                  return valueOrDefault<String>(
+                                    widget!.location,
+                                    'Seleccionar ubicación',
+                                  );
+                                } else if (widget!.locationName != null &&
+                                    widget!.locationName != '') {
+                                  return widget!.locationName;
+                                } else {
+                                  return _model.placePickerValue.address;
+                                }
+                              }(),
+                              'Seleccionar ubicación',
+                            ).maybeHandleOverflow(
+                              maxChars: 25,
+                              replacement: '…',
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyLarge
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyLargeFamily,
+                                  color: BukeerColors.secondaryText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                  useGoogleFonts: !FlutterFlowTheme.of(context)
+                                      .bodyLargeIsCustom,
+                                ),
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyLarge
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .bodyLargeFamily,
-                                color: BukeerColors.secondaryText,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.normal,
-                                useGoogleFonts: !FlutterFlowTheme.of(context)
-                                    .bodyLargeIsCustom,
-                              ),
                         ),
                       ),
                     ],

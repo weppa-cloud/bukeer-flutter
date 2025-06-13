@@ -30,6 +30,11 @@ class AppProviders extends StatelessWidget {
           create: (_) => UiStateService(),
         ),
 
+        // App Services instance
+        Provider.value(
+          value: appServices,
+        ),
+
         // Data services (with their own state management)
         // Note: UserService doesn't extend ChangeNotifier, using Provider instead
         Provider.value(

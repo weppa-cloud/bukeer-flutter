@@ -1,5 +1,4 @@
 import 'package:bukeer/auth/supabase_auth/auth_util.dart';
-import '../../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
@@ -18,16 +17,9 @@ import 'package:provider/provider.dart';
 class MainProfilePageModel extends FlutterFlowModel<MainProfilePageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Model for webNav component.
-  late WebNavModel webNavModel;
+  @override
+  void initState(BuildContext context) {}
 
   @override
-  void initState(BuildContext context) {
-    webNavModel = createModel(context, () => WebNavModel());
-  }
-
-  @override
-  void dispose() {
-    webNavModel.dispose();
-  }
+  void dispose() {}
 }

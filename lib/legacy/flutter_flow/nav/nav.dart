@@ -17,6 +17,7 @@ import '../lat_lng.dart';
 import '../place.dart';
 import '../flutter_flow_util.dart';
 import 'serialization_util.dart';
+import 'package:bukeer/bukeer/core/navigation/app_shell.dart';
 
 import '../../../index.dart';
 
@@ -86,14 +87,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : AuthLoginWidget(),
+          appStateNotifier.loggedIn ? MainHomeWidget() : AuthLoginWidget(),
       routes: [
         // componentDateRangeRoute, // TODO: Implement component route
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : AuthLoginWidget(),
+          builder: (context, params) =>
+              appStateNotifier.loggedIn ? MainHomeWidget() : AuthLoginWidget(),
           routes: [
             FFRoute(
               name: AuthLoginWidget.routeName,
@@ -104,9 +105,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: MainHomeWidget.routeName,
               path: MainHomeWidget.routePath,
               requireAuth: true,
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'Main_Home')
-                  : MainHomeWidget(),
+              builder: (context, params) => MainHomeWidget(),
             ),
             FFRoute(
               name: ForgotPasswordWidget.routeName,
@@ -117,17 +116,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: MainProfilePageWidget.routeName,
               path: MainProfilePageWidget.routePath,
               requireAuth: true,
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'Main_profilePage')
-                  : MainProfilePageWidget(),
+              builder: (context, params) => MainProfilePageWidget(),
             ),
             FFRoute(
               name: MainContactsWidget.routeName,
               path: MainContactsWidget.routePath,
               requireAuth: true,
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'main_contacts')
-                  : MainContactsWidget(),
+              builder: (context, params) => MainContactsWidget(),
             ),
             FFRoute(
               name: MainUsersWidget.routeName,
@@ -151,9 +146,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: MainProductsWidget.routeName,
               path: MainProductsWidget.routePath,
               requireAuth: true,
-              builder: (context, params) => params.isEmpty
-                  ? NavBarPage(initialPage: 'main_products')
-                  : MainProductsWidget(),
+              builder: (context, params) => MainProductsWidget(),
             ),
             FFRoute(
               name: AddEditTarifaWidget.routeName,
@@ -313,15 +306,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             ),
             FFRoute(
-                name: MainItinerariesWidget.routeName,
-                path: MainItinerariesWidget.routePath,
-                requireAuth: true,
-                builder: (context, params) => params.isEmpty
-                    ? NavBarPage(initialPage: 'main_itineraries')
-                    : NavBarPage(
-                        initialPage: 'main_itineraries',
-                        page: MainItinerariesWidget(),
-                      )),
+              name: MainItinerariesWidget.routeName,
+              path: MainItinerariesWidget.routePath,
+              requireAuth: true,
+              builder: (context, params) => MainItinerariesWidget(),
+            ),
             FFRoute(
               name: ReporteVentasWidget.routeName,
               path: ReporteVentasWidget.routePath,

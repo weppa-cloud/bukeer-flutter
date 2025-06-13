@@ -1,4 +1,4 @@
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/sidebar/sidebar_navigation_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/design_system/tokens/index.dart';
@@ -597,18 +597,6 @@ class _MainHomeWidgetState extends State<MainHomeWidget>
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (responsiveVisibility(
-                    context: context,
-                    phone: false,
-                    tablet: false,
-                  ))
-                    wrapWithModel(
-                      model: _model.webNavModel,
-                      updateCallback: () => safeSetState(() {}),
-                      child: WebNavWidget(
-                        selectedNav: 1,
-                      ),
-                    ),
                   Flexible(
                     flex: 10,
                     child: Column(

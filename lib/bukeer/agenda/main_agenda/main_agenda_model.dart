@@ -1,6 +1,5 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
@@ -27,8 +26,6 @@ class MainAgendaModel extends FlutterFlowModel<MainAgendaWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Model for webNav component.
-  late WebNavModel webNavModel;
   // State field(s) for TextField widget.
   final textFieldKey = GlobalKey();
   FocusNode? textFieldFocusNode;
@@ -43,13 +40,10 @@ class MainAgendaModel extends FlutterFlowModel<MainAgendaWidget> {
   Function(ApiPagingParams nextPageMarker)? listViewAgendaApiCall;
 
   @override
-  void initState(BuildContext context) {
-    webNavModel = createModel(context, () => WebNavModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
   void dispose() {
-    webNavModel.dispose();
     textFieldFocusNode?.dispose();
 
     listViewAgendaPagingController?.dispose();

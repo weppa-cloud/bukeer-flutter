@@ -1,5 +1,36 @@
 # Proyecto Bukeer - Documentación para Claude
 
+## 📚 IMPORTANTE: Gestión de Documentación
+
+### ⚠️ ANTES de crear CUALQUIER documentación nueva:
+
+1. **BUSCAR PRIMERO** si existe documentación relacionada:
+```bash
+# Buscar documentación existente sobre el tema
+find docs -name "*.md" | xargs grep -l "tema_a_documentar"
+```
+
+2. **ACTUALIZAR** documentación existente en lugar de crear nueva
+3. **SEGUIR** la estructura de carpetas establecida:
+```
+docs/
+├── 01-getting-started/    # Setup y configuración inicial
+├── 02-development/        # Flujo de desarrollo y estándares
+├── 03-architecture/       # Arquitectura y diseño
+├── 04-guides/            # Guías específicas
+├── 05-reference/         # Referencias rápidas
+└── archive/              # Documentos obsoletos
+```
+
+4. **CONSOLIDAR** información duplicada cuando la encuentres
+5. **NO CREAR** archivos .md en la raíz del proyecto
+
+### 🛑 Documentación Prohibida de Crear:
+- README.md adicionales (usar el existente)
+- Guías de setup nuevas (actualizar `01-getting-started/`)
+- Flujos de trabajo duplicados (usar `flow.sh` como base)
+- Documentación de arquitectura fragmentada
+
 ## Resumen del Proyecto
 
 Bukeer es una plataforma integral de gestión de viajes y turismo desarrollada con Flutter. Es un sistema diseñado para agencias de viajes que permite gestionar itinerarios personalizados, productos turísticos, clientes, reservas y pagos.
@@ -67,6 +98,40 @@ FFAppState().typeProduct = 'hotels';
 ```
 
 ## 🎨 SISTEMA DE DISEÑO Y TEMAS (v2.0 - Enero 2025)
+
+### ⚠️ IMPORTANTE: Migración Obligatoria del Sistema de Diseño
+
+**NUNCA usar FlutterFlowTheme** - El proyecto está migrando completamente al sistema de diseño Bukeer. 
+
+#### ❌ NO HACER (Código Legacy):
+```dart
+// EVITAR - Sistema obsoleto
+import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
+FlutterFlowTheme.of(context).primaryText
+FlutterFlowTheme.of(context).bodyMedium
+```
+
+#### ✅ HACER (Sistema Nuevo):
+```dart
+// SIEMPRE usar el sistema de diseño Bukeer
+import 'package:bukeer/design_system/index.dart';
+
+// Colores
+BukeerColors.textPrimary
+BukeerColors.primary
+BukeerColors.backgroundPrimary
+
+// Tipografía
+BukeerTypography.headlineLarge
+BukeerTypography.bodyMedium
+
+// Espaciado
+BukeerSpacing.m  // 16px
+BukeerSpacing.l  // 24px
+```
+
+### 📋 Documentación de Migración
+Ver `/docs/DESIGN_SYSTEM_MIGRATION.md` para guía completa de migración de componentes FlutterFlow.
 
 ### Sistema de Design Tokens Actualizado
 El proyecto ha completado una **actualización masiva del sistema de diseño** basándose en los valores extraídos del diseño de itinerarios, con soporte completo para modo oscuro.
@@ -204,6 +269,35 @@ flutter test test/services/
 flutter test --coverage
 ```
 
+## 🌐 Ambientes de Desarrollo
+
+### Configuración de Ambientes
+El proyecto soporta múltiples ambientes mediante `flow.sh`:
+
+```bash
+# Development (default)
+./flow.sh run                  # Chrome en development
+./flow.sh run ios              # iOS en development
+
+# Staging
+./flow.sh staging              # Chrome en staging (atajo rápido)
+./flow.sh run chrome staging   # Chrome en staging
+./flow.sh run ios staging      # iOS en staging
+./flow.sh run android staging  # Android en staging
+```
+
+### URLs por Ambiente
+- **Development**: 
+  - API: `https://bukeer.bukeerpro.com/api`
+  - Supabase: `https://wzlxbpicdcdvxvdcvgas.supabase.co`
+  
+- **Staging**: 
+  - API: `https://bukeer-staging.bukeerpro.com/api`
+  - Supabase: `https://wzlxbpicdcdvxvdcvgas.supabase.co` (mismo)
+
+### Configuración Automática
+`flow.sh` actualiza automáticamente `web/config.js` según el ambiente seleccionado.
+
 ## 📁 Estructura del Proyecto
 
 ```
@@ -274,3 +368,33 @@ Si encuentras código legacy usando FFAppState:
 Documentación detallada de migración en:
 - `/docs/historical/FFAPPSTATE_MIGRATION_REPORT.md`
 - `/MIGRATION_STATUS_REPORT.md`
+
+## 📖 Documentación Principal
+
+### Para encontrar información específica:
+
+1. **Setup y Configuración**: `/docs/01-getting-started/quick-start.md`
+2. **Desarrollo con flow.sh**: `/docs/02-development/workflow.md` ⭐ PRINCIPAL
+3. **Arquitectura**: `/docs/03-architecture/` (pendiente migración)
+4. **Onboarding Junior**: `/docs/04-guides/junior-onboarding.md`
+5. **Referencias Rápidas**: `/docs/05-reference/` (pendiente organización)
+
+### Documentos clave actualizados:
+- **flow.sh** - Script central para todo el desarrollo
+- **/docs/02-development/workflow.md** - Flujo de desarrollo completo
+- **/docs/04-guides/junior-onboarding.md** - Onboarding simplificado (3 días)
+- **/docs/CODE_REVIEW_CHECKLIST.md** - Lista de verificación para PRs
+
+## 🔍 Búsqueda de Documentación
+
+Antes de preguntar o crear documentación:
+```bash
+# Buscar en toda la documentación
+grep -r "tema_buscar" docs/
+
+# Buscar archivos por nombre
+find docs -name "*onboarding*" -o -name "*setup*"
+
+# Ver estructura de documentación
+tree docs -L 2
+```

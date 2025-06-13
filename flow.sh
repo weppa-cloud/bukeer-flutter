@@ -350,15 +350,60 @@ cmd_clean() {
 # Comando: run - Ejecutar aplicación con configuración correcta
 cmd_run() {
     local device="$1"
+    local environment="${2:-development}"
     
-    log "🚀 Iniciando aplicación en modo desarrollo..."
+    # Validar environment
+    if [[ "$environment" != "development" && "$environment" != "staging" ]]; then
+        environment="development"
+    fi
     
-    # Verificar que existe config.js
-    if [[ ! -f "web/config.js" ]]; then
-        warning "⚠️  web/config.js no encontrado. Creando configuración de desarrollo..."
-        
-        # Crear config.js para desarrollo
+    log "🚀 Iniciando aplicación en modo $environment..."
+    
+    # Crear config.js según el environment
+    if [[ "$environment" == "staging" ]]; then
+        log "📝 Creando configuración de staging..."
         cat > web/config.js << 'EOF'
+// Runtime configuration for Bukeer application - STAGING
+window.BukeerConfig = {
+  // Supabase Configuration
+  supabaseUrl: 'https://wzlxbpicdcdvxvdcvgas.supabase.co',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug',
+  
+  // API Configuration - STAGING
+  apiBaseUrl: 'https://bukeer-staging.bukeerpro.com/api',
+  
+  // Google Maps Configuration
+  googleMapsApiKey: 'AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc',
+  
+  // Environment
+  environment: 'staging',
+  
+  // Feature Flags (staging)
+  features: {
+    enableAnalytics: false,
+    enableDebugLogs: true,
+    enableOfflineMode: false
+  },
+  
+  // Settings
+  settings: {
+    sessionTimeout: 3600000,
+    maxRetries: 3,
+    requestTimeout: 30000
+  }
+};
+
+// Freeze configuration
+Object.freeze(window.BukeerConfig);
+Object.freeze(window.BukeerConfig.features);
+Object.freeze(window.BukeerConfig.settings);
+EOF
+        info "✅ Configuración de staging creada"
+    else
+        # Development config
+        if [[ ! -f "web/config.js" ]] || [[ "$environment" == "development" ]]; then
+            log "📝 Creando configuración de desarrollo..."
+            cat > web/config.js << 'EOF'
 // Runtime configuration for Bukeer application - DEVELOPMENT
 window.BukeerConfig = {
   // Supabase Configuration
@@ -394,7 +439,8 @@ Object.freeze(window.BukeerConfig);
 Object.freeze(window.BukeerConfig.features);
 Object.freeze(window.BukeerConfig.settings);
 EOF
-        info "✅ Configuración de desarrollo creada"
+            info "✅ Configuración de desarrollo creada"
+        fi
     fi
     
     # Determinar dispositivo
@@ -418,23 +464,29 @@ EOF
     esac
     
     info "📱 Ejecutando en: $device"
-    info "🔧 Usando configuración de desarrollo (web/config.js)"
+    info "🔧 Usando configuración de $environment (web/config.js)"
     
-    # Ejecutar con configuración de desarrollo
+    # Configurar URLs según environment
+    local api_url="https://bukeer.bukeerpro.com/api"
+    if [[ "$environment" == "staging" ]]; then
+        api_url="https://bukeer-staging.bukeerpro.com/api"
+    fi
+    
+    # Ejecutar con configuración según environment
     if [[ "$device" == "chrome" ]]; then
         flutter run -d chrome \
             --dart-define=supabaseUrl=https://wzlxbpicdcdvxvdcvgas.supabase.co \
             --dart-define=supabaseAnonKey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug \
-            --dart-define=apiBaseUrl=https://bukeer.bukeerpro.com/api \
+            --dart-define=apiBaseUrl=$api_url \
             --dart-define=googleMapsApiKey=AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc \
-            --dart-define=environment=development
+            --dart-define=environment=$environment
     else
         flutter run -d "$device" \
             --dart-define=supabaseUrl=https://wzlxbpicdcdvxvdcvgas.supabase.co \
             --dart-define=supabaseAnonKey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bHhicGljZGNkdnh2ZGN2Z2FzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIxNjk1OTAsImV4cCI6MjAyNzc0NTU5MH0.qqy1F21s7cLPWiV8fU0bGdjJS6unl8imYLB4CH7Muug \
-            --dart-define=apiBaseUrl=https://bukeer.bukeerpro.com/api \
+            --dart-define=apiBaseUrl=$api_url \
             --dart-define=googleMapsApiKey=AIzaSyDEUekXeyIKJUreRydJyv05gCexdSjUdBc \
-            --dart-define=environment=development
+            --dart-define=environment=$environment
     fi
 }
 
@@ -445,7 +497,8 @@ show_help() {
     echo ""
     echo "📋 Comandos disponibles:"
     echo ""
-    echo -e "  ${GREEN}run [device]${NC}     Ejecutar app con configuración de desarrollo"
+    echo -e "  ${GREEN}run [device] [env]${NC}  Ejecutar app (env: development|staging)"
+    echo -e "  ${GREEN}staging${NC}          Ejecutar app en Chrome con ambiente staging"
     echo -e "  ${GREEN}dev [nombre]${NC}     Crear nueva rama de desarrollo"
     echo -e "  ${GREEN}save [mensaje]${NC}   Guardar cambios (auto-commit si no hay mensaje)"
     echo -e "  ${GREEN}test${NC}             Ejecutar pruebas (analyze + test + build)"
@@ -456,10 +509,12 @@ show_help() {
     echo -e "  ${GREEN}clean${NC}            Limpiar ramas viejas"
     echo ""
     echo "📖 Ejemplos:"
-    echo "  ./flow.sh run                    # Ejecutar en Chrome"
-    echo "  ./flow.sh run chrome             # Ejecutar en Chrome"
-    echo "  ./flow.sh run ios                # Ejecutar en iOS"
-    echo "  ./flow.sh run android            # Ejecutar en Android"
+    echo "  ./flow.sh run                    # Ejecutar en Chrome (development)"
+    echo "  ./flow.sh run chrome             # Ejecutar en Chrome (development)"
+    echo "  ./flow.sh run chrome staging     # Ejecutar en Chrome (staging)"
+    echo "  ./flow.sh run ios                # Ejecutar en iOS (development)"
+    echo "  ./flow.sh run ios staging        # Ejecutar en iOS (staging)"
+    echo "  ./flow.sh run android            # Ejecutar en Android (development)"
     echo "  ./flow.sh dev nueva-funcionalidad"
     echo "  ./flow.sh save"
     echo "  ./flow.sh save \"fix: corregir bug en login\""
@@ -482,7 +537,10 @@ check_git_repo
 # Procesar comandos
 case "${1:-help}" in
     run)
-        cmd_run "$2"
+        cmd_run "$2" "$3"
+        ;;
+    staging)
+        cmd_run "chrome" "staging"
         ;;
     dev)
         cmd_dev "$2"

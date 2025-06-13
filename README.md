@@ -6,13 +6,17 @@
 # Install dependencies
 flutter pub get
 
-# Run in staging mode (recommended for development)
-flutter run -d chrome --dart-define=ENVIRONMENT=staging
+# Use flow.sh for all development (recommended)
+chmod +x flow.sh
+./flow.sh run        # Run in development
+./flow.sh staging    # Run in staging
 
-# Login credentials
+# Login credentials (staging)
 # Email: admin@staging.com
 # Password: password123
 ```
+
+See [Development Workflow](./docs/02-development/workflow.md) for complete flow.sh usage.
 
 ## 📁 Project Structure
 
@@ -32,16 +36,22 @@ bukeer-flutter/
 ## 🔧 Development
 
 ### Environments
-- **Staging** (default for development): Connected to staging database with production data copy
+- **Development**: Local development environment
+- **Staging**: Connected to staging API (https://bukeer-staging.bukeerpro.com/api)
 - **Production**: Live environment (never use for development)
 
 ### Key Commands
 ```bash
+# Run in different environments
+./flow.sh run              # Development (default)
+./flow.sh staging          # Staging environment
+./flow.sh run ios staging  # iOS with staging
+
 # Sync staging with production data
 ./scripts/sync_prod_to_staging.sh
 
 # Run tests
-flutter test
+./flow.sh test             # Or flutter test
 
 # Build for production
 flutter build web --release
@@ -49,10 +59,11 @@ flutter build web --release
 
 ## 📚 Documentation
 
-See [`/docs`](./docs) for detailed documentation:
-- [Development Workflow](./docs/development/DEVELOPMENT_WORKFLOW_STAGING.md)
-- [Staging Setup](./docs/setup/STAGING_COMPLETE_GUIDE.md)
-- [Architecture](./docs/ARCHITECTURE.md)
+Organized documentation in [`/docs`](./docs):
+- [Quick Start Guide](./docs/01-getting-started/quick-start.md)
+- [Development Workflow with flow.sh](./docs/02-development/workflow.md)
+- [Architecture Overview](./docs/ARCHITECTURE.md)
+- [Junior Developer Onboarding](./docs/04-guides/junior-onboarding.md)
 
 ## 🛠️ Tech Stack
 

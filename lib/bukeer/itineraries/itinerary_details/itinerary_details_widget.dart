@@ -3,9 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:bukeer/design_system/index.dart';
 import 'package:bukeer/auth/supabase_auth/auth_util.dart';
-import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
-import '../../core/widgets/navigation/sidebar/sidebar_navigation_widget.dart';
 import '../../../services/app_services.dart';
 import '../../../services/itinerary_service.dart';
 import '../../../components/service_builder.dart';
@@ -267,8 +265,11 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return AlertDialog(
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          backgroundColor: isDark
+              ? BukeerColors.backgroundDarkSecondary
+              : BukeerColors.backgroundSecondary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(BukeerSpacing.m),
           ),
@@ -276,18 +277,16 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             children: [
               Icon(
                 Icons.warning_amber_rounded,
-                color: FlutterFlowTheme.of(context).error,
+                color: BukeerColors.error,
                 size: 28,
               ),
               SizedBox(width: BukeerSpacing.s),
               Expanded(
                 child: Text(
                   'Confirmar eliminación',
-                  style: FlutterFlowTheme.of(context).headlineSmall.override(
-                        fontFamily: 'Outfit',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: BukeerTypography.titleLarge.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -298,35 +297,37 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
             children: [
               Text(
                 '¿Estás seguro de que deseas eliminar este servicio?',
-                style: FlutterFlowTheme.of(context).bodyMedium,
+                style: BukeerTypography.bodyMedium,
               ),
               SizedBox(height: BukeerSpacing.m),
               Container(
                 padding: EdgeInsets.all(BukeerSpacing.m),
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  color: isDark
+                      ? BukeerColors.backgroundDark
+                      : BukeerColors.backgroundPrimary,
                   borderRadius: BorderRadius.circular(BukeerSpacing.s),
                   border: Border.all(
-                    color: FlutterFlowTheme.of(context).alternate,
+                    color: isDark
+                        ? BukeerColors.borderPrimaryDark
+                        : BukeerColors.borderPrimary,
                     width: 1,
                   ),
                 ),
                 child: Text(
                   serviceName,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Readex Pro',
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: BukeerTypography.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               SizedBox(height: BukeerSpacing.s),
               Text(
                 'Esta acción no se puede deshacer.',
-                style: FlutterFlowTheme.of(context).bodySmall.override(
-                      fontFamily: 'Readex Pro',
-                      color: FlutterFlowTheme.of(context).error,
-                      fontSize: 12,
-                    ),
+                style: BukeerTypography.bodySmall.copyWith(
+                  color: BukeerColors.error,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
@@ -392,26 +393,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       key: scaffoldKey,
       backgroundColor:
           isDark ? BukeerColors.backgroundDark : BukeerColors.backgroundPrimary,
-      drawer: responsiveVisibility(
-        context: context,
-        tablet: false,
-        desktop: false,
-      )
-          ? SidebarDrawer(currentRoute: ItineraryDetailsWidget.routeName)
-          : null,
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sidebar Navigation
-          if (responsiveVisibility(
-            context: context,
-            phone: false,
-            tablet: false,
-          ))
-            SidebarNavigationWidget(
-              currentRoute: ItineraryDetailsWidget.routeName,
-            ),
-
           // Main Content
           Expanded(
             child: Consumer<ItineraryService>(
@@ -570,7 +554,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? BukeerColors.surfacePrimaryDark : BukeerColors.white,
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.surfacePrimary,
         borderRadius: BukeerBorders.radiusLarge,
         boxShadow: BukeerShadows.small,
       ),
@@ -1384,13 +1370,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
-            ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            ? BukeerColors.backgroundDarkSecondary
+            : BukeerColors.backgroundSecondary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1709,13 +1704,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
-            ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            ? BukeerColors.backgroundDarkSecondary
+            : BukeerColors.backgroundSecondary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2026,13 +2030,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
-            ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            ? BukeerColors.backgroundDarkSecondary
+            : BukeerColors.backgroundSecondary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2296,13 +2309,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
-            ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            ? BukeerColors.backgroundDarkSecondary
+            : BukeerColors.backgroundSecondary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2876,7 +2898,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? BukeerColors.surfacePrimaryDark : BukeerColors.white,
+        color: isDark
+            ? BukeerColors.surfaceSecondaryDark
+            : BukeerColors.surfacePrimary,
         borderRadius: BukeerBorders.radiusLarge,
         boxShadow: BukeerShadows.small,
       ),
@@ -2888,7 +2912,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             margin: EdgeInsets.symmetric(vertical: BukeerSpacing.l),
             height: 1,
-            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+            color: isDark
+                ? BukeerColors.borderPrimaryDark
+                : BukeerColors.borderPrimary,
           ),
 
           // Itinerary info
@@ -2896,7 +2922,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             margin: EdgeInsets.symmetric(vertical: BukeerSpacing.l),
             height: 1,
-            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+            color: isDark
+                ? BukeerColors.borderPrimaryDark
+                : BukeerColors.borderPrimary,
           ),
 
           // Actions
@@ -3564,7 +3592,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
             height: 1,
-            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+            color: isDark
+                ? BukeerColors.borderPrimaryDark
+                : BukeerColors.borderPrimary,
           ),
 
           // Info items
@@ -3897,7 +3927,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           Container(
             margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
             height: 1,
-            color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+            color: isDark
+                ? BukeerColors.borderPrimaryDark
+                : BukeerColors.borderPrimary,
           ),
           BukeerButton(
             text: 'Exportar Itinerario (PDF)',
@@ -3987,7 +4019,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         Container(
           margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
           height: 1,
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
         ),
 
         // Info items
@@ -4079,7 +4113,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+                color: isDark
+                    ? BukeerColors.borderPrimaryDark
+                    : BukeerColors.borderPrimary,
                 width: BukeerBorders.widthThin,
               ),
             ),
@@ -4130,7 +4166,9 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
         Container(
           margin: EdgeInsets.symmetric(vertical: BukeerSpacing.m),
           height: 1,
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
         ),
         BukeerButton(
           text: 'Exportar Itinerario (PDF)',
@@ -4437,13 +4475,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
-            ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            ? BukeerColors.backgroundDarkSecondary
+            : BukeerColors.backgroundSecondary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -4647,13 +4694,22 @@ class _ItineraryDetailsWidgetState extends State<ItineraryDetailsWidget>
       padding: EdgeInsets.all(BukeerSpacing.m),
       decoration: BoxDecoration(
         color: isDark
-            ? BukeerColors.surfaceSecondaryDark
-            : BukeerColors.backgroundPrimary,
+            ? BukeerColors.backgroundDarkSecondary
+            : BukeerColors.backgroundSecondary,
         borderRadius: BukeerBorders.radiusMedium,
         border: Border.all(
-          color: isDark ? BukeerColors.dividerDark : BukeerColors.divider,
+          color: isDark
+              ? BukeerColors.borderPrimaryDark
+              : BukeerColors.borderPrimary,
           width: BukeerBorders.widthThin,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

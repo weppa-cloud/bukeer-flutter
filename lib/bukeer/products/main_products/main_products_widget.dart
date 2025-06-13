@@ -2,7 +2,6 @@ import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/containers/activities/activities_container_widget.dart';
 import '../../core/widgets/buttons/btn_mobile_menu/btn_mobile_menu_widget.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../core/widgets/forms/search_box/search_box_widget.dart';
 import '../../core/widgets/modals/product/details/modal_details_product_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
@@ -101,18 +100,6 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (responsiveVisibility(
-                            context: context,
-                            phone: false,
-                            tablet: false,
-                          ))
-                            wrapWithModel(
-                              model: _model.webNavModel,
-                              updateCallback: () => safeSetState(() {}),
-                              child: WebNavWidget(
-                                selectedNav: 4,
-                              ),
-                            ),
                           Flexible(
                             child: Align(
                               alignment: AlignmentDirectional(0.0, -1.0),

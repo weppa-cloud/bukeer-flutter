@@ -1,6 +1,5 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
@@ -25,8 +24,6 @@ class ReporteVentasModel extends FlutterFlowModel<ReporteVentasWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Model for webNav component.
-  late WebNavModel webNavModel;
   // State field(s) for TextField widget.
   final textFieldKey = GlobalKey();
   FocusNode? textFieldFocusNode;
@@ -39,8 +36,6 @@ class ReporteVentasModel extends FlutterFlowModel<ReporteVentasWidget> {
 
   @override
   void initState(BuildContext context) {
-    webNavModel = createModel(context, () => WebNavModel());
-
     // Initialize date range to last 30 days by default
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -50,7 +45,6 @@ class ReporteVentasModel extends FlutterFlowModel<ReporteVentasWidget> {
 
   @override
   void dispose() {
-    webNavModel.dispose();
     textFieldFocusNode?.dispose();
   }
 

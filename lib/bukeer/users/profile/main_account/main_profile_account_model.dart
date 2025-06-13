@@ -2,7 +2,6 @@ import 'package:bukeer/auth/supabase_auth/auth_util.dart';
 import '../../../../backend/api_requests/api_calls.dart';
 import 'package:bukeer/backend/supabase/supabase.dart';
 import '../../../core/widgets/forms/place_picker/place_picker_widget.dart';
-import '../../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_animations.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_drop_down.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
@@ -39,8 +38,6 @@ class MainProfileAccountModel
   final formKey = GlobalKey<FormState>();
   // Stores action output result for [Backend Call - API (getAllDataAccountWithLocation)] action in Main_profileAccount widget.
   ApiCallResponse? apiResponseDataAccount;
-  // Model for webNav component.
-  late WebNavModel webNavModel;
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
@@ -137,13 +134,11 @@ class MainProfileAccountModel
 
   @override
   void initState(BuildContext context) {
-    webNavModel = createModel(context, () => WebNavModel());
     placePickerModel = createModel(context, () => PlacePickerModel());
   }
 
   @override
   void dispose() {
-    webNavModel.dispose();
     tabBarController?.dispose();
     nameContactFocusNode?.dispose();
     nameContactTextController?.dispose();

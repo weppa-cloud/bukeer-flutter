@@ -1,6 +1,6 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
+import '../../core/widgets/navigation/sidebar/sidebar_navigation_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_autocomplete_options_list.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/design_system/components/index.dart';
@@ -56,6 +56,15 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: BukeerColors.getBackground(context, secondary: true),
+        drawer: responsiveVisibility(
+          context: context,
+          tabletLandscape: false,
+          desktop: false,
+        )
+            ? SidebarDrawer(
+                currentRoute: ReporteVentasWidget.routeName,
+              )
+            : null,
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
@@ -108,13 +117,8 @@ class _ReporteVentasWidgetState extends State<ReporteVentasWidget> {
                           phone: false,
                           tablet: false,
                         ))
-                          wrapWithModel(
-                            model: _model.webNavModel,
-                            updateCallback: () => safeSetState(() {}),
-                            updateOnChange: true,
-                            child: WebNavWidget(
-                              selectedNav: 1,
-                            ),
+                          SidebarNavigationWidget(
+                            currentRoute: ReporteVentasWidget.routeName,
                           ),
                         Expanded(
                           child: Align(

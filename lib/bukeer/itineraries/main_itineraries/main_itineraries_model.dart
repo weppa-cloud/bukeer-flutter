@@ -1,7 +1,6 @@
 import '../../../../auth/supabase_auth/auth_util.dart';
 import '../../../backend/api_requests/api_calls.dart';
 import '../../core/widgets/buttons/btn_create/btn_create_widget.dart';
-import '../../core/widgets/navigation/web_nav/web_nav_widget.dart';
 import '../../core/widgets/modals/itinerary/add_edit/modal_add_edit_itinerary_widget.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_theme.dart';
 import 'package:bukeer/legacy/flutter_flow/flutter_flow_util.dart';
@@ -26,8 +25,6 @@ class MainItinerariesModel extends FlutterFlowModel<MainItinerariesWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Model for webNav component.
-  late WebNavModel webNavModel;
   // Model for BotonCrear component.
   late BtnCreateModel btnCreateModel;
   // State field(s) for TextField widget.
@@ -42,13 +39,11 @@ class MainItinerariesModel extends FlutterFlowModel<MainItinerariesWidget> {
 
   @override
   void initState(BuildContext context) {
-    webNavModel = createModel(context, () => WebNavModel());
     btnCreateModel = createModel(context, () => BtnCreateModel());
   }
 
   @override
   void dispose() {
-    webNavModel.dispose();
     btnCreateModel.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();

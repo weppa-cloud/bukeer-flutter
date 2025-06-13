@@ -12,8 +12,9 @@ class BukeerTypography {
   // FONT FAMILIES
   // ================================
   static const String _primaryFont =
-      'Inter'; // Updated to match Stripe's clean typography
-  static const String _fallbackFont = 'Outfit'; // Fallback to Outfit
+      'outfitSemiBold'; // Primary font: Outfit SemiBold (FlutterFlow style)
+  static const String _secondaryFont = 'Plus Jakarta Sans'; // Secondary font
+  static const String _fallbackFont = 'Inter'; // Fallback font
 
   // ================================
   // FONT SIZES (Stripe-inspired)
@@ -40,18 +41,18 @@ class BukeerTypography {
   // ================================
 
   /// Display Large - Used for hero text and main headlines
-  static TextStyle get displayLarge => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get displayLarge => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: displayLargeSize,
-        fontWeight: FontWeight.w700, // Bold like Stripe
+        fontWeight: FontWeight.w600, // SemiBold
         height: 1.1,
         letterSpacing: -0.5,
         color: BukeerColors.textPrimary,
       );
 
   /// Display Medium - Used for important headlines
-  static TextStyle get displayMedium => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get displayMedium => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: displayMediumSize,
         fontWeight: FontWeight.w600, // Semi-bold
         height: 1.15,
@@ -60,8 +61,8 @@ class BukeerTypography {
       );
 
   /// Display Small - Used for section headlines
-  static TextStyle get displaySmall => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get displaySmall => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: displaySmallSize,
         fontWeight: FontWeight.w600, // Semi-bold
         height: 1.2,
@@ -70,18 +71,18 @@ class BukeerTypography {
       );
 
   /// Headline Large - Primary page titles (Stripe-style)
-  static TextStyle get headlineLarge => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get headlineLarge => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: headlineLargeSize,
-        fontWeight: FontWeight.w700, // Bold like Stripe headers
+        fontWeight: FontWeight.w600, // SemiBold
         height: 1.3,
         letterSpacing: -0.2,
         color: BukeerColors.textPrimary,
       );
 
   /// Headline Medium - Secondary page titles
-  static TextStyle get headlineMedium => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get headlineMedium => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: headlineMediumSize,
         fontWeight: FontWeight.w600, // Semi-bold for secondary
         height: 1.3,
@@ -90,8 +91,8 @@ class BukeerTypography {
       );
 
   /// Headline Small - Section titles
-  static TextStyle get headlineSmall => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get headlineSmall => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: headlineSmallSize,
         fontWeight: FontWeight.w600, // Semi-bold
         height: 1.35,
@@ -103,8 +104,8 @@ class BukeerTypography {
   // ================================
 
   /// Title Large - Card titles, modal headers
-  static TextStyle get titleLarge => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get titleLarge => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: titleLargeSize,
         fontWeight: FontWeight.w600, // Semi-bold
         height: 1.4,
@@ -112,8 +113,8 @@ class BukeerTypography {
       );
 
   /// Title Medium - Subsection titles
-  static TextStyle get titleMedium => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get titleMedium => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: titleMediumSize,
         fontWeight: FontWeight.w500, // Medium weight
         height: 1.45,
@@ -121,8 +122,8 @@ class BukeerTypography {
       );
 
   /// Title Small - Small section headers
-  static TextStyle get titleSmall => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get titleSmall => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: titleSmallSize,
         fontWeight: FontWeight.w500, // Medium
         height: 1.5,
@@ -135,7 +136,7 @@ class BukeerTypography {
 
   /// Body Large - Main content text
   static TextStyle get bodyLarge => GoogleFonts.getFont(
-        _primaryFont, // Use primary font for consistency
+        _secondaryFont, // Use secondary font for body text
         fontSize: bodyLargeSize,
         fontWeight: FontWeight.w400, // Regular
         height: 1.5,
@@ -144,7 +145,7 @@ class BukeerTypography {
 
   /// Body Medium - Secondary content text (Stripe standard)
   static TextStyle get bodyMedium => GoogleFonts.getFont(
-        _primaryFont,
+        _secondaryFont,
         fontSize: bodyMediumSize,
         fontWeight: FontWeight.w400, // Regular
         height: 1.5,
@@ -153,7 +154,7 @@ class BukeerTypography {
 
   /// Body Small - Supporting text, captions
   static TextStyle get bodySmall => GoogleFonts.getFont(
-        _primaryFont,
+        _secondaryFont,
         fontSize: bodySmallSize,
         fontWeight: FontWeight.w400, // Regular
         height: 1.4,
@@ -165,8 +166,8 @@ class BukeerTypography {
   // ================================
 
   /// Label Large - Button text, form labels
-  static TextStyle get labelLarge => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get labelLarge => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 14.0,
         fontWeight: FontWeight.w500,
         height: 1.43,
@@ -175,8 +176,8 @@ class BukeerTypography {
       );
 
   /// Label Medium - Small button text
-  static TextStyle get labelMedium => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get labelMedium => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 12.0,
         fontWeight: FontWeight.w500,
         height: 1.33,
@@ -185,8 +186,8 @@ class BukeerTypography {
       );
 
   /// Label Small - Very small labels, badges
-  static TextStyle get labelSmall => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get labelSmall => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 11.0,
         fontWeight: FontWeight.w500,
         height: 1.45,
@@ -272,7 +273,7 @@ class BukeerTypography {
 
   /// Navigation item text
   static TextStyle get navItem => GoogleFonts.getFont(
-        _primaryFont,
+        _secondaryFont,
         fontSize: 14.0,
         fontWeight: FontWeight.w500,
         color: BukeerColors.textSecondary,
@@ -289,10 +290,10 @@ class BukeerTypography {
   // ================================
 
   /// Primary button text (Stripe-style)
-  static TextStyle get buttonPrimary => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get buttonPrimary => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 14.0,
-        fontWeight: FontWeight.w500, // Medium weight like Stripe buttons
+        fontWeight: FontWeight.w600, // SemiBold for buttons
         letterSpacing: 0,
         color: BukeerColors.textInverse,
       );
@@ -314,7 +315,7 @@ class BukeerTypography {
 
   /// Form field text
   static TextStyle get formField => GoogleFonts.getFont(
-        _primaryFont, // Consistent font family
+        _secondaryFont, // Use secondary font for form fields
         fontSize: 15.0, // Slightly smaller for forms
         fontWeight: FontWeight.w400,
         color: BukeerColors.textPrimary,
@@ -326,8 +327,8 @@ class BukeerTypography {
       );
 
   /// Form field label
-  static TextStyle get formFieldLabel => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get formFieldLabel => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 14.0,
         fontWeight: FontWeight.w500,
         color: BukeerColors.textSecondary,
@@ -338,37 +339,37 @@ class BukeerTypography {
   // ================================
 
   /// Large metric display (like Stripe's revenue numbers)
-  static TextStyle get metricLarge => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get metricLarge => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 32.0,
-        fontWeight: FontWeight.w500, // Medium weight for numbers
+        fontWeight: FontWeight.w600, // SemiBold for metrics
         height: 1.2,
         letterSpacing: -0.5,
         color: BukeerColors.textPrimary,
       );
 
   /// Medium metric display
-  static TextStyle get metricMedium => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get metricMedium => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 24.0,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600, // SemiBold
         height: 1.25,
         letterSpacing: -0.3,
         color: BukeerColors.textPrimary,
       );
 
   /// Small metric display
-  static TextStyle get metricSmall => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get metricSmall => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 18.0,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600, // SemiBold
         height: 1.3,
         color: BukeerColors.textPrimary,
       );
 
   /// Metric label (like "Gross volume", "Yesterday")
-  static TextStyle get metricLabel => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get metricLabel => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 13.0,
         fontWeight: FontWeight.w400,
         height: 1.4,
@@ -376,17 +377,17 @@ class BukeerTypography {
       );
 
   /// Card header text (like "Your overview")
-  static TextStyle get cardHeader => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get cardHeader => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 20.0,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w600, // SemiBold
         height: 1.4,
         color: BukeerColors.textPrimary,
       );
 
   /// Sidebar menu item
   static TextStyle get sidebarItem => GoogleFonts.getFont(
-        _primaryFont,
+        _secondaryFont,
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
         height: 1.5,
@@ -395,28 +396,25 @@ class BukeerTypography {
 
   /// Active sidebar menu item
   static TextStyle get sidebarItemActive => sidebarItem.copyWith(
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600, // SemiBold for active state
         color: BukeerColors.primary,
       );
 
   /// Data table header
-  static TextStyle get tableHeader => GoogleFonts.getFont(
-        _primaryFont,
+  static TextStyle get tableHeader => const TextStyle(
+        fontFamily: _primaryFont,
         fontSize: 12.0,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600, // SemiBold for table headers
         height: 1.5,
         letterSpacing: 0.5,
         color: BukeerColors.textSecondary,
-        textStyle: const TextStyle(
-          textBaseline: TextBaseline.alphabetic,
-        ),
-      ).copyWith(
-        fontFeatures: [const FontFeature.tabularFigures()],
+        textBaseline: TextBaseline.alphabetic,
+        fontFeatures: [FontFeature.tabularFigures()],
       );
 
   /// Data table cell
   static TextStyle get tableCell => GoogleFonts.getFont(
-        _primaryFont,
+        _secondaryFont,
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
         height: 1.5,
@@ -427,8 +425,26 @@ class BukeerTypography {
   // HELPER METHODS
   // ================================
 
-  /// Create custom text style with Inter font (Stripe-like)
-  static TextStyle inter({
+  /// Create custom text style with Outfit font (Primary)
+  static TextStyle outfit({
+    double? fontSize,
+    FontWeight? fontWeight,
+    Color? color,
+    double? height,
+    double? letterSpacing,
+  }) {
+    return TextStyle(
+      fontFamily: _primaryFont,
+      fontSize: fontSize ?? 14.0,
+      fontWeight: fontWeight ?? FontWeight.w600, // Default to SemiBold
+      color: color ?? BukeerColors.textPrimary,
+      height: height,
+      letterSpacing: letterSpacing,
+    );
+  }
+
+  /// Create custom text style with Plus Jakarta Sans font (Secondary)
+  static TextStyle plusJakartaSans({
     double? fontSize,
     FontWeight? fontWeight,
     Color? color,
@@ -436,7 +452,7 @@ class BukeerTypography {
     double? letterSpacing,
   }) {
     return GoogleFonts.getFont(
-      _primaryFont,
+      _secondaryFont,
       fontSize: fontSize ?? 14.0,
       fontWeight: fontWeight ?? FontWeight.w400,
       color: color ?? BukeerColors.textPrimary,
@@ -445,8 +461,8 @@ class BukeerTypography {
     );
   }
 
-  /// Create custom text style with Outfit font (fallback)
-  static TextStyle outfit({
+  /// Create custom text style with Inter font (Fallback)
+  static TextStyle inter({
     double? fontSize,
     FontWeight? fontWeight,
     Color? color,
